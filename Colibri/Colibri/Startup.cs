@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Colibri
@@ -37,6 +38,16 @@ namespace Colibri
             {
                 await context.Response.WriteAsync("Hello World!");
             });
+        }
+
+        // Configure Routes: using IRouteBuilder Routing Interface
+        private void ConfigureRoutes(IRouteBuilder routeBuilder)
+        {
+            // Default Route: "~/Home/Index"
+            routeBuilder.MapRoute(
+                "Default",
+                "{controller=Home}/{action=Index}"
+                );
         }
     }
 }
