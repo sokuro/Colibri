@@ -25,6 +25,9 @@ namespace Colibri
                 app.UseDeveloperExceptionPage();
             }
 
+            // Middleware: use Static Files to reach the Index Home Page
+            app.UseStaticFiles();
+
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello World!");
