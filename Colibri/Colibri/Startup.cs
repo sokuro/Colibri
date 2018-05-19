@@ -30,6 +30,9 @@ namespace Colibri
             // use Static Files to reach the Index Home Page
             app.UseStaticFiles();
 
+            // Default MVC Route
+            app.UseMvcWithDefaultRoute();
+
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello World!");
