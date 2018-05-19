@@ -15,6 +15,7 @@ namespace Colibri
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -25,7 +26,8 @@ namespace Colibri
                 app.UseDeveloperExceptionPage();
             }
 
-            // Middleware: use Static Files to reach the Index Home Page
+            // Middleware: serve up Files from the 'wwwroot'
+            // use Static Files to reach the Index Home Page
             app.UseStaticFiles();
 
             app.Run(async (context) =>
