@@ -14,9 +14,11 @@ namespace Colibri
     {
         public static void Main(string[] args)
         {
+            // WebHost: pass Arguments from the command Line
             BuildWebHost(args).Run();
         }
 
+        // WebHost: configure
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
