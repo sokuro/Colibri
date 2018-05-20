@@ -13,6 +13,6 @@ namespace Colibri.Services
         IEnumerable<Category> GetAll();
 
         // Method to get a specific Category by ID
-        Category Get(int id);
+        Category GetById(int id);
     }
 }
