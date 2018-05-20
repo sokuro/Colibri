@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Colibri.Models;
 using Colibri.Services;
+using Colibri.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -13,6 +14,7 @@ namespace Colibri
     {
         private ICategoryData _categoryData;
 
+        // use the ICategoryData Service
         public HomeController(ICategoryData categoryData)
         {
             _categoryData = categoryData;
@@ -21,9 +23,14 @@ namespace Colibri
         // GET: /<controller>/
         public IActionResult Index()
         {
-            var model = new Category { Id = 1, Name = "Produkte " };
+            // build a new Instance of the DTO
+            var model = new HomeIndexViewModel();
 
-            return new ObjectResult(model);
+            // get Category Information from the Service
+            model.Categories = _categoryData.GetAll();
+
+            // render the Model Information
+            return View(model);
         }
     }
 }
