@@ -14,7 +14,7 @@
                 <td>@category.Id</td>
                 <td>@category.Name</td>
                 <td>
-                    @Html.ActionLink("Details", "Details", new { id = category.Id })
+                    <a asp-action="Details" asp-route-id="@category.Id">Details</a>
                 </td>
             </tr>
         }
