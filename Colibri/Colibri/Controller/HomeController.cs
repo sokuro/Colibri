@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Colibri.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -12,7 +13,9 @@ namespace Colibri
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return View();
+            var model = new Category { Id = 1, Name = "Produkte " };
+
+            return new ObjectResult(model);
         }
     }
 }
