@@ -54,7 +54,7 @@ namespace Colibri
             // Default Route: "~/Home/Index"
             routeBuilder.MapRoute(
                 "Default",
-                "{controller=Home}/{action=Index}"
+                "{controller=Home}/{action=Index}/{id}"
                 );
         }
     }
