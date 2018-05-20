@@ -15,5 +15,8 @@ namespace Colibri.Services
 
         // Method to get a specific Category by ID
         Category GetById(int id);
+
+        // Method to add a new Category
+        Category Add(Category category);
     }
 }
