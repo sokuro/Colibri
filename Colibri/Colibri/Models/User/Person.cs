@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Colibri.Models.User
 {
     // Main Class Person
-    class Person
+    public class Person
     {
         // Accessors
         public int Id { get; set; }
