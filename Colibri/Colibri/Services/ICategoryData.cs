@@ -9,6 +9,10 @@ namespace Colibri.Services
 {
     public interface ICategoryData
     {
+        // Method to get all Categories
         IEnumerable<Category> GetAll();
+
+        // Method to get a specific Category by ID
+        Category Get(int id);
     }
 }
