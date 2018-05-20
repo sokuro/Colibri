@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Colibri.Models;
+using Colibri.Models.Category;
 using Colibri.Services;
 using Colibri.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -50,8 +51,20 @@ namespace Colibri
         }
 
         // Get: /<controller>/Create
+        [HttpGet]
         public IActionResult Create()
         {
+            return View();
+        }
+
+        // Post: /<controller>/Create
+        // @param category
+        [HttpPost]
+        public IActionResult Create(CategoryEditModel categoryEditModel)
+        {
+            var newCategory = new Category();
+            newCategory.Name = categoryEditModel.Name;
+
             return View();
         }
     }
