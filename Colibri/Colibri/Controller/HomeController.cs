@@ -32,5 +32,12 @@ namespace Colibri
             // render the Model Information
             return View(model);
         }
+
+        // Get: /<controller>/Details
+        // @param: Id
+        public IActionResult Details(int id)
+        {
+            return Content(id.ToString());
+        }
     }
 }
