@@ -30,7 +30,7 @@ namespace Colibri.Services
 
         public IEnumerable<Category> GetAll()
         {
-            return _categories.OrderBy(c => c.Name);
+            return _categories.OrderBy(c => c.Id);
         }
     }
 }
