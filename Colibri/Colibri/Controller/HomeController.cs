@@ -48,5 +48,11 @@ namespace Colibri
             // render the Model Information
             return View(model);
         }
+
+        // Get: /<controller>/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
     }
 }
