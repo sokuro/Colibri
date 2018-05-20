@@ -37,7 +37,11 @@ namespace Colibri
         // @param: Id
         public IActionResult Details(int id)
         {
-            return Content(id.ToString());
+            // get Category Information from the Service
+            var model = _categoryData.GetById(id);
+
+            // render the Model Information
+            return View(model);
         }
     }
 }
