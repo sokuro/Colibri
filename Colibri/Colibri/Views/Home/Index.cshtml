@@ -1,23 +1,14 @@
 ﻿@model Colibri.ViewModels.HomeIndexViewModel
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>
-</head>
-<body>
-    <table>
-        @foreach (var category in Model.Categories)
-        {
-            <tr>
-                <td>@category.Id</td>
-                <td>@category.Name</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@category.Id">Details</a>
-                </td>
-            </tr>
-        }
-    </table>
-</body>
-</html>
+<table>
+    @foreach (var category in Model.Categories)
+    {
+        <tr>
+            <td>@category.Id</td>
+            <td>@category.Name</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@category.Id">Details</a>
+            </td>
+        </tr>
+    }
+</table>
