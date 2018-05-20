@@ -1,4 +1,4 @@
-﻿@model Colibri.Models.Category
+﻿@model Colibri.ViewModels.HomeIndexViewModel
 
 <!DOCTYPE html>
 <html>
@@ -7,6 +7,14 @@
     <title></title>
 </head>
 <body>
-    <div>@Model.Name</div>
+    <table>
+        @foreach (var category in Model.Categories)
+        {
+            <tr>
+                <td>@category.Id</td>
+                <td>@category.Name</td>
+            </tr>
+        }
+    </table>
 </body>
 </html>
