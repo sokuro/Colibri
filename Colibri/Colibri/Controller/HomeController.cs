@@ -65,7 +65,9 @@ namespace Colibri
             var newCategory = new Category();
             newCategory.Name = categoryEditModel.Name;
 
-            return View();
+            newCategory = _categoryData.Add(newCategory);
+
+            return View("Details", newCategory);
         }
     }
 }
