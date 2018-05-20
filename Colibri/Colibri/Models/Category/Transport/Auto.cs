@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Colibri.Models.Category.AudioVideo
+namespace Colibri.Models.Category.Transport
 {
     public class Auto : Vehicle
     {
