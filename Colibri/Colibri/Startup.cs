@@ -34,6 +34,9 @@ namespace Colibri
             // Default MVC Route
             app.UseMvcWithDefaultRoute();
 
+            // use MVC with the configured Route
+            app.UseMvc(ConfigureRoutes);
+
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello World!");
