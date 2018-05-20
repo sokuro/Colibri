@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 namespace Colibri.Models.User
 {
     // Main Class Person
-    public class Person
+    class Person
     {
+        // Accessors
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string Street { get; set; }
-        public string careOf { get; set; }
+        public string CareOf { get; set; }
         public int HouseNumber { get; set; }
         public string City { get; set; }
         public int Zip { get; set; }
@@ -22,14 +23,14 @@ namespace Colibri.Models.User
         public string Country { get; set; }
 
         // default Constuctor
-        public Person(int Id, string FirstName, string MiddleName, string LastName, string Street, string careOf, int HouseNumber, string City, int Zip, string State, string Country)
+        public Person(int Id, string FirstName, string MiddleName, string LastName, string Street, string CareOf, int HouseNumber, string City, int Zip, string State, string Country)
         {
             this.Id = Id;
             this.FirstName = FirstName;
             this.MiddleName = MiddleName;
             this.LastName = LastName;
             this.Street = Street;
-            this.careOf = careOf;
+            this.CareOf = CareOf;
             this.HouseNumber = HouseNumber;
             this.City = City;
             this.Zip = Zip;
