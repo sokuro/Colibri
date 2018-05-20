@@ -32,5 +32,9 @@ namespace Colibri.Services
         {
             return _categories.OrderBy(c => c.Id);
         }
+        public Category Get(int id)
+        {
+            return _categories.FirstOrDefault(c => c.Id == id);
+        }
     }
 }
