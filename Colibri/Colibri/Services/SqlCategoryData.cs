@@ -23,7 +23,7 @@ namespace Colibri.Services
 
         public Category GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Categories.FirstOrDefault(c => c.Id == id);
         }
     }
 }
