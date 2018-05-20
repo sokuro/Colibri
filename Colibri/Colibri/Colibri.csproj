@@ -13,4 +13,17 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3"></DotNetCliToolReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Category\AudioVideo\" />
+    <Folder Include="Models\Category\Household\" />
+    <Folder Include="Models\Category\Garden\" />
+    <Folder Include="Models\Category\Music\" />
+    <Folder Include="Models\Category\Games\" />
+    <Folder Include="Models\Category\Pets\" />
+    <Folder Include="Models\Category\Sport\" />
+    <Folder Include="Models\Category\Transport\" />
+    <Folder Include="Models\ColibriServices\" />
+    <Folder Include="Models\FirstAid\" />
+  </ItemGroup>
+
 </Project>
