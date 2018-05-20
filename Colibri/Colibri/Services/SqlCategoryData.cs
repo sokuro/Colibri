@@ -17,6 +17,8 @@ namespace Colibri.Services
         {
             _context = context;
         }
+
+
         public IEnumerable<Category> GetAll()
         {
             return _context.Categories.OrderBy(c => c.Id);
@@ -25,6 +27,12 @@ namespace Colibri.Services
         public Category GetById(int id)
         {
             return _context.Categories.FirstOrDefault(c => c.Id == id);
+        }
+        public Category Add(Category category)
+        {
+            category.Id = _context.Categories.Max(c => c.Id) + 1;
+            _context.Categories.Add(category);
+            return category;
         }
     }
 }
