@@ -40,6 +40,11 @@ namespace Colibri
             // get Category Information from the Service
             var model = _categoryData.GetById(id);
 
+            // NullPointer-Exception Handling
+            if (model == null)
+            {
+                return View("The Category does not exists yet!");
+            }
             // render the Model Information
             return View(model);
         }
