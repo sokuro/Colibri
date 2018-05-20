@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Colibri.Models
+namespace Colibri.Models.Category
 {
     public class Category
     {

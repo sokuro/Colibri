@@ -1,4 +1,5 @@
 ﻿using Colibri.Models;
+using Colibri.Models.Category;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

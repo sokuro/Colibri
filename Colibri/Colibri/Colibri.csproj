@@ -21,7 +21,6 @@
     <Folder Include="Models\Category\Games\" />
     <Folder Include="Models\Category\Pets\" />
     <Folder Include="Models\Category\Sport\" />
-    <Folder Include="Models\Category\Transport\" />
     <Folder Include="Models\ColibriServices\" />
     <Folder Include="Models\FirstAid\" />
   </ItemGroup>

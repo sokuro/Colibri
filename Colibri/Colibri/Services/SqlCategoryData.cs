@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Models;
+using Colibri.Models.Category;
 
 namespace Colibri.Services
 {
