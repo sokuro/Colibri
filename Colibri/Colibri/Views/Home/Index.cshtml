@@ -13,6 +13,9 @@
             <tr>
                 <td>@category.Id</td>
                 <td>@category.Name</td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = category.Id })
+                </td>
             </tr>
         }
     </table>
