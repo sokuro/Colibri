@@ -3,8 +3,12 @@
 <h1>Create</h1>
 
 <form method="post">
-    <label asp-for="Name"></label>
-    <input asp-for="Name" />
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
 
     <input type="submit" name="save" value="save" />
 </form>
+<div asp-validation-summary="All"></div>
