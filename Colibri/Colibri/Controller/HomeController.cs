@@ -62,12 +62,20 @@ namespace Colibri
         [HttpPost]
         public IActionResult Create(CategoryEditModel categoryEditModel)
         {
-            var newCategory = new Category();
-            newCategory.Name = categoryEditModel.Name;
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                var newCategory = new Category();
+                newCategory.Name = categoryEditModel.Name;
 
-            newCategory = _categoryData.Add(newCategory);
+                newCategory = _categoryData.Add(newCategory);
 
-            return View("Details", newCategory);
+                return View("Details", newCategory);
+            }
+            else
+            {
+                return View();
+            }
         }
     }
 }
