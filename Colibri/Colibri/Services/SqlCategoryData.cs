@@ -30,8 +30,8 @@ namespace Colibri.Services
         }
         public Category Add(Category category)
         {
-            category.Id = _context.Categories.Max(c => c.Id) + 1;
             _context.Categories.Add(category);
+            _context.SaveChanges();
             return category;
         }
     }
