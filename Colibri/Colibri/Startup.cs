@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Colibri.Data;
+using Colibri.Middleware;
 using Colibri.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -44,9 +45,12 @@ namespace Colibri
                 app.UseDeveloperExceptionPage();
             }
 
-            // Middleware: serve up Files from the 'wwwroot'
+            // #1: Middleware: serve up Files from the 'wwwroot'
             // use Static Files to reach the Index Home Page
             app.UseStaticFiles();
+
+            // #2: Instance to serve Files from the /node_modules
+            app.UseNodeModules(env.ContentRootPath);
 
             // Default MVC Route
             app.UseMvcWithDefaultRoute();
