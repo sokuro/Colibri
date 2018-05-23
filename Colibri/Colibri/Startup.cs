@@ -26,6 +26,9 @@ namespace Colibri
             // Adding ICategoryData Service
             services.AddScoped<ICategoryData, SqlCategoryData>();
 
+            // Adding ITransportData Service
+            services.AddScoped<ITransportData, SqlTransportData>();
+
             // Adding DbContext Service
             services.AddDbContext<ColibriDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("Colibri")));
 
