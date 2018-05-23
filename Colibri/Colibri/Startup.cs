@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Colibri.Data;
+﻿using Colibri.Data;
 using Colibri.Middleware;
 using Colibri.Services;
 using Microsoft.AspNetCore.Builder;
