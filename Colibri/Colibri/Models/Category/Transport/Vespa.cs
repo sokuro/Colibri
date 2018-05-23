@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Colibri.Models.Category.Transport
 {
-    public class Vespa
+    public class Vespa : Vehicle
     {
-        
+        public Vespa(int Id, string Brand, string Model, int ConstructionYear, double CargoVolume, double FuelCapacity, double FuelConsumption, string FuelType, string Color, double Price) : base(Id, Brand, Model, ConstructionYear, CargoVolume, FuelCapacity, FuelConsumption, FuelType, Color, Price)
+        {
+        }
     }
 }
