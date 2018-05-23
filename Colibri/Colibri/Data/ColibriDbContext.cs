@@ -1,5 +1,6 @@
 ﻿using Colibri.Models;
 using Colibri.Models.Category;
+using Colibri.Models.Category.Transport;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,6 @@ namespace Colibri.Data
 
         // Each Entity will need DbSet<T> Property
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Transport> Transports { get; set; }
     }
 }
