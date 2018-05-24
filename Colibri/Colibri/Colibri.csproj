@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Category\AudioVideo\" />
     <Folder Include="Models\Category\Household\" />
     <Folder Include="Models\Category\Garden\" />
     <Folder Include="Models\Category\Music\" />
