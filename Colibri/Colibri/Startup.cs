@@ -48,6 +48,9 @@ namespace Colibri
                 app.UseDeveloperExceptionPage();
             }
 
+            // (always use) SSL Middleware
+            app.UseRewriter();
+
             // #1: Middleware: serve up Files from the 'wwwroot'
             // use Static Files to reach the Index Home Page
             app.UseStaticFiles();
