@@ -15,9 +15,10 @@ namespace Colibri
     {
         private ICategoryData _categoryData;
 
-        // use the ICategoryData Service
+        // CTOR: use the ICategoryData Service
         public HomeController(ICategoryData categoryData)
         {
+            // incoming Category Object will be saved into the private Field
             _categoryData = categoryData;
         }
 
@@ -27,7 +28,7 @@ namespace Colibri
             // build a new Instance of the DTO
             var model = new HomeIndexViewModel();
 
-            // get Category Information from the Service
+            // get Category Information from the Category Service
             model.Categories = _categoryData.GetAll();
 
             // render the Model Information
@@ -35,7 +36,7 @@ namespace Colibri
         }
 
         // Get: /<controller>/Details
-        // @param: Id
+        // @param: Id (Category)
         public IActionResult Details(int id)
         {
             // get Category Information from the Service
@@ -58,19 +59,24 @@ namespace Colibri
         }
 
         // Post: /<controller>/Create
-        // @param category
+        // @param Category
         [HttpPost]
         public IActionResult Create(CategoryEditModel categoryEditModel)
         {
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
+                // copy the Information from the CategoryEditModel into the Category Model
+                // save the new Restaurant
                 var newCategory = new Category();
                 newCategory.Name = categoryEditModel.Name;
 
+                // add the newCategory to the Collection of Categories
                 newCategory = _categoryData.Add(newCategory);
 
-                return View("Details", newCategory);
+                // avoid Refreshing the POST Operation -> Redirect
+                //return View("Details", newCategory);
+                return RedirectToAction(nameof(Details), new { id = newCategory.Id });
             }
             else
             {
