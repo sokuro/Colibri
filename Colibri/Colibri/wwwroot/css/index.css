@@ -1,0 +1,23 @@
+﻿body {
+    font-family: "Segoe UI", Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.categoryInfo {
+    border: 1px solid grey;
+    /* do not maximize the div */
+    display: inline-block;
+    /* t-r-b-l */
+    padding: 5px 5px 5px 5px;
+    /* outside the form */
+    margin: 1px;
+    width: 450px;
+    background-color: lightgray;
+    border-radius: 5px;
+}
+
+    .categoryInfo img {
+        margin: 3px;
+        float: left;
+        border: 1px solid black;
+        max-width: 200px
+    }
