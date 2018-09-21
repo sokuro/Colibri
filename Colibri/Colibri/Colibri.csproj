@@ -23,7 +23,6 @@
     <Folder Include="Models\ColibriService\" />
     <Folder Include="Models\FirstAid\" />
     <Folder Include="wwwroot\img\" />
-    <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
