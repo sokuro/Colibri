@@ -14,7 +14,7 @@ namespace Colibri.ViewModels
      */
     public class CategoryEditModel
     {
-        [Required,MaxLength(50)]
+        [Required(ErrorMessage = "{0} must be specified!"),MaxLength(50)]
         public string Name { get; set; }
     }
 }
