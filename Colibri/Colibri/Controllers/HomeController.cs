@@ -28,8 +28,6 @@ namespace Colibri
         {
             ViewBag.Title = "Contact us!";
 
-            throw new InvalidOperationException("Bad things happen");
-
             return View();
         }
 
