@@ -31,7 +31,7 @@ namespace Colibri
 
         // POST: /<controller>/Contact
         [HttpPost("contact")]
-        public ActionResult Contact(ContactVewModel model)
+        public ActionResult Contact(ContactViewModel model)
         {
             return View();
         }

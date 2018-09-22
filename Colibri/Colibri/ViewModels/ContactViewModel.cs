@@ -9,7 +9,7 @@ namespace Colibri.ViewModels
     /*
      * ViewModel class to handle the Data in the Contact Form
      */
-    public class ContactVewModel
+    public class ContactViewModel
     {
         public string Name { get; set; }
         public string Email { get; set; }
