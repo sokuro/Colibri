@@ -31,6 +31,13 @@ namespace Colibri
             return View();
         }
 
+        // POST: /<controller>/Contact
+        [HttpPost("contact")]
+        public ActionResult Contact(object model)
+        {
+            return View();
+        }
+
         // GET: /<controller>/
         public IActionResult Index()
         {
