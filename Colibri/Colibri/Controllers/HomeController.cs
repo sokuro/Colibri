@@ -26,8 +26,6 @@ namespace Colibri
         [HttpGet("contact")]
         public ActionResult Contact()
         {
-            ViewBag.Title = "Contact us!";
-
             return View();
         }
 
