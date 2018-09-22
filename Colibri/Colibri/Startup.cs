@@ -15,13 +15,15 @@ namespace Colibri
     {
         private IConfiguration _configuration;
 
+        // CTOR that is injectable
+        // define the SqlServer connection string
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
         }
+
         // This method gets called by the runtime. Use this method to add services to the container.
-        // Services will be used by DEPENDENCY INJECTION
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        // Services will be used by dependency injection
         public void ConfigureServices(IServiceCollection services)
         {
             // Adding ICategoryData Service
@@ -43,6 +45,7 @@ namespace Colibri
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // DEV USE Middleware
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -64,6 +67,7 @@ namespace Colibri
             // use MVC with the configured Route
             app.UseMvc(ConfigureRoutes);
 
+            // terminal Middleware Delegate
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("Hello World!");
