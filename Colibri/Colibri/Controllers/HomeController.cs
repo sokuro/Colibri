@@ -52,7 +52,7 @@ namespace Colibri
         }
 
         // Get: /<controller>/Create
-        [HttpGet]
+        [HttpGet("create")]
         public IActionResult Create()
         {
             return View();
@@ -60,7 +60,7 @@ namespace Colibri
 
         // Post: /<controller>/Create
         // @param Category
-        [HttpPost]
+        [HttpPost("create")]
         public IActionResult Create(CategoryEditModel categoryEditModel)
         {
             // Check the State Model Binding
