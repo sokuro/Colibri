@@ -21,7 +21,7 @@ namespace Colibri.ViewModels
         [Required]
         public string Subject { get; set; }
         [Required]
-        [MaxLength(250)]
+        [MaxLength(250, ErrorMessage = "Too Long Message")]
         public string Message { get; set; }
     }
 }
