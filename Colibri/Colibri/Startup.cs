@@ -50,6 +50,10 @@ namespace Colibri
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/error");
+            }
 
             // (always use) SSL Middleware
             app.UseRewriter();
