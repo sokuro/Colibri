@@ -22,6 +22,17 @@ namespace Colibri
             _categoryData = categoryData;
         }
 
+        // GET: /<controller>/Contact
+        [HttpGet("contact")]
+        public ActionResult Contact()
+        {
+            ViewBag.Title = "Contact us!";
+
+            throw new InvalidOperationException("Bad things happen");
+
+            return View();
+        }
+
         // GET: /<controller>/
         public IActionResult Index()
         {
