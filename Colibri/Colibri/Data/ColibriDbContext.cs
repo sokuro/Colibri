@@ -21,8 +21,5 @@ namespace Colibri.Data
         // Each Entity will need DbSet<T> Property
         public DbSet<Category> Categories { get; set; }
         public DbSet<Transport> Transports { get; set; }
-
-        // Test: Kamera
-        public DbSet<Camera> Cameras { get; set; }
     }
 }
