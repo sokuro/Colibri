@@ -13,13 +13,16 @@ namespace Colibri
 {
     public class HomeController : Controller
     {
+        // private Fields for Object saves
         private ICategoryData _categoryData;
+        private IMailService _mailService;
 
         // CTOR: use the ICategoryData Service
-        public HomeController(ICategoryData categoryData)
+        public HomeController(ICategoryData categoryData, IMailService mailService)
         {
             // incoming Category Object will be saved into the private Field
             _categoryData = categoryData;
+            _mailService = mailService;
         }
 
         // GET: /<controller>/Contact
@@ -33,6 +36,13 @@ namespace Colibri
         [HttpPost("contact")]
         public ActionResult Contact(ContactViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                // Send the notification email
+                _mailService.SendMessage("test@test.com", model.Subject, $"From: {model.Name} - {model.Email}, Message: {model.Message}");
+                ViewBag.UserMessage = "Message sent";
+                ModelState.Clear();
+            }
             return View();
         }
 

@@ -35,6 +35,9 @@ namespace Colibri
             // Adding DbContext Service
             services.AddDbContext<ColibriDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("Colibri")));
 
+            // Adding IMailService
+            services.AddTransient<IMailService, NullMailService>();
+
             // Adding MVC Services
             services.AddMvc();
         }
