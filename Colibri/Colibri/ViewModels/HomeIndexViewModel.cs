@@ -1,6 +1,7 @@
 ﻿using Colibri.Models;
 using Colibri.Models.Category;
-using Colibri.Models.Category.Transport;
+using Colibri.Models.Offer;
+using Colibri.Models.Order;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Colibri.ViewModels
     {
         // IEnumerable allows Iteration through Entities
         public IEnumerable<Category> Categories { get; set; }
-        public IEnumerable<Transport> Transports { get; set; }
+        public IEnumerable<Offer> Offers { get; set; }
+        public IEnumerable<Order> Orders { get; set; }
     }
 }

@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\ColibriService\**" />
+    <Compile Remove="Models\FirstAid\**" />
+    <Content Remove="Models\ColibriService\**" />
+    <Content Remove="Models\FirstAid\**" />
+    <EmbeddedResource Remove="Models\ColibriService\**" />
+    <EmbeddedResource Remove="Models\FirstAid\**" />
+    <None Remove="Models\ColibriService\**" />
+    <None Remove="Models\FirstAid\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
   </ItemGroup>
@@ -14,14 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Category\Household\" />
-    <Folder Include="Models\Category\Garden\" />
-    <Folder Include="Models\Category\Music\" />
-    <Folder Include="Models\Category\Games\" />
-    <Folder Include="Models\Category\Pets\" />
-    <Folder Include="Models\Category\Sport\" />
-    <Folder Include="Models\ColibriService\" />
-    <Folder Include="Models\FirstAid\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
