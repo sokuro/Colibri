@@ -72,10 +72,10 @@ namespace Colibri
             app.UseMvc(ConfigureRoutes);
 
             // terminal Middleware Delegate
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            //app.Run(async (context) =>
+            //{
+            //    await context.Response.WriteAsync("Hello World!");
+            //});
         }
 
         // Configure Routes: using IRouteBuilder Routing Interface
