@@ -1,5 +1,6 @@
 ﻿using Colibri.Models;
 using Colibri.Models.Category;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace Colibri.Data
 {
-    public class ColibriDbContext : DbContext
+    // ColibriContext derived from the IdentityDbContext
+    public class ColibriDbContext : IdentityDbContext<User>
     {
         public ColibriDbContext(DbContextOptions options) : base(options)
         {
