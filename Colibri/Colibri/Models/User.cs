@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Colibri.Models.User
+namespace Colibri.Models
 {
     // Identity User
     public class User : IdentityUser
