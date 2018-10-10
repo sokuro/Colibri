@@ -29,9 +29,59 @@ namespace Colibri.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
+                    b.Property<int>("OfferId");
+
+                    b.Property<int?>("ProductId");
+
+                    b.Property<int?>("ServiceId");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("OfferId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ServiceId");
+
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Colibri.Models.Category.Product", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("ProductId");
+
+                    b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("Colibri.Models.Category.Service", b =>
+                {
+                    b.Property<int>("ServiceId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("ServiceId");
+
+                    b.ToTable("Service");
+                });
+
+            modelBuilder.Entity("Colibri.Models.Offer", b =>
+                {
+                    b.Property<int>("OfferId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("OrderUserId");
+
+                    b.HasKey("OfferId");
+
+                    b.HasIndex("OrderUserId");
+
+                    b.ToTable("Offer");
                 });
 
             modelBuilder.Entity("Colibri.Models.User", b =>
@@ -197,6 +247,29 @@ namespace Colibri.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Colibri.Models.Category.Category", b =>
+                {
+                    b.HasOne("Colibri.Models.Offer", "Offer")
+                        .WithMany()
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Colibri.Models.Category.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("Colibri.Models.Category.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId");
+                });
+
+            modelBuilder.Entity("Colibri.Models.Offer", b =>
+                {
+                    b.HasOne("Colibri.Models.User", "OrderUser")
+                        .WithMany()
+                        .HasForeignKey("OrderUserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

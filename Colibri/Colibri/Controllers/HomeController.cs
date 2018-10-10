@@ -6,6 +6,7 @@ using Colibri.Models;
 using Colibri.Models.Category;
 using Colibri.Services;
 using Colibri.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -77,6 +78,7 @@ namespace Colibri
 
         // Get: /<controller>/Create
         [HttpGet("create")]
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -85,6 +87,7 @@ namespace Colibri
         // Post: /<controller>/Create
         // @param Category
         [HttpPost("create")]
+        [Authorize]
         public IActionResult Create(CategoryEditModel categoryEditModel)
         {
             // Check the State Model Binding

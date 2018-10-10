@@ -1,12 +1,6 @@
 ﻿using Colibri.Models;
 using Colibri.Models.Category;
-using Colibri.Models.Offer;
-using Colibri.Models.Order;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Colibri.ViewModels
 {
