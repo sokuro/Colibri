@@ -11,9 +11,10 @@ using System;
 namespace Colibri.Migrations
 {
     [DbContext(typeof(ColibriDbContext))]
-    partial class ColibriDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181011192144_CategoryExtensionWithProductService")]
+    partial class CategoryExtensionWithProductService
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,17 +32,9 @@ namespace Colibri.Migrations
 
                     b.Property<int>("OfferId");
 
-                    b.Property<int?>("ProductId");
-
-                    b.Property<int?>("ServiceId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OfferId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("ServiceId");
 
                     b.ToTable("Categories");
                 });
@@ -315,14 +308,6 @@ namespace Colibri.Migrations
                         .WithMany()
                         .HasForeignKey("OfferId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Colibri.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
-
-                    b.HasOne("Colibri.Models.Service", "Service")
-                        .WithMany()
-                        .HasForeignKey("ServiceId");
                 });
 
             modelBuilder.Entity("Colibri.Models.Offer", b =>
@@ -353,7 +338,7 @@ namespace Colibri.Migrations
             modelBuilder.Entity("Colibri.Models.Product", b =>
                 {
                     b.HasOne("Colibri.Models.Categories", "Categories")
-                        .WithOne()
+                        .WithOne("Product")
                         .HasForeignKey("Colibri.Models.Product", "CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -361,7 +346,7 @@ namespace Colibri.Migrations
             modelBuilder.Entity("Colibri.Models.Service", b =>
                 {
                     b.HasOne("Colibri.Models.Categories", "Categories")
-                        .WithOne()
+                        .WithOne("Service")
                         .HasForeignKey("Colibri.Models.Service", "CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

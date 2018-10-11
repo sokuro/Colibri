@@ -24,8 +24,10 @@ namespace Colibri.Models
 
         // Children Classes
         // Category Type #1: Product
-        //public Product Product { get; set; }
-        //// Category Type #2: Service
-        //public Service Service { get; set; }
+        [ForeignKey("ProductId")]
+        public Product Product { get; set; }
+        // Category Type #2: Service
+        [ForeignKey("ServiceId")]
+        public Service Service { get; set; }
     }
 }
