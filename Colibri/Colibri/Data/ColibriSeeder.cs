@@ -1,4 +1,5 @@
-﻿using Colibri.Models.Category;
+﻿using Colibri.Models;
+using Colibri.Models.Category;
 using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
 using System;
@@ -37,7 +38,7 @@ namespace Colibri.Data
 
                 // add categories
                 // use Deserialization
-                var categories = JsonConvert.DeserializeObject<IEnumerable<Category>>(json);
+                var categories = JsonConvert.DeserializeObject<IEnumerable<Categories>>(json);
                 // addRange to cut the Collection (large!)
                 _context.Categories.AddRange(categories);
 

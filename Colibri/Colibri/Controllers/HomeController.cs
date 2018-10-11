@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Colibri.Models;
-using Colibri.Models.Category;
 using Colibri.Services;
 using Colibri.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -95,7 +94,7 @@ namespace Colibri
             {
                 // copy the Information from the CategoryEditModel into the Category Model
                 // save the new Restaurant
-                var newCategory = new Category();
+                var newCategory = new Categories();
                 newCategory.Name = categoryEditModel.Name;
 
                 // add the newCategory to the Collection of Categories

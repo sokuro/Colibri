@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Colibri", "Colibri\Colibri.csproj", "{F91E722F-34A1-428C-855F-8A519F8F436A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Colibri", "Colibri\Colibri.csproj", "{F91E722F-34A1-428C-855F-8A519F8F436A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

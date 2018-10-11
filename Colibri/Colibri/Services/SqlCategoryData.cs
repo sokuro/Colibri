@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Colibri.Data;
+using Colibri.Models;
 using Colibri.Models.Category;
 
 namespace Colibri.Services
@@ -15,16 +16,16 @@ namespace Colibri.Services
         }
 
 
-        public IEnumerable<Category> GetAll()
+        public IEnumerable<Categories> GetAll()
         {
             return _context.Categories.OrderBy(c => c.Id);
         }
 
-        public Category GetById(int id)
+        public Categories GetById(int id)
         {
             return _context.Categories.FirstOrDefault(c => c.Id == id);
         }
-        public Category Add(Category category)
+        public Categories Add(Categories category)
         {
             _context.Categories.Add(category);
             _context.SaveChanges();

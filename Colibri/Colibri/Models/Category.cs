@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Colibri.Models.Category
+namespace Colibri.Models
 {
-    public class Category
+    public class Categories
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -24,8 +24,8 @@ namespace Colibri.Models.Category
 
         // Children Classes
         // Category Type #1: Product
-        public Product Product { get; set; }
-        // Category Type #2: Service
-        public Service Service { get; set; }
+        //public Product Product { get; set; }
+        //// Category Type #2: Service
+        //public Service Service { get; set; }
     }
 }

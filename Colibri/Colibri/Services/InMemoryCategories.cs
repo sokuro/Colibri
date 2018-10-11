@@ -11,34 +11,34 @@ namespace Colibri.Services
     // Implement the ICategoryData Interface
     public class InMemoryCategories : ICategoryData
     {
-        private List<Category> _categories;
+        private List<Categories> _categories;
 
         // Initialize the List
         // Constructor
         public InMemoryCategories()
         {
             // create some new Categories
-            _categories = new List<Category>
+            _categories = new List<Categories>
             {
-                new Category { Id = 1, Name = "Transport" },
-                new Category { Id = 2, Name = "Audio, TV, Video, Foto" },
-                new Category { Id = 3, Name = "Haushalt" },
-                new Category { Id = 4, Name = "Garten" },
-                new Category { Id = 5, Name = "Musik" },
-                new Category { Id = 6, Name = "Sport" }
+                new Categories { Id = 1, Name = "Transport" },
+                new Categories { Id = 2, Name = "Audio, TV, Video, Foto" },
+                new Categories { Id = 3, Name = "Haushalt" },
+                new Categories { Id = 4, Name = "Garten" },
+                new Categories { Id = 5, Name = "Musik" },
+                new Categories { Id = 6, Name = "Sport" }
             };
         }
 
 
-        public IEnumerable<Category> GetAll()
+        public IEnumerable<Categories> GetAll()
         {
             return _categories.OrderBy(c => c.Id);
         }
-        public Category GetById(int id)
+        public Categories GetById(int id)
         {
             return _categories.FirstOrDefault(c => c.Id == id);
         }
-        public Category Add(Category category)
+        public Categories Add(Categories category)
         {
             category.Id = _categories.Max(c => c.Id) + 1;
             _categories.Add(category);
