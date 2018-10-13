@@ -73,10 +73,15 @@ namespace Colibri
             // fill the DB with Entries
             services.AddTransient<ColibriSeeder>();
 
+            // Repository Layer between the actual DB
+            // #1: User can use the IColibriRepository
+            // #2: but use the Implementation of the ColibriRepository
+            services.AddScoped<IColibriRepository, ColibriRepository>();
+
             // Adding MVC Services
-            services.AddMvc();
+            services.AddMvc()
                 //.SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                //.AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+                .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
