@@ -102,7 +102,7 @@ namespace Colibri
 
                 // avoid Refreshing the POST Operation -> Redirect
                 //return View("Details", newCategory);
-                return RedirectToAction(nameof(Details), new { id = newCategory.Id });
+                return RedirectToAction(nameof(Details), new { id = newCategory.CategoryId });
             }
             else
             {

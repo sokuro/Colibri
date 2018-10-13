@@ -24,7 +24,7 @@ namespace Colibri.Models
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
-        [Display(Name="User")]
+        //[Display(Name = "User")]
         //public int UserId { get; set; }
 
         // 1 Product = 1 Category

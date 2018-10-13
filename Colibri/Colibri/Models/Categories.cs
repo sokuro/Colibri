@@ -12,7 +12,7 @@ namespace Colibri.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int CategoryId { get; set; }
 
         [Display(Name = "Category Name")]
         [Required, MaxLength(50)]

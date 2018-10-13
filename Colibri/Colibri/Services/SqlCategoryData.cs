@@ -17,12 +17,12 @@ namespace Colibri.Services
 
         public IEnumerable<Categories> GetAll()
         {
-            return _context.Categories.OrderBy(c => c.Id);
+            return _context.Categories.OrderBy(c => c.CategoryId);
         }
 
         public Categories GetById(int id)
         {
-            return _context.Categories.FirstOrDefault(c => c.Id == id);
+            return _context.Categories.FirstOrDefault(c => c.CategoryId == id);
         }
         public Categories Add(Categories category)
         {

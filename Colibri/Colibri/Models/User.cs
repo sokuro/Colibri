@@ -13,9 +13,10 @@ namespace Colibri.Models
     public class User : IdentityUser
     {
         // Accessors
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
+        //[Key]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //public int UserId { get; set; }
+
         public string FirstName { get; set; }
         //public string MiddleName { get; set; }
         public string LastName { get; set; }

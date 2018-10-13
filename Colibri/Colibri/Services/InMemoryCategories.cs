@@ -19,27 +19,27 @@ namespace Colibri.Services
             // create some new Categories
             _categories = new List<Categories>
             {
-                new Categories { Id = 1, Name = "Transport" },
-                new Categories { Id = 2, Name = "Audio, TV, Video, Foto" },
-                new Categories { Id = 3, Name = "Haushalt" },
-                new Categories { Id = 4, Name = "Garten" },
-                new Categories { Id = 5, Name = "Musik" },
-                new Categories { Id = 6, Name = "Sport" }
+                new Categories { CategoryId = 1, Name = "Transport" },
+                new Categories { CategoryId = 2, Name = "Audio, TV, Video, Foto" },
+                new Categories { CategoryId = 3, Name = "Haushalt" },
+                new Categories { CategoryId = 4, Name = "Garten" },
+                new Categories { CategoryId = 5, Name = "Musik" },
+                new Categories { CategoryId = 6, Name = "Sport" }
             };
         }
 
 
         public IEnumerable<Categories> GetAll()
         {
-            return _categories.OrderBy(c => c.Id);
+            return _categories.OrderBy(c => c.CategoryId);
         }
         public Categories GetById(int id)
         {
-            return _categories.FirstOrDefault(c => c.Id == id);
+            return _categories.FirstOrDefault(c => c.CategoryId == id);
         }
         public Categories Add(Categories category)
         {
-            category.Id = _categories.Max(c => c.Id) + 1;
+            category.CategoryId = _categories.Max(c => c.CategoryId) + 1;
             _categories.Add(category);
             return category;
         }

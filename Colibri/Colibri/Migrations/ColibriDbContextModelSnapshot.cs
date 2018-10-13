@@ -11,10 +11,9 @@ using System;
 namespace Colibri.Migrations
 {
     [DbContext(typeof(ColibriDbContext))]
-    [Migration("20181013141427_EntityChanges")]
-    partial class EntityChanges
+    partial class ColibriDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,18 +22,14 @@ namespace Colibri.Migrations
 
             modelBuilder.Entity("Colibri.Models.Categories", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<int?>("OrderId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
+                    b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -57,6 +52,28 @@ namespace Colibri.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("Colibri.Models.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("OrderId");
+
+                    b.Property<int?>("ProductId");
+
+                    b.Property<int>("Quantity");
+
+                    b.Property<decimal>("UnitPrice");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItem");
+                });
+
             modelBuilder.Entity("Colibri.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
@@ -74,11 +91,15 @@ namespace Colibri.Migrations
 
                     b.Property<bool>("OfferOrder");
 
-                    b.Property<double>("Price");
+                    b.Property<decimal>("Price");
+
+                    b.Property<string>("UserId");
 
                     b.HasKey("ProductId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Products");
                 });
@@ -248,18 +269,22 @@ namespace Colibri.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Colibri.Models.Categories", b =>
-                {
-                    b.HasOne("Colibri.Models.Order")
-                        .WithMany("Categories")
-                        .HasForeignKey("OrderId");
-                });
-
             modelBuilder.Entity("Colibri.Models.Order", b =>
                 {
                     b.HasOne("Colibri.Models.User", "OrderUser")
                         .WithMany()
                         .HasForeignKey("OrderUserId");
+                });
+
+            modelBuilder.Entity("Colibri.Models.OrderItem", b =>
+                {
+                    b.HasOne("Colibri.Models.Order", "Order")
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("Colibri.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("Colibri.Models.Product", b =>
@@ -268,6 +293,10 @@ namespace Colibri.Migrations
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Colibri.Models.User", "OfferUser")
+                        .WithMany()
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

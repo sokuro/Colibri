@@ -11,8 +11,8 @@ using System;
 namespace Colibri.Migrations
 {
     [DbContext(typeof(ColibriDbContext))]
-    [Migration("20181011190946_changedCategoryEntity")]
-    partial class changedCategoryEntity
+    [Migration("20181013195954_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,34 +23,16 @@ namespace Colibri.Migrations
 
             modelBuilder.Entity("Colibri.Models.Categories", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CategoryId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<int>("OfferId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OfferId");
+                    b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Colibri.Models.Offer", b =>
-                {
-                    b.Property<int>("OfferId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("OrderUserId");
-
-                    b.HasKey("OfferId");
-
-                    b.HasIndex("OrderUserId");
-
-                    b.ToTable("Offers");
                 });
 
             modelBuilder.Entity("Colibri.Models.Order", b =>
@@ -102,37 +84,25 @@ namespace Colibri.Migrations
 
                     b.Property<int>("CategoryId");
 
+                    b.Property<string>("Description");
+
                     b.Property<string>("Image");
 
                     b.Property<string>("Name");
 
-                    b.Property<double>("Price");
+                    b.Property<bool>("OfferOrder");
+
+                    b.Property<decimal>("Price");
+
+                    b.Property<string>("UserId");
 
                     b.HasKey("ProductId");
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("Colibri.Models.Service", b =>
-                {
-                    b.Property<int>("ServiceId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Available");
-
-                    b.Property<int>("CategoryId");
-
-                    b.Property<string>("Name");
-
-                    b.Property<double>("Price");
-
-                    b.HasKey("ServiceId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("Colibri.Models.User", b =>
@@ -300,21 +270,6 @@ namespace Colibri.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Colibri.Models.Categories", b =>
-                {
-                    b.HasOne("Colibri.Models.Offer", "Offer")
-                        .WithMany()
-                        .HasForeignKey("OfferId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Colibri.Models.Offer", b =>
-                {
-                    b.HasOne("Colibri.Models.User", "OrderUser")
-                        .WithMany()
-                        .HasForeignKey("OrderUserId");
-                });
-
             modelBuilder.Entity("Colibri.Models.Order", b =>
                 {
                     b.HasOne("Colibri.Models.User", "OrderUser")
@@ -336,17 +291,13 @@ namespace Colibri.Migrations
             modelBuilder.Entity("Colibri.Models.Product", b =>
                 {
                     b.HasOne("Colibri.Models.Categories", "Categories")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
 
-            modelBuilder.Entity("Colibri.Models.Service", b =>
-                {
-                    b.HasOne("Colibri.Models.Categories", "Categories")
+                    b.HasOne("Colibri.Models.User", "OfferUser")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

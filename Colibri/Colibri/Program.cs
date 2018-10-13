@@ -19,7 +19,7 @@ namespace Colibri
             // WebHost: pass Arguments from the command Line
             var host = BuildWebHost(args);
 
-            RunSeeding(host);
+            //RunSeeding(host);
 
             host.Run();
         }
