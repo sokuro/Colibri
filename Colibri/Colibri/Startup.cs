@@ -20,7 +20,8 @@ namespace Colibri
 {
     public class Startup
     {
-        private IConfiguration _configuration;
+        // private Fields
+        private readonly IConfiguration _configuration;
 
         // CTOR that is injectable
         // define the SqlServer connection string

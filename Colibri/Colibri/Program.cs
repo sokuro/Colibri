@@ -19,22 +19,22 @@ namespace Colibri
             // WebHost: pass Arguments from the command Line
             var host = BuildWebHost(args);
 
-            //RunSeeding(host);
+            RunSeeding(host);
 
             host.Run();
         }
 
         // Helper Method to seed the Data before the WebHost will run
-        //private static void RunSeeding(IWebHost host)
-        //{
-        //    // scoped service
-        //    var scopedFactory = host.Services.GetService<IServiceScopeFactory>();
-        //    using (var scope = scopedFactory.CreateScope())
-        //    {
-        //        var seeder = scope.ServiceProvider.GetService<ColibriSeeder>();
-        //        seeder.SeedAsync().Wait();
-        //    }
-        //}
+        private static void RunSeeding(IWebHost host)
+        {
+            // scoped service
+            var scopedFactory = host.Services.GetService<IServiceScopeFactory>();
+            using (var scope = scopedFactory.CreateScope())
+            {
+                var seeder = scope.ServiceProvider.GetService<ColibriSeeder>();
+                seeder.SeedAsync().Wait();
+            }
+        }
 
         // WebHost: configure
         public static IWebHost BuildWebHost(string[] args) =>
