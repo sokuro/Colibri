@@ -39,7 +39,7 @@ namespace Colibri
             if (this.User.Identity.IsAuthenticated)
             {
                 // Redirection to a specific Controller and Action
-                return RedirectToAction("Index", "App");
+                return RedirectToAction("Index", "Home");
             }
 
             return View();
@@ -68,7 +68,7 @@ namespace Colibri
                     }
                     else
                     {
-                        RedirectToAction("Shop", "App");
+                        RedirectToAction("Shop", "Home");
                     }
                 }
             }
@@ -84,7 +84,7 @@ namespace Colibri
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "App");
+            return RedirectToAction("Index", "Home");
         }
 
         // Token Functionality
