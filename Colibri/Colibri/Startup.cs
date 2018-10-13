@@ -1,13 +1,17 @@
 ﻿using Colibri.Data;
 using Colibri.Middleware;
+using Colibri.Models;
 using Colibri.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Colibri
 {
@@ -26,6 +30,30 @@ namespace Colibri
         // Services will be used by dependency injection
         public void ConfigureServices(IServiceCollection services)
         {
+            // add Identity Service
+            services.AddIdentity<User, IdentityRole>(cfg =>
+            {
+                cfg.User.RequireUniqueEmail = true;
+            })
+            // to separate Contextes
+            .AddEntityFrameworkStores<ColibriDbContext>();
+
+            // Add Authentication
+            // -> Cookies
+            // -> Token
+            services.AddAuthentication()
+                .AddCookie()
+                .AddJwtBearer(cfg =>
+                {
+                    // validation Parameters needed
+                    cfg.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidIssuer = _configuration["Tokens:Issuer"],
+                        ValidAudience = _configuration["Tokens:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]))
+                    };
+                });
+
             // Adding ICategoryData Service
             services.AddScoped<ICategoryData, SqlCategoryData>();
 
@@ -61,6 +89,9 @@ namespace Colibri
 
             // #2: Instance to serve Files from the /node_modules
             app.UseNodeModules(env.ContentRootPath);
+
+            // #3.5 (later implemented) enables Identity Service
+            app.UseAuthentication();
 
             // Default MVC Route
             app.UseMvcWithDefaultRoute();

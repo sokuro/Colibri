@@ -1,5 +1,6 @@
 ﻿using Colibri.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -15,17 +16,43 @@ namespace Colibri.Data
     {
         private readonly ColibriDbContext _context;
         private readonly IHostingEnvironment _hosting;
+        private readonly UserManager<User> _userManager;
 
-        public ColibriSeeder(ColibriDbContext context, IHostingEnvironment hosting)
+        public ColibriSeeder(ColibriDbContext context, IHostingEnvironment hosting, UserManager<User> userManager)
         {
             _context = context;
             _hosting = hosting;
+            _userManager = userManager;
         }
 
         // Method to seed Data
-        public void Seed()
+        public async Task Seed()
         {
             _context.Database.EnsureCreated();
+
+            // add User for Authorization
+            // await for Synchronizing
+            User user = await _userManager.FindByEmailAsync("john.snow.js96@protonmail.com");
+
+            // avoiding NullPointerException, create a new User
+            if (user == null)
+            {
+                user = new User()
+                {
+                    FirstName = "John",
+                    LastName = "Snow",
+                    Email = "john.snow.js96@protonmail.com",
+                    UserName = "john.snow.js96@protonmail.com"
+                };
+
+                // use the UserManager to create this new User
+                var result = await _userManager.CreateAsync(user, "P@ssw0rd!");
+
+                if (result != IdentityResult.Success)
+                {
+                    throw new InvalidOperationException("Could not create a new User in Seeder");
+                }
+            }
 
             // check: data in DB?
             if (!_context.Categories.Any())
