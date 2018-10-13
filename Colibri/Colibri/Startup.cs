@@ -1,4 +1,6 @@
-﻿using Colibri.Data;
+﻿using AutoMapper;
+using System.Text;
+using Colibri.Data;
 using Colibri.Middleware;
 using Colibri.Models;
 using Colibri.Services;
@@ -12,7 +14,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Newtonsoft.Json;
 
 
@@ -65,7 +66,7 @@ namespace Colibri
             services.AddDbContext<ColibriDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("Colibri")));
 
             // Support for AutoMapper
-            //services.AddAutoMapper();
+            services.AddAutoMapper();
 
             // Adding IMailService
             services.AddTransient<IMailService, NullMailService>();
