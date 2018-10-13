@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Colibri.Data
 {
-    // Db Seeder
+    // Db Seeder for the Products!
     public class ColibriSeeder
     {
         private readonly ColibriDbContext _context;
@@ -26,7 +26,7 @@ namespace Colibri.Data
         }
 
         // Method to seed Data
-        public async Task Seed()
+        public async Task SeedAsync()
         {
             _context.Database.EnsureCreated();
 
@@ -55,18 +55,36 @@ namespace Colibri.Data
             }
 
             // check: data in DB?
-            if (!_context.Categories.Any())
+            if (!_context.Products.Any())
             {
                 // create some sample data
                 // get the json data (art.json)
                 var filepath = Path.Combine(_hosting.ContentRootPath, "Data/art.json");
                 var json = File.ReadAllText(filepath);
 
-                // add categories
+                // add Products
                 // use Deserialization
-                var categories = JsonConvert.DeserializeObject<IEnumerable<Categories>>(json);
+                var products = JsonConvert.DeserializeObject<IEnumerable<Product>>(json);
                 // addRange to cut the Collection (large!)
-                _context.Categories.AddRange(categories);
+                _context.Products.AddRange(products);
+
+                // add Orders
+                var order = _context.Orders.Where(o => o.OrderId == 1).FirstOrDefault();
+                if (order != null)
+                {
+                    // add a User to the Order
+                    order.OrderUser = user;
+                    // add some simple Items to the Order
+                    order.Items = new List<OrderItem>()
+                    {
+                        new OrderItem()
+                        {
+                            Product = products.First(),
+                            Quantity = 5,
+                            UnitPrice = products.First().Price
+                        }
+                    };
+                }
 
                 // save changes
                 _context.SaveChanges();

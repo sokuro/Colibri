@@ -26,18 +26,19 @@ namespace Colibri.Data
 
         // override
         // specify the mapping between the Entities in the DB
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    base.OnModelCreating(modelBuilder);
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
-        //    // filling simple Data
-        //    modelBuilder.Entity<Order>()
-        //        .HasData(new Order()
-        //        {
-        //            OrderId = 1,
-        //            OrderDate = DateTime.UtcNow,
-        //            OrderNumber = "12345"
-        //        });
-        //}
+            // filling simple Data
+            //modelBuilder.Entity<Order>()
+            //    .HasData(
+            //    new Order()
+            //    {
+            //        OrderId = 1,
+            //        OrderDate = DateTime.UtcNow,
+            //        OrderNumber = "12345"
+            //    });
+        }
     }
 }

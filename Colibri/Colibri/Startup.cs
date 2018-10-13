@@ -6,12 +6,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Newtonsoft.Json;
+
 
 namespace Colibri
 {
@@ -60,11 +63,19 @@ namespace Colibri
             // Adding DbContext Service
             services.AddDbContext<ColibriDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("Colibri")));
 
+            // Support for AutoMapper
+            //services.AddAutoMapper();
+
             // Adding IMailService
             services.AddTransient<IMailService, NullMailService>();
 
+            // fill the DB with Entries
+            services.AddTransient<ColibriSeeder>();
+
             // Adding MVC Services
             services.AddMvc();
+                //.SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                //.AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
