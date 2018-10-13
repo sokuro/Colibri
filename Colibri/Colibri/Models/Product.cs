@@ -16,11 +16,23 @@ namespace Colibri.Models
         public double Price { get; set; }
         public bool Available { get; set; }
         public string Image { get; set; }
+        public string Description { get; set; }
 
-        [Display(Name="Category")]
+        // Bool Property to switch between Order or Offer
+        public bool OfferOrder { get; set; }
+
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
+        [Display(Name="User")]
+        //public int UserId { get; set; }
+
+        // 1 Product = 1 Category
         [ForeignKey("CategoryId")]
-        public virtual Categories Categories { get; set; }
+        public Categories Categories { get; set; }
+
+        // 1 Product = 1 User
+        [ForeignKey("UserId")]
+        public User OfferUser { get; set; }
     }
 }

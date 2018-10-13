@@ -1,5 +1,4 @@
 ﻿using Colibri.Models;
-using Colibri.Models.Category;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,9 +21,7 @@ namespace Colibri.Data
         // Each Entity will need DbSet<T> Property
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Service> Services { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<Offer> Offers { get; set; }
 
 
         // override

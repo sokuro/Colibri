@@ -18,16 +18,7 @@ namespace Colibri.Models
         [Required, MaxLength(50)]
         public string Name { get; set; }
 
-        public int OfferId { get; set; }
-        [ForeignKey("OfferId")]
-        public virtual Offer Offer { get; set; }
-
-        // Children Classes
-        // Category Type #1: Product
-        [ForeignKey("ProductId")]
-        public Product Product { get; set; }
-        // Category Type #2: Service
-        [ForeignKey("ServiceId")]
-        public Service Service { get; set; }
+        // 1 Category = n Products
+        public ICollection<Product> Products { get; set; }
     }
 }

@@ -2,7 +2,6 @@
 using System.Linq;
 using Colibri.Data;
 using Colibri.Models;
-using Colibri.Models.Category;
 
 namespace Colibri.Services
 {

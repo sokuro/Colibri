@@ -11,9 +11,10 @@ using System;
 namespace Colibri.Migrations
 {
     [DbContext(typeof(ColibriDbContext))]
-    partial class ColibriDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181013141427_EntityChanges")]
+    partial class EntityChanges
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
