@@ -1,0 +1,16 @@
+{
+  "ConnectionStrings": {
+    "Colibri": "Server=(localdb)\\MSSQLLocalDB;Database=Colibri;Trusted_Connection=True;MultipleActiveResultSets=true"
+    //"Colibri": "Server=tcp:colibrisql.database.windows.net,1433;Initial Catalog=Colibri;Persist Security Info=False;User ID=colibri;Password=Password2018#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "Tokens": {
+    "Key": "testKeysnfklansfdlksanfklnaslfdkkslfm",
+    "Issuer": "localhost",
+    "Audience": "users"
+  }
+}

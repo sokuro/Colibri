@@ -39,22 +39,22 @@ namespace Colibri
         // WebHost: configure
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                //.ConfigureAppConfiguration(SetupConfiguration)
+                .ConfigureAppConfiguration(SetupConfiguration)
                 .UseStartup<Startup>()
                 .Build();
 
-        //private static void SetupConfiguration(WebHostBuilderContext ctx, IConfigurationBuilder builder)
-        //{
-        //    // remove the default configuration options
-        //    builder.Sources.Clear();
+        private static void SetupConfiguration(WebHostBuilderContext ctx, IConfigurationBuilder builder)
+        {
+            // remove the default configuration options
+            builder.Sources.Clear();
 
-        //    // configuration file as JSON
-        //    // file optional: false
-        //    // reload on change: true
-        //    // HIERARCHY: BOTTOM -> UP!
-        //    builder.AddJsonFile("config.json", false, true)
-        //        .AddXmlFile("config.xml", true)
-        //        .AddEnvironmentVariables();
-        //}
+            // configuration file as JSON
+            // file optional: false
+            // reload on change: true
+            // HIERARCHY: BOTTOM -> UP!
+            builder.AddJsonFile("config.json", false, true)
+                .AddXmlFile("config.xml", true)
+                .AddEnvironmentVariables();
+        }
     }
 }
