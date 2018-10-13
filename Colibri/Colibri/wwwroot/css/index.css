@@ -8,7 +8,7 @@ input[type=submit] {
 
 input, textarea {
     font-size: 18px;
-    width: 200px;
+    /*width: 200px;*/
 }
 
 label {
@@ -33,4 +33,65 @@ label {
         float: left;
         border: 1px solid black;
         max-width: 200px
+    }
+
+#userForm {
+    background-color: lightgray;
+}
+
+    /* space = child */
+    #userForm input[type=submit] {
+        background-color: green;
+        color: white;
+    }
+
+/* bound to a specific tag */
+ul.productProps {
+    font-size: small;
+    float: left;
+}
+
+    /* specific inside*/
+    ul.productProps li {
+        /* show no bullet of ul */
+        list-style-type: none;
+    }
+
+.productInfo {
+    border: 1px solid grey;
+    /* do not maximize the div */
+    display: inline-block;
+    /* t-r-b-l */
+    padding: 5px 5px 5px 5px;
+    /* outside the form */
+    margin: 1px;
+    width: 450px;
+    background-color: lightgray;
+    border-radius: 5px;
+}
+
+    .productInfo img {
+        margin: 3px;
+        float: left;
+        border: 1px solid black;
+        max-width: 200px
+    }
+
+#loginToggle {
+    cursor: pointer;
+}
+
+.popup-form {
+    padding: 5px;
+    border: 2px black outset;
+    display: inline-block;
+}
+
+    .popup-form label {
+        width: 150px;
+        display: inline-block;
+    }
+
+    .popup-form input[type=submit] {
+        width: auto;
     }
