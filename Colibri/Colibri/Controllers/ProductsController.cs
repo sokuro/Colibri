@@ -53,5 +53,13 @@ namespace Colibri.Controllers
         //{
         //    return View();
         //}
+
+        // Show some Product Offers
+        // authorize
+        //[Authorize]
+        public IActionResult ShowProductOffers()
+        {
+            return View();
+        }
     }
 }
