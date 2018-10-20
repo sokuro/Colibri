@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Colibri.Models;
+﻿using Colibri.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Colibri.Data
 {
@@ -24,9 +22,16 @@ namespace Colibri.Data
             _logger = logger;
         }
 
+        // add Entity (generic)
         public void AddEntity(object model)
         {
             _ctx.Add(model);
+        }
+
+        // remove Entity (generic)
+        public void RemoveEntity(object model)
+        {
+            _ctx.Remove(model);
         }
 
         public IEnumerable<Order> GetAllOrders(bool includeItems)
@@ -81,6 +86,14 @@ namespace Colibri.Data
             }
         }
 
+        // Get individual Product
+        public Product GetProductById(int id)
+        {
+            return _ctx.Products
+                .Where(p => p.ProductId == id)
+                .FirstOrDefault();
+        }
+
         // Get individual Order
         public Order GetOrderById(string username, int id)
         {
@@ -125,4 +138,5 @@ namespace Colibri.Data
             }
         }
     }
+
 }
