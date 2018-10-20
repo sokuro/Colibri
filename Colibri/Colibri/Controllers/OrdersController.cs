@@ -67,7 +67,8 @@ namespace Colibri.Controllers
 
                 if (order != null)
                 {
-                    // wrap the Order into the OrderViewModel
+                    // use AutoMapper to wrap the Order into the OrderViewModel
+                    // it takes the Order and returns the MapVersion of it
                     return Ok(_mapper.Map<Order, OrderViewModel>(order));
                 }
                 else
