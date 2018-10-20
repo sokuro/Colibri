@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using Colibri.Models;
 using Colibri.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Colibri.Data
 {
@@ -22,6 +17,10 @@ namespace Colibri.Data
 
             // new Map OrderItem -> OrderItemViewModel
             CreateMap<OrderItem, OrderItemViewModel>()
+                .ReverseMap();
+
+            // new Map Product, ProductViewModel
+            CreateMap<Product, ProductViewModel>()
                 .ReverseMap();
         }
     }
