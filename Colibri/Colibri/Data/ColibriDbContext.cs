@@ -39,6 +39,13 @@ namespace Colibri.Data
             //        OrderDate = DateTime.UtcNow,
             //        OrderNumber = "12345"
             //    });
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Price)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<OrderItem>()
+              .Property(p => p.UnitPrice)
+              .HasColumnType("decimal(18,2)");
         }
     }
 }
