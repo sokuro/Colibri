@@ -79,8 +79,8 @@ namespace Colibri.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to get orders: {ex}");
-                return BadRequest("Failed to get orders");
+                _logger.LogError($"Failed to get order by Id: {ex}");
+                return BadRequest("Failed to get orders by Id");
             }
         }
 
