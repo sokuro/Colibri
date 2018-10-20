@@ -34,6 +34,70 @@ namespace Colibri.Data
             _ctx.Remove(model);
         }
 
+        /*
+         * Products
+         * *********
+         */
+        // returning Data (List of Products)
+        public IEnumerable<Product> GetAllProducts()
+        {
+            try
+            {
+                // use the Logger
+                _logger.LogInformation("GetAllProducts was called");
+
+                return _ctx.Products
+                    .OrderBy(p => p.Name)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get all products: {ex}");
+                return null;
+            }
+        }
+
+        // Get individual Product
+        public Product GetProductById(int id)
+        {
+            try
+            {
+                // user the Logger
+                _logger.LogInformation("GetProductById was called");
+
+                return _ctx.Products
+                    .Where(p => p.ProductId == id)
+                    .FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get the specific Product: {ex}");
+                return null;
+            }
+        }
+
+        // return Products by Category
+        public IEnumerable<Product> GetProductsByCategory(int category)
+        {
+            try
+            {
+                _logger.LogInformation("GetProductsByCategory was called");
+
+                return _ctx.Products
+                    .Where(p => p.CategoryId == category)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get all products by category: {ex}");
+                return null;
+            }
+        }
+
+        /*
+         * Orders
+         * ******
+         */
         public IEnumerable<Order> GetAllOrders(bool includeItems)
         {
             if (includeItems)
@@ -67,60 +131,27 @@ namespace Colibri.Data
             }
         }
 
-        // returning Data (List of Products)
-        public IEnumerable<Product> GetAllProducts()
-        {
-            try
-            {
-                // use the Logger
-                _logger.LogInformation("GetAllProducts was called");
-
-                return _ctx.Products
-                    .OrderBy(p => p.Name)
-                    .ToList();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Failed to get all products: {ex}");
-                return null;
-            }
-        }
-
-        // Get individual Product
-        public Product GetProductById(int id)
-        {
-            return _ctx.Products
-                .Where(p => p.ProductId == id)
-                .FirstOrDefault();
-        }
-
         // Get individual Order
         public Order GetOrderById(string username, int id)
         {
-            return _ctx.Orders
-                .Include(o => o.Items)
-                .ThenInclude(i => i.Product)
-                .Where(o => o.OrderId == id && o.OrderUser.UserName == username)
-                .FirstOrDefault();
-        }
-
-        // return Products by Category
-        public IEnumerable<Product> GetProductsByCategory(int category)
-        {
             try
             {
-                _logger.LogInformation("GetProductsByCategory was called");
+                // user the Logger
+                _logger.LogInformation("GetOrderById was called");
 
-                return _ctx.Products
-                    .Where(p => p.CategoryId == category)
-                    .ToList();
+                return _ctx.Orders
+                    .Include(o => o.Items)
+                    .ThenInclude(i => i.Product)
+                    .Where(o => o.OrderId == id && o.OrderUser.UserName == username)
+                    .FirstOrDefault();
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to get all products by category: {ex}");
+                _logger.LogError($"Failed to get the specific Order: {ex}");
                 return null;
             }
         }
+
 
         // save all Entries
         public bool SaveAll()
