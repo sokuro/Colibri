@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Colibri.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,5 +15,8 @@ namespace Colibri.ViewModels
 
         // to allow returning of the Data Collection
         public ICollection<OrderItemViewModel> Items { get; set; }
+
+        // allow the User to make an Order
+        public User OrderUser { get; set; }
     }
 }
