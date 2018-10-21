@@ -6,6 +6,7 @@ using Colibri.Data;
 using Colibri.Models;
 using Colibri.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Colibri.Controllers
 {
@@ -30,9 +31,11 @@ namespace Colibri.Controllers
             };
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View();
+            // List of Products
+            var products = _colibriDbContext.Products.Include(m => m.CategoryTypes).Include(m => m.SpecialTags);
+            return View(await products.ToListAsync());
         }
     }
 }
