@@ -49,6 +49,56 @@ namespace Colibri.Controllers
             }
         }
 
+        // Get: /<controller>/Edit
+        [HttpGet("CategoryTypes/Edit")]
+        //[Authorize]
+        public async Task<IActionResult> EditAsync(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            var categoryType = await _db.CategoryTypes.FindAsync(id);
+
+            if (categoryType == null)
+            {
+                return NotFound();
+            }
+            return View(categoryType);
+        }
+
+        // Post: /<controller>/Edit
+        // @param Category
+        [HttpPost("CategoryTypes/Edit")]
+        //[Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, CategoryTypes categoryTypes)
+        {
+            // the IDs should be equal
+            if (id != categoryTypes.Id)
+            {
+                return NotFound();
+            }
+
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                // Update the Changes
+                _db.Update(categoryTypes);
+                await _db.SaveChangesAsync();
+
+                // avoid Refreshing the POST Operation -> Redirect
+                //return View("Details", newCategory);
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(categoryTypes);
+            }
+        }
         public IActionResult Index()
         {
             return View(_db.CategoryTypes.ToList());
