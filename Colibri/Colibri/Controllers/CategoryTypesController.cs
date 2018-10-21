@@ -118,6 +118,44 @@ namespace Colibri.Controllers
             return View(categoryType);
         }
 
+        // Get: /<controller>/Delete
+        //[Authorize]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            var categoryType = await _db.CategoryTypes.FindAsync(id);
+
+            if (categoryType == null)
+            {
+                return NotFound();
+            }
+            return View(categoryType);
+        }
+
+        // Post: /<controller>/Delete
+        // @param Category
+        [HttpPost("CategoryTypes/Delete"),ActionName("Delete")]
+        //[Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var categoryTypes = await _db.CategoryTypes.FindAsync(id);
+
+            _db.CategoryTypes.Remove(categoryTypes);
+
+            // Update the Changes
+            await _db.SaveChangesAsync();
+
+            // avoid Refreshing the POST Operation -> Redirect
+            //return View("Details", newCategory);
+            return RedirectToAction(nameof(Index));
+        }
+
         public IActionResult Index()
         {
             return View(_db.CategoryTypes.ToList());
