@@ -50,7 +50,6 @@ namespace Colibri.Controllers
         }
 
         // Get: /<controller>/Edit
-        [HttpGet("CategoryTypes/Edit")]
         //[Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
