@@ -31,7 +31,7 @@ namespace Colibri.Controllers
             };
         }
 
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             // List of Products
             var products = _colibriDbContext.Products.Include(m => m.CategoryTypes).Include(m => m.SpecialTags);
