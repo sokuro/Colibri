@@ -5,30 +5,30 @@ using Colibri.Models;
 
 namespace Colibri.Services
 {
-    public class SqlCategoryData : ICategoryData
-    {
-        private ColibriDbContext _context;
+    //    public class SqlCategoryData : ICategoryData
+    //    {
+    //        private ColibriDbContext _context;
 
-        public SqlCategoryData(ColibriDbContext context)
-        {
-            _context = context;
-        }
+    //        public SqlCategoryData(ColibriDbContext context)
+    //        {
+    //            _context = context;
+    //        }
 
 
-        public IEnumerable<Categories> GetAll()
-        {
-            return _context.Categories.OrderBy(c => c.CategoryId);
-        }
+    //        public IEnumerable<Categories> GetAll()
+    //        {
+    //            return _context.Categories.OrderBy(c => c.CategoryId);
+    //        }
 
-        public Categories GetById(int id)
-        {
-            return _context.Categories.FirstOrDefault(c => c.CategoryId == id);
-        }
-        public Categories Add(Categories category)
-        {
-            _context.Categories.Add(category);
-            _context.SaveChanges();
-            return category;
-        }
-    }
+    //        public Categories GetById(int id)
+    //        {
+    //            return _context.Categories.FirstOrDefault(c => c.CategoryId == id);
+    //        }
+    //        public Categories Add(Categories category)
+    //        {
+    //            _context.Categories.Add(category);
+    //            _context.SaveChanges();
+    //            return category;
+    //        }
+    //    }
 }

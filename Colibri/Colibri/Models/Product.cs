@@ -21,15 +21,15 @@ namespace Colibri.Models
         // Bool Property to switch between Order or Offer
         public bool OfferOrder { get; set; }
 
-        [Display(Name = "Category")]
-        public int CategoryId { get; set; }
+        //[Display(Name = "Category")]
+        //public int CategoryId { get; set; }
 
         //[Display(Name = "User")]
         //public int UserId { get; set; }
 
         // 1 Product = 1 Category
-        [ForeignKey("CategoryId")]
-        public Categories Categories { get; set; }
+        //[ForeignKey("CategoryId")]
+        //public Categories Categories { get; set; }
 
         // 1 Product = 1 User
         [ForeignKey("UserId")]
