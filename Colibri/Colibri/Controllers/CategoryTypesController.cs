@@ -144,9 +144,9 @@ namespace Colibri.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var categoryTypes = await _db.CategoryTypes.FindAsync(id);
+            var categoryType = await _db.CategoryTypes.FindAsync(id);
 
-            _db.CategoryTypes.Remove(categoryTypes);
+            _db.CategoryTypes.Remove(categoryType);
 
             // Update the Changes
             await _db.SaveChangesAsync();
