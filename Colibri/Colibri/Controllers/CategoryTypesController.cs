@@ -16,14 +16,18 @@ namespace Colibri.Controllers
         {
             _db = db;
         }
-        public IActionResult Index()
+
+        // Get: /<controller>/Create
+        [HttpGet("CategoryTypes/Create")]
+        //[Authorize]
+        public IActionResult Create()
         {
-            return View(_db.CategoryTypes.ToList());
+            return View();
         }
 
         // Post: /<controller>/Create
         // @param Category
-        [HttpPost("create")]
+        [HttpPost("CategoryTypes/Create")]
         //[Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CategoryTypes categoryTypes)
@@ -43,6 +47,11 @@ namespace Colibri.Controllers
                 // one can simply return to the Form View again for Correction
                 return View(categoryTypes);
             }
+        }
+
+        public IActionResult Index()
+        {
+            return View(_db.CategoryTypes.ToList());
         }
     }
 }
