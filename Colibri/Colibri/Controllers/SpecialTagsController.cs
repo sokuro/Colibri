@@ -158,7 +158,7 @@ namespace Colibri.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(_db.SpecialTags.ToList());
         }
     }
 }
