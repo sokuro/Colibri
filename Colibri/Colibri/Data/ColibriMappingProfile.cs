@@ -20,8 +20,8 @@ namespace Colibri.Data
                 .ReverseMap();
 
             // new Map Product, ProductViewModel
-            CreateMap<Product, ProductViewModel>()
-                .ReverseMap();
+            //CreateMap<Product, ProductViewModel>()
+            //    .ReverseMap();
         }
     }
 }
