@@ -98,6 +98,26 @@ namespace Colibri.Controllers
                 return View(categoryTypes);
             }
         }
+
+        // Get: /<controller>/Details
+        //[Authorize]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            var categoryType = await _db.CategoryTypes.FindAsync(id);
+
+            if (categoryType == null)
+            {
+                return NotFound();
+            }
+            return View(categoryType);
+        }
+
         public IActionResult Index()
         {
             return View(_db.CategoryTypes.ToList());
