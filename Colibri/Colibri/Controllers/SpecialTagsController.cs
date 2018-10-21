@@ -10,11 +10,11 @@ namespace Colibri.Controllers
 {
     public class SpecialTagsController : Controller
     {
-        private readonly ColibriDbContext _db;
+        private readonly ColibriDbContext _colibriDbContext;
 
-        public SpecialTagsController(ColibriDbContext db)
+        public SpecialTagsController(ColibriDbContext colibriDbContext)
         {
-            _db = db;
+            _colibriDbContext = colibriDbContext;
         }
 
         // Get: /<controller>/Create
@@ -35,8 +35,8 @@ namespace Colibri.Controllers
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
-                _db.Add(specialTags);
-                await _db.SaveChangesAsync();
+                _colibriDbContext.Add(specialTags);
+                await _colibriDbContext.SaveChangesAsync();
 
                 // avoid Refreshing the POST Operation -> Redirect
                 //return View("Details", newCategory);
@@ -59,7 +59,7 @@ namespace Colibri.Controllers
             }
 
             // search for the ID
-            var specialTag = await _db.SpecialTags.FindAsync(id);
+            var specialTag = await _colibriDbContext.SpecialTags.FindAsync(id);
 
             if (specialTag == null)
             {
@@ -85,8 +85,8 @@ namespace Colibri.Controllers
             if (ModelState.IsValid)
             {
                 // Update the Changes
-                _db.Update(specialTags);
-                await _db.SaveChangesAsync();
+                _colibriDbContext.Update(specialTags);
+                await _colibriDbContext.SaveChangesAsync();
 
                 // avoid Refreshing the POST Operation -> Redirect
                 //return View("Details", newCategory);
@@ -109,7 +109,7 @@ namespace Colibri.Controllers
             }
 
             // search for the ID
-            var specialTag = await _db.CategoryTypes.FindAsync(id);
+            var specialTag = await _colibriDbContext.CategoryTypes.FindAsync(id);
 
             if (specialTag == null)
             {
@@ -128,7 +128,7 @@ namespace Colibri.Controllers
             }
 
             // search for the ID
-            var specialTag = await _db.CategoryTypes.FindAsync(id);
+            var specialTag = await _colibriDbContext.CategoryTypes.FindAsync(id);
 
             if (specialTag == null)
             {
@@ -144,12 +144,12 @@ namespace Colibri.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var specialTag = await _db.CategoryTypes.FindAsync(id);
+            var specialTag = await _colibriDbContext.CategoryTypes.FindAsync(id);
 
-            _db.CategoryTypes.Remove(specialTag);
+            _colibriDbContext.CategoryTypes.Remove(specialTag);
 
             // Update the Changes
-            await _db.SaveChangesAsync();
+            await _colibriDbContext.SaveChangesAsync();
 
             // avoid Refreshing the POST Operation -> Redirect
             //return View("Details", newCategory);
@@ -158,7 +158,7 @@ namespace Colibri.Controllers
 
         public IActionResult Index()
         {
-            return View(_db.SpecialTags.ToList());
+            return View(_colibriDbContext.SpecialTags.ToList());
         }
     }
 }
