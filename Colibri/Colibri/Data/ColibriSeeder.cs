@@ -66,12 +66,14 @@ namespace Colibri.Data
                 // use Deserialization
                 var products = JsonConvert.DeserializeObject<IEnumerable<Product>>(json);
                 // addRange to cut the Collection (large!)
-                _context.Products.AddRange(products);
+                //_context.Products.AddRange(products);
 
                 // add Orders
                 var order = _context.Orders.Where(o => o.OrderId == 1).FirstOrDefault();
-                if (order != null)
+                if (order == null)
                 {
+                    // create new Order
+                    order = new Order();
                     // add a User to the Order
                     order.OrderUser = user;
                     // add some simple Items to the Order
@@ -84,6 +86,7 @@ namespace Colibri.Data
                             UnitPrice = products.First().Price
                         }
                     };
+                    _context.Add(order);
                 }
 
                 // save changes
