@@ -14,11 +14,12 @@ namespace Colibri
     public class HomeController : Controller
     {
         // private Fields for Object saves
-        private ICategoryData _categoryData;
+        //private ICategoryData _categoryData;
+        private ICategoryTypesData _categoryData;
         private IMailService _mailService;
 
         // CTOR: use the ICategoryData Service
-        public HomeController(ICategoryData categoryData, IMailService mailService)
+        public HomeController(ICategoryTypesData categoryData, IMailService mailService)
         {
             // incoming Category Object will be saved into the private Field
             _categoryData = categoryData;
@@ -53,7 +54,8 @@ namespace Colibri
             var model = new HomeIndexViewModel();
 
             // get Category Information from the Category Service
-            model.Categories = _categoryData.GetAll();
+            //model.Categories = _categoryData.GetAll();
+            model.CategoryTypes = _categoryData.GetAll();
 
             // render the Model Information
             return View(model);
@@ -76,40 +78,40 @@ namespace Colibri
         }
 
         // Get: /<controller>/Create
-        [HttpGet("create")]
-        //[Authorize]
-        public IActionResult Create()
-        {
-            return View();
-        }
+        //[HttpGet("create")]
+        ////[Authorize]
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
         // Post: /<controller>/Create
         // @param Category
-        [HttpPost("create")]
-        //[Authorize]
-        public IActionResult Create(CategoryEditModel categoryEditModel)
-        {
-            // Check the State Model Binding
-            if (ModelState.IsValid)
-            {
-                // copy the Information from the CategoryEditModel into the Category Model
-                // save the new Restaurant
-                var newCategory = new Categories();
-                newCategory.Name = categoryEditModel.Name;
+        //[HttpPost("create")]
+        ////[Authorize]
+        //public IActionResult Create(CategoryEditModel categoryEditModel)
+        //{
+        //    // Check the State Model Binding
+        //    if (ModelState.IsValid)
+        //    {
+        //        // copy the Information from the CategoryEditModel into the Category Model
+        //        // save the new Restaurant
+        //        var newCategory = new Categories();
+        //        newCategory.Name = categoryEditModel.Name;
 
-                // add the newCategory to the Collection of Categories
-                newCategory = _categoryData.Add(newCategory);
+        //        // add the newCategory to the Collection of Categories
+        //        newCategory = _categoryData.Add(newCategory);
 
-                // avoid Refreshing the POST Operation -> Redirect
-                //return View("Details", newCategory);
-                return RedirectToAction(nameof(Details), new { id = newCategory.CategoryId });
-            }
-            else
-            {
-                // one can simply return to the Form View again for Correction
-                return View();
-            }
-        }
+        //        // avoid Refreshing the POST Operation -> Redirect
+        //        //return View("Details", newCategory);
+        //        return RedirectToAction(nameof(Details), new { id = newCategory.CategoryId });
+        //    }
+        //    else
+        //    {
+        //        // one can simply return to the Form View again for Correction
+        //        return View();
+        //    }
+        //}
 
         // Show some Product Offers
         // authorize
