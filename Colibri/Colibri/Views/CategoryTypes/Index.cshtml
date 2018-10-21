@@ -5,7 +5,7 @@
         <h2 class="text-info">Category Type List</h2>
     </div>
     <div class="col-6 text-right">
-        <a asp-action="Create" asp-controller="CategoryTypes" class="btn btn-info">&nbsp; New Category Type</a>
+        <a asp-action="Create" asp-controller="CategoryTypes" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Category Type</a>
     </div>
 </div>
 <div>
@@ -24,7 +24,7 @@
                     @Html.DisplayFor(m => item.Name)
                 </td>
                 <td>
-                    EDIT | DELETE | UPDATE
+                    <partial name="_TableButtonPartial" model="item.Id" />
                 </td>
             </tr>
         }
