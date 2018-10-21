@@ -39,7 +39,7 @@ namespace Colibri.Data
          * *********
          */
         // returning Data (List of Products)
-        public IEnumerable<Product> GetAllProducts()
+        public IEnumerable<Products> GetAllProducts()
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Colibri.Data
         }
 
         // Get individual Product
-        public Product GetProductById(int id)
+        public Products GetProductById(int id)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace Colibri.Data
                 _logger.LogInformation("GetProductById was called");
 
                 return _ctx.Products
-                    .Where(p => p.ProductId == id)
+                    .Where(p => p.Id == id)
                     .FirstOrDefault();
             }
             catch (Exception ex)
@@ -77,22 +77,22 @@ namespace Colibri.Data
         }
 
         // return Products by Category
-        public IEnumerable<Product> GetProductsByCategory(int category)
-        {
-            try
-            {
-                _logger.LogInformation("GetProductsByCategory was called");
+        //public IEnumerable<Product> GetProductsByCategory(int category)
+        //{
+        //    try
+        //    {
+        //        _logger.LogInformation("GetProductsByCategory was called");
 
-                return _ctx.Products
-                    .Where(p => p.CategoryId == category)
-                    .ToList();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Failed to get all products by category: {ex}");
-                return null;
-            }
-        }
+        //        return _ctx.Products
+        //            .Where(p => p.CategoryId == category)
+        //            .ToList();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError($"Failed to get all products by category: {ex}");
+        //        return null;
+        //    }
+        //}
 
         /*
          * Orders

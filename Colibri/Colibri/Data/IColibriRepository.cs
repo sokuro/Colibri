@@ -15,12 +15,12 @@ namespace Colibri.Data
      */
     public interface IColibriRepository
     {
-        IEnumerable<Product> GetAllProducts();
-        IEnumerable<Product> GetProductsByCategory(int category);
+        IEnumerable<Products> GetAllProducts();
+        //IEnumerable<Product> GetProductsByCategory(int category);
+        Products GetProductById(int id);
 
         IEnumerable<Order> GetAllOrders(bool includeItems);
         IEnumerable<Order> GetAllOrdersByUser(string username, bool includeItems);
-
         Order GetOrderById(string username, int id);
 
         bool SaveAll();
