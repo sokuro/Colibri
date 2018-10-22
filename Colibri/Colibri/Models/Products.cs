@@ -18,7 +18,7 @@ namespace Colibri.Models
         public string Description { get; set; }
 
         // switch between Offer and Order
-        public bool OfferOrder { get; set; }
+        public string OfferOrder { get; set; }
 
         /*
          * Foreign References
