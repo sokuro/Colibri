@@ -10,6 +10,6 @@ namespace Colibri.Utility
     public class StaticDetails
     {
         public const string DefaultProductImage = "default_product.jpg";
-        public const string ImageFolder = @"image\ProductImage";
+        public const string ImageFolder = @"img\ProductImage";
     }
 }
