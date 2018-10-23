@@ -19,6 +19,7 @@ namespace Colibri.Controllers
         private readonly HostingEnvironment _hostingEnvironment;
 
         // bind to the ViewModel
+        // not necessary to create new Objects
         [BindProperty]
         public ProductsViewModel ProductsViewModel { get; set; }
 
@@ -135,6 +136,85 @@ namespace Colibri.Controllers
             }
             // send the ProductsViewModel into the View
             return View(ProductsViewModel);
+        }
+
+        // Post: /<controller>/Edit
+        // @param Category
+        [HttpPost("Products/Edit")]
+        //[Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id)
+        {
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                // for uploaded Images
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                var files = HttpContext.Request.Form.Files;
+                // to replace an Image, first remove the old One
+                // get the Product from the DB
+                var productFromDb = _colibriDbContext.Products.Where(m => m.Id == ProductsViewModel.Products.Id).FirstOrDefault();
+                // does the File exist and was uploaded by the User
+                if (files[0].Length > 0 && files[0] != null)
+                {
+                    // if the User uploades a new Image
+                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolder);
+                    // find out the Extension of the new Image File and also the Extension of the old Image existing in the DB
+                    var extension_new = Path.GetExtension(files[0].FileName);
+                    var extension_old = Path.GetExtension(productFromDb.Image);
+
+                    // delete the old File
+                    if (System.IO.File.Exists(Path.Combine(uploads, ProductsViewModel.Products.Id + extension_old)))
+                    {
+                        System.IO.File.Delete(Path.Combine(uploads, ProductsViewModel.Products.Id + extension_old));
+                    }
+
+                    // copy the new File
+                    // use the FileStreamObject -> copy the File from the Uploaded to the Server
+                    // create the File on the Server
+                    using (var filestream = new FileStream(Path.Combine(uploads, ProductsViewModel.Products.Id + extension_new), FileMode.Create))
+                    {
+                        files[0].CopyTo(filestream);
+                    }
+
+                    // ProductsImage = exact Path of the Image on the Server + ImageName + Extension
+                    ProductsViewModel.Products.Image = @"\" + StaticDetails.ImageFolder + @"\" + ProductsViewModel.Products.Id + extension_new;
+                }
+
+                /*
+                 * update the productsFromDb and save them back into the DB
+                 */
+                // Image
+                if (ProductsViewModel.Products.Image != null)
+                {
+                    // replace the old Image
+                    productFromDb.Image = ProductsViewModel.Products.Image;
+                }
+                // Name
+                productFromDb.Name = ProductsViewModel.Products.Name;
+                // Price
+                productFromDb.Price = ProductsViewModel.Products.Price;
+                // Available
+                productFromDb.Available = ProductsViewModel.Products.Available;
+                // CategoryTypeId
+                productFromDb.CategoryTypeId = ProductsViewModel.Products.CategoryTypeId;
+                // SpecialTagId
+                productFromDb.SpecialTagId = ProductsViewModel.Products.SpecialTagId;
+                // Description
+                productFromDb.Description = ProductsViewModel.Products.Description;
+
+                // Save the Changes
+                await _colibriDbContext.SaveChangesAsync();
+
+                // avoid Refreshing the POST Operation -> Redirect
+                //return View("Details", newCategory);
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(ProductsViewModel);
+            }
         }
 
         public async Task<IActionResult> Index()
