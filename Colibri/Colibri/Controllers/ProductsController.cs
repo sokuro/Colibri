@@ -48,7 +48,7 @@ namespace Colibri.Controllers
 
         // Post: /<controller>/Create
         // ViewModel bound automatically
-        [HttpPost("Products/CreatePost"),ActionName("Create")]
+        [HttpPost("Products/Create"),ActionName("Create")]
         //[Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost()
