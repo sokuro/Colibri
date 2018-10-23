@@ -17,9 +17,6 @@ namespace Colibri.Models
         public string Image { get; set; }
         public string Description { get; set; }
 
-        // switch between Offer and Order
-        public string OfferOrder { get; set; }
-
         /*
          * Foreign References
          */
