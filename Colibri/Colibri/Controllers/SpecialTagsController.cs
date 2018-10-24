@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Colibri.Controllers
 {
+    //[Authorize(Roles = "Administrator, PowerUser")]
     public class SpecialTagsController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
@@ -19,7 +20,7 @@ namespace Colibri.Controllers
 
         // Get: /<controller>/Create
         [HttpGet("SpecialTags/Create")]
-        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -28,7 +29,7 @@ namespace Colibri.Controllers
         // Post: /<controller>/Create
         // @param SpecialTag
         [HttpPost("SpecialTags/Create")]
-        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SpecialTags specialTags)
         {
@@ -50,8 +51,8 @@ namespace Colibri.Controllers
         }
 
         // Get: /<controller>/Edit
-        //[Authorize]
         [HttpGet]
+        //[Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,7 +73,7 @@ namespace Colibri.Controllers
         // Post: /<controller>/Edit
         // @param Category
         [HttpPost("SpecialTags/Edit")]
-        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, SpecialTags specialTags)
         {
@@ -101,7 +102,6 @@ namespace Colibri.Controllers
         }
 
         // Get: /<controller>/Details
-        //[Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -120,7 +120,7 @@ namespace Colibri.Controllers
         }
 
         // Get: /<controller>/Delete
-        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,7 +141,7 @@ namespace Colibri.Controllers
         // Post: /<controller>/Delete
         // @param Category
         [HttpPost("SpecialTags/Delete"), ActionName("Delete")]
-        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {

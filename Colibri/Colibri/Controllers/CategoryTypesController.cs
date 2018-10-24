@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Colibri.Controllers
 {
+    //[Authorize(Roles = "Administrator, PowerUser")]
     public class CategoryTypesController : Controller
     {
         private ColibriDbContext _colibriDbContext;
@@ -20,7 +21,7 @@ namespace Colibri.Controllers
 
         // Get: /<controller>/Create
         [HttpGet("CategoryTypes/Create")]
-        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -29,7 +30,7 @@ namespace Colibri.Controllers
         // Post: /<controller>/Create
         // @param Category
         [HttpPost("CategoryTypes/Create")]
-        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CategoryTypes categoryTypes)
         {
@@ -52,7 +53,7 @@ namespace Colibri.Controllers
 
         // Get: /<controller>/Edit
         [HttpGet]
-        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,7 +74,7 @@ namespace Colibri.Controllers
         // Post: /<controller>/Edit
         // @param Category
         [HttpPost("CategoryTypes/Edit")]
-        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, CategoryTypes categoryTypes)
         {
@@ -102,7 +103,6 @@ namespace Colibri.Controllers
         }
 
         // Get: /<controller>/Details
-        //[Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -121,7 +121,7 @@ namespace Colibri.Controllers
         }
 
         // Get: /<controller>/Delete
-        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -142,7 +142,7 @@ namespace Colibri.Controllers
         // Post: /<controller>/Delete
         // @param Category
         [HttpPost("CategoryTypes/Delete"),ActionName("Delete")]
-        //[Authorize]
+        //[Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
