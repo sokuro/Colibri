@@ -217,6 +217,27 @@ namespace Colibri.Controllers
             }
         }
 
+        // Get: /<controller>/Details
+        //[Authorize]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            // incl. ProductTypes and SpecialTags too
+            ProductsViewModel.Products = await _colibriDbContext.Products.Include(m => m.CategoryTypes).Include(m => m.SpecialTags).SingleOrDefaultAsync(m => m.Id == id);
+
+            if (ProductsViewModel.Products == null)
+            {
+                return NotFound();
+            }
+            // send the ProductsViewModel into the View
+            return View(ProductsViewModel);
+        }
+
         public async Task<IActionResult> Index()
         {
             // List of Products
