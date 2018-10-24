@@ -51,6 +51,7 @@ namespace Colibri.Controllers
 
         // Get: /<controller>/Edit
         //[Authorize]
+        [HttpGet("SpecialTags/Edit")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -70,7 +71,7 @@ namespace Colibri.Controllers
 
         // Post: /<controller>/Edit
         // @param Category
-        [HttpPost("CategoryTypes/Edit")]
+        [HttpPost("SpecialTags/Edit")]
         //[Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, SpecialTags specialTags)
@@ -109,7 +110,7 @@ namespace Colibri.Controllers
             }
 
             // search for the ID
-            var specialTag = await _colibriDbContext.CategoryTypes.FindAsync(id);
+            var specialTag = await _colibriDbContext.SpecialTags.FindAsync(id);
 
             if (specialTag == null)
             {
@@ -128,7 +129,7 @@ namespace Colibri.Controllers
             }
 
             // search for the ID
-            var specialTag = await _colibriDbContext.CategoryTypes.FindAsync(id);
+            var specialTag = await _colibriDbContext.SpecialTags.FindAsync(id);
 
             if (specialTag == null)
             {
@@ -139,14 +140,14 @@ namespace Colibri.Controllers
 
         // Post: /<controller>/Delete
         // @param Category
-        [HttpPost("CategoryTypes/Delete"), ActionName("Delete")]
+        [HttpPost("SpecialTags/Delete"), ActionName("Delete")]
         //[Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var specialTag = await _colibriDbContext.CategoryTypes.FindAsync(id);
+            var specialTag = await _colibriDbContext.SpecialTags.FindAsync(id);
 
-            _colibriDbContext.CategoryTypes.Remove(specialTag);
+            _colibriDbContext.SpecialTags.Remove(specialTag);
 
             // Update the Changes
             await _colibriDbContext.SaveChangesAsync();
