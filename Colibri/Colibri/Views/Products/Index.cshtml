@@ -40,7 +40,7 @@
                 @Html.DisplayFor(m => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(m => item.Price)
+                @String.Format("{0:c}", item.Price)
             </td>
             <td>
                 @Html.DisplayFor(m => item.Available)
