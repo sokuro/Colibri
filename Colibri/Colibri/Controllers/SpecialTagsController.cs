@@ -51,7 +51,7 @@ namespace Colibri.Controllers
 
         // Get: /<controller>/Edit
         //[Authorize]
-        [HttpGet("SpecialTags/Edit")]
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
