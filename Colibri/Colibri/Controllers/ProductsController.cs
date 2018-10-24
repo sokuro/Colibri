@@ -118,6 +118,7 @@ namespace Colibri.Controllers
         }
 
         // Get: /<controller>/Edit
+        [HttpGet]
         //[Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -140,7 +141,7 @@ namespace Colibri.Controllers
 
         // Post: /<controller>/Edit
         // @param Category
-        [HttpPost("Products/Edit")]
+        [HttpPost, ActionName("Edit")]
         //[Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPost(int id)
@@ -155,7 +156,7 @@ namespace Colibri.Controllers
                 // get the Product from the DB
                 var productFromDb = _colibriDbContext.Products.Where(m => m.Id == ProductsViewModel.Products.Id).FirstOrDefault();
                 // does the File exist and was uploaded by the User
-                if (files[0].Length > 0 && files[0] != null)
+                if (files.Count > 0 && files[0] != null)
                 {
                     // if the User uploades a new Image
                     var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolder);
