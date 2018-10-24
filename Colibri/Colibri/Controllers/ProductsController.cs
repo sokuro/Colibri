@@ -143,7 +143,7 @@ namespace Colibri.Controllers
         [HttpPost("Products/Edit")]
         //[Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> EditPost(int id)
         {
             // Check the State Model Binding
             if (ModelState.IsValid)
@@ -236,6 +236,67 @@ namespace Colibri.Controllers
             }
             // send the ProductsViewModel into the View
             return View(ProductsViewModel);
+        }
+
+        // Get: /<controller>/Delete
+        //[Authorize]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            // incl. ProductTypes and SpecialTags too
+            ProductsViewModel.Products = await _colibriDbContext.Products.Include(m => m.CategoryTypes).Include(m => m.SpecialTags).SingleOrDefaultAsync(m => m.Id == id);
+
+            if (ProductsViewModel.Products == null)
+            {
+                return NotFound();
+            }
+            // send the ProductsViewModel into the View
+            return View(ProductsViewModel);
+        }
+
+        // Post: /<controller>/Delete
+        // @param Category
+        [HttpPost, ActionName("Delete")]
+        //[Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            // find the webRootPath
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            // find the Product by it's ID
+            Products products = await _colibriDbContext.Products.FindAsync(id);
+
+            if (products == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                // find the Image File
+                var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolder);
+                // find the Extension
+                var extension = Path.GetExtension(products.Image);
+                // exists the File?
+                if (System.IO.File.Exists(Path.Combine(uploads, products.Id + extension)))
+                {
+                    // remove the File
+                    System.IO.File.Delete(Path.Combine(uploads, products.Id + extension));
+                }
+
+                // remove the Entry from the DB
+                _colibriDbContext.Products.Remove(products);
+
+                // save the Changes asynchronously
+                await _colibriDbContext.SaveChangesAsync();
+
+                // avoid Refreshing the POST Operation -> Redirect
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         public async Task<IActionResult> Index()
