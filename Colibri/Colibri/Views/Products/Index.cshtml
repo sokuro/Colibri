@@ -49,7 +49,10 @@
                 @Html.DisplayFor(m => item.CategoryTypes.Name)
             </td>
             <td>
-                @Html.DisplayFor(m => item.SpecialTags.Name)
+                @if (!item.SpecialTags.Name.Equals("--None--"))
+                {
+                    @Html.DisplayFor(m => item.SpecialTags.Name)
+                }
             </td>
             <th>
                 @Html.DisplayNameFor(m => item.Description)
