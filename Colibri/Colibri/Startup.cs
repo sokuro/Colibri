@@ -60,7 +60,6 @@ namespace Colibri
                 });
 
             // Adding ICategoryData Service
-            //services.AddScoped<ICategoryData, SqlCategoryData>();
             services.AddScoped<ICategoryTypesData, SqlCategoryTypesData>();
 
             // Adding DbContext Service
@@ -119,12 +118,6 @@ namespace Colibri
 
             // use MVC with the configured Route
             app.UseMvc(ConfigureRoutes);
-
-            // terminal Middleware Delegate
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
         }
 
         // Configure Routes: using IRouteBuilder Routing Interface

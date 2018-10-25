@@ -14,7 +14,6 @@ namespace Colibri
     public class HomeController : Controller
     {
         // private Fields for Object saves
-        //private ICategoryData _categoryData;
         private ICategoryTypesData _categoryData;
         private IMailService _mailService;
 
@@ -54,7 +53,6 @@ namespace Colibri
             var model = new HomeIndexViewModel();
 
             // get Category Information from the Category Service
-            //model.Categories = _categoryData.GetAll();
             model.CategoryTypes = _categoryData.GetAll();
 
             // render the Model Information
@@ -68,6 +66,8 @@ namespace Colibri
             // get Category Information from the Service
             var model = _categoryData.GetById(id);
 
+            // show the Product
+
             // NullPointer-Exception Handling
             if (model == null)
             {
@@ -76,42 +76,6 @@ namespace Colibri
             // render the Model Information
             return View(model);
         }
-
-        // Get: /<controller>/Create
-        //[HttpGet("create")]
-        ////[Authorize]
-        //public IActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        // Post: /<controller>/Create
-        // @param Category
-        //[HttpPost("create")]
-        ////[Authorize]
-        //public IActionResult Create(CategoryEditModel categoryEditModel)
-        //{
-        //    // Check the State Model Binding
-        //    if (ModelState.IsValid)
-        //    {
-        //        // copy the Information from the CategoryEditModel into the Category Model
-        //        // save the new Restaurant
-        //        var newCategory = new Categories();
-        //        newCategory.Name = categoryEditModel.Name;
-
-        //        // add the newCategory to the Collection of Categories
-        //        newCategory = _categoryData.Add(newCategory);
-
-        //        // avoid Refreshing the POST Operation -> Redirect
-        //        //return View("Details", newCategory);
-        //        return RedirectToAction(nameof(Details), new { id = newCategory.CategoryId });
-        //    }
-        //    else
-        //    {
-        //        // one can simply return to the Form View again for Correction
-        //        return View();
-        //    }
-        //}
 
         // Show some Product Offers
         // authorize
