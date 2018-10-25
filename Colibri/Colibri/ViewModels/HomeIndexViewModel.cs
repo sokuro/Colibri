@@ -10,7 +10,6 @@ namespace Colibri.ViewModels
     {
         // IEnumerable allows Iteration through Entities
         public IEnumerable<CategoryTypes> CategoryTypes { get; set; }
-        //public IEnumerable<Categories> Categories { get; set; }
         public IEnumerable<Order> Orders { get; set; }
     }
 }
