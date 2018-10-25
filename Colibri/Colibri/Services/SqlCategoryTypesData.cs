@@ -35,5 +35,10 @@ namespace Colibri.Services
         {
             throw new System.NotImplementedException();
         }
+
+        public CategoryTypes Update(CategoryTypes categoryTypes)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
