@@ -15,7 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-
+using System;
 
 namespace Colibri
 {
@@ -85,6 +85,15 @@ namespace Colibri
                 .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             services.AddSignalR();
+
+            // Adding Sessions
+            services.AddSession(opt =>
+            {
+                // set Session TimeOut to t=30m
+                opt.IdleTimeout = TimeSpan.FromMinutes(30);
+                // use Cookies for Http
+                opt.Cookie.HttpOnly = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,6 +121,9 @@ namespace Colibri
 
             // #3.5 (later implemented) enables Identity Service
             app.UseAuthentication();
+
+            // Start a Session
+            app.UseSession();
 
             // Default MVC Route
             app.UseMvcWithDefaultRoute();
