@@ -1,0 +1,19 @@
+﻿@model List<Colibri.Models.Products>
+@*@model IEnumerable<Colibri.Models.Product>*@
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">
+                        <label style="font-size:23px;color:steelblue;">
+                            @product.Name
+                        </label>
+                    </h4>
+                </div>
+            </div>
+        </div>
+    }
+</div>
