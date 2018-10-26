@@ -12,26 +12,26 @@ namespace Colibri.Data
      */
     public class ColibriRepository : IColibriRepository
     {
-        private readonly ColibriDbContext _ctx;
+        private readonly ColibriDbContext _colibriDbContext;
         private readonly ILogger<ColibriRepository> _logger;
 
         // ColibriContext injected
-        public ColibriRepository(ColibriDbContext ctx, ILogger<ColibriRepository> logger)
+        public ColibriRepository(ColibriDbContext colibriDbContext, ILogger<ColibriRepository> logger)
         {
-            _ctx = ctx;
+            _colibriDbContext = colibriDbContext;
             _logger = logger;
         }
 
         // add Entity (generic)
         public void AddEntity(object model)
         {
-            _ctx.Add(model);
+            _colibriDbContext.Add(model);
         }
 
         // remove Entity (generic)
         public void RemoveEntity(object model)
         {
-            _ctx.Remove(model);
+            _colibriDbContext.Remove(model);
         }
 
         /*
@@ -46,7 +46,7 @@ namespace Colibri.Data
                 // use the Logger
                 _logger.LogInformation("GetAllProducts was called");
 
-                return _ctx.Products
+                return _colibriDbContext.Products
                     .OrderBy(p => p.Name)
                     .ToList();
             }
@@ -65,7 +65,7 @@ namespace Colibri.Data
                 // user the Logger
                 _logger.LogInformation("GetProductById was called");
 
-                return _ctx.Products
+                return _colibriDbContext.Products
                     .Where(p => p.Id == id)
                     .FirstOrDefault();
             }
@@ -83,7 +83,7 @@ namespace Colibri.Data
         //    {
         //        _logger.LogInformation("GetProductsByCategory was called");
 
-        //        return _ctx.Products
+        //        return _colibriDbContext.Products
         //            .Where(p => p.CategoryId == category)
         //            .ToList();
         //    }
@@ -102,14 +102,14 @@ namespace Colibri.Data
         {
             if (includeItems)
             {
-                return _ctx.Orders
+                return _colibriDbContext.Orders
                     .Include(o => o.Items)
                     .ThenInclude(i => i.Product)
                     .ToList();
             }
             else
             {
-                return _ctx.Orders.ToList();
+                return _colibriDbContext.Orders.ToList();
             }
         }
 
@@ -117,7 +117,7 @@ namespace Colibri.Data
         {
             if (includeItems)
             {
-                return _ctx.Orders
+                return _colibriDbContext.Orders
                     .Where(o => o.OrderUser.UserName == username)
                     .Include(o => o.Items)
                     .ThenInclude(i => i.Product)
@@ -125,7 +125,7 @@ namespace Colibri.Data
             }
             else
             {
-                return _ctx.Orders
+                return _colibriDbContext.Orders
                     .Where(o => o.OrderUser.UserName == username)
                     .ToList();
             }
@@ -139,7 +139,7 @@ namespace Colibri.Data
                 // user the Logger
                 _logger.LogInformation("GetOrderById was called");
 
-                return _ctx.Orders
+                return _colibriDbContext.Orders
                     .Include(o => o.Items)
                     .ThenInclude(i => i.Product)
                     .Where(o => o.OrderId == id && o.OrderUser.UserName == username)
@@ -160,7 +160,7 @@ namespace Colibri.Data
             {
                 _logger.LogInformation("SaveAll was called");
 
-                return _ctx.SaveChanges() > 0;
+                return _colibriDbContext.SaveChanges() > 0;
             }
             catch (Exception ex)
             {
