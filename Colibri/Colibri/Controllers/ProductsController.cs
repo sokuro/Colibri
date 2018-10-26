@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Colibri.Controllers
 {
+    //[Authorize(Roles = "Administrator, PowerUser")]
     public class ProductsController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
