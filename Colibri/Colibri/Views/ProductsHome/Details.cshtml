@@ -1,0 +1,81 @@
+﻿@model Colibri.Models.Products
+
+
+<h2 class="text-info">Product Details</h2>
+
+<form method="post">
+    <div class="p-4 border rounded row">
+
+        <div class="col-1"></div>
+
+        <!-- Image -->
+        <div class="col-3">
+            <img src="@Model.Image" width="100%" style="border-radius:5px; border:1px solid #bbb9b9;" />
+            @if (Model.Available)
+            {
+                <img src="~/img/SystemImages/IconApprovedgreen.png" width="50%" />
+            }
+        </div>
+
+        <!-- Product Properties -->
+        <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Name" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Price"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Price" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="CategoryTypes"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="CategoryTypes.Name" class="form-control" readonly />
+                </div>
+            </div>
+            @if (!Model.SpecialTags.Name.Equals("--None--"))
+            {
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="SpecialTags"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="SpecialTags.Name" class="form-control" readonly />
+                    </div>
+                </div>
+            }
+
+            <div class="form-group row">
+                <div class="col-4">
+                </div>
+                <div class="col-8">
+                    <button type="submit" value="Order" asp-route-id="@Model.Id" class="btn btn-primary form-control">Order</button>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Description"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Description" class="form-control" readonly />
+                </div>
+
+            </div>
+        </div>
+        <!-- Buttons -->
+        <div class="form-group">
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
+    </div>
+</form>

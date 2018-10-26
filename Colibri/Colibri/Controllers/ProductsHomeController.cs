@@ -26,7 +26,7 @@ namespace Colibri.Controllers
         }
 
         // Details View
-        public async Task<IActionResult> DetailsAsync(int id)
+        public async Task<IActionResult> Details(int id)
         {
             // get the individual Product
             var product = await _colibriDbContext.Products
@@ -35,7 +35,7 @@ namespace Colibri.Controllers
                     .Where(p => p.Id == id)
                     .FirstOrDefaultAsync();
 
-            return View();
+            return View(product);
         }
 
         // Entry View
