@@ -16,6 +16,7 @@ namespace Colibri.Data
     public interface IColibriRepository
     {
         IEnumerable<Products> GetAllProducts();
+        Task<IEnumerable<Products>> GetAllProductsAsync();
         //IEnumerable<Product> GetProductsByCategory(int category);
         Products GetProductById(int id);
 

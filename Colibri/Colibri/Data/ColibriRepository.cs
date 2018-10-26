@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Colibri.Data
 {
@@ -49,6 +50,29 @@ namespace Colibri.Data
                 return _colibriDbContext.Products
                     .OrderBy(p => p.Name)
                     .ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get all products: {ex}");
+                return null;
+            }
+        }
+
+        // returning Data (List of Products)
+        // asynchron
+        public async Task<IEnumerable<Products>> GetAllProductsAsync()
+        {
+            try
+            {
+                // use the Logger
+                _logger.LogInformation("GetAllProducts was called");
+
+                // return the List
+                return await _colibriDbContext.Products
+                    .Include(p => p.CategoryTypes)
+                    .Include(p => p.SpecialTags)
+                    .OrderBy(p => p.Name)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
