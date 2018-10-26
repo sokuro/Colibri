@@ -25,6 +25,20 @@ namespace Colibri.Controllers
             _colibriDbContext = colibriDbContext;
         }
 
+        // Details View
+        public async Task<IActionResult> DetailsAsync(int id)
+        {
+            // get the individual Product
+            var product = await _colibriDbContext.Products
+                    .Include(p => p.CategoryTypes)
+                    .Include(p => p.SpecialTags)
+                    .Where(p => p.Id == id)
+                    .FirstOrDefaultAsync();
+
+            return View();
+        }
+
+        // Entry View
         public async Task<IActionResult> Index()
         {
             //var productList = _repository.GetAllProductsAsync();
