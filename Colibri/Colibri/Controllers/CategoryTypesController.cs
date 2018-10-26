@@ -160,7 +160,9 @@ namespace Colibri.Controllers
 
         public IActionResult Index()
         {
-            return View(_colibriDbContext.CategoryTypes.ToList());
+            var categoryTypesList = _colibriDbContext.CategoryTypes.ToList();
+
+            return View(categoryTypesList);
         }
     }
 }

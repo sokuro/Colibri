@@ -303,8 +303,8 @@ namespace Colibri.Controllers
         public async Task<IActionResult> Index()
         {
             // List of Products
-            var products = _colibriDbContext.Products.Include(m => m.CategoryTypes).Include(m => m.SpecialTags);
-            return View(await products.ToListAsync());
+            var productList = await _colibriDbContext.Products.Include(m => m.CategoryTypes).Include(m => m.SpecialTags).ToListAsync();
+            return View(productList);
         }
     }
 }
