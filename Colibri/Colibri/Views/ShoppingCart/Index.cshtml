@@ -13,14 +13,14 @@
     <h2 class="text-info">Your Shopping Cart</h2>
     @if (Model.Products.Count > 0)
     {
-        <div class="container">
-            <div class="container border border-secondary rounded">
-                <div class="row">
+        <div class="container border border-secondary rounded">
+            <div class="row">
+                <div class="col-8">
                     <table class="table table-striped">
                         <tr class="table-info">
 
                             <!-- Table Headers -->
-                            <th class="imageRow"></th>
+                            <th id="imageRowHeader"></th>
                             <th>
                                 <label asp-for="@Model.Products.FirstOrDefault().Name"></label>
                             </th>
@@ -41,7 +41,7 @@
                         @foreach (var item in Model.Products)
                         {
                             <!-- Images clickable: redirect to Details Page -->
-                            <tr>
+                            <tr class="table-content">
                                 <td id="imageContent">
                                     <a asp-controller="ProductsHome" asp-action="Details" asp-route-id="@item.Id">
                                         <img src="@item.Image" />
@@ -69,7 +69,6 @@
                     </table>
                 </div>
             </div>
-
         </div>
     }
 </form>

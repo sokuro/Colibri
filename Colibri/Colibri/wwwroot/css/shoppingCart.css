@@ -1,16 +1,16 @@
-﻿.container {
+﻿.container.border.border-secondary.rounded {
     padding: 15px;
 }
 
-.container > .row {
+.row > .col-8 {
     border-right:1px solid #bbb9b9;
 }
 
-.container > table {
+.col-8 > .table.table-striped {
     width: 100%;
 }
 
-.container > th {
+.table-info {
     text-align: center;
 }
 
@@ -18,7 +18,7 @@
     width: 20%;
 }
 
-#imageContent {
+.table-content {
     padding: 50px;
 }
 
