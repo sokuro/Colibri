@@ -36,12 +36,12 @@ namespace Colibri.Controllers
         public async Task<IActionResult> Index()
         {
             // check first, if anything exists in the Session
-            // Session Name : "ssSessionOrderExists"
-            List<int> lstSessionOrderExists = HttpContext.Session.Get<List<int>>("ssSessionOrderExists");
+            // Session Name : "ssShoppingCart"
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
-            if (lstSessionOrderExists.Count > 0)
+            if (lstCartItems.Count > 0)
             {
-                foreach (int cartItem in lstSessionOrderExists)
+                foreach (int cartItem in lstCartItems)
                 {
                     // get the Products from the DB
                     // use the eager Method
@@ -68,8 +68,8 @@ namespace Colibri.Controllers
         public IActionResult IndexPost()
         {
             // check first, if anything exists in the Session
-            // Session Name : "ssSessionOrderExists"
-            List<int> lstSessionOrderExists = HttpContext.Session.Get<List<int>>("ssSessionOrderExists");
+            // Session Name : "ssShoppingCart"
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
             // merge (add) the Appointment Date and Time to the Appointment Date itself
             ShoppingCartViewModel.Appointments.AppointmentDate = ShoppingCartViewModel.Appointments.AppointmentDate
@@ -87,7 +87,7 @@ namespace Colibri.Controllers
             int appointmentId = appointments.Id;
 
             // this created Id can be used to insert Records inside the selected Products
-            foreach (int productId in lstSessionOrderExists)
+            foreach (int productId in lstCartItems)
             {
                 // everytime a new Object will be created
                 ProductsSelectedForAppointment productsSelectedForAppointment = new ProductsSelectedForAppointment()
@@ -103,8 +103,8 @@ namespace Colibri.Controllers
             _colibriDbContext.SaveChanges();
 
             // After adding the Items to the DB, empty the Cart (by creating a new Session)
-            lstSessionOrderExists = new List<int>();
-            HttpContext.Session.Set("ssSessionOrderExists", lstSessionOrderExists);
+            lstCartItems = new List<int>();
+            HttpContext.Session.Set("ssShoppingCart", lstCartItems);
 
             // redirect to Action
             return RedirectToAction(nameof(Index));

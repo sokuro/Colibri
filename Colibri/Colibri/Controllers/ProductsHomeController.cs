@@ -46,20 +46,20 @@ namespace Colibri.Controllers
         public async Task<IActionResult> DetailsPost(int id)
         {
             // check first, if anything exists in the Session
-            // Session Name : "ssSessionOrderExists"
-            List<int> lstSessionOrderExists = HttpContext.Session.Get<List<int>>("ssSessionOrderExists");
+            // Session Name : "ssShoppingCart"
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
             // check if null -> create new
-            if (lstSessionOrderExists == null)
+            if (lstCartItems == null)
             {
-                lstSessionOrderExists = new List<int>();
+                lstCartItems = new List<int>();
             }
 
             // add the retrieved Item (id)
-            lstSessionOrderExists.Add(id);
+            lstCartItems.Add(id);
             // set the Session:
             // Session Name, Value
-            HttpContext.Session.Set("ssSessionOrderExists", lstSessionOrderExists);
+            HttpContext.Session.Set("ssShoppingCart", lstCartItems);
 
             // redirect to Action
             return RedirectToAction("Index", "ProductsHome");
@@ -68,18 +68,18 @@ namespace Colibri.Controllers
         // Remove (from Bag)
         public IActionResult Remove(int id)
         {
-            List<int> lstSessionOrderExists = HttpContext.Session.Get<List<int>>("ssSessionOrderExists");
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
-            if (lstSessionOrderExists.Count > 0)
+            if (lstCartItems.Count > 0)
             {
-                if (lstSessionOrderExists.Contains(id))
+                if (lstCartItems.Contains(id))
                 {
                     // remove the Item (id)
-                    lstSessionOrderExists.Remove(id);
+                    lstCartItems.Remove(id);
                 }
             }
             // set the Session: Name, Value
-            HttpContext.Session.Set("ssSessionOrderExists", lstSessionOrderExists);
+            HttpContext.Session.Set("ssShoppingCart", lstCartItems);
 
             // redirect to Action
             return RedirectToAction(nameof(Index));

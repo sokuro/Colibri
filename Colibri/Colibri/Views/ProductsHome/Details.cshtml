@@ -68,7 +68,7 @@
                         // Flag if the Item is already in the Bag
                         bool isInBag = false;
                         // Shopping Cart
-                        List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssSessionOrderExists");
+                        List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
                         // check if the List already contains the ID of the Page
                         if (lstCart != null && lstCart.Contains(Model.Id))

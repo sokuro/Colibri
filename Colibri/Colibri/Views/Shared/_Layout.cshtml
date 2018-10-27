@@ -66,14 +66,14 @@
                     }
 
                     <!-- handle Session: Values in the Session -->
-                    @if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssSessionOrderExists") != null)
+                    @if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart") != null)
                     {
                         <li style="color:white">
                             <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="nav-link">
                                 <i class="fas fa-shopping-cart"></i> &nbsp;
                                 <!-- # Items in the Shopping Cart -->
                                 @{
-                                    var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssSessionOrderExists").Count;
+                                    var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart").Count;
                                 }
                                 (@count)
                             </a>
