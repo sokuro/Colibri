@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Colibri.Data;
+using Colibri.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,32 @@ namespace Colibri.Controllers
                     .FirstOrDefaultAsync();
 
             return View(product);
+        }
+
+        // Details POST
+        [HttpPost,ActionName("Details")]
+        //[Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DetailsPost(int id)
+        {
+            // check first, if anything exists in the Session
+            // Session Name : "ssSessionOrderExists"
+            List<int> lstSessionOrderExists = HttpContext.Session.Get<List<int>>("ssSessionOrderExists");
+
+            // check if null -> create new
+            if (lstSessionOrderExists == null)
+            {
+                lstSessionOrderExists = new List<int>();
+            }
+
+            // add the retrieved Item (id)
+            lstSessionOrderExists.Add(id);
+            // set the Session:
+            // Session Name, Value
+            HttpContext.Session.Set("ssSessionOrderExists", lstSessionOrderExists);
+
+            // redirect to Action
+            return RedirectToAction("Index", "ProductsHome");
         }
 
         // Entry View
