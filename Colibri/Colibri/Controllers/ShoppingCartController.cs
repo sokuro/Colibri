@@ -7,6 +7,7 @@ using Colibri.Extensions;
 using Colibri.Models;
 using Colibri.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Colibri.Controllers
 {
@@ -41,14 +42,21 @@ namespace Colibri.Controllers
             {
                 foreach (int cartItem in lstSessionOrderExists)
                 {
-                    
+                    // get the Products from the DB
+                    // use the eager Method
                     Products products = _colibriDbContext.Products
+                        .Include(p => p.CategoryTypes)
+                        .Include(p => p.SpecialTags)
                         .Where(p => p.Id == cartItem)
                         .FirstOrDefault();
+
+                    // add the Products to the Shopping Cart
+                    ShoppingCartViewModel.Products.Add(products);
                 }
             }
-
-            return View();
+            
+            // pass the ShoppingCartViewModel to the View
+            return View(ShoppingCartViewModel);
         }
     }
 }
