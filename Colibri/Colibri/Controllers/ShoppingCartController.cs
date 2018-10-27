@@ -31,6 +31,26 @@ namespace Colibri.Controllers
             };
         }
 
+        // Remove (from Bag)
+        public IActionResult Remove(int id)
+        {
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+
+            if (lstCartItems.Count > 0)
+            {
+                if (lstCartItems.Contains(id))
+                {
+                    // remove the Item (id)
+                    lstCartItems.Remove(id);
+                }
+            }
+            // set the Session: Name, Value
+            HttpContext.Session.Set("ssShoppingCart", lstCartItems);
+
+            // redirect to Action
+            return RedirectToAction(nameof(Index));
+        }
+
         // Get Index ShoppingCart
         // retrieve all the Products from the Session
         public async Task<IActionResult> Index()
