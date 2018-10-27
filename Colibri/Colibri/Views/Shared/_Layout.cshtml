@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@using Colibri.Extensions
+@using Colibri.Utility
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -50,6 +57,31 @@
                     {
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                        </li>
+                    }
+
+                    <!-- handle Session: Values in the Session -->
+                    @if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssSessionOrderExists") != null)
+                    {
+                        <li style="color:white">
+                            <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="nav-link">
+                                <i class="fas fa-shopping-cart"></i> &nbsp;
+                                <!-- # Items in the Shopping Cart -->
+                                @{
+                                    var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssSessionOrderExists").Count;
+                                }
+                                (@count)
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li style="color:white">
+                            <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="nav-link">
+                                <i class="fas fa-shopping-cart"></i> &nbsp;
+                                <!-- display Zero -->
+                                (0)
+                            </a>
                         </li>
                     }
                 </ul>
