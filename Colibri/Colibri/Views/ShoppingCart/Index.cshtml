@@ -114,3 +114,18 @@
     }
 </form>
 
+<!-- adding Scripts -->
+<!-- min Date: tomorrow -->
+<!-- max Date: 3 Months -->
+@section Scripts
+{
+    <script>
+        $(function () {
+            $("#datepicker").datepicker({
+                minDate: +1,
+                maxDate: "+3M"
+            });
+        });
+    </script>
+}
+
