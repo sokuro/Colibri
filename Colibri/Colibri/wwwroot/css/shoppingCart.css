@@ -33,3 +33,7 @@
 .tableContentColumn {
     text-align: center;
 }
+
+.row > .col-4 {
+    padding-left: 30px;
+}

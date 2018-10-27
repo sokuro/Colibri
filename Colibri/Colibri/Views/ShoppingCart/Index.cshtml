@@ -15,6 +15,7 @@
     {
         <div class="container border border-secondary rounded">
             <div class="row">
+                <!-- Shopping Cart Part: Products -->
                 <div class="col-8">
                     <table class="table table-striped">
                         <tr class="table-info">
@@ -67,6 +68,42 @@
                             </tr>
                         }
                     </table>
+                </div>
+
+                <!-- Shopping Cart Part: Appointments -->
+                <div class="col-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <label>Name : </label>
+                        </div>
+                        <div class="col-12">
+                            <input asp-for="@Model.Appointments.CustomerName" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label>Phone Number : </label>
+                        </div>
+                        <div class="col-12">
+                            <input asp-for="@Model.Appointments.CustomerPhoneNumber" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label>Email : </label>
+                        </div>
+                        <div class="col-12">
+                            <input asp-for="@Model.Appointments.CustomerEmail" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label>Appointment Date : </label>
+                        </div>
+                        <div class="col-12">
+                            <input asp-for="@Model.Appointments.AppointmentDate" value="" type="text" id="datepicker" class="form-control" />
+                        </div>
+                        <div class="col-12">
+                            <label>Appointment Time : </label>
+                        </div>
+                        <div class="col-12">
+                            <input asp-for="@Model.Appointments.AppointmentTime" value="" type="text" class="timepicker form-control" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
