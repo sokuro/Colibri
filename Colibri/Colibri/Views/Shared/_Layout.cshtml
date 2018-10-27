@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <link href="~/css/index.css" rel="stylesheet" />
     <link href="~/css/products.css" rel="stylesheet" />
+    <!-- Date and Time Pickers -->
+    <link href="~/css/jquery-ui.css" rel="stylesheet" />
+    <link href="~/css/jquery.timepicker.css" rel="stylesheet" />
     <!-- individual CSS -->
     @RenderSection("shoppingCart", false)
 </head>
@@ -110,7 +113,11 @@
 
     <script src="~/node_modules/jquery/dist/jquery.js"></script>
     <script src="~/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/index.js"></script>
+
+    <!-- asp-append-version  -->
+    <script src="~/js/index.js" asp-append-version="true"></script>
+    <link href="~/js/jquery-ui.js" asp-append-version="true" />
+    <link href="~/js/jquery.timepicker.js" asp-append-version="true" />
     @RenderSection("scripts", false)
 </body>
 </html>
