@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Colibri.Models
 {
     /*
-     * Entity as Connector between the Products and the User, resp. the Order
+     * Entity as Connector between the Products and the User's, resp. the Order's Appointment
      */
     public class ProductsSelectedForAppointment
     {
