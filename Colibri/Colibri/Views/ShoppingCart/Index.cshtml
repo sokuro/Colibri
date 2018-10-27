@@ -120,6 +120,20 @@
 @section Scripts
 {
     <script>
+        // Time-Picker
+        $('.timepicker').timepicker({
+            timeFormat: 'h:mm p',
+            interval: 60,
+            minTime: '10',
+            maxTime: '20:00pm',
+            //defaultTime: '11',
+            startTime: '06:00',
+            dynamic: true,
+            dropdown: true,
+            scrollbar: true
+        });
+
+        // Date-Picker
         $(function () {
             $("#datepicker").datepicker({
                 minDate: +1,
