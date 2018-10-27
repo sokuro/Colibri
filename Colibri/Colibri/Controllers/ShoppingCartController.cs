@@ -32,7 +32,7 @@ namespace Colibri.Controllers
 
         // Get Index ShoppingCart
         // retrieve all the Products from the Session
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             // check first, if anything exists in the Session
             // Session Name : "ssSessionOrderExists"
