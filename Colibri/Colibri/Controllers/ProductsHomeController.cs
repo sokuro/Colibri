@@ -65,6 +65,26 @@ namespace Colibri.Controllers
             return RedirectToAction("Index", "ProductsHome");
         }
 
+        // Remove (from Bag)
+        public IActionResult Remove(int id)
+        {
+            List<int> lstSessionOrderExists = HttpContext.Session.Get<List<int>>("ssSessionOrderExists");
+
+            if (lstSessionOrderExists.Count > 0)
+            {
+                if (lstSessionOrderExists.Contains(id))
+                {
+                    // remove the Item (id)
+                    lstSessionOrderExists.Remove(id);
+                }
+            }
+            // set the Session: Name, Value
+            HttpContext.Session.Set("ssSessionOrderExists", lstSessionOrderExists);
+
+            // redirect to Action
+            return RedirectToAction(nameof(Index));
+        }
+
         // Entry View
         public async Task<IActionResult> Index()
         {
