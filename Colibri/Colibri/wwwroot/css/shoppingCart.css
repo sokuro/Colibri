@@ -1,0 +1,35 @@
+﻿.container {
+    padding: 15px;
+}
+
+.container > .row {
+    border-right:1px solid #bbb9b9;
+}
+
+.container > table {
+    width: 100%;
+}
+
+.container > th {
+    text-align: center;
+}
+
+#imageRowHeader {
+    width: 20%;
+}
+
+#imageContent {
+    padding: 50px;
+}
+
+#imageContent > a > img {
+    width: 100%;
+    margin: auto;
+    display: block;
+    border-radius: 5px;
+    border: 1px solid #bbb9b9;
+}
+
+.tableContentColumn {
+    text-align: center;
+}
