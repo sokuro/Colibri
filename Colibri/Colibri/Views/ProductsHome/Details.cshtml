@@ -1,4 +1,8 @@
 ﻿@model Colibri.Models.Products
+@using Microsoft.AspNetCore.Http
+@using Colibri.Extensions
+
+@inject IHttpContextAccessor HttpContextAccessor
 
 
 <h2 class="text-info">Product Details</h2>
@@ -10,7 +14,7 @@
 
         <!-- Image -->
         <div class="col-3">
-            <img src="@Model.Image" class="productImage"/>
+            <img src="@Model.Image" class="productImage" />
             @if (Model.Available)
             {
                 <img src="~/img/SystemImages/IconApprovedgreen.png" class="availableIconImage" />
@@ -59,7 +63,28 @@
                 <div class="col-4">
                 </div>
                 <div class="col-8">
-                    <button type="submit" value="Order" asp-route-id="@Model.Id" class="btn btn-primary form-control">Order</button>
+                    <!-- remove Item from the ShoppingCart possible -->
+                    @{
+                        // Flag if the Item is already in the Bag
+                        bool isInBag = false;
+                        // Shopping Cart
+                        List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssSessionOrderExists");
+
+                        // check if the List already contains the ID of the Page
+                        if (lstCart != null && lstCart.Contains(Model.Id))
+                        {
+                            isInBag = true;
+                        }
+                    }
+
+                    @if (isInBag)
+                    {
+                        <button type="submit" value="Remove from Bag" asp-action="remove" asp-route-id="@Model.Id" class="btn btn-primary form-control">Remove from Bag</button>
+                    }
+                    else
+                    {
+                        <button type="submit" value="Order" asp-route-id="@Model.Id" class="btn btn-primary form-control">Order</button>
+                    }
                 </div>
             </div>
 
