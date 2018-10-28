@@ -1,0 +1,17 @@
+﻿@model Colibri.ViewModels.ShoppingCartViewModel
+
+@{
+    ViewData["Title"] = "AppointmentConfirmation";
+}
+
+<h2 class="text-info">AppointmentConfirmation</h2>
+<div class="form-text">
+    Your Appointment has been submitted.
+</div>
+
+<!-- consume the Partial Views -->
+<partial name="~/Views/Shared/_AppointmentCustomerDetails.cshtml" model="Model.Appointments" />
+<partial name="~/Views/Shared/_AppointmentProductDetails.cshtml" model="Model.Products" />
+
+<a asp-controller="ProductsHome" asp-action="Index" class="btn btn-success">Back to Products</a>
+
