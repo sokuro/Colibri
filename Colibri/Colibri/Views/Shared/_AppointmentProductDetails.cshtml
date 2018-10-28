@@ -50,11 +50,6 @@
                 <td class="tableContentColumn">
                     @Html.DisplayFor(p => item.Description)
                 </td>
-
-                <!-- delete the Items from the Cart -->
-                <td class="tableContentColumn">
-                    <button type="submit" class="btn btn-danger" asp-action="remove" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></button>
-                </td>
             </tr>
         }
     </table>
