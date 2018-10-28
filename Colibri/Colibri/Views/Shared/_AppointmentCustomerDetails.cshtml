@@ -1,0 +1,53 @@
+﻿@model Colibri.Models.Appointments
+
+<!-- individual CSS -->
+@section shoppingCart {
+    <link href="~/css/shoppingCart.css" rel="stylesheet" />
+}
+
+<h4 class="text-success">Appointment Details</h4>
+
+<div class="appointment-details container border">
+    <!-- Part 1 -->
+    <div class="col-12">
+        <div class="row">
+            <div class="col-2">
+                Full Name
+            </div>
+            <div class="col-3">
+                <input asp-for="@Model.CustomerName" readonly class="form-control" />
+            </div>
+            <!-- empty row -->
+            <div class="col-2"></div>
+
+            <div class="col-2">
+                Email
+            </div>
+            <div class="col-3">
+                <input asp-for="@Model.CustomerEmail" readonly class="form-control" />
+            </div>
+        </div>
+    </div>
+    <!-- END: Part 1 -->
+    <!-- Part 2 -->
+    <div class="col-12">
+        <div class="row">
+            <div class="col-2">
+                Phone Number
+            </div>
+            <div class="col-3">
+                <input asp-for="@Model.CustomerPhoneNumber" readonly class="form-control" />
+            </div>
+            <!-- empty row -->
+            <div class="col-2"></div>
+
+            <div class="col-2">
+                Appointment Date
+            </div>
+            <div class="col-3">
+                <input asp-for="@Model.AppointmentDate" readonly class="form-control" />
+            </div>
+        </div>
+    </div>
+    <!-- END: Part 2 -->
+</div>
