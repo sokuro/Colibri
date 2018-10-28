@@ -43,10 +43,22 @@
 }
 
 .appointment-details {
-    height: 100px;
+    height: 115px;
     background-color: aliceblue;
 }
 
-.appointment-details > row {
+.appointment-details.container.border > .col-12 > .row {
     padding-top: 10px;
+}
+
+.appointment-confirmation > .text-info {
+    padding-bottom: 5px;
+}
+
+.appointment-confirmation > .form-text {
+    padding-bottom: 25px;
+}
+
+.appointment-confirmation-content > * {
+    margin-top: 20px;
 }
