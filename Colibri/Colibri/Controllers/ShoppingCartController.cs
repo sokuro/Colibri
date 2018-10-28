@@ -126,8 +126,39 @@ namespace Colibri.Controllers
             lstCartItems = new List<int>();
             HttpContext.Session.Set("ssShoppingCart", lstCartItems);
 
-            // redirect to Action
-            return RedirectToAction(nameof(Index));
+            // redirect to Action:
+            // ActionMethod: AppointmentConfirmation
+            // Controller: ShoppingCart
+            // pass the Appointment ID
+            return RedirectToAction("AppointmentConfirmation", "ShoppingCart", new { Id = appointmentId });
+        }
+
+        // Get
+        // Apointment Confirmation
+        public IActionResult AppointmentConfirmation(int id)
+        {
+            // fill the ViewModel with the Information bound to the specific Id
+            ShoppingCartViewModel.Appointments = _colibriDbContext.Appointments
+                                                            .Where(a => a.Id == id)
+                                                            .FirstOrDefault();
+
+            // based on the Id, retrieve the complete List of Appointments
+            List<ProductsSelectedForAppointment> elemProdList = _colibriDbContext.ProductsSelectedForAppointment
+                .Where(p => p.AppointmentId == id).ToList();
+
+            // iterate the List
+            foreach (ProductsSelectedForAppointment prodObj in elemProdList)
+            {
+                // add Products inside the Shopping Cart Model
+                ShoppingCartViewModel.Products.Add(_colibriDbContext.Products
+                                                    .Include(p => p.CategoryTypes)
+                                                    .Include(p => p.SpecialTags)
+                                                    .Where(p => p.Id == prodObj.ProductId)
+                                                    .FirstOrDefault());
+            }
+
+            // pass the Shopping Cart View Model as Object
+            return View(ShoppingCartViewModel);
         }
     }
 }
