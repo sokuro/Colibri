@@ -41,3 +41,12 @@
 .col-4 > .row > .col-12 {
     padding-bottom: 10px;
 }
+
+.appointment-details {
+    height: 100px;
+    background-color: aliceblue;
+}
+
+.appointment-details > row {
+    padding-top: 10px;
+}
