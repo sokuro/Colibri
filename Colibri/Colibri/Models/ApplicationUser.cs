@@ -29,6 +29,10 @@ namespace Colibri.Models
         //public string Country { get; set; }
         public string Password { get; set; }
 
+        // not mapped Property
+        [NotMapped]
+        public bool IsSuperAdmin { get; set; }
+
         // Logging
         //public DateTime Created { get; set; }
         //public DateTime Modified { get; set; }
