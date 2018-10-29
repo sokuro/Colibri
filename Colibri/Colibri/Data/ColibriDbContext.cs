@@ -25,6 +25,7 @@ namespace Colibri.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<Appointments> Appointments { get; set; }
         public DbSet<ProductsSelectedForAppointment> ProductsSelectedForAppointment { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
 
         // override
