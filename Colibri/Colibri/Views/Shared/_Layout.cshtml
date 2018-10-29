@@ -53,17 +53,17 @@
                         <a class="nav-link" asp-area="Customer" asp-controller="About" asp-action="">About</a>
                     </li>
                     @*@if (User.Identity.IsAuthenticated)
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
-                        </li>
-                    }*@
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        }*@
 
                     <!-- handle Session: Values in the Session -->
                     @if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart") != null)
@@ -92,6 +92,7 @@
                 </ul>
                 <div class="navbar-right">
                     @*<vc:login-logout></vc:login-logout>*@
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
@@ -111,8 +112,11 @@
         </div>
     </footer>
 
-    <script src="~/node_modules/jquery/dist/jquery.js"></script>
-    <script src="~/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="~/node_modules/jquery/dist/jquery.js"></script>
+    <script src="~/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
     <!-- asp-append-version  -->
     <script src="~/js/index.js" asp-append-version="true"></script>
