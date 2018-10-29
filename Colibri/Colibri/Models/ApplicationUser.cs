@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Colibri.Models
 {
     // Identity User
-    public class User : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
         // Accessors
         //[Key]

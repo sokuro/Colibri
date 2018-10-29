@@ -21,12 +21,12 @@ namespace Colibri.Controllers
         private readonly IColibriRepository _repository;
         private readonly ILogger<OrdersController> _logger;
         private readonly IMapper _mapper;
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public OrdersController(IColibriRepository repository,
             ILogger<OrdersController> logger, 
             IMapper mapper,
-            UserManager<User> userManager)
+            UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
             _logger = logger;

@@ -33,6 +33,6 @@ namespace Colibri.Models
 
         // 1 Product = 1 User
         [ForeignKey("UserId")]
-        public User OfferUser { get; set; }
+        public ApplicationUser OfferUser { get; set; }
     }
 }

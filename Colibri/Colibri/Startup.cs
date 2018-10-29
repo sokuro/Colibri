@@ -36,7 +36,7 @@ namespace Colibri
         public void ConfigureServices(IServiceCollection services)
         {
             // add Identity Service
-            services.AddIdentity<User, IdentityRole>(cfg =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(cfg =>
             {
                 cfg.User.RequireUniqueEmail = true;
             })

@@ -16,9 +16,9 @@ namespace Colibri.Data
     {
         private readonly ColibriDbContext _context;
         private readonly IHostingEnvironment _hosting;
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ColibriSeeder(ColibriDbContext context, IHostingEnvironment hosting, UserManager<User> userManager)
+        public ColibriSeeder(ColibriDbContext context, IHostingEnvironment hosting, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _hosting = hosting;
@@ -32,12 +32,12 @@ namespace Colibri.Data
 
             // add User for Authorization
             // await for Synchronizing
-            User user = await _userManager.FindByEmailAsync("john.snow.js96@protonmail.com");
+            ApplicationUser user = await _userManager.FindByEmailAsync("john.snow.js96@protonmail.com");
 
             // avoiding NullPointerException, create a new User
             if (user == null)
             {
-                user = new User()
+                user = new ApplicationUser()
                 {
                     FirstName = "John",
                     LastName = "Snow",

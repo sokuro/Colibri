@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Colibri.Data
 {
     // ColibriContext derived from the IdentityDbContext
-    public class ColibriDbContext : IdentityDbContext<User>
+    public class ColibriDbContext : IdentityDbContext<ApplicationUser>
     {
         public ColibriDbContext(DbContextOptions<ColibriDbContext> options) : base(options)
         {

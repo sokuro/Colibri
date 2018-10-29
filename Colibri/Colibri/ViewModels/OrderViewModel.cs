@@ -17,6 +17,6 @@ namespace Colibri.ViewModels
         public ICollection<OrderItemViewModel> Items { get; set; }
 
         // allow the User to make an Order
-        public User OrderUser { get; set; }
+        public ApplicationUser OrderUser { get; set; }
     }
 }
