@@ -36,12 +36,12 @@ namespace Colibri
         public void ConfigureServices(IServiceCollection services)
         {
             // add Identity Service
-            services.AddIdentity<ApplicationUser, IdentityRole>(cfg =>
-            {
-                cfg.User.RequireUniqueEmail = true;
-            })
-            // to separate Contextes
-            .AddEntityFrameworkStores<ColibriDbContext>();
+            //services.AddIdentity<ApplicationUser, IdentityRole>(cfg =>
+            //{
+            //    cfg.User.RequireUniqueEmail = true;
+            //})
+            //// to separate Contextes
+            //.AddEntityFrameworkStores<ColibriDbContext>();
 
             // Add Authentication
             // -> Cookies
@@ -64,6 +64,11 @@ namespace Colibri
 
             // Adding DbContext Service
             services.AddDbContext<ColibriDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("Colibri")));
+
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ColibriDbContext>()
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
 
             // Support for AutoMapper
             services.AddAutoMapper();
