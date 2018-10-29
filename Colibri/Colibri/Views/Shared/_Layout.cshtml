@@ -32,27 +32,27 @@
             <div id="theMenu" class="navbar-collapse collapse">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="CategoryTypes" asp-action="Index">Category Types</a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="CategoryTypes" asp-action="Index">Category Types</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="SpecialTags" asp-action="Index">Special Tags</a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="SpecialTags" asp-action="Index">Special Tags</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Products" asp-action="Index">Products</a>
+                        <a class="nav-link" asp-area="Admin" asp-controller="Products" asp-action="Index">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="ProductsHome" asp-action="Index">Products List</a>
+                        <a class="nav-link" asp-area="Customer" asp-controller="ProductsHome" asp-action="Index">Products List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a>
+                        <a class="nav-link" asp-area="Customer" asp-controller="Home" asp-action="Contact">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-controller="About" asp-action="">About</a>
+                        <a class="nav-link" asp-area="Customer" asp-controller="About" asp-action="">About</a>
                     </li>
-                    @if (User.Identity.IsAuthenticated)
+                    @*@if (User.Identity.IsAuthenticated)
                     {
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
@@ -63,7 +63,7 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
                         </li>
-                    }
+                    }*@
 
                     <!-- handle Session: Values in the Session -->
                     @if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart") != null)
@@ -91,7 +91,7 @@
                     }
                 </ul>
                 <div class="navbar-right">
-                    <vc:login-logout></vc:login-logout>
+                    @*<vc:login-logout></vc:login-logout>*@
                 </div>
             </div>
         </nav>

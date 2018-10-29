@@ -7,9 +7,10 @@ using Colibri.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Colibri.Controllers
+namespace Colibri.Areas.Admin.Controllers
 {
     //[Authorize(Roles = "Administrator, PowerUser")]
+    [Area("Admin")]
     public class CategoryTypesController : Controller
     {
         private ColibriDbContext _colibriDbContext;

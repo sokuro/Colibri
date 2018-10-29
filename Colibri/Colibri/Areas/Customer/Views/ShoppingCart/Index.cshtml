@@ -44,7 +44,7 @@
                             <!-- Images clickable: redirect to Details Page -->
                             <tr class="table-content">
                                 <td id="imageContent">
-                                    <a asp-controller="ProductsHome" asp-action="Details" asp-route-id="@item.Id">
+                                    <a asp-area="Customer" asp-controller="ProductsHome" asp-action="Details" asp-route-id="@item.Id">
                                         <img src="@item.Image" />
                                     </a>
                                 </td>

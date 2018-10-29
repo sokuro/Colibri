@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Colibri
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         // private Fields for Object saves

@@ -10,8 +10,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Colibri.Controllers
+namespace Colibri.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class ShoppingCartController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;

@@ -137,8 +137,8 @@ namespace Colibri
         {
             // Default Route: "~/Home/Index"
             routeBuilder.MapRoute(
-                "Default",
-                "{controller=Home}/{action=Index}/{id}"
+                name: "areas",
+                template: "{area=Customer}/{controller=Home}/{action=Index}/{id?}"
                 );
         }
     }

@@ -14,6 +14,7 @@ namespace Colibri.Controllers
      * Controller for the Products View
      */
     //[Authorize(Roles = "Administrator, PowerUser")]
+    [Area("Customer")]
     public class ProductsHomeController : Controller
     {
         //private readonly IColibriRepository _repository;
@@ -62,7 +63,7 @@ namespace Colibri.Controllers
             HttpContext.Session.Set("ssShoppingCart", lstCartItems);
 
             // redirect to Action
-            return RedirectToAction("Index", "ProductsHome");
+            return RedirectToAction("Index", "ProductsHome", new { area = "Customer" });
         }
 
         // Remove (from Bag)

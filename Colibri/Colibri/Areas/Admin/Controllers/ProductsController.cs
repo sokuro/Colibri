@@ -11,9 +11,10 @@ using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Colibri.Controllers
+namespace Colibri.Areas.Admin.Controllers
 {
     //[Authorize(Roles = "Administrator, PowerUser")]
+    [Area("Admin")]
     public class ProductsController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;

@@ -6,9 +6,10 @@ using Colibri.Data;
 using Colibri.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Colibri.Controllers
+namespace Colibri.Areas.Admin.Controllers
 {
     //[Authorize(Roles = "Administrator, PowerUser")]
+    [Area("Admin")]
     public class SpecialTagsController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
