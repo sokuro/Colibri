@@ -136,7 +136,9 @@ namespace Colibri.Areas.Identity.Pages.Account
 
 
                     // redirect to the List of Users
-                    return RedirectToAction("Index", "AdminUsers", new { area = "Admin" });
+                    // TODO
+                    //return RedirectToAction("Index", "AdminUsers", new { area = "Admin" });
+                    return RedirectToAction("Index", "AdminUsers");
                 }
                 foreach (var error in result.Errors)
                 {
