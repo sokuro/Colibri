@@ -79,5 +79,44 @@ namespace Colibri.Areas.Admin.Controllers
 
             return View(applicationUser);
         }
+
+        // Get: Method Delete User
+        // ID -> GUI (as string)
+        public async Task<IActionResult> Delete (string id)
+        {
+            if (id == null || id.Trim().Length == 0)
+            {
+                return NotFound();
+            }
+
+            // retrieve the User from the DB
+            var userFromDb = await _colibriDbContext.ApplicationUsers.FindAsync(id);
+
+            if (userFromDb == null)
+            {
+                return NotFound();
+            }
+
+            // pass the User to the View
+            return View(userFromDb);
+        }
+
+        // POST: Method Delete User
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeletePost (string id)
+        {
+            ApplicationUser userFromDb = _colibriDbContext.ApplicationUsers
+                                                .Where(u => u.Id == id)
+                                                .FirstOrDefault();
+            // set the Lockout for the User with specific Time
+            // @param years = 100y
+            userFromDb.LockoutEnd = DateTime.Now.AddYears(100);
+
+            // save Changes
+            _colibriDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
