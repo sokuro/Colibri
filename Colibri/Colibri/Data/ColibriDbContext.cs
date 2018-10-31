@@ -1,4 +1,5 @@
 ﻿using Colibri.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,7 +11,8 @@ using System.Threading.Tasks;
 namespace Colibri.Data
 {
     // ColibriContext derived from the IdentityDbContext
-    public class ColibriDbContext : IdentityDbContext<ApplicationUser>
+    //public class ColibriDbContext : IdentityDbContext<ApplicationUser>
+    public class ColibriDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
         public ColibriDbContext(DbContextOptions<ColibriDbContext> options) : base(options)
         {
