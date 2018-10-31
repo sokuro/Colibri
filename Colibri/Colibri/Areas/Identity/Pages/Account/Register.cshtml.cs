@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Colibri.Utility;
 
 namespace Colibri.Areas.Identity.Pages.Account
 {
@@ -93,9 +94,33 @@ namespace Colibri.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     PhoneNumber = Input.PhoneNumber};
+
+                // create a new User inside the DB
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    // first check if the Role exists, if not -> create
+                    // #1: Admin
+                    if (!await _roleManager.RoleExistsAsync(StaticDetails.AdminEndUser))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(StaticDetails.AdminEndUser));
+                    }
+
+                    // #1: Super Admin
+                    if (!await _roleManager.RoleExistsAsync(StaticDetails.SuperAdminEndUser))
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole(StaticDetails.SuperAdminEndUser));
+                    }
+
+                    if (Input.IsSuperAdmin)
+                    {
+                        await _userManager.AddToRoleAsync(user, StaticDetails.SuperAdminEndUser);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, StaticDetails.AdminEndUser);
+                    }
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
