@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Models;
+using Colibri.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Colibri.Areas.Admin.Controllers
 {
-    //[Authorize(Roles = "Administrator, PowerUser")]
+    // authorize only the SuperAdminEndUser
+    [Authorize(Roles = StaticDetails.SuperAdminEndUser)]
     [Area("Admin")]
     public class CategoryTypesController : Controller
     {

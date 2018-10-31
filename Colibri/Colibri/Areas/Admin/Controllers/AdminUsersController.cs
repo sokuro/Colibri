@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Models;
+using Colibri.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Colibri.Areas.Admin.Controllers
@@ -11,6 +13,8 @@ namespace Colibri.Areas.Admin.Controllers
     /*
      * Controller to manage Application Users outside the DB
      */
+     // authorize only the SuperAdminEndUser
+    [Authorize(Roles = StaticDetails.SuperAdminEndUser)]
     [Area("Admin")]
     public class AdminUsersController : Controller
     {

@@ -7,13 +7,15 @@ using Colibri.Data;
 using Colibri.Models;
 using Colibri.Utility;
 using Colibri.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Colibri.Areas.Admin.Controllers
 {
-    //[Authorize(Roles = "Administrator, PowerUser")]
+    // authorize only the SuperAdminEndUser
+    [Authorize(Roles = StaticDetails.SuperAdminEndUser)]
     [Area("Admin")]
     public class ProductsController : Controller
     {
