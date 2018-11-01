@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,13 @@ namespace Colibri.Models
     public class Appointments
     {
         public int Id { get; set; }
+
+        // Reference to an Application User
+        [Display(Name = "Application User")]
+        public string AppPersonId { get; set; }
+        [ForeignKey("AppPersonId")]
+        public virtual ApplicationUser AppPerson { get; set; }
+
         public DateTime AppointmentDate { get; set; }
 
         //only the AppointmentDate will be added to the DB
