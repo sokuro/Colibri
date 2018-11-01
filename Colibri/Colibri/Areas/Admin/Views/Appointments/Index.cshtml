@@ -1,0 +1,68 @@
+﻿@model Colibri.ViewModels.AppointmentViewModel
+
+<!-- individual CSS -->
+@section appointments {
+    <link href="~/css/appointments.css" rel="stylesheet" />
+}
+
+<form method="get">
+    <h2 class="text-info">Appointment List</h2>
+    <div class="container">
+
+        @* Search Criteria here*@
+
+    </div>
+
+    <table class="table table-striped border">
+        <!-- the Titles Row -->
+        <tr class="table-info">
+            <th>
+                @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().AppPerson.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().AppointmentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerPhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().isConfirmed)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model.Appointments)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.AppPerson.UserName)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(m => item.AppointmentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CustomerPhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CustomerEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.isConfirmed)
+                </td>
+                <td>
+                    <partial name="_TableButtonPartial" model="item.Id" />
+                </td>
+            </tr>
+        }
+    </table>
+</form>

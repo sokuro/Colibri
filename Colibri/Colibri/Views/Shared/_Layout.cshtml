@@ -21,6 +21,7 @@
     <link href="~/css/jquery.timepicker.css" rel="stylesheet" />
     <!-- individual CSS -->
     @RenderSection("shoppingCart", false)
+    @RenderSection("appointments", false)
 </head>
 <body>
     <header class="container">
@@ -38,6 +39,7 @@
                     <!-- hide if not authorized -->
                     @if (User.IsInRole(StaticDetails.SuperAdminEndUser))
                     {
+
                         <li class="nav-item">
                             <a class="nav-link" asp-area="Admin" asp-controller="CategoryTypes" asp-action="Index">Category Types</a>
                         </li>
@@ -50,7 +52,13 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Admin Users</a>
                         </li>
+                    }
 
+                    @if (User.IsInRole(StaticDetails.SuperAdminEndUser) || User.IsInRole(StaticDetails.AdminEndUser))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin" asp-controller="Appointments" asp-action="Index">Appointments</a>
+                        </li>
                     }
 
                     <li class="nav-item">
