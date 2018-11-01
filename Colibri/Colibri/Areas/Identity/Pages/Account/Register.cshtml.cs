@@ -63,6 +63,9 @@ namespace Colibri.Areas.Identity.Pages.Account
 
             // extended Properties
             [Required]
+            public string UserName { get; set; }
+
+            [Required]
             public string FirstName { get; set; }
 
             [Required]
@@ -89,7 +92,7 @@ namespace Colibri.Areas.Identity.Pages.Account
             {
                 // extend the Properties
                 var user = new ApplicationUser {
-                    UserName = Input.Email,
+                    UserName = Input.UserName,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
@@ -137,8 +140,8 @@ namespace Colibri.Areas.Identity.Pages.Account
 
                     // redirect to the List of Users
                     // TODO
-                    //return RedirectToAction("Index", "AdminUsers", new { area = "Admin" });
-                    return RedirectToAction("Index", "AdminUsers");
+                    return RedirectToAction("Index", "AdminUsers", new { area = "Admin" });
+                    //return RedirectToAction("Index", "AdminUsers");
                 }
                 foreach (var error in result.Errors)
                 {
