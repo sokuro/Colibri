@@ -13,7 +13,6 @@ namespace Colibri.Controllers
     /*
      * Controller for the Products View
      */
-    //[Authorize(Roles = "Administrator, PowerUser")]
     [Area("Customer")]
     public class ProductsHomeController : Controller
     {
@@ -42,7 +41,6 @@ namespace Colibri.Controllers
 
         // Details POST
         [HttpPost,ActionName("Details")]
-        //[Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DetailsPost(int id)
         {

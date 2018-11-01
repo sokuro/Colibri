@@ -11,6 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Colibri
 {
+    /*
+     * Main HomeController
+     * 
+     * open without Registering
+     */
     [Area("Customer")]
     public class HomeController : Controller
     {
@@ -80,7 +85,6 @@ namespace Colibri
 
         // Show some Product Offers
         // authorize
-        //[Authorize]
         public IActionResult ShowProductOffers()
         {
             return View();

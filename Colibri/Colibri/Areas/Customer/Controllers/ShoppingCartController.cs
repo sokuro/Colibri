@@ -12,6 +12,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Colibri.Areas.Customer.Controllers
 {
+    /*
+     * Controller of the ordered Items in the Shopping Cart
+     */
     [Area("Customer")]
     public class ShoppingCartController : Controller
     {
@@ -85,7 +88,6 @@ namespace Colibri.Areas.Customer.Controllers
         // create an Appointment
         [HttpPost, ActionName("Index")]
         [ValidateAntiForgeryToken]
-        //[Authorize]
         public IActionResult IndexPost()
         {
             // check first, if anything exists in the Session
