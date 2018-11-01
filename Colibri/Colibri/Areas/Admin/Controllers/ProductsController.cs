@@ -14,7 +14,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Colibri.Areas.Admin.Controllers
 {
-    // authorize only the SuperAdminEndUser
+    /*
+     * Controller to handle the Products
+     * 
+     * authorize only the SuperAdminEndUser
+     */
     [Authorize(Roles = StaticDetails.SuperAdminEndUser)]
     [Area("Admin")]
     public class ProductsController : Controller
@@ -44,8 +48,6 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Action Method Create
         // pass the ViewModel for the DropDown Functionality of the Category Types and Special Tags
-        [HttpGet("Products/Create")]
-        //[Authorize]
         public IActionResult Create()
         {
             return View(ProductsViewModel);
@@ -53,8 +55,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Post: /<controller>/Create
         // ViewModel bound automatically
-        [HttpPost("Products/Create"),ActionName("Create")]
-        //[Authorize]
+        [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost()
         {
@@ -122,8 +123,6 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Get: /<controller>/Edit
-        [HttpGet]
-        //[Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -146,7 +145,6 @@ namespace Colibri.Areas.Admin.Controllers
         // Post: /<controller>/Edit
         // @param Category
         [HttpPost, ActionName("Edit")]
-        //[Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPost(int id)
         {
@@ -223,7 +221,6 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Get: /<controller>/Details
-        //[Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -244,7 +241,6 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Get: /<controller>/Delete
-        //[Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -267,7 +263,6 @@ namespace Colibri.Areas.Admin.Controllers
         // Post: /<controller>/Delete
         // @param Category
         [HttpPost, ActionName("Delete")]
-        //[Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -308,6 +303,7 @@ namespace Colibri.Areas.Admin.Controllers
         {
             // List of Products
             var productList = await _colibriDbContext.Products.Include(m => m.CategoryTypes).Include(m => m.SpecialTags).ToListAsync();
+
             return View(productList);
         }
     }
