@@ -2,3 +2,7 @@
     height: 150px;
     background-color: aliceblue;
 }
+
+.col-12 > .row {
+    padding-top: 10px;
+}
