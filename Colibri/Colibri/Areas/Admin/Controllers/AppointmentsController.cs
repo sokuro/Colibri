@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Utility;
@@ -28,7 +29,13 @@ namespace Colibri.Areas.Admin.Controllers
             _colibriDbContext = colibriDbContext;
         }
 
-        public async Task<IActionResult> Index()
+        // extend the Method with the Parameters for Search:
+        // Name, Email, Phone, Date
+        public async Task<IActionResult> Index(
+            string searchName=null,
+            string searchEmail=null,
+            string searchPhone=null,
+            string searchDate=null)
         {
             // Security Claims
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
@@ -44,6 +51,32 @@ namespace Colibri.Areas.Admin.Controllers
                 Appointments = new List<Models.Appointments>()
             };
 
+            // Filter the Search Criteria
+            StringBuilder param = new StringBuilder();
+
+            param.Append("/Admin/Appointments?productPage=:");
+            param.Append("&searchName=");
+            if (searchName != null)
+            {
+                param.Append(searchName);
+            }
+            param.Append("&searchEmail=");
+            if (searchEmail != null)
+            {
+                param.Append(searchEmail);
+            }
+            param.Append("&searchPhone=");
+            if (searchPhone != null)
+            {
+                param.Append(searchPhone);
+            }
+            param.Append("&searchDate=");
+            if (searchDate != null)
+            {
+                param.Append(searchDate);
+            }
+
+
             // include the Appointments Person (populate it)
             appointmentViewModel.Appointments = _colibriDbContext.Appointments
                                                     .Include(a => a.AppPerson).ToList();
@@ -55,6 +88,33 @@ namespace Colibri.Areas.Admin.Controllers
                 appointmentViewModel.Appointments = appointmentViewModel.Appointments
                                                         .Where(a => a.AppPersonId == claim.Value)
                                                         .ToList();
+            }
+
+            // Search Conditions
+            if (searchName != null)
+            {
+                appointmentViewModel.Appointments = appointmentViewModel.Appointments.Where(a => a.CustomerName.ToLower().Contains(searchName.ToLower())).ToList();
+            }
+            if (searchEmail != null)
+            {
+                appointmentViewModel.Appointments = appointmentViewModel.Appointments.Where(a => a.CustomerEmail.ToLower().Contains(searchEmail.ToLower())).ToList();
+            }
+            if (searchPhone != null)
+            {
+                appointmentViewModel.Appointments = appointmentViewModel.Appointments.Where(a => a.CustomerPhoneNumber.ToLower().Contains(searchPhone.ToLower())).ToList();
+            }
+            if (searchDate != null)
+            {
+                try
+                {
+                    DateTime appDate = Convert.ToDateTime(searchDate);
+                    appointmentViewModel.Appointments = appointmentViewModel.Appointments.Where(a => a.AppointmentDate.ToShortDateString().Equals(appDate.ToShortDateString())).ToList();
+                }
+                catch (Exception ex)
+                {
+
+                }
+
             }
 
             // return the View Model for the Appointments
