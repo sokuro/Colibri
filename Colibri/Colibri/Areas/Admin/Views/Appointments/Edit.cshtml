@@ -1,0 +1,112 @@
+﻿@model Colibri.ViewModels.AppointmentDetailsViewModel
+@using Colibri.Extensions
+@using Colibri.Utility
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2 class="text-info">Edit Appointments</h2>
+
+<!-- for Images: enctype="multipart/form-data" -->
+<form method="post" enctype="multipart/form-data" asp-action="Edit">
+    <div class="p-4 border rounded row">
+        <!-- hidden Property needed -->
+        <input hidden asp-for="Appointment.Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Product Properties -->
+        <div class="col-6">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Appointment.CustomerName"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Appointment.CustomerName" class="form-control" />
+                </div>
+                <span asp-validation-for="Appointment.CustomerName" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Appointment.CustomerEmail"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Appointment.CustomerEmail" class="form-control" />
+                </div>
+                <span asp-validation-for="Appointment.CustomerEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Appointment.AppointmentDate"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Appointment.AppointmentDate" id="datepicker" type="text" class="form-control" />
+                </div>
+                <span asp-validation-for="Appointment.AppointmentDate" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Appointment.AppointmentTime"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Appointment.AppointmentTime" id="timepicker" type="text" class="timepicker form-control" />
+                </div>
+                <span asp-validation-for="Appointment.AppointmentTime" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Appointment.CustomerPhoneNumber"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Appointment.CustomerPhoneNumber" class="form-control" />
+                </div>
+                <span asp-validation-for="Appointment.CustomerPhoneNumber" class="text-danger"></span>
+            </div>
+
+            <!-- AppPerson -->
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Appointment.AppPerson"></label>
+                </div>
+                <div class="col-8">
+                    @*@if (User.IsInRole(StaticDetails.AdminEndUser))
+                                                {
+                                                    <input asp-for="@Model.Appointment." readonly class="form-control" />
+                                                    <input asp-for="@Model.Appointment.AppPersonId" hidden />
+
+                                                }
+                                                else
+                                                {
+                                                    <select asp-for="@Model.Appointment.AppPersonId" asp-items="Model.AppPerson.ToSelectListItemString(Model.Appointment.AppPersonId)" class="form-control"></select>
+
+                        }*@
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Appointment.isConfirmed"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Appointment.isConfirmed" class="form-control" />
+                </div>
+            </div>
+            <!-- END: Product Properties -->
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-6">
+            @* Partial View *@
+            <partial name="~/Views/Shared/_AppointmentProductDetails.cshtml" model="Model.Products" />
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="Update" />
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
