@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Colibri.Data;
+using Colibri.Models;
 using Colibri.Utility;
 using Colibri.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -119,6 +120,38 @@ namespace Colibri.Areas.Admin.Controllers
 
             // return the View Model for the Appointments
             return View(appointmentViewModel);
+        }
+
+        // Get: Method Edit Appointment
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // retrieve IEnumerable of Products as List
+            // JOIN Tables
+            var productList = (IEnumerable<Products>)(from p in _colibriDbContext.Products
+                                                      join a in _colibriDbContext.ProductsSelectedForAppointment
+                                                      on p.Id equals a.ProductId
+                                                      where a.AppointmentId == id
+                                                      select p).Include("CategoryTypes");
+
+            // use the ViewModel
+            AppointmentDetailsViewModel objAppointmentVM = new AppointmentDetailsViewModel()
+            {
+                // retrieve the Appointment from the DB
+                Appointment = _colibriDbContext.Appointments.Include(a => a.AppPerson).Where(a => a.Id == id).FirstOrDefault(),
+                // get the Application User List
+                AppPerson = _colibriDbContext.ApplicationUsers.ToList(),
+                // get the List of all Products
+                Products = productList.ToList()
+            };
+
+            // return the ViewModel
+            return View(objAppointmentVM);
+
         }
     }
 }
