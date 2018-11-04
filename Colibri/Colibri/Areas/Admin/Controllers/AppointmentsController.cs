@@ -194,5 +194,40 @@ namespace Colibri.Areas.Admin.Controllers
             // return View
             return View(appointmentViewModel);
         }
+
+        // Get: Method Details Appointment
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // retrieve IEnumerable of Products as List
+            // JOIN Tables
+            var productList = (IEnumerable<Products>)(from p in _colibriDbContext.Products
+                                                      join a in _colibriDbContext.ProductsSelectedForAppointment
+                                                      on p.Id equals a.ProductId
+                                                      where a.AppointmentId == id
+                                                      select p).Include("CategoryTypes");
+
+            // use the ViewModel
+            AppointmentDetailsViewModel appointmentViewModel = new AppointmentDetailsViewModel()
+            {
+                // retrieve the Appointment from the DB
+                Appointment = _colibriDbContext.Appointments
+                                    .Include(a => a.AppPerson)
+                                    .Where(a => a.Id == id)
+                                    .FirstOrDefault(),
+                // get the Application User List
+                AppPerson = _colibriDbContext.ApplicationUsers.ToList(),
+                // get the List of all Products
+                Products = productList.ToList()
+            };
+
+            // return the ViewModel
+            return View(appointmentViewModel);
+
+        }
     }
 }
