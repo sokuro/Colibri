@@ -15,49 +15,49 @@
     <div class="col-6">
         <div class="form-group row">
             <div class="col-4">
-                <label asp-for="@Model.Appointment.CustomerName"></label>
+                <label asp-for="Appointment.CustomerName"></label>
             </div>
             <div class="col-8">
-                <input asp-for="@Model.Appointment.CustomerName" disabled class="form-control" />
+                <input asp-for="Appointment.CustomerName" disabled class="form-control" />
             </div>
         </div>
         <div class="form-group row">
             <div class="col-4">
-                <label asp-for="@Model.Appointment.CustomerEmail"></label>
+                <label asp-for="Appointment.CustomerEmail"></label>
             </div>
             <div class="col-8">
-                <input asp-for="@Model.Appointment.CustomerEmail" class="form-control" />
+                <input asp-for="Appointment.CustomerEmail" class="form-control" />
             </div>
         </div>
         <div class="form-group row">
             <div class="col-4">
-                <label asp-for="@Model.Appointment.AppointmentDate"></label>
+                <label asp-for="Appointment.AppointmentDate"></label>
             </div>
             <div class="col-8">
-                <input asp-for="@Model.Appointment.AppointmentDate" type="text" disabled class="form-control" />
+                <input asp-for="Appointment.AppointmentDate" type="text" disabled class="form-control" />
             </div>
         </div>
         <div class="form-group row">
             <div class="col-4">
-                <label asp-for="@Model.Appointment.AppointmentTime"></label>
+                <label asp-for="Appointment.AppointmentTime"></label>
             </div>
             <div class="col-8">
-                <input asp-for="@Model.Appointment.AppointmentTime" type="text" disabled class="timepicker form-control" />
+                <input asp-for="Appointment.AppointmentTime" type="text" disabled class="timepicker form-control" />
             </div>
         </div>
         <div class="form-group row">
             <div class="col-4">
-                <label asp-for="@Model.Appointment.CustomerPhoneNumber"></label>
+                <label asp-for="Appointment.CustomerPhoneNumber"></label>
             </div>
             <div class="col-8">
-                <input asp-for="@Model.Appointment.CustomerPhoneNumber" disabled class="form-control" />
+                <input asp-for="Appointment.CustomerPhoneNumber" disabled class="form-control" />
             </div>
         </div>
 
         <!-- AppPerson -->
         <div class="form-group row">
             <div class="col-4">
-                <label asp-for="@Model.Appointment.AppPerson"></label>
+                <label asp-for="Appointment.AppPerson"></label>
             </div>
             <div class="col-8">
                 @if (User.IsInRole(StaticDetails.AdminEndUser))
@@ -73,10 +73,10 @@
         </div>
         <div class="form-group row">
             <div class="col-4">
-                <label asp-for="@Model.Appointment.isConfirmed"></label>
+                <label asp-for="Appointment.isConfirmed"></label>
             </div>
             <div class="col-8">
-                <input asp-for="@Model.Appointment.isConfirmed" disabled class="form-control" />
+                <input asp-for="Appointment.isConfirmed" disabled class="form-control" />
             </div>
         </div>
         <!-- END: Product Properties -->

@@ -60,12 +60,12 @@
                 <div class="col-8">
                     @if (User.IsInRole(StaticDetails.AdminEndUser))
                     {
-                        <input asp-for="@Model.Appointment.AppPerson.UserName" readonly class="form-control" />
-                        <input asp-for="@Model.Appointment.AppPersonId" hidden />
+                        <input asp-for="Appointment.AppPerson.UserName" readonly class="form-control" />
+                        <input asp-for="Appointment.AppPersonId" hidden />
                     }
                     else
                     {
-                        <select asp-for="@Model.Appointment.AppPersonId" disabled asp-items="Model.AppPerson.ToSelectListItemString(Model.Appointment.AppPersonId)" class="form-control"></select>
+                        <select asp-for="Appointment.AppPersonId" disabled asp-items="Model.AppPerson.ToSelectListItemString(Model.Appointment.AppPersonId)" class="form-control"></select>
                     }
                 </div>
             </div>
