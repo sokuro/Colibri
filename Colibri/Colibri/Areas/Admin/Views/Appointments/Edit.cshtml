@@ -69,17 +69,15 @@
                     <label asp-for="Appointment.AppPerson"></label>
                 </div>
                 <div class="col-8">
-                    @*@if (User.IsInRole(StaticDetails.AdminEndUser))
-                                                {
-                                                    <input asp-for="@Model.Appointment." readonly class="form-control" />
-                                                    <input asp-for="@Model.Appointment.AppPersonId" hidden />
-
-                                                }
-                                                else
-                                                {
-                                                    <select asp-for="@Model.Appointment.AppPersonId" asp-items="Model.AppPerson.ToSelectListItemString(Model.Appointment.AppPersonId)" class="form-control"></select>
-
-                        }*@
+                    @if (User.IsInRole(StaticDetails.AdminEndUser))
+                    {
+                        <input asp-for="Appointment.AppPerson.UserName" readonly class="form-control" />
+                        <input asp-for="Appointment.AppPersonId" hidden />
+                    }
+                    else
+                    {
+                        <select asp-for="Appointment.AppPersonId" asp-items="Model.AppPerson.ToSelectListItemString(Model.Appointment.AppPersonId)" class="form-control"></select>
+                    }
                 </div>
             </div>
             <div class="form-group row">
@@ -101,7 +99,7 @@
 
         <!-- Buttons -->
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Update" />
+            <input type="submit" class="btn btn-primary" asp-route-id="Appointment.Id" value="Update" />
             <a asp-action="Index" class="btn btn-success">Back to List</a>
         </div>
     </div>
