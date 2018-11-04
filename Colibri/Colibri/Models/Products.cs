@@ -20,8 +20,8 @@ namespace Colibri.Models
         /*
          * Foreign References
          */
-        // #1 Product Type
-        [Display(Name = "Product Type")]
+        // #1 Category Type
+        [Display(Name = "Category Type")]
         public int CategoryTypeId { get; set; }
 
         // 1 Product = 1 Category Type
