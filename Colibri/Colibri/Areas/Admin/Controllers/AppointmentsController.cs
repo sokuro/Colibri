@@ -153,5 +153,46 @@ namespace Colibri.Areas.Admin.Controllers
             return View(objAppointmentVM);
 
         }
+
+        // POST: Method Edit Appointment
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, AppointmentDetailsViewModel appointmentViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // combine the Appointment Date and Time (inside the Appointment Date)
+                appointmentViewModel.Appointment.AppointmentDate = appointmentViewModel.Appointment.AppointmentDate
+                                                                        .AddHours(appointmentViewModel.Appointment.AppointmentTime.Hour)
+                                                                        .AddMinutes(appointmentViewModel.Appointment.AppointmentTime.Minute);
+
+                // retrieve the Appointment Object from the DB
+                var appointmentFromDb = _colibriDbContext.Appointments
+                                            .Where(a => a.Id == appointmentViewModel.Appointment.Id)
+                                            .FirstOrDefault();
+
+                // update individual Properties
+                appointmentFromDb.CustomerName = appointmentViewModel.Appointment.CustomerName;
+                appointmentFromDb.CustomerEmail = appointmentViewModel.Appointment.CustomerEmail;
+                appointmentFromDb.CustomerPhoneNumber = appointmentViewModel.Appointment.CustomerPhoneNumber;
+                appointmentFromDb.AppointmentDate = appointmentViewModel.Appointment.AppointmentDate;
+                appointmentFromDb.isConfirmed = appointmentViewModel.Appointment.isConfirmed;
+
+                // only the SuperAdmin can change this Information
+                if (User.IsInRole(StaticDetails.SuperAdminEndUser))
+                {
+                    appointmentFromDb.AppPersonId = appointmentViewModel.Appointment.AppPersonId;
+                }
+
+                // save into the DB
+                _colibriDbContext.SaveChanges();
+
+                // redirect
+                return RedirectToAction(nameof(Index));
+            }
+
+            // return View
+            return View(appointmentViewModel);
+        }
     }
 }
