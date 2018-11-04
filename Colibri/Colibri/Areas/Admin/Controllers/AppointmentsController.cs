@@ -262,6 +262,21 @@ namespace Colibri.Areas.Admin.Controllers
             // return the ViewModel
             return View(appointmentViewModel);
         }
+
+        // POST: Delete Action Method
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            // get an Appointment from the DB
+            var appointment = await _colibriDbContext.Appointments.FindAsync(id);
+
+            _colibriDbContext.Appointments.Remove(appointment);
+
+            await _colibriDbContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 
 }
