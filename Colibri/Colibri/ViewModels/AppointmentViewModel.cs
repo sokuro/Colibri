@@ -14,5 +14,8 @@ namespace Colibri.ViewModels
     {
         // List of Appointments
         public List<Appointments> Appointments { get; set; }
+
+        // Custom Pagination
+        public PagingInfo PagingInfo { get; set; }
     }
 }
