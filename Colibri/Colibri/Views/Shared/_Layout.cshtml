@@ -11,17 +11,35 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    <link href="~/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-    <link href="~/css/index.css" rel="stylesheet" />
-    <link href="~/css/products.css" rel="stylesheet" />
-    <!-- Date and Time Pickers -->
-    <link href="~/css/jquery-ui.css" rel="stylesheet" />
-    <link href="~/css/jquery.timepicker.css" rel="stylesheet" />
-    <!-- individual CSS -->
-    @RenderSection("shoppingCart", false)
-    @RenderSection("appointments", false)
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+        <!-- Date and Time Pickers -->
+        <link rel="stylesheet" href="~/css/jquery-ui.css" />
+        <link rel="stylesheet" href="~/css/jquery.timepicker.css" />
+        <!-- Custom CSS -->
+        <link href="~/css/index.css" rel="stylesheet" />
+        <link href="~/css/products.css" rel="stylesheet" />
+        <!-- individual CSS -->
+        @RenderSection("shoppingCart", false)
+        @RenderSection("appointments", false)
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+        <!-- Date and Time Pickers -->
+        <link rel="stylesheet" href="~/css/jquery-ui.css" />
+        <link rel="stylesheet" href="~/css/jquery.timepicker.css" />
+        <!-- Custom CSS -->
+        <link href="~/css/index.css" rel="stylesheet" />
+        <link href="~/css/products.css" rel="stylesheet" />
+        <!-- individual CSS -->
+        @RenderSection("shoppingCart", false)
+        @RenderSection("appointments", false)
+    </environment>
+
 </head>
 <body>
     <header class="container">
@@ -71,17 +89,17 @@
                         <a class="nav-link" asp-area="Customer" asp-controller="About" asp-action="">About</a>
                     </li>
                     @*@if (User.Identity.IsAuthenticated)
-        {
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
-            </li>
-        }
-        else
-        {
-            <li class="nav-item">
-                <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
-            </li>
-        }*@
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        }*@
 
                     <!-- handle Session: Values in the Session -->
                     @if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart") != null)
@@ -130,16 +148,25 @@
         </div>
     </footer>
 
-    @*<script src="~/node_modules/jquery/dist/jquery.js"></script>
-    <script src="~/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <!-- asp-append-version  -->
+        <script src="~/js/index.js" asp-append-version="true"></script>
+        <script src="~/js/jquery-ui.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.timepicker.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <!-- asp-append-version  -->
+        <script src="~/js/index.js" asp-append-version="true"></script>
+        <script src="~/js/jquery-ui.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.timepicker.js" asp-append-version="true"></script>
+    </environment>
 
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-
-    <!-- asp-append-version  -->
-    <script src="~/js/index.js" asp-append-version="true"></script>
-    <script src="~/js/jquery-ui.js" asp-append-version="true"></script>
-    <script src="~/js/jquery.timepicker.js" asp-append-version="true"></script>
     @RenderSection("scripts", false)
 </body>
 </html>
