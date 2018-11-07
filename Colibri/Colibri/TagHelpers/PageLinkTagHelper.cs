@@ -12,17 +12,21 @@ using System.Threading.Tasks;
 
 namespace Colibri.TagHelpers
 {
-
+    /*
+     * Custom Tag Helper Main Class
+     */
     [HtmlTargetElement("div", Attributes = "page-model")]
     public class PageLinkTagHelper : TagHelper
     {
         private IUrlHelperFactory urlHelperFactory;
 
+        // using Helper Factory
         public PageLinkTagHelper(IUrlHelperFactory helperFactory)
         {
             urlHelperFactory = helperFactory;
         }
 
+        // ViewContext-Object provides Access to Http (Request, Context, Response etc.)
         [ViewContext]
         [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
@@ -34,11 +38,14 @@ namespace Colibri.TagHelpers
         public string PageClassNormal { get; set; }
         public string PageClassSelected { get; set; }
 
+        // overriding the existing Method
+        // add Pagination to the Output
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
             TagBuilder result = new TagBuilder("div");
 
+            // for each Page there will be added a Page Number
             for (int i = 1; i <= PageModel.totalPage; i++)
             {
                 TagBuilder tag = new TagBuilder("a");
