@@ -65,58 +65,70 @@
         </div>
     </div>
 
-    <table class="table table-striped border">
-        <!-- the Titles Row -->
-        <tr class="table-info">
-            <th>
-                @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().AppPerson.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().AppointmentDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerPhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().isConfirmed)
-            </th>
-            <th></th>
-            <th></th>
-        </tr>
-        @foreach (var item in Model.Appointments)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(m => item.AppPerson.UserName)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(m => item.AppointmentDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.CustomerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.CustomerPhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.CustomerEmail)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.isConfirmed)
-                </td>
-                <td>
-                    <partial name="_TableButtonPartial" model="item.Id" />
-                </td>
+    <div>
+        <table class="table table-striped border">
+            <!-- the Titles Row -->
+            <tr class="table-info">
+                <th>
+                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().AppPerson.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().AppointmentDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerPhoneNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerEmail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().isConfirmed)
+                </th>
+                <th></th>
+                <th></th>
             </tr>
-        }
-    </table>
+            @foreach (var item in Model.Appointments)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.AppPerson.UserName)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(m => item.AppointmentDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CustomerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CustomerPhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CustomerEmail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.isConfirmed)
+                    </td>
+                    <td>
+                        <partial name="_TableButtonPartial" model="item.Id" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div page-model="@Model.PagingInfo"
+            page-action="Index"
+            page-classes-enabled="true"
+            page-class="btn border"
+            page-class-normal="btn btn-default active"
+            page-class-selected="btn btn-primary active"
+            class="btn-group m-1">
+    </div>
 </form>
 
 <!-- adding Scripts -->
