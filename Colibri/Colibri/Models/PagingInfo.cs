@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Colibri.Models
 {
+    /*
+     * Custom Tag Helper Class for the Pagination of Table Elements
+     * 
+     * required to access the Properties of the Model
+     */
     public class PagingInfo
     {
         public int TotalItems { get; set; }
@@ -15,7 +20,7 @@ namespace Colibri.Models
 
         public int totalPage => (int)Math.Ceiling((decimal)TotalItems / ItemsPerPage);
 
-        //This will be used to build URL
+        // used to build URL
         public string urlParam { get; set; }
     }
 }
