@@ -25,6 +25,9 @@ namespace Colibri.Areas.Admin.Controllers
     {
         private readonly ColibriDbContext _colibriDbContext;
 
+        // PageSize (for the Pagination: 5 Appointments/Page)
+        private int PageSize = 4;
+
         public AppointmentsController(ColibriDbContext colibriDbContext)
         {
             _colibriDbContext = colibriDbContext;
@@ -33,6 +36,7 @@ namespace Colibri.Areas.Admin.Controllers
         // extend the Method with the Parameters for Search:
         // Name, Email, Phone, Date
         public async Task<IActionResult> Index(
+            int productPage = 1,
             string searchName=null,
             string searchEmail=null,
             string searchPhone=null,
@@ -53,8 +57,10 @@ namespace Colibri.Areas.Admin.Controllers
             };
 
             // Filter the Search Criteria
+            // (Pagination Number remains the same)
             StringBuilder param = new StringBuilder();
-
+            // set the default url for the Pagination
+            // append search Properties
             param.Append("/Admin/Appointments?productPage=:");
             param.Append("&searchName=");
             if (searchName != null)
@@ -115,8 +121,28 @@ namespace Colibri.Areas.Admin.Controllers
                 {
 
                 }
-
             }
+
+            // Pagination
+            // count Appointments alltogether
+            var count = appointmentViewModel.Appointments.Count;
+
+            // Iterate and Filter Appointments
+            // fetch the right Record (if on the 2nd Page, skip the first 3 (if PageSize=3) and continue on the next Page)
+            appointmentViewModel.Appointments = appointmentViewModel.Appointments
+                                                    .OrderBy(p => p.AppointmentDate)
+                                                    .Skip((productPage - 1) * PageSize)
+                                                    .Take(PageSize).ToList();
+
+            // populate the PagingInfo Model
+            // StringBuilder
+            appointmentViewModel.PagingInfo = new PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItems = count,
+                urlParam = param.ToString()
+            };
 
             // return the View Model for the Appointments
             return View(appointmentViewModel);
