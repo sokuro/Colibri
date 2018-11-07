@@ -49,18 +49,25 @@ namespace Colibri.TagHelpers
             for (int i = 1; i <= PageModel.totalPage; i++)
             {
                 TagBuilder tag = new TagBuilder("a");
+                // replace the Tags (with i)
                 string url = PageModel.urlParam.Replace(":", i.ToString());
                 tag.Attributes["href"] = url;
+
+                // if CSS enabled
                 if (PageClassesEnabled)
                 {
                     tag.AddCssClass(PageClass);
                     tag.AddCssClass(i == PageModel.CurrentPage ? PageClassSelected : PageClassNormal);
                 }
+
+                // append the Tag to (inner) Html
                 tag.InnerHtml.Append(i.ToString());
                 result.InnerHtml.AppendHtml(tag);
             }
+
+            // append the whole Result to the Html
             output.Content.AppendHtml(result.InnerHtml);
         }
-
     }
+
 }
