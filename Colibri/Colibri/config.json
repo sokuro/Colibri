@@ -8,9 +8,10 @@
       "Default": "Warning"
     }
   },
-  "Tokens": {
-    "Key": "testKeysnfklansfdlksanfklnaslfdkkslfm",
-    "Issuer": "localhost",
-    "Audience": "users"
-  }
+  //"Tokens": {
+  //  "Key": "testKeysnfklansfdlksanfklnaslfdkkslfm",
+  //  "Issuer": "localhost",
+  //  "Audience": "users"
+  //}
+  "AllowedHosts":  "*"
 }
