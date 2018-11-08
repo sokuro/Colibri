@@ -45,7 +45,7 @@ namespace Colibri
             if (ModelState.IsValid)
             {
                 // Send the notification email
-                _mailService.SendMessage("test@test.com", model.Subject, $"From: {model.Name} - {model.Email}, Message: {model.Message}");
+                _mailService.SendMessage("sokuro@yacrol.com", model.Subject, $"From: {model.Name} - {model.Email}, Message: {model.Message}");
                 ViewBag.UserMessage = "Message sent";
                 ModelState.Clear();
             }
