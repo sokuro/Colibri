@@ -16,6 +16,16 @@ namespace Colibri.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
+                //services.AddDbContext<ColibriDbContext>(options =>
+                //options.UseSqlServer(
+                //    context.Configuration.GetConnectionString("Colibri")));
+
+                //services.AddDefaultIdentity<IdentityUser>(config =>
+                //{
+                //    // User can NOT post any Data on the Site without confirming the Email
+                //    config.SignIn.RequireConfirmedEmail = true;
+                //})
+                //    .AddEntityFrameworkStores<ColibriDbContext>();
             });
         }
     }
