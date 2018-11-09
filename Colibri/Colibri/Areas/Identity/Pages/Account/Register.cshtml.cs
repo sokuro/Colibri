@@ -137,11 +137,14 @@ namespace Colibri.Areas.Identity.Pages.Account
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
+                    // prevent newly registered Users from being automatically logged on
+                    await _signInManager.SignInAsync(user, isPersistent: false);
 
                     // redirect to the List of Users
                     // TODO
                     return RedirectToAction("Index", "AdminUsers", new { area = "Admin" });
                     //return RedirectToAction("Index", "AdminUsers");
+                    //return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)
                 {
