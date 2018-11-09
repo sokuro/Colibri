@@ -84,7 +84,7 @@ namespace Colibri
             services.Configure<AuthMessageSenderOptions>(_configuration);
 
             // fill the DB with Entries
-            services.AddTransient<ColibriSeeder>();
+            //services.AddTransient<ColibriSeeder>();
 
             // Repository Layer between the actual DB
             // #1: User can use the IColibriRepository
