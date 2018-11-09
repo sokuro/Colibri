@@ -80,6 +80,9 @@ namespace Colibri
             // Adding Email Service using Core 2.1 IEmailSender Interface
             services.AddTransient<IEmailSender, EmailSender>();
 
+            // register the AuthMessageSenderOptions Instance
+            services.Configure<AuthMessageSenderOptions>(_configuration);
+
             // fill the DB with Entries
             services.AddTransient<ColibriSeeder>();
 
