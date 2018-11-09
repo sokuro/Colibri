@@ -129,7 +129,7 @@ namespace Colibri
             app.UseStaticFiles();
 
             // #2: Instance to serve Files from the /node_modules
-            app.UseNodeModules(env.ContentRootPath);
+            //app.UseNodeModules(env.ContentRootPath);
 
             // #3.5 (later implemented) enables Identity Service
             app.UseAuthentication();
