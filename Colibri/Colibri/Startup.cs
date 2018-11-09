@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Colibri
 {
@@ -75,6 +76,9 @@ namespace Colibri
 
             // Adding IMailService
             services.AddTransient<IMailService, NullMailService>();
+
+            // Adding Email Service using Core 2.1 IEmailSender Interface
+            services.AddTransient<IEmailSender, EmailSender>();
 
             // fill the DB with Entries
             services.AddTransient<ColibriSeeder>();
