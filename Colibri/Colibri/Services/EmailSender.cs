@@ -26,6 +26,7 @@ namespace Colibri.Services
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
+            // TODO: use the Cross-Plattform Solution for the API Key
             // get the Environment Secret Variable
             var apiKey = Environment.GetEnvironmentVariable("ENV_VARIABLE_COLIBRI");
             //return Execute(Options.SendGridKey, subject, message, email);
