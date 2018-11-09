@@ -14,7 +14,7 @@ using Colibri.Utility;
 
 namespace Colibri.Areas.Identity.Pages.Account
 {
-    [Authorize(Roles = StaticDetails.SuperAdminEndUser)]
+    //[Authorize(Roles = StaticDetails.SuperAdminEndUser)]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
