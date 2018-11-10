@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace Colibri.Extensions
 {
-    // Extension Method to manipulate Methods
-    // Convert List -> IEnumerable<Item>
+    /*
+     * Extension Method to manipulate Methods
+     * Convert List -> IEnumerable<Item>
+     * 
+     * use: e.g. CRUD on Products
+     */
     public static class IEnumerableExtensions
     {
         // return Value as IEnumerable (Rendering)
@@ -28,9 +32,15 @@ namespace Colibri.Extensions
                    };
         }
 
-        // because the AppPerson has EMail as ID, implemented Method to handle Strings
-        // 1st Argument <IEnumerable>
-        // 2nd Argument as String
+        /*
+         * Extension Method to manipulate Methods
+         * 
+         * because the AppPerson has EMail as ID, implemented Method to handle Strings
+         * 1st Argument <IEnumerable>
+         * 2nd Argument as String
+         * 
+         * used: e.g. Appointments with SuperAdmin
+         */
         public static IEnumerable<SelectListItem> ToSelectListItemString<T>(this IEnumerable<T> items, string selectedValue)
         {
             if (selectedValue == null)
@@ -44,7 +54,7 @@ namespace Colibri.Extensions
                    select new SelectListItem
                    {
                        // to retrieve the Name Property from the Collection -> another ExtMethod: 'ReflectionExtension'
-                       Text = item.GetPropertyValue("Name"),
+                       Text = item.GetPropertyValue("UserName"),
                        Value = item.GetPropertyValue("Id"),
                        Selected = item.GetPropertyValue("Id").Equals(selectedValue.ToString()),
                    };
