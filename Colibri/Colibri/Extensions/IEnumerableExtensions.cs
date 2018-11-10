@@ -22,7 +22,7 @@ namespace Colibri.Extensions
                    select new SelectListItem
                    {
                        // to retrieve the Name Property from the Collection -> another ExtMethod: 'ReflectionExtension'
-                       Text = item.GetPropertyValue("UserName"),
+                       Text = item.GetPropertyValue("Name"),
                        Value = item.GetPropertyValue("Id"),
                        Selected = item.GetPropertyValue("Id").Equals(selectedValue.ToString()),
                    };
@@ -44,7 +44,7 @@ namespace Colibri.Extensions
                    select new SelectListItem
                    {
                        // to retrieve the Name Property from the Collection -> another ExtMethod: 'ReflectionExtension'
-                       Text = item.GetPropertyValue("UserName"),
+                       Text = item.GetPropertyValue("Name"),
                        Value = item.GetPropertyValue("Id"),
                        Selected = item.GetPropertyValue("Id").Equals(selectedValue.ToString()),
                    };
