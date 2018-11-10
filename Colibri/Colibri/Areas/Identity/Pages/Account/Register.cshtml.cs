@@ -45,6 +45,11 @@ namespace Colibri.Areas.Identity.Pages.Account
         // Input Model used for Razor Page
         public class InputModel
         {
+            // UserName necessary for the PasswordSignInAsync() Method
+            [Required]
+            [Display(Name = "User Name")]
+            public string UserName { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -62,9 +67,6 @@ namespace Colibri.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             // extended Properties
-            [Required]
-            public string UserName { get; set; }
-
             [Required]
             public string FirstName { get; set; }
 
