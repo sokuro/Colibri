@@ -1,0 +1,37 @@
+﻿.container {
+    height: 150px;
+    background-color: aliceblue;
+}
+
+.col-12 > .row {
+    padding-top: 10px;
+}
+
+appointment-product-details > .table.table-striped {
+    width: 50%;
+}
+
+appointment-product-details > .table-info {
+    text-align: center;
+}
+
+appointment-product-details > #imageRowHeader {
+    width: 20%;
+}
+
+appointment-product-details > .table-content {
+    padding: 50px;
+}
+
+appointment-product-details > #imageContent > a > img {
+    width: 100%;
+    max-width: 100%;
+    margin: auto;
+    display: block;
+    border-radius: 5px;
+    border: 1px solid #bbb9b9;
+}
+
+appointment-product-details > .tableContentColumn {
+    text-align: center;
+}
