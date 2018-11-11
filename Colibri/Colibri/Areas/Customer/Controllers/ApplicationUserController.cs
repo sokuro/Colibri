@@ -38,6 +38,9 @@ namespace Colibri.Areas.Customer.Controllers
                 ApplicationUsers = new List<Models.ApplicationUser>()
             };
 
+            // populate the List
+            applicationUserViewModel.ApplicationUsers = _colibriDbContext.ApplicationUsers.ToList();
+
             // return the List of registered Application Users
             return View(applicationUserViewModel);
         }
