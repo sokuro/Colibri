@@ -15,6 +15,74 @@
         </div>
     </div>
 
+    <!-- Search -->
+    <div class="container">
+        <div class="col-12">
+            <!-- 1st row -->
+            <div class="row">
+                <div class="col-2">
+                    User Name
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <!-- empty column -->
+                <div class="col-2">
+                </div>
+
+                <div class="col-2">
+                    First Name
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchFirstName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <!-- END: 1st row -->
+            </div>
+
+            <!-- 2nd row -->
+            <div class="row">
+                <div class="col-2">
+                </div>
+                <div class="col-3">
+                </div>
+
+                <!-- empty column -->
+                <div class="col-2">
+                </div>
+
+                <div class="col-2">
+                    Last Name
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchLastName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+
+            <!-- Search row -->
+            <div class="row">
+                <div class="col-2">
+                </div>
+                <div class="col-3">
+                </div>
+                <div class="col-2">
+
+                </div>
+                <div class="col-2">
+                </div>
+                <div class="col-3">
+                    <button type="submit" name="submit" value="Search" class="btn btn-primary form-control">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            <!-- END: Search row -->
+            </div>
+        </div>
+    <!-- END: Search -->
+    </div>
+
+    <br />
+
     <div>
         <table class="table table-striped border">
 
