@@ -26,7 +26,19 @@ namespace Colibri.Controllers
             _colibriDbContext = colibriDbContext;
         }
 
-        // Details View
+        // Entry (Index) View
+        public async Task<IActionResult> Index()
+        {
+            //var productList = _repository.GetAllProductsAsync();
+            var productList = await _colibriDbContext.Products
+                    .Include(p => p.CategoryTypes)
+                    .Include(p => p.SpecialTags)
+                    .ToListAsync();
+
+            return View(productList);
+        }
+
+        // Details View GET
         public async Task<IActionResult> Details(int id)
         {
             // get the individual Product
@@ -84,16 +96,5 @@ namespace Colibri.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Entry View
-        public async Task<IActionResult> Index()
-        {
-            //var productList = _repository.GetAllProductsAsync();
-            var productList = await _colibriDbContext.Products
-                    .Include(p => p.CategoryTypes)
-                    .Include(p => p.SpecialTags)
-                    .ToListAsync();
-
-            return View(productList);
-        }
     }
 }
