@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Colibri.Data;
 using Colibri.Models;
 using Colibri.Utility;
 using Colibri.ViewModels;
@@ -19,6 +20,15 @@ namespace Colibri.Areas.Customer.Controllers
     [Area("Customer")]
     public class ApplicationUserController : Controller
     {
+        private readonly ColibriDbContext _colibriDbContext;
+
+        // CTOR
+        // get the Data from the DB
+        public ApplicationUserController(ColibriDbContext colibriDbContext)
+        {
+            _colibriDbContext = colibriDbContext;
+        }
+
         public IActionResult Index()
         {
             // Application User ViewModel
@@ -28,6 +38,7 @@ namespace Colibri.Areas.Customer.Controllers
                 ApplicationUsers = new List<Models.ApplicationUser>()
             };
 
+            // return the List of registered Application Users
             return View(applicationUserViewModel);
         }
     }
