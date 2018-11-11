@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Models;
@@ -29,7 +30,13 @@ namespace Colibri.Areas.Customer.Controllers
             _colibriDbContext = colibriDbContext;
         }
 
-        public IActionResult Index()
+        // extend the Method with the Parameters for Search:
+        // UserName, FirstName, LastName
+        public async Task<IActionResult> Index(
+            string searchUserName=null,
+            string searchFirstName=null,
+            string searchLastName=null
+            )
         {
             // Application User ViewModel
             ApplicationUserViewModel applicationUserViewModel = new ApplicationUserViewModel
@@ -38,8 +45,42 @@ namespace Colibri.Areas.Customer.Controllers
                 ApplicationUsers = new List<Models.ApplicationUser>()
             };
 
+            // Filter the Search Criteria
+            StringBuilder param = new StringBuilder();
+
+            param.Append("/Admin/Appointments?productPage=:");
+            param.Append("&searchName=");
+            if (searchUserName != null)
+            {
+                param.Append(searchUserName);
+            }
+            param.Append("&searchEmail=");
+            if (searchFirstName != null)
+            {
+                param.Append(searchFirstName);
+            }
+            param.Append("&searchPhone=");
+            if (searchLastName != null)
+            {
+                param.Append(searchLastName);
+            }
+
             // populate the List
             applicationUserViewModel.ApplicationUsers = _colibriDbContext.ApplicationUsers.ToList();
+
+            // Search Conditions
+            if (searchUserName != null)
+            {
+                applicationUserViewModel.ApplicationUsers = applicationUserViewModel.ApplicationUsers.Where(a => a.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
+            }
+            if (searchFirstName != null)
+            {
+                applicationUserViewModel.ApplicationUsers = applicationUserViewModel.ApplicationUsers.Where(a => a.FirstName.ToLower().Contains(searchFirstName.ToLower())).ToList();
+            }
+            if (searchLastName != null)
+            {
+                applicationUserViewModel.ApplicationUsers = applicationUserViewModel.ApplicationUsers.Where(a => a.LastName.ToLower().Contains(searchLastName.ToLower())).ToList();
+            }
 
             // return the List of registered Application Users
             return View(applicationUserViewModel);
