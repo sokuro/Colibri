@@ -3,11 +3,15 @@
     background-color: aliceblue;
 }*/
 
+.col-6 {
+    max-width: 100%;
+}
+
 .col-12 > .row {
     padding-top: 10px;
 }
 
-appointment-product-details > .table.table-striped {
+/*appointment-product-details > .table.table-striped {
     width: 50%;
 }
 
@@ -34,4 +38,4 @@ appointment-product-details > #imageContent > a > img {
 
 appointment-product-details > .tableContentColumn {
     text-align: center;
-}
+}*/
