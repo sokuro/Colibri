@@ -11,9 +11,9 @@ namespace Colibri.Areas.Customer.Controllers
     /*
      * Controller to manage Application Users
      * 
-     * authorize for only for the registered Users
+     * authorize for only for the registered Users (and SuperAdmin)
      */
-    [Authorize(Roles = StaticDetails.AdminEndUser)]
+    [Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
     [Area("Customer")]
     public class ApplicationUserController : Controller
     {
