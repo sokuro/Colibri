@@ -14,5 +14,8 @@ namespace Colibri.ViewModels
     {
         // List of Users
         public List<ApplicationUser> ApplicationUsers { get; set; }
+
+        // Custom Pagination
+        public PagingInfo PagingInfo { get; set; }
     }
 }
