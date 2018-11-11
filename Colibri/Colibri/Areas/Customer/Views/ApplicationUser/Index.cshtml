@@ -1,8 +1,79 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model Colibri.ViewModels.ApplicationUserViewModel
 
-<h2>Index</h2>
+<!-- individual CSS -->
+
+<form method="get">
+    <div class="col-6 text-center">
+        <h2 class="text-info">Application Users List</h2>
+
+        <div>
+            <table class="table table-striped border">
+
+                <!-- the Titles Row -->
+                <tr class="text-info">
+                    <th>
+                        @Html.DisplayNameFor(m => m.ApplicationUsers.FirstOrDefault().UserName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.ApplicationUsers.FirstOrDefault().FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.ApplicationUsers.FirstOrDefault().LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.ApplicationUsers.FirstOrDefault().Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.ApplicationUsers.FirstOrDefault().PhoneNumber)
+                    </th>
+                    <th>
+                        Disabled
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model.ApplicationUsers)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.PhoneNumber)
+                        </td>
+                        <td>
+                            <!-- Condition 'Lockout': if the Date ends, lock the User out -->
+                            @if (item.LockoutEnd != null || item.LockoutEnd > DateTime.Now)
+                            {
+                                <label>Disabled</label>
+                            }
+                        </td>
+                        <td>
+                            <!-- Condition 'Lockout': if the Date does NOT end, allow Redirection -->
+                            @if (item.LockoutEnd == null || item.LockoutEnd < DateTime.Now)
+                            {
+                                <a type="button" class="btn btn-primary" href="@Url.Action("Edit/" + item.Id)">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a type="button" class="btn btn-danger" href="@Url.Action("Delete/" + item.Id)">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        
+    </div>
+</form>
 
