@@ -130,3 +130,17 @@ body.sidebar-toggled footer.sticky-footer {
         width: calc(100%);
     }
 }
+
+.breadcrumb {
+    float: left;
+}
+
+.d-none.d-md-inline-block.form-inline.ml-auto.mr-0.mr-md-3.my-2.my-md-0 {
+    float: right;
+    margin-top: 0.5rem !important;
+    margin-right: 0rem !important;
+}
+
+.productsList {
+    padding-top: 30px;
+}
