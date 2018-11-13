@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Colibri.Models;
 using Colibri.Services;
 using Colibri.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -21,14 +23,14 @@ namespace Colibri
     {
         // private Fields for Object saves
         private ICategoryTypesData _categoryData;
-        private IMailService _mailService;
+        private readonly IEmailSender _emailSender;
 
         // CTOR: use the ICategoryData Service
-        public HomeController(ICategoryTypesData categoryData, IMailService mailService)
+        public HomeController(ICategoryTypesData categoryData, IEmailSender emailSender)
         {
             // incoming Category Object will be saved into the private Field
             _categoryData = categoryData;
-            _mailService = mailService;
+            _emailSender = emailSender;
         }
 
         // GET: /<controller>/Contact
@@ -45,8 +47,12 @@ namespace Colibri
             if (ModelState.IsValid)
             {
                 // Send the notification email
-                _mailService.SendMessage("sokuro@yacrol.com", model.Subject, $"From: {model.Name} - {model.Email}, Message: {model.Message}");
+                _emailSender.SendEmailAsync("sokuro@yacrol.com", model.Subject, 
+                    $"User {model.Name} with the Email Address {model.Email} sent you this Message: <br/> {model.Message}");
+
+                // display Sent Message
                 ViewBag.UserMessage = "Message sent";
+                // clear the Model
                 ModelState.Clear();
             }
             return View();
