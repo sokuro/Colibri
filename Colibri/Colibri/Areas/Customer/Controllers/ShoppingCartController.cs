@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Extensions;
 using Colibri.Models;
+using Colibri.Services;
 using Colibri.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,14 +21,16 @@ namespace Colibri.Areas.Customer.Controllers
     public class ShoppingCartController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
+        private readonly IEmailSender _emailSender;
 
         // bind the ShoppingCartViewModel
         [BindProperty]
         public ShoppingCartViewModel ShoppingCartViewModel { get; set; }
 
-        public ShoppingCartController(ColibriDbContext colibriDbContext)
+        public ShoppingCartController(ColibriDbContext colibriDbContext, IEmailSender emailSender)
         {
             _colibriDbContext = colibriDbContext;
+            _emailSender = emailSender;
 
             // initialize the ShoppingCartViewModel
             ShoppingCartViewModel = new ShoppingCartViewModel()
@@ -128,6 +132,10 @@ namespace Colibri.Areas.Customer.Controllers
             // After adding the Items to the DB, empty the Cart (by creating a new Session)
             lstCartItems = new List<int>();
             HttpContext.Session.Set("ssShoppingCart", lstCartItems);
+
+            // TODO
+            // send Email
+            _emailSender.SendEmailAsync(ShoppingCartViewModel.Appointments.CustomerEmail, "Your Order at Colibri", $"We are happy to inform you about your Order");
 
             // redirect to Action:
             // ActionMethod: AppointmentConfirmation
