@@ -105,6 +105,7 @@ footer.sticky-footer {
     bottom: 0;
     width: calc(100% - 90px);
     height: 80px;
+    z-index: -1;
     /*background-color: #e9ecef;*/
 }
 
@@ -143,4 +144,8 @@ body.sidebar-toggled footer.sticky-footer {
 
 .productsList {
     padding-top: 30px;
+}
+
+#Input_IsSuperAdmin {
+    z-index: 100;
 }
