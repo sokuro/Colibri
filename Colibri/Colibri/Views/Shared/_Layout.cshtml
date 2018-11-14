@@ -74,19 +74,6 @@
                                 <a class="dropdown-item" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Admin Users</a>
                             </div>
                         </li>
-
-                        @*<li class="nav-item">
-                <a class="nav-link" asp-area="Admin" asp-controller="CategoryTypes" asp-action="Index">Category Types</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-area="Admin" asp-controller="SpecialTags" asp-action="Index">Special Tags</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-area="Admin" asp-controller="Products" asp-action="Index">Products</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Admin Users</a>
-            </li>*@
                     }
 
                     @if (User.IsInRole(StaticDetails.SuperAdminEndUser) || User.IsInRole(StaticDetails.AdminEndUser))
@@ -102,18 +89,12 @@
                                 <a class="dropdown-item" asp-area="Customer" asp-controller="ApplicationUser" asp-action="Index">Application Users</a>
                             </div>
                         </li>
-                        @*<li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="Appointments" asp-action="Index">Appointments</a>
-                        </li>*@
                     }
 
                     <!-- Anonymous Users -->
                     <li class="nav-item">
                         <a class="nav-link" asp-area="Customer" asp-controller="ProductsHome" asp-action="Index">Products List</a>
                     </li>
-                    @*<li class="nav-item">
-                        <a class="nav-link" asp-area="Customer" asp-controller="ApplicationUser" asp-action="Index">Application Users</a>
-                    </li>*@
                     <li class="nav-item">
                         <a class="nav-link" asp-area="Customer" asp-controller="Home" asp-action="Contact">Contact</a>
                     </li>
