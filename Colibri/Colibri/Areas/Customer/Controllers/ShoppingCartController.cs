@@ -67,7 +67,7 @@ namespace Colibri.Areas.Customer.Controllers
             // Session Name : "ssShoppingCart"
             List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
 
-            if (lstCartItems.Count > 0)
+            if (lstCartItems != null && lstCartItems.Any())
             {
                 foreach (int cartItem in lstCartItems)
                 {
