@@ -6,7 +6,9 @@ using Colibri.Data;
 using Colibri.Models;
 using Colibri.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Colibri.Areas.Admin.Controllers
 {
@@ -19,19 +21,35 @@ namespace Colibri.Areas.Admin.Controllers
     public class AdminUsersController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
+        //private readonly RoleManager<IdentityRole> _roleManager;
+        //private readonly UserManager<IdentityUser> _userManager;
 
+        //public AdminUsersController(ColibriDbContext colibriDbContext, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
         public AdminUsersController(ColibriDbContext colibriDbContext)
         {
             _colibriDbContext = colibriDbContext;
+            //_roleManager = roleManager;
+            //_userManager = userManager;
         }
 
         // Main Index EntryPage
+        //public async Task<IActionResult> IndexAsync()
         public IActionResult Index()
         {
-            // return the List of the Application Users
-            var listOfAppUsers = _colibriDbContext.ApplicationUsers.ToList();
+            // return the List of the Admin Users
+            var listOfAppUsers = _colibriDbContext.ApplicationUsers
+                                    .Where(u => u.IsSuperAdmin)
+                                    .ToList();
 
             return View(listOfAppUsers);
+
+            //var listOfAppUsers = (IEnumerable<ApplicationUser>)(from u in _colibriDbContext.ApplicationUsers
+            //                                                    join ur in _colibriDbContext.UserRoles
+            //                                                    on u.Id equals ur.UserId
+            //                                                    join r in _colibriDbContext.Roles
+            //                                                    on ur.UserId equals r.Id
+            //                                                    where (r.Name.Contains(@"Super Admin"))
+            //                                                    select u);
         }
 
         // Get: Method Edit User
