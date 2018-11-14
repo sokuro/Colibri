@@ -98,7 +98,8 @@ namespace Colibri.Areas.Identity.Pages.Account
                     Email = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
-                    PhoneNumber = Input.PhoneNumber};
+                    PhoneNumber = Input.PhoneNumber,
+                    IsSuperAdmin = Input.IsSuperAdmin};
 
                 // create a new User inside the DB
                 var result = await _userManager.CreateAsync(user, Input.Password);

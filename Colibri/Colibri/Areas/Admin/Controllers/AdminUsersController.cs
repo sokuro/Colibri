@@ -21,35 +21,22 @@ namespace Colibri.Areas.Admin.Controllers
     public class AdminUsersController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
-        //private readonly RoleManager<IdentityRole> _roleManager;
-        //private readonly UserManager<IdentityUser> _userManager;
 
-        //public AdminUsersController(ColibriDbContext colibriDbContext, RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager)
         public AdminUsersController(ColibriDbContext colibriDbContext)
         {
             _colibriDbContext = colibriDbContext;
-            //_roleManager = roleManager;
-            //_userManager = userManager;
         }
 
         // Main Index EntryPage
         //public async Task<IActionResult> IndexAsync()
         public IActionResult Index()
         {
-            // return the List of the Admin Users
-            var listOfAppUsers = _colibriDbContext.ApplicationUsers
-                                    .Where(u => u.IsSuperAdmin)
+            // return the List of the Super Admin Users
+            var listOfSuperAdminUsers = _colibriDbContext.ApplicationUsers
+                                    .Where(u => u.IsSuperAdmin == true)
                                     .ToList();
 
-            return View(listOfAppUsers);
-
-            //var listOfAppUsers = (IEnumerable<ApplicationUser>)(from u in _colibriDbContext.ApplicationUsers
-            //                                                    join ur in _colibriDbContext.UserRoles
-            //                                                    on u.Id equals ur.UserId
-            //                                                    join r in _colibriDbContext.Roles
-            //                                                    on ur.UserId equals r.Id
-            //                                                    where (r.Name.Contains(@"Super Admin"))
-            //                                                    select u);
+            return View(listOfSuperAdminUsers);
         }
 
         // Get: Method Edit User

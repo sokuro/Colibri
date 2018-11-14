@@ -29,8 +29,7 @@ namespace Colibri.Models
         //public string Country { get; set; }
         public string Password { get; set; }
 
-        // not mapped Property
-        [NotMapped]
+        // mapped Property! unmapped can NOT be filtered in the Linq Query!
         public bool IsSuperAdmin { get; set; }
 
         // Logging
