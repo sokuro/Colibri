@@ -8,6 +8,7 @@ using Colibri.Models;
 using Colibri.Utility;
 using Colibri.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,12 +24,14 @@ namespace Colibri.Areas.Customer.Controllers
     public class ApplicationUserController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
+        private readonly IEmailSender _emailSender;
 
         // CTOR
         // get the Data from the DB
-        public ApplicationUserController(ColibriDbContext colibriDbContext)
+        public ApplicationUserController(ColibriDbContext colibriDbContext, IEmailSender emailSender)
         {
             _colibriDbContext = colibriDbContext;
+            _emailSender = emailSender;
         }
 
         // extend the Method with the Parameters for Search:
@@ -96,6 +99,37 @@ namespace Colibri.Areas.Customer.Controllers
                             .FirstOrDefaultAsync();
 
             return View(user);
+        }
+
+        // Send Mail by Contact
+        // GET: /<controller>/Contact
+        [HttpGet("contactUser")]
+        public ActionResult ContactUser()
+        {
+            return View();
+        }
+
+        // POST: /<controller>/Contact
+        [HttpPost("contactUser")]
+        public async Task<ActionResult> ContactUserAsync(ContactViewModel model, string id)
+        {
+            if (ModelState.IsValid)
+            {
+                // first get the individual User to send the Mail to
+                var user = await _colibriDbContext.ApplicationUsers
+                            .Where(u => u.Id == id)
+                            .FirstOrDefaultAsync();
+
+                // Send the notification email
+                await _emailSender.SendEmailAsync(user.Email, model.Subject,
+                    $"User {model.Name} with the Email Address {model.Email} sent you this Message: <br/> {model.Message}");
+
+                // display Sent Message
+                ViewBag.UserMessage = "Message sent";
+                // clear the Model
+                ModelState.Clear();
+            }
+            return RedirectToAction("Index", "ApplicationUser", new { area = "Customer" });
         }
     }
 }
