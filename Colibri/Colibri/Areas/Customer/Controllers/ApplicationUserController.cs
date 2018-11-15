@@ -9,6 +9,7 @@ using Colibri.Utility;
 using Colibri.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Colibri.Areas.Customer.Controllers
 {
@@ -84,6 +85,17 @@ namespace Colibri.Areas.Customer.Controllers
 
             // return the List of registered Application Users
             return View(applicationUserViewModel);
+        }
+
+        // Method Details GET
+        public async Task<IActionResult> Details(string id)
+        {
+            // get the individual User
+            var user = await _colibriDbContext.ApplicationUsers
+                            .Where(u => u.Id == id)
+                            .FirstOrDefaultAsync();
+
+            return View(user);
         }
     }
 }
