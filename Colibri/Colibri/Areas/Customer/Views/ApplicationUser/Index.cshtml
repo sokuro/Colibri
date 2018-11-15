@@ -138,12 +138,7 @@
                         <!-- Condition 'Lockout': if the Date does NOT end, allow Redirection -->
                         @if (item.LockoutEnd == null || item.LockoutEnd < DateTime.Now)
                         {
-                            <a type="button" class="btn btn-primary" href="@Url.Action("Edit/" + item.Id)">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a type="button" class="btn btn-danger" href="@Url.Action("Delete/" + item.Id)">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
+                            <a asp-action="Details" asp-controller="ApplicationUser" class="btn btn-success pull-right btn-outline-info" asp-route-id="@item.Id">View Details</a>
                         }
                     </td>
                 </tr>
