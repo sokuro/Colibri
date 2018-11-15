@@ -45,7 +45,7 @@
                 <div class="col-4">
                 </div>
                 <div class="col-8">
-                    <button type="submit" value="Order" asp-route-id="@Model.Id" class="btn btn-primary form-control">Contact</button>
+                    <a asp-action="ContactUser" asp-controller="ApplicationUser" class="btn btn-primary form-control" asp-route-id="@Model.Id">Contact</a>
                 </div>
             </div>
         </div>
