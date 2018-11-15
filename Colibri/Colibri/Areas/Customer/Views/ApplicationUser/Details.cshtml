@@ -1,0 +1,58 @@
+﻿@model Colibri.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-info">Details</h2>
+
+<form method="post">
+    <div class="p-4 border rounded row">
+
+        <!-- Image -->
+        <div class="col-3">
+            <img src="~/img/SystemImages/user_500_500.png" class="productImage" />
+        </div>
+
+        <!-- Application User Properties -->
+        <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="UserName"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="UserName" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="FirstName"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="FirstName" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="LastName"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="LastName" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                </div>
+                <div class="col-8">
+                    <button type="submit" value="Order" asp-route-id="@Model.Id" class="btn btn-primary form-control">Contact</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <!-- hidden Field Id to use in the Session -->
+            <input hidden asp-for="Id" />
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
+    </div>
+</form>
