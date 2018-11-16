@@ -64,30 +64,30 @@ namespace Colibri.Data
 
                 // add Products
                 // use Deserialization
-                var products = JsonConvert.DeserializeObject<IEnumerable<Product>>(json);
+                var products = JsonConvert.DeserializeObject<IEnumerable<Products>>(json);
                 // addRange to cut the Collection (large!)
                 //_context.Products.AddRange(products);
 
                 // add Orders
-                var order = _context.Orders.Where(o => o.OrderId == 1).FirstOrDefault();
-                if (order == null)
-                {
-                    // create new Order
-                    order = new Order();
-                    // add a User to the Order
-                    order.OrderUser = user;
-                    // add some simple Items to the Order
-                    order.Items = new List<OrderItem>()
-                    {
-                        new OrderItem()
-                        {
-                            Product = products.First(),
-                            Quantity = 5,
-                            UnitPrice = products.First().Price
-                        }
-                    };
-                    _context.Add(order);
-                }
+                //var order = _context.Orders.Where(o => o.OrderId == 1).FirstOrDefault();
+                //if (order == null)
+                //{
+                //    // create new Order
+                //    order = new Order();
+                //    // add a User to the Order
+                //    order.OrderUser = user;
+                //    // add some simple Items to the Order
+                //    order.Items = new List<OrderItem>()
+                //    {
+                //        new OrderItem()
+                //        {
+                //            Product = products.First(),
+                //            Quantity = 5,
+                //            UnitPrice = products.First().Price
+                //        }
+                //    };
+                //    _context.Add(order);
+                //}
 
                 // save changes
                 _context.SaveChanges();

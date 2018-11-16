@@ -36,29 +36,21 @@ namespace Colibri
         // Services will be used by dependency injection
         public void ConfigureServices(IServiceCollection services)
         {
-            // add Identity Service
-            //services.AddIdentity<ApplicationUser, IdentityRole>(cfg =>
-            //{
-            //    cfg.User.RequireUniqueEmail = true;
-            //})
-            //// to separate Contextes
-            //.AddEntityFrameworkStores<ColibriDbContext>();
-
             // Add Authentication
             // -> Cookies
             // -> Token
             services.AddAuthentication()
-                .AddCookie()
-                .AddJwtBearer(cfg =>
-                {
-                    // validation Parameters needed
-                    cfg.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidIssuer = _configuration["Tokens:Issuer"],
-                        ValidAudience = _configuration["Tokens:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]))
-                    };
-                });
+                .AddCookie();
+                //.AddJwtBearer(cfg =>
+                //{
+                //    // validation Parameters needed
+                //    cfg.TokenValidationParameters = new TokenValidationParameters()
+                //    {
+                //        ValidIssuer = _configuration["Tokens:Issuer"],
+                //        ValidAudience = _configuration["Tokens:Audience"],
+                //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]))
+                //    };
+                //});
 
             // Adding ICategoryData Service
             services.AddScoped<ICategoryTypesData, SqlCategoryTypesData>();
@@ -74,9 +66,6 @@ namespace Colibri
             // Support for AutoMapper
             services.AddAutoMapper();
 
-            // Adding IMailService
-            services.AddTransient<IMailService, NullMailService>();
-
             // Adding Email Service using Core 2.1 IEmailSender Interface
             services.AddTransient<IEmailSender, EmailSender>();
 
@@ -85,11 +74,6 @@ namespace Colibri
 
             // fill the DB with Entries
             //services.AddTransient<ColibriSeeder>();
-
-            // Repository Layer between the actual DB
-            // #1: User can use the IColibriRepository
-            // #2: but use the Implementation of the ColibriRepository
-            services.AddScoped<IColibriRepository, ColibriRepository>();
 
             // Adding MVC Services
             services.AddMvc()

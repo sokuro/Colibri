@@ -88,12 +88,5 @@ namespace Colibri
             // render the Model Information
             return View(model);
         }
-
-        // Show some Product Offers
-        // authorize
-        public IActionResult ShowProductOffers()
-        {
-            return View();
-        }
     }
 }
