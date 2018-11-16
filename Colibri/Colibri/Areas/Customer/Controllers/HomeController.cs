@@ -34,14 +34,15 @@ namespace Colibri
         }
 
         // GET: /<controller>/Contact
-        [HttpGet("contact")]
+        //[HttpGet("contact")]
         public ActionResult Contact()
         {
             return View();
         }
 
         // POST: /<controller>/Contact
-        [HttpPost("contact")]
+        //[HttpPost("contact")]
+        [HttpPost]
         public ActionResult Contact(ContactViewModel model)
         {
             if (ModelState.IsValid)
