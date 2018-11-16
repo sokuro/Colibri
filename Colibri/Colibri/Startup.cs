@@ -147,10 +147,16 @@ namespace Colibri
         // Configure Routes: using IRouteBuilder Routing Interface
         private void ConfigureRoutes(IRouteBuilder routeBuilder)
         {
+            // Routing with Areas
+            // "~/area/Home/Index"
+            routeBuilder.MapRoute(
+                name: "area",
+                template: "{area=Customer}/{controller=Home}/{action=Index}/{id?}"
+                );
             // Default Route: "~/Home/Index"
             routeBuilder.MapRoute(
-                name: "areas",
-                template: "{area=Customer}/{controller=Home}/{action=Index}/{id?}"
+                name: "default",
+                template: "{controller=Home}/{action=Index}/{id?}"
                 );
         }
     }
