@@ -48,6 +48,12 @@ namespace Colibri.Controllers
                     .Where(p => p.Id == id)
                     .FirstOrDefaultAsync();
 
+            // count the Number of Clicks on the Product
+            product.NumberOfClicks += 1;
+
+            // save the Changes in DB
+            await _colibriDbContext.SaveChangesAsync();
+
             return View(product);
         }
 
