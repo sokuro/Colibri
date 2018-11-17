@@ -17,6 +17,15 @@
     z-index: 100;
 }
 
+/* Login */
+#loginToggle {
+    cursor: pointer;
+}
+
+#loggedUser {
+    margin-top: 7px;
+}
+
 /* Input Panel */
 input[type=submit] {
     width: auto;
@@ -104,11 +113,6 @@ ul.productProps {
 
 .productsList {
     padding-top: 30px;
-}
-
-/* Login */
-#loginToggle {
-    cursor: pointer;
 }
 
 .popup-form {

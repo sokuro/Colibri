@@ -8,7 +8,7 @@
 {
     <form asp-route-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
-            <li>
+            <li id="loggedUser">
                 <a asp-route-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@await Component.InvokeAsync("UserName")</a>
             </li>
             <li>
