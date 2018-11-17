@@ -53,7 +53,7 @@
             <div id="theMenu" class="navbar-collapse collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link" asp-route-area="Customer" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
 
                     <!-- hide if not authorized -->
@@ -67,11 +67,11 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="adminPagesDropdown">
                                 <h6 class="dropdown-header">Types:</h6>
-                                <a class="dropdown-item" asp-area="Admin" asp-controller="CategoryTypes" asp-action="Index">Category Types</a>
-                                <a class="dropdown-item" asp-area="Admin" asp-controller="SpecialTags" asp-action="Index">Special Tags</a>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryTypes" asp-action="Index">Category Types</a>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="SpecialTags" asp-action="Index">Special Tags</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-area="Admin" asp-controller="Products" asp-action="Index">Products</a>
-                                <a class="dropdown-item" asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">Admin Users</a>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="Products" asp-action="Index">Products</a>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="AdminUsers" asp-action="Index">Admin Users</a>
                             </div>
                         </li>
                     }
@@ -85,28 +85,28 @@
                                 <span>Reg. Users</span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="registeredUserPagesDropdown">
-                                <a class="dropdown-item" asp-area="Admin" asp-controller="Appointments" asp-action="Index">Appointments</a>
-                                <a class="dropdown-item" asp-area="Customer" asp-controller="ApplicationUser" asp-action="Index">Application Users</a>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="Appointments" asp-action="Index">Appointments</a>
+                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="ApplicationUser" asp-action="Index">Application Users</a>
                             </div>
                         </li>
                     }
 
                     <!-- Anonymous Users -->
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="Customer" asp-controller="ProductsHome" asp-action="Index">Products List</a>
+                        <a class="nav-link" asp-route-area="Customer" asp-controller="ProductsHome" asp-action="Index">Products List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="Customer" asp-controller="Home" asp-action="Contact">Contact</a>
+                        <a class="nav-link" asp-route-area="Customer" asp-controller="Home" asp-action="Contact">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="Customer" asp-controller="About" asp-action="">About</a>
+                        <a class="nav-link" asp-route-area="Customer" asp-controller="About" asp-action="">About</a>
                     </li>
 
                     <!-- handle Session: Values in the Session -->
                     @if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart") != null)
                     {
                         <li style="color:white">
-                            <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="nav-link">
+                            <a asp-route-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="nav-link">
                                 <i class="fas fa-shopping-cart"></i> &nbsp;
                                 <!-- # Items in the Shopping Cart -->
                                 @{
@@ -119,7 +119,7 @@
                     else
                     {
                         <li style="color:white">
-                            <a asp-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="nav-link">
+                            <a asp-route-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="nav-link">
                                 <i class="fas fa-shopping-cart"></i> &nbsp;
                                 <!-- display Zero -->
                                 (0)
