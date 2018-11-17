@@ -14,7 +14,7 @@ using Colibri.Utility;
 
 namespace Colibri.Areas.Identity.Pages.Account
 {
-    [Authorize(Roles = StaticDetails.SuperAdminEndUser)]
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -77,7 +77,6 @@ namespace Colibri.Areas.Identity.Pages.Account
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
 
-            [Display(Name = "Super Admin")]
             public bool IsSuperAdmin { get; set; }
         }
 
@@ -99,33 +98,13 @@ namespace Colibri.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     PhoneNumber = Input.PhoneNumber,
-                    IsSuperAdmin = Input.IsSuperAdmin};
+                    IsSuperAdmin = false};
 
                 // create a new User inside the DB
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
-                    // first check if the Role exists, if not -> create
-                    // #1: Admin
-                    if (!await _roleManager.RoleExistsAsync(StaticDetails.AdminEndUser))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(StaticDetails.AdminEndUser));
-                    }
-
-                    // #1: Super Admin
-                    if (!await _roleManager.RoleExistsAsync(StaticDetails.SuperAdminEndUser))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(StaticDetails.SuperAdminEndUser));
-                    }
-
-                    if (Input.IsSuperAdmin)
-                    {
-                        await _userManager.AddToRoleAsync(user, StaticDetails.SuperAdminEndUser);
-                    }
-                    else
-                    {
-                        await _userManager.AddToRoleAsync(user, StaticDetails.AdminEndUser);
-                    }
+                    await _userManager.AddToRoleAsync(user, StaticDetails.AdminEndUser);
 
                     _logger.LogInformation("User created a new account with password.");
 
@@ -143,11 +122,8 @@ namespace Colibri.Areas.Identity.Pages.Account
                     // prevent newly registered Users from being automatically logged on
                     await _signInManager.SignInAsync(user, isPersistent: false);
 
-                    // redirect to the List of Users
-                    // TODO
-                    return RedirectToAction("Index", "AdminUsers", new { area = "Admin" });
-                    //return RedirectToAction("Index", "AdminUsers");
-                    //return LocalRedirect(returnUrl);
+                    // redirect to Home
+                    return RedirectToAction("Index", "", new { area = "" });
                 }
                 foreach (var error in result.Errors)
                 {
