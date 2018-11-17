@@ -17,6 +17,9 @@ namespace Colibri.Models
         public string Image { get; set; }
         public string Description { get; set; }
 
+        // Number of Clicks on the Product
+        public int NumberOfClicks { get; set; }
+
         /*
          * Foreign References
          */
