@@ -2,6 +2,8 @@
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
+@using Colibri.Utility
+
 <ul class="list-group">
     <li class="list-group-item"><a asp-page="./Index">Profile</a></li>
     <li class="list-group-item"><a id="change-password" asp-page="./ChangePassword">Password</a></li>
@@ -11,4 +13,8 @@
     }
     <li class="list-group-item"><a asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
     <li class="list-group-item"><a asp-page="./PersonalData">Personal data</a></li>
+    @if (User.IsInRole(StaticDetails.SuperAdminEndUser))
+    {
+        <li class="list-group-item"><a asp-route-area="Identity" asp-page="/Account/RegisterAdmin">Register Admin</a></li>
+    }
 </ul>

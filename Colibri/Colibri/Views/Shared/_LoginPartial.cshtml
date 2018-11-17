@@ -1,9 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Colibri.Models
-@*@inject SignInManager<ApplicationUser> SignInManager
-    @inject UserManager<ApplicationUser> UserManager*@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@using Colibri.Utility
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -20,10 +19,15 @@
 }
 else
 {
-    @*<ul class="nav navbar-nav navbar-right">*@
     <ul class="nav navbar-nav navbar-collapse justify-content-end">
+        @if (User.IsInRole(StaticDetails.SuperAdminEndUser))
+        {
+            <li><a asp-route-area="Identity" asp-page="/Account/RegisterAdmin">Register</a></li>
+        }
+        else
+        {
         <li><a asp-route-area="Identity" asp-page="/Account/Register">Register</a></li>
-        <li> </li>
         <li><a asp-route-area="Identity" asp-page="/Account/Login">Login</a></li>
+        }
     </ul>
 }
