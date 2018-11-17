@@ -2,6 +2,22 @@
     font-family: "Segoe UI", Verdana, Geneva, Tahoma, sans-serif;
 }
 
+/* Navigation Panel */
+.navbar-right > ul > li > a {
+    padding-right: 10px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    float: left;
+}
+
+/* Registration */
+#Input_IsSuperAdmin {
+    z-index: 100;
+}
+
+/* Input Panel */
 input[type=submit] {
     width: auto;
 }
@@ -15,6 +31,7 @@ label {
     font-size: 16px;
 }
 
+/* Category */
 .categoryInfo {
     border: 1px solid grey;
     /* do not maximize the div */
@@ -35,6 +52,7 @@ label {
         max-width: 200px
     }
 
+/* User Input Form */
 #userForm {
     background-color: lightgray;
 }
@@ -45,6 +63,7 @@ label {
         color: white;
     }
 
+/* Product Panel */
 /* bound to a specific tag */
 ul.productProps {
     font-size: small;
@@ -77,6 +96,17 @@ ul.productProps {
         max-width: 200px
     }
 
+.d-none.d-md-inline-block.form-inline.ml-auto.mr-0.mr-md-3.my-2.my-md-0 {
+    float: right;
+    margin-top: 0.5rem !important;
+    margin-right: 0rem !important;
+}
+
+.productsList {
+    padding-top: 30px;
+}
+
+/* Login */
 #loginToggle {
     cursor: pointer;
 }
@@ -96,6 +126,7 @@ ul.productProps {
         width: auto;
     }
 
+/* Footer */
 footer.sticky-footer {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -130,22 +161,4 @@ body.sidebar-toggled footer.sticky-footer {
         /*width: calc(100% - 90px);*/
         width: calc(100%);
     }
-}
-
-.breadcrumb {
-    float: left;
-}
-
-.d-none.d-md-inline-block.form-inline.ml-auto.mr-0.mr-md-3.my-2.my-md-0 {
-    float: right;
-    margin-top: 0.5rem !important;
-    margin-right: 0rem !important;
-}
-
-.productsList {
-    padding-top: 30px;
-}
-
-#Input_IsSuperAdmin {
-    z-index: 100;
 }
