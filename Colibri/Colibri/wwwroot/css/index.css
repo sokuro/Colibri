@@ -1,6 +1,12 @@
-﻿body {
+﻿/* general CSS for the Site */
+body {
     font-family: "Segoe UI", Verdana, Geneva, Tahoma, sans-serif;
 }
+
+.elemNotDisplay {
+    display: none;
+}
+/* END: general CSS for the Site */
 
 /* Navigation Panel */
 .navbar-right > ul > li > a {
