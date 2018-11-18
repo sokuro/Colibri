@@ -40,5 +40,12 @@ namespace Colibri.Models
         // 'virtual': not added to the DB
         [ForeignKey("SpecialTagId")]
         public virtual SpecialTags SpecialTags { get; set; }
+
+        // #3 User
+        public string ApplicationUserId { get; set;}
+
+        // 1 Product = 1 User
+        [ForeignKey("ApplicationUserId")]
+        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }
