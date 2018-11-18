@@ -1,4 +1,4 @@
-﻿@model Colibri.ViewModels.AdvertisementViewModel
+﻿@model Colibri.ViewModels.ProductsViewModel
 @using Colibri.Extensions
 
 @{
@@ -46,6 +46,7 @@
                 <select asp-for="@Model.Products.CategoryTypeId" asp-items="Model.CategoryTypes.ToSelectListItem(Model.Products.CategoryTypeId)"></select>
             </div>
         </div>
+        <!-- this Field is hidden in the Form and will be added automatically -->
         <div class="form-group row elemNotDisplay">
             <div class="col-2">
                 <label asp-for="SpecialTags"></label>
@@ -54,7 +55,7 @@
                 <input type="hidden" asp-for="@Model.Products.SpecialTagId" value="1" readonly class="form-control" />
             </div>
         </div>
-        <!-- Available with a Checkbox -->
+        <!-- this Field is hidden in the Form and will be added automatically -->
         <div class="form-group row elemNotDisplay">
             <div class="col-2">
                 <label asp-for="Products.Available"></label>
@@ -75,6 +76,15 @@
         <div class="form-group">
             <input type="submit" class="btn btn-primary" value="Create" />
             <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
+        <!-- this Field is hidden in the Form and will be added automatically -->
+        <div class="form-group row elemNotDisplay">
+            <div class="col-2">
+                <label asp-for="Products.ApplicationUserId"></label>
+            </div>
+            <div class="col-5">
+                <input type="hidden" asp-for="Products.ApplicationUserId" value="" readonly class="form-control" />
+            </div>
         </div>
     </div>
 </form>
