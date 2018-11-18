@@ -1,51 +1,108 @@
-﻿@model IEnumerable<Colibri.Models.Products>
+﻿@model Colibri.ViewModels.AdvertisementViewModel
 
-<div class="row">
-    <div class="col-6 text-center">
-        <h2 class="text-info">Product List</h2>
-    </div>
-    <div class="col-6 text-right">
-        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Product</a>
-    </div>
-</div>
-<div>
-    <table class="table table-striped border">
-        <tr class="text-info">
-            <th>
-                @Html.DisplayNameFor(m => m.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(m => m.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(m => m.CategoryTypes)
-            </th>
-            <th>
-                @Html.DisplayNameFor(m => m.Description)
-            </th>
-            <th></th>
-            <th></th>
-        </tr>
+<!-- individual CSS -->
+@section applicationUsers {
+    <link href="~/css/applicationUsers.css" rel="stylesheet" />
+}
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(m => item.Name)
-                </td>
-                <td>
-                    @String.Format("{0:c}", item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.CategoryTypes.Name)
-                </td>
+<form method="get">
+    <div class="row">
+        <div class="col-6 text-center">
+            <h2 class="text-info">Product List</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Product</a>
+        </div>
+    </div>
+
+    <!-- Search -->
+    <div class="container">
+        <div class="col-12">
+            <!-- 1st row -->
+            <div class="row">
+                <div class="col-2">
+                    User Name
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <!-- empty column -->
+                <div class="col-2">
+                </div>
+
+                <div class="col-2">
+                    Product Name
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchProductName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <!-- END: 1st row -->
+            </div>
+
+            <!-- Search row -->
+            <div class="row">
+                <div class="col-2">
+                </div>
+                <div class="col-3">
+                </div>
+                <div class="col-2">
+
+                </div>
+                <div class="col-2">
+                </div>
+                <div class="col-3">
+                    <button type="submit" name="submit" value="Search" class="btn btn-primary form-control">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+                <!-- END: Search row -->
+            </div>
+        </div>
+        <!-- END: Search -->
+    </div>
+
+    <br />
+
+    <div>
+        <table class="table table-striped border">
+            <tr class="text-info">
                 <th>
-                    @Html.DisplayNameFor(m => item.Description)
+                    @Html.DisplayNameFor(m => m.Products.FirstOrDefault().Name)
                 </th>
-                <td>
-                    <partial name="_TableButtonPartial" model="item.Id" />
-                </td>
+                <th>
+                    @Html.DisplayNameFor(m => m.Products.FirstOrDefault().Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Products.FirstOrDefault().CategoryTypes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Products.FirstOrDefault().Description)
+                </th>
+                <th></th>
+                <th></th>
             </tr>
-        }
-    </table>
-</div>
+
+            @foreach (var item in Model.Products)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.Name)
+                    </td>
+                    <td>
+                        @String.Format("{0:c}", item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CategoryTypes.Name)
+                    </td>
+                    <th>
+                        @Html.DisplayNameFor(m => item.Description)
+                    </th>
+                    <td>
+                        <partial name="_TableButtonPartial" model="item.Id" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</form>
