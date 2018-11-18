@@ -18,9 +18,6 @@
                 @Html.DisplayNameFor(m => m.Price)
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.Available)
-            </th>
-            <th>
                 @Html.DisplayNameFor(m => m.CategoryTypes)
             </th>
             <th>
@@ -38,9 +35,6 @@
                 </td>
                 <td>
                     @String.Format("{0:c}", item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.Available)
                 </td>
                 <td>
                     @Html.DisplayFor(m => item.CategoryTypes.Name)
