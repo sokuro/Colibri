@@ -1,18 +1,93 @@
 ﻿@model Colibri.ViewModels.HomeIndexViewModel
 
-<div class="categoryInfo">
-    <img src="~/img/Categories/category_tree.png" />
-    <table>
-        @foreach (var category in Model.CategoryTypes)
-        {
-            <tr>
-                <td>@category.Id</td>
-                <td>@category.Name</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@category.Id">Details</a>
-                </td>
-            </tr>
-        }
-    </table>
-    @*<a asp-action="Create">Add Category</a>*@
+<div class="col main pt-1 mt-1">
+    <h1 class="display-4 d-none d-sm-block">
+        Colibri Dashboard
+    </h1>
 </div>
+
+<div container-dashboard>
+    <div row>
+        <!-- Column #1 -->
+        <div class="d-flex">
+            <div class="p-2 flex-fill">
+                <div class="categoryInfo">
+                    <img src="~/img/Categories/category_tree.png" />
+                    <table>
+                        @foreach (var category in Model.CategoryTypes)
+                        {
+                            <tr>
+                                <td>@category.Id</td>
+                                <td>@category.Name</td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@category.Id">Details</a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    @*<a asp-action="Create">Add Category</a>*@
+                </div>
+            </div>
+            <div class="p-2 flex-fill">
+                <div class="categoryInfo">
+                    <img src="~/img/Categories/category_tree.png" />
+                    <table>
+                        @foreach (var category in Model.CategoryTypes)
+                        {
+                            <tr>
+                                <td>@category.Id</td>
+                                <td>@category.Name</td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@category.Id">Details</a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    @*<a asp-action="Create">Add Category</a>*@
+                </div>
+            </div>
+        </div>
+        <!-- END: Column #1 -->
+        <!-- Column #2 -->
+        <div class="d-flex">
+            <div class="p-2 flex-fill">
+                <div class="categoryInfo">
+                    <img src="~/img/Categories/category_tree.png" />
+                    <table>
+                        @foreach (var category in Model.CategoryTypes)
+                        {
+                            <tr>
+                                <td>@category.Id</td>
+                                <td>@category.Name</td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@category.Id">Details</a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    @*<a asp-action="Create">Add Category</a>*@
+                </div>
+            </div>
+            <div class="p-2 flex-fill">
+                <div class="categoryInfo">
+                    <img src="~/img/Categories/category_tree.png" />
+                    <table>
+                        @foreach (var category in Model.CategoryTypes)
+                        {
+                            <tr>
+                                <td>@category.Id</td>
+                                <td>@category.Name</td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@category.Id">Details</a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    @*<a asp-action="Create">Add Category</a>*@
+                </div>
+            </div>
+        </div>
+        <!-- END: Column #2 -->
+    </div>
+</div>
+
