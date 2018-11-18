@@ -62,7 +62,7 @@ namespace Colibri.Areas.Admin.Controllers
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
-                //add a Product first to retrieve it
+                //add a Product first to retrieve it, so one can add Properties to it
                 _colibriDbContext.Add(ProductsViewModel.Products);
                 await _colibriDbContext.SaveChangesAsync();
 
@@ -70,13 +70,14 @@ namespace Colibri.Areas.Admin.Controllers
                 // use the Hosting Environment
                 string webRootPath = _hostingEnvironment.WebRootPath;
                 
-                // retrieve all Files
+                // retrieve all Files (typed by the User in the View )
                 var files = HttpContext.Request.Form.Files;
 
                 // to update the Products from the DB: retrieve the Db Files
+                // new Properties will be added to the specific Product -> Id needed!
                 var productsFromDb = _colibriDbContext.Products.Find(ProductsViewModel.Products.Id);
 
-                // File has been uploaded from the View
+                // Image File has been uploaded from the View
                 if (files.Count != 0)
                 {
                     // Image has been uploaded
@@ -96,7 +97,7 @@ namespace Colibri.Areas.Admin.Controllers
                     // ProductsImage = exact Path of the Image on the Server + ImageName + Extension
                     productsFromDb.Image = @"\" + StaticDetails.ImageFolder + @"\" + ProductsViewModel.Products.Id + extension;
                 }
-                // File has not been uploaded
+                // Image File has not been uploaded -> use a default one
                 else
                 {
                     // a DUMMY Image if the User does not have uploaded any File (default Image)
