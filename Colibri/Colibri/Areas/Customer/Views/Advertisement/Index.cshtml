@@ -79,6 +79,9 @@
                 <th>
                     @Html.DisplayNameFor(m => m.Products.FirstOrDefault().Description)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Products.FirstOrDefault().NumberOfClicks)
+                </th>
                 <th></th>
                 <th></th>
             </tr>
@@ -95,9 +98,12 @@
                     <td>
                         @Html.DisplayFor(m => item.CategoryTypes.Name)
                     </td>
-                    <th>
+                    <td>
                         @Html.DisplayNameFor(m => item.Description)
-                    </th>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfClicks)
+                    </td>
                     <td>
                         <partial name="_TableButtonPartial" model="item.Id" />
                     </td>
