@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Colibri.Data;
+using Colibri.Extensions;
 using Colibri.Models;
 using Colibri.Utility;
 using Colibri.ViewModels;
@@ -196,6 +197,55 @@ namespace Colibri.Areas.Customer.Controllers
                 // one can simply return to the Form View again for Correction
                 return View(ProductsViewModel);
             }
+        }
+
+        // GET: Details
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // get the individual Product
+            var product = await _colibriDbContext.Products
+                    .Include(p => p.CategoryTypes)
+                    .Include(p => p.SpecialTags)
+                    .Where(p => p.Id == id)
+                    .FirstOrDefaultAsync();
+
+            // count the Number of Clicks on the Product
+            product.NumberOfClicks += 1;
+
+            // save the Changes in DB
+            await _colibriDbContext.SaveChangesAsync();
+
+            return View(product);
+        }
+
+        // Details POST
+        [HttpPost, ActionName("Details")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DetailsPost(int id)
+        {
+            // check first, if anything exists in the Session
+            // Session Name : "ssShoppingCart"
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+
+            // check if null -> create new
+            if (lstCartItems == null)
+            {
+                lstCartItems = new List<int>();
+            }
+
+            // add the retrieved Item (id)
+            lstCartItems.Add(id);
+            // set the Session:
+            // Session Name, Value
+            HttpContext.Session.Set("ssShoppingCart", lstCartItems);
+
+            // redirect to Action
+            return RedirectToAction("Index", "Advertisement", new { area = "Customer" });
         }
     }
 }

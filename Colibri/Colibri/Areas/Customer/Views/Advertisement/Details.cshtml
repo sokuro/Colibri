@@ -1,0 +1,108 @@
+﻿@model Colibri.Models.Products
+@using Microsoft.AspNetCore.Http
+@using Colibri.Extensions
+
+<!-- handle Session: is the Item in the Bag -->
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+<h2 class="text-info">Product Details</h2>
+
+<form method="post">
+    <div class="p-4 border rounded row">
+
+        <div class="col-1"></div>
+
+        <!-- Image -->
+        <div class="col-3">
+            <img src="@Model.Image" class="productImage" />
+            @if (Model.Available)
+            {
+                <img src="~/img/SystemImages/IconApprovedgreen.png" class="availableIconImage" />
+            }
+        </div>
+
+        <!-- Product Properties -->
+        <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Name" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Price"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Price" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="CategoryTypes"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="CategoryTypes.Name" class="form-control" readonly />
+                </div>
+            </div>
+            @if (!Model.SpecialTags.Name.Equals("--None--"))
+            {
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="SpecialTags"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="SpecialTags.Name" class="form-control" readonly />
+                    </div>
+                </div>
+            }
+
+            <div class="form-group row">
+                <div class="col-4">
+                </div>
+                <div class="col-8">
+                    <!-- remove Item from the ShoppingCart possible -->
+                    @{
+                        // Flag if the Item is already in the Bag
+                        bool isInBag = false;
+                        // Shopping Cart
+                        List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart");
+
+                        // check if the List already contains the ID of the Page
+                        if (lstCart != null && lstCart.Contains(Model.Id))
+                        {
+                            isInBag = true;
+                        }
+                    }
+
+                    @if (isInBag)
+                    {
+                        <button type="submit" value="Remove from Bag" asp-action="remove" asp-route-id="@Model.Id" class="btn btn-primary form-control">Remove from Bag</button>
+                    }
+                    else
+                    {
+                        <button type="submit" value="Order" asp-route-id="@Model.Id" class="btn btn-primary form-control">Order</button>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Description"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Description" class="form-control" readonly />
+                </div>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <!-- hidden Field Id to use in the Session -->
+            <input hidden asp-for="Id" />
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
+        </div>
+    </div>
+</form>
