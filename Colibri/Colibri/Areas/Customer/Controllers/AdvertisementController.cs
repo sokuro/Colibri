@@ -56,15 +56,28 @@ namespace Colibri.Areas.Customer.Controllers
         // Index
         public async Task<IActionResult> Index(
             string searchUserName=null,
-            string searchProductName=null
+            string searchProductName=null,
+            string filterMine=null
             )
         {
             // Advertisement ViewModel
             AdvertisementViewModel advertisementViewModel = new AdvertisementViewModel
             {
                 // initialize
-                Products = new List<Products>()
+                Products = new List<Products>(),
+
+                Users = from u in _colibriDbContext.ApplicationUsers
+                        join p in _colibriDbContext.Products
+                        on u.Id equals p.ApplicationUserId
+                        select u
             };
+
+            // Security Claims
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+            // Claims Identity
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // Filter the Search Criteria
             StringBuilder param = new StringBuilder();
@@ -79,6 +92,11 @@ namespace Colibri.Areas.Customer.Controllers
             if (searchProductName != null)
             {
                 param.Append(searchProductName);
+            }
+            param.Append("&searchName=");
+            if (filterMine != null)
+            {
+                param.Append(filterMine);
             }
 
             // populate the List
@@ -96,13 +114,12 @@ namespace Colibri.Areas.Customer.Controllers
                 advertisementViewModel.Products = advertisementViewModel.Products
                                                     .Where(a => a.Name.ToLower().Contains(searchProductName.ToLower())).ToList();
             }
-
-
-            //var productList = await _colibriDbContext.Products
-            //        .Include(p => p.CategoryTypes)
-            //        .ToListAsync();
-
-            //return View(productList);
+            //if (claim != null)
+            //{
+            //    filterMine = claim.Value.ToString();
+            //    advertisementViewModel.Products = advertisementViewModel.Products
+            //                                        .Where(a => a.ApplicationUserId == claim.Value.ToString()).ToList();
+            //}
 
             // return the List of Products
             return View(advertisementViewModel);

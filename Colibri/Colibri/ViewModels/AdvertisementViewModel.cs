@@ -13,5 +13,7 @@ namespace Colibri.ViewModels
 
         public IEnumerable<CategoryTypes> CategoryTypes { get; set; }
         public IEnumerable<SpecialTags> SpecialTags { get; set; }
+
+        public IEnumerable<ApplicationUser> Users { get; set; }
     }
 }

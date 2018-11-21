@@ -1,4 +1,5 @@
-﻿@model Colibri.ViewModels.AdvertisementViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@model Colibri.ViewModels.AdvertisementViewModel
 
 <!-- individual CSS -->
 @section applicationUsers {
@@ -43,12 +44,16 @@
             <!-- Search row -->
             <div class="row">
                 <div class="col-2">
+                    @*Show mine*@
                 </div>
                 <div class="col-3">
+                    @*@Html.Editor("filterMine", new { htmlAttributes = new { @class = "form-control" } })*@
                 </div>
-                <div class="col-2">
 
+                <!-- empty column -->
+                <div class="col-2">
                 </div>
+
                 <div class="col-2">
                 </div>
                 <div class="col-3">
@@ -82,32 +87,41 @@
                 <th>
                     @Html.DisplayNameFor(m => m.Products.FirstOrDefault().NumberOfClicks)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Products.FirstOrDefault().ApplicationUser.UserName)
+                </th>
                 <th></th>
                 <th></th>
             </tr>
 
             @foreach (var item in Model.Products)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(m => item.Name)
-                    </td>
-                    <td>
-                        @String.Format("{0:c}", item.Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => item.CategoryTypes.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayNameFor(m => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => item.NumberOfClicks)
-                    </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Name)
+                </td>
+                <td>
+                    @String.Format("{0:c}", item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CategoryTypes.Name)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(m => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfClicks)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.ApplicationUser.UserName)
+                </td>
+                @if (User.Identity.IsAuthenticated)
+                {
                     <td>
                         <partial name="_TableButtonPartial" model="item.Id" />
                     </td>
-                </tr>
+                }
+            </tr>
             }
         </table>
     </div>
