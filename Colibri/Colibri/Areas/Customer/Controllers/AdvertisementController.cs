@@ -51,17 +51,9 @@ namespace Colibri.Areas.Customer.Controllers
                 SpecialTags = _colibriDbContext.SpecialTags.ToList(),
                 Products = new Models.Products()
             };
-        }
 
-        // Index
-        public async Task<IActionResult> Index(
-            string searchUserName=null,
-            string searchProductName=null,
-            string filterMine=null
-            )
-        {
             // Advertisement ViewModel
-            AdvertisementViewModel advertisementViewModel = new AdvertisementViewModel
+            AdvertisementViewModel = new AdvertisementViewModel
             {
                 // initialize
                 Products = new List<Products>(),
@@ -71,7 +63,15 @@ namespace Colibri.Areas.Customer.Controllers
                         on u.Id equals p.ApplicationUserId
                         select u
             };
+        }
 
+        // Index
+        public async Task<IActionResult> Index(
+            string searchUserName=null,
+            string searchProductName=null,
+            string filterMine=null
+            )
+        {
             // Security Claims
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
 
@@ -100,18 +100,18 @@ namespace Colibri.Areas.Customer.Controllers
             }
 
             // populate the List
-            advertisementViewModel.Products = _colibriDbContext.Products.ToList();
+            AdvertisementViewModel.Products = _colibriDbContext.Products.ToList();
 
 
             // Search Conditions
             if (searchUserName != null)
             {
-                advertisementViewModel.Products = advertisementViewModel.Products
+                AdvertisementViewModel.Products = AdvertisementViewModel.Products
                                                     .Where(a => a.ApplicationUser.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
             }
             if (searchProductName != null)
             {
-                advertisementViewModel.Products = advertisementViewModel.Products
+                AdvertisementViewModel.Products = AdvertisementViewModel.Products
                                                     .Where(a => a.Name.ToLower().Contains(searchProductName.ToLower())).ToList();
             }
             //if (claim != null)
@@ -122,7 +122,7 @@ namespace Colibri.Areas.Customer.Controllers
             //}
 
             // return the List of Products
-            return View(advertisementViewModel);
+            return View(AdvertisementViewModel);
         }
 
         // GET: create a new Advertisement
