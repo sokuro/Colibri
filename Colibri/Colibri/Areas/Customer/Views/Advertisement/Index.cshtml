@@ -1,15 +1,19 @@
-﻿@using Microsoft.AspNetCore.Identity
-@model Colibri.ViewModels.AdvertisementViewModel
+﻿@model Colibri.ViewModels.AdvertisementViewModel
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
 
 <!-- individual CSS -->
 @section applicationUsers {
     <link href="~/css/applicationUsers.css" rel="stylesheet" />
 }
 
+@inject IViewLocalizer Localizer
+
 <form method="get">
     <div class="row">
         <div class="col-6 text-center">
-            <h2 class="text-info">Product List</h2>
+            @*<h2 class="text-info">Product List</h2>*@
+            <h2 class="text-info">@ViewData["Advertisement"]</h2>
         </div>
         <div class="col-6 text-right">
             <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Product</a>
@@ -22,7 +26,7 @@
             <!-- 1st row -->
             <div class="row">
                 <div class="col-2">
-                    User Name
+                    @ViewData["UserName"]
                 </div>
                 <div class="col-3">
                     @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
@@ -33,7 +37,7 @@
                 </div>
 
                 <div class="col-2">
-                    Product Name
+                    @ViewData["ProductName"]
                 </div>
                 <div class="col-3">
                     @Html.Editor("searchProductName", new { htmlAttributes = new { @class = "form-control" } })
@@ -96,32 +100,32 @@
 
             @foreach (var item in Model.Products)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(m => item.Name)
-                </td>
-                <td>
-                    @String.Format("{0:c}", item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.CategoryTypes.Name)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(m => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.NumberOfClicks)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.ApplicationUser.UserName)
-                </td>
-                @if (User.Identity.IsAuthenticated)
-                {
+                <tr>
                     <td>
-                        <partial name="_TableButtonPartial" model="item.Id" />
+                        @Html.DisplayFor(m => item.Name)
                     </td>
-                }
-            </tr>
+                    <td>
+                        @String.Format("{0:c}", item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CategoryTypes.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(m => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfClicks)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.ApplicationUser.UserName)
+                    </td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <td>
+                            <partial name="_TableButtonPartial" model="item.Id" />
+                        </td>
+                    }
+                </tr>
             }
         </table>
     </div>

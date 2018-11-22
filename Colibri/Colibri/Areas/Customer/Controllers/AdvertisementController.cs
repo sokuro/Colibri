@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace Colibri.Areas.Customer.Controllers
 {
@@ -28,6 +29,7 @@ namespace Colibri.Areas.Customer.Controllers
     {
         private readonly ColibriDbContext _colibriDbContext;
         private readonly HostingEnvironment _hostingEnvironment;
+        private readonly IStringLocalizer<AdvertisementController> _localizer;
 
         // bind to the Advertisement ViewModel
         // not necessary to create new Objects
@@ -39,10 +41,11 @@ namespace Colibri.Areas.Customer.Controllers
         [BindProperty]
         public ProductsViewModel ProductsViewModel { get; set; }
 
-        public AdvertisementController(ColibriDbContext colibriDbContext, HostingEnvironment hostingEnvironment)
+        public AdvertisementController(ColibriDbContext colibriDbContext, HostingEnvironment hostingEnvironment, IStringLocalizer<AdvertisementController> localizer)
         {
             _colibriDbContext = colibriDbContext;
             _hostingEnvironment = hostingEnvironment;
+            _localizer = localizer;
 
             // initialize the Constructor for the ProductsController
             ProductsViewModel = new ProductsViewModel()
@@ -120,6 +123,11 @@ namespace Colibri.Areas.Customer.Controllers
             //    advertisementViewModel.Products = advertisementViewModel.Products
             //                                        .Where(a => a.ApplicationUserId == claim.Value.ToString()).ToList();
             //}
+
+            // i18n
+            ViewData["Advertisement"] = _localizer["AdvertisementText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["ProductName"] = _localizer["ProductNameText"];
 
             // return the List of Products
             return View(AdvertisementViewModel);
