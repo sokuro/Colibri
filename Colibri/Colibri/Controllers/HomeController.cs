@@ -11,14 +11,13 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace Colibri
+namespace Colibri.Controllers
 {
     /*
      * Main HomeController
      * 
      * open without Registering
      */
-    [Area("Customer")]
     public class HomeController : Controller
     {
         // private Fields for Object saves
