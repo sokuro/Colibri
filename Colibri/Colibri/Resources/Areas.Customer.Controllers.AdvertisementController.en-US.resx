@@ -120,6 +120,9 @@
   <data name="AdvertisementText" xml:space="preserve">
     <value>Advertisement</value>
   </data>
+  <data name="NewProductText" xml:space="preserve">
+    <value>New Product</value>
+  </data>
   <data name="ProductNameText" xml:space="preserve">
     <value>Product Name</value>
   </data>

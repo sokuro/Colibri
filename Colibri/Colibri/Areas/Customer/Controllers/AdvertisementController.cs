@@ -61,8 +61,11 @@ namespace Colibri.Areas.Customer.Controllers
                 // initialize
                 Products = new List<Products>(),
 
+                // eager Loading
                 Users = from u in _colibriDbContext.ApplicationUsers
                         join p in _colibriDbContext.Products
+                        .Include(p => p.ApplicationUser)
+                        .ThenInclude(p => p.UserName)
                         on u.Id equals p.ApplicationUserId
                         select u
             };
@@ -128,6 +131,7 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Advertisement"] = _localizer["AdvertisementText"];
             ViewData["UserName"] = _localizer["UserNameText"];
             ViewData["ProductName"] = _localizer["ProductNameText"];
+            ViewData["NewProduct"] = _localizer["NewProductText"];
 
             // return the List of Products
             return View(AdvertisementViewModel);
