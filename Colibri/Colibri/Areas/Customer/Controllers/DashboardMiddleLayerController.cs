@@ -9,6 +9,8 @@ namespace Colibri.Areas.Customer.Controllers
     [Area("Customer")]
     public class DashboardMiddleLayerController : Controller
     {
+        [Route("Customer/DashboardMiddleLayer/Index")]
+
         public IActionResult Index()
         {
             return View();

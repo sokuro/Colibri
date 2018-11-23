@@ -22,7 +22,16 @@ namespace Colibri.Areas.Admin.Controllers
             _colibriDbContext = colibriDbContext;
         }
 
+        [Route("Admin/CategoryTypes/Index")]
+        public IActionResult Index()
+        {
+            var categoryTypesList = _colibriDbContext.CategoryTypes.ToList();
+
+            return View(categoryTypesList);
+        }
+
         // Get: /<controller>/Create
+        [Route("Admin/CategoryTypes/Create")]
         public IActionResult Create()
         {
             return View();
@@ -30,6 +39,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Post: /<controller>/Create
         // @param Category
+        [Route("Admin/CategoryTypes/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CategoryTypes categoryTypes)
@@ -53,6 +63,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Get: /<controller>/Edit
+        [Route("Admin/CategoryTypes/Edit/{id}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,6 +83,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Post: /<controller>/Edit
         // @param Category
+        [Route("Admin/CategoryTypes/Edit/{id}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, CategoryTypes categoryTypes)
@@ -101,6 +113,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Get: /<controller>/Details
+        [Route("Admin/CategoryTypes/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -119,6 +132,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Get: /<controller>/Delete
+        [Route("Admin/CategoryTypes/Delete/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,6 +152,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Post: /<controller>/Delete
         // @param Category
+        [Route("Admin/CategoryTypes/Delete/{id}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
@@ -152,13 +167,6 @@ namespace Colibri.Areas.Admin.Controllers
             // avoid Refreshing the POST Operation -> Redirect
             //return View("Details", newCategory);
             return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Index()
-        {
-            var categoryTypesList = _colibriDbContext.CategoryTypes.ToList();
-
-            return View(categoryTypesList);
         }
     }
 }

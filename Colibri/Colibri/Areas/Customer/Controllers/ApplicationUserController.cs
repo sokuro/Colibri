@@ -36,6 +36,7 @@ namespace Colibri.Areas.Customer.Controllers
 
         // extend the Method with the Parameters for Search:
         // UserName, FirstName, LastName
+        [Route("Customer/ApplicationUser/Index")]
         public async Task<IActionResult> Index(
             string searchUserName=null,
             string searchFirstName=null,
@@ -91,6 +92,7 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // Method Details GET
+        [Route("Customer/ApplicationUser/Details/{id}")]
         public async Task<IActionResult> Details(string id)
         {
             // get the individual User

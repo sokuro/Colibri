@@ -47,7 +47,18 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Action Method Create
+        [Route("Admin/Products/Index")]
+        public async Task<IActionResult> Index()
+        {
+            // List of Products
+            var productList = await _colibriDbContext.Products.Include(m => m.CategoryTypes).Include(m => m.SpecialTags).ToListAsync();
+
+            return View(productList);
+        }
+
+        // Action Method Create
         // pass the ViewModel for the DropDown Functionality of the Category Types and Special Tags
+        [Route("Admin/Products/Create")]
         public IActionResult Create()
         {
             return View(ProductsViewModel);
@@ -55,6 +66,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Post: /<controller>/Create
         // ViewModel bound automatically
+        [Route("Admin/Products/Create")]
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePost()
@@ -65,6 +77,11 @@ namespace Colibri.Areas.Admin.Controllers
                 //add a Product first to retrieve it, so one can add Properties to it
                 _colibriDbContext.Add(ProductsViewModel.Products);
                 await _colibriDbContext.SaveChangesAsync();
+
+                // TODO save in the Search Entity
+                //_colibriDbContext.Add(ProductsViewModel.CategoryTypes);
+                //await _colibriDbContext.SaveChangesAsync();
+
 
                 // Image being saved
                 // use the Hosting Environment
@@ -124,6 +141,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Get: /<controller>/Edit
+        [Route("Admin/Products/Edit/{id}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -145,6 +163,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Post: /<controller>/Edit
         // @param Category
+        [Route("Admin/Products/Edit/{id}")]
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPost(int id)
@@ -222,6 +241,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Get: /<controller>/Details
+        [Route("Admin/Products/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -242,6 +262,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Get: /<controller>/Delete
+        [Route("Admin/Products/Delete/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -263,6 +284,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Post: /<controller>/Delete
         // @param Category
+        [Route("Admin/Products/Delete/{id}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -298,14 +320,6 @@ namespace Colibri.Areas.Admin.Controllers
                 // avoid Refreshing the POST Operation -> Redirect
                 return RedirectToAction(nameof(Index));
             }
-        }
-
-        public async Task<IActionResult> Index()
-        {
-            // List of Products
-            var productList = await _colibriDbContext.Products.Include(m => m.CategoryTypes).Include(m => m.SpecialTags).ToListAsync();
-
-            return View(productList);
         }
     }
 }

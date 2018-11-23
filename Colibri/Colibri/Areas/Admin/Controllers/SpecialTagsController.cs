@@ -26,7 +26,16 @@ namespace Colibri.Areas.Admin.Controllers
             _colibriDbContext = colibriDbContext;
         }
 
+        [Route("Admin/SpecialTags/Index")]
+        public IActionResult Index()
+        {
+            var specialTagsList = _colibriDbContext.SpecialTags.ToList();
+
+            return View(specialTagsList);
+        }
+
         // Get: /<controller>/Create
+        [Route("Admin/SpecialTags/Create")]
         public IActionResult Create()
         {
             return View();
@@ -34,6 +43,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Post: /<controller>/Create
         // @param SpecialTag
+        [Route("Admin/SpecialTags/Create")]
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SpecialTags specialTags)
@@ -55,6 +65,7 @@ namespace Colibri.Areas.Admin.Controllers
             }
         }
 
+        [Route("Admin/SpecialTags/Edit/{id}")]
         // Get: /<controller>/Edit
         public async Task<IActionResult> Edit(int? id)
         {
@@ -75,6 +86,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Post: /<controller>/Edit
         // @param Category
+        [Route("Admin/SpecialTags/Edit/{id}")]
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, SpecialTags specialTags)
@@ -103,6 +115,7 @@ namespace Colibri.Areas.Admin.Controllers
             }
         }
 
+        [Route("Admin/SpecialTags/Details/{id}")]
         // Get: /<controller>/Details
         public async Task<IActionResult> Details(int? id)
         {
@@ -122,6 +135,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Get: /<controller>/Delete
+        [Route("Admin/SpecialTags/Delete/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,6 +155,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Post: /<controller>/Delete
         // @param Category
+        [Route("Admin/SpecialTags/Delete/{id}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
@@ -155,13 +170,6 @@ namespace Colibri.Areas.Admin.Controllers
             // avoid Refreshing the POST Operation -> Redirect
             //return View("Details", newCategory);
             return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Index()
-        {
-            var specialTagsList = _colibriDbContext.SpecialTags.ToList();
-
-            return View(specialTagsList);
         }
     }
 }

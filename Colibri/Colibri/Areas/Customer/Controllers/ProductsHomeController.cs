@@ -40,7 +40,7 @@ namespace Colibri.Customer.Controllers
         }
 
         // Details View GET
-        [Route("Customer/ProductsHome/Details")]
+        [Route("Customer/ProductsHome/Details/{id}")]
         public async Task<IActionResult> Details(int id)
         {
             // get the individual Product
@@ -60,7 +60,7 @@ namespace Colibri.Customer.Controllers
         }
 
         // Details POST
-        [Route("Customer/ProductsHome/Details")]
+        [Route("Customer/ProductsHome/Details/{id}")]
         [HttpPost,ActionName("Details")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DetailsPost(int id)
@@ -86,7 +86,7 @@ namespace Colibri.Customer.Controllers
         }
 
         // Remove (from Bag)
-        [Route("Customer/ProductsHome/Remove")]
+        [Route("Customer/ProductsHome/Remove/{id}")]
         public IActionResult Remove(int id)
         {
             List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");

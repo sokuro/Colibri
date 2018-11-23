@@ -41,7 +41,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Get: Method Edit User
         // ID -> GUI (as string)
-        [Route("Admin/AdminUsers/Edit")]
+        [Route("Admin/AdminUsers/Edit/{id}")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null || id.Trim().Length == 0)
@@ -62,7 +62,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // POST: Method Edit User
-        [Route("Admin/AdminUsers/Edit")]
+        [Route("Admin/AdminUsers/Edit/{id}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(string id, ApplicationUser applicationUser)
@@ -93,7 +93,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Get: Method Delete User
         // ID -> GUI (as string)
-        [Route("Admin/AdminUsers/Delete")]
+        [Route("Admin/AdminUsers/Delete/{id}")]
         public async Task<IActionResult> Delete (string id)
         {
             if (id == null || id.Trim().Length == 0)
@@ -114,7 +114,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // POST: Method Delete User
-        [Route("Admin/AdminUsers/Delete")]
+        [Route("Admin/AdminUsers/Delete/{id}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost (string id)
