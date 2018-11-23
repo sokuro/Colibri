@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Colibri.Controllers
+namespace Colibri.Customer.Controllers
 {
     /*
      * Controller for the Products View
@@ -27,6 +27,7 @@ namespace Colibri.Controllers
         }
 
         // Entry (Index) View
+        [Route("Customer/ProductsHome/Index")]
         public async Task<IActionResult> Index()
         {
             //var productList = _repository.GetAllProductsAsync();
@@ -39,6 +40,7 @@ namespace Colibri.Controllers
         }
 
         // Details View GET
+        [Route("Customer/ProductsHome/Details")]
         public async Task<IActionResult> Details(int id)
         {
             // get the individual Product
@@ -58,6 +60,7 @@ namespace Colibri.Controllers
         }
 
         // Details POST
+        [Route("Customer/ProductsHome/Details")]
         [HttpPost,ActionName("Details")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DetailsPost(int id)
@@ -83,6 +86,7 @@ namespace Colibri.Controllers
         }
 
         // Remove (from Bag)
+        [Route("Customer/ProductsHome/Remove")]
         public IActionResult Remove(int id)
         {
             List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");

@@ -35,6 +35,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // extend the Method with the Parameters for Search:
         // Name, Email, Phone, Date
+        [Route("Admin/Appointments/Index")]
         public async Task<IActionResult> Index(
             int productPage = 1,
             string searchName=null,
@@ -149,6 +150,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Get: Method Edit Appointment
+        [Route("Admin/Appointments/Edit")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -181,6 +183,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // POST: Method Edit Appointment
+        [Route("Admin/Appointments/Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, AppointmentDetailsViewModel appointmentViewModel)
@@ -222,6 +225,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Get: Method Details Appointment
+        [Route("Admin/Appointments/Details")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -256,6 +260,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Get: Method Delete Appointment
+        [Route("Admin/Appointments/Delete")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -290,6 +295,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // POST: Delete Action Method
+        [Route("Admin/Appointments/Delete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

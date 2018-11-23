@@ -28,6 +28,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Main Index EntryPage
+        [Route("Admin/AdminUsers/Index")]
         public async Task<IActionResult> Index()
         {
             // return the List of the Super Admin Users
@@ -40,6 +41,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Get: Method Edit User
         // ID -> GUI (as string)
+        [Route("Admin/AdminUsers/Edit")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null || id.Trim().Length == 0)
@@ -60,6 +62,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // POST: Method Edit User
+        [Route("Admin/AdminUsers/Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(string id, ApplicationUser applicationUser)
@@ -90,6 +93,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Get: Method Delete User
         // ID -> GUI (as string)
+        [Route("Admin/AdminUsers/Delete")]
         public async Task<IActionResult> Delete (string id)
         {
             if (id == null || id.Trim().Length == 0)
@@ -110,6 +114,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // POST: Method Delete User
+        [Route("Admin/AdminUsers/Delete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost (string id)
