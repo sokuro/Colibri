@@ -72,7 +72,7 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // Index
-        [Route("Customer/Advertisement/Index")]
+        [Route("Advertisement/Index")]
         public async Task<IActionResult> Index(
             string searchUserName=null,
             string searchProductName=null,
@@ -140,7 +140,7 @@ namespace Colibri.Areas.Customer.Controllers
 
         // GET: create a new Advertisement
         // pass the ViewModel for the DropDown Functionality of the Category Types
-        [Route("Customer/Advertisement/Create")]
+        [Route("Advertisement/Create")]
         public IActionResult Create()
         {
             return View(ProductsViewModel);
@@ -148,7 +148,7 @@ namespace Colibri.Areas.Customer.Controllers
 
         // POST: create a new Advertisement
         // ViewModel bound automatically
-        [Route("Customer/Advertisement/Create")]
+        [Route("Advertisement/Create")]
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> createPost()
@@ -232,7 +232,7 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // GET: Details
-        [Route("Customer/Advertisement/Details/{id}")]
+        [Route("Advertisement/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -257,7 +257,7 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // Details POST
-        [Route("Customer/Advertisement/Details/{id}")]
+        [Route("Advertisement/Details/{id}")]
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DetailsPost(int id)
