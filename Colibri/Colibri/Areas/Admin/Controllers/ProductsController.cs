@@ -157,7 +157,7 @@ namespace Colibri.Areas.Admin.Controllers
                 var files = HttpContext.Request.Form.Files;
                 // to replace an Image, first remove the old One
                 // get the Product from the DB
-                var productFromDb = _colibriDbContext.Products.Where(m => m.Id == ProductsViewModel.Products.Id).FirstOrDefault();
+                var productFromDb = await _colibriDbContext.Products.Where(m => m.Id == ProductsViewModel.Products.Id).FirstOrDefaultAsync();
                 // does the File exist and was uploaded by the User
                 if (files.Count > 0 && files[0] != null)
                 {

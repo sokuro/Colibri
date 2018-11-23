@@ -168,7 +168,7 @@ namespace Colibri.Areas.Admin.Controllers
             AppointmentDetailsViewModel objAppointmentVM = new AppointmentDetailsViewModel()
             {
                 // retrieve the Appointment from the DB
-                Appointment = _colibriDbContext.Appointments.Include(a => a.AppPerson).Where(a => a.Id == id).FirstOrDefault(),
+                Appointment = await _colibriDbContext.Appointments.Include(a => a.AppPerson).Where(a => a.Id == id).FirstOrDefaultAsync(),
                 // get the Application User List
                 AppPerson = _colibriDbContext.ApplicationUsers.ToList(),
                 // get the List of all Products
@@ -193,9 +193,9 @@ namespace Colibri.Areas.Admin.Controllers
                                                                         .AddMinutes(appointmentViewModel.Appointment.AppointmentTime.Minute);
 
                 // retrieve the Appointment Object from the DB
-                var appointmentFromDb = _colibriDbContext.Appointments
+                var appointmentFromDb = await _colibriDbContext.Appointments
                                             .Where(a => a.Id == appointmentViewModel.Appointment.Id)
-                                            .FirstOrDefault();
+                                            .FirstOrDefaultAsync();
 
                 // update individual Properties
                 appointmentFromDb.CustomerName = appointmentViewModel.Appointment.CustomerName;
@@ -241,10 +241,10 @@ namespace Colibri.Areas.Admin.Controllers
             AppointmentDetailsViewModel appointmentViewModel = new AppointmentDetailsViewModel()
             {
                 // retrieve the Appointment from the DB
-                Appointment = _colibriDbContext.Appointments
+                Appointment = await _colibriDbContext.Appointments
                                     .Include(a => a.AppPerson)
                                     .Where(a => a.Id == id)
-                                    .FirstOrDefault(),
+                                    .FirstOrDefaultAsync(),
                 // get the Application User List
                 AppPerson = _colibriDbContext.ApplicationUsers.ToList(),
                 // get the List of all Products
@@ -275,10 +275,10 @@ namespace Colibri.Areas.Admin.Controllers
             AppointmentDetailsViewModel appointmentViewModel = new AppointmentDetailsViewModel()
             {
                 // retrieve the Appointment from the DB
-                Appointment = _colibriDbContext.Appointments
+                Appointment = await _colibriDbContext.Appointments
                                     .Include(a => a.AppPerson)
                                     .Where(a => a.Id == id)
-                                    .FirstOrDefault(),
+                                    .FirstOrDefaultAsync(),
                 // get the Application User List
                 AppPerson = _colibriDbContext.ApplicationUsers.ToList(),
                 // get the List of all Products
