@@ -28,13 +28,12 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // Main Index EntryPage
-        //public async Task<IActionResult> IndexAsync()
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             // return the List of the Super Admin Users
-            var listOfSuperAdminUsers = _colibriDbContext.ApplicationUsers
+            var listOfSuperAdminUsers = await _colibriDbContext.ApplicationUsers
                                     .Where(u => u.IsSuperAdmin == true)
-                                    .ToList();
+                                    .ToListAsync();
 
             return View(listOfSuperAdminUsers);
         }
