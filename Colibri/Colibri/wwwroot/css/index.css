@@ -155,7 +155,7 @@ footer.sticky-footer {
     bottom: 0;
     /*width: calc(100% - 90px);*/
     width: 100%;
-    color: white;
+    color: black;
     text-align: center;
     height: 80px;
     z-index: -1;
