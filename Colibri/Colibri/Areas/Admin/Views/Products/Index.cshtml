@@ -21,6 +21,9 @@
                 @Html.DisplayNameFor(m => m.Available)
             </th>
             <th>
+                @Html.DisplayNameFor(m => m.CategoryGroups)
+            </th>
+            <th>
                 @Html.DisplayNameFor(m => m.CategoryTypes)
             </th>
             <th>
@@ -46,6 +49,9 @@
                 @Html.DisplayFor(m => item.Available)
             </td>
             <td>
+                @Html.DisplayFor(m => item.CategoryGroups.Name)
+            </td>
+            <td>
                 @Html.DisplayFor(m => item.CategoryTypes.Name)
             </td>
             <td>
@@ -58,7 +64,7 @@
                 @Html.DisplayNameFor(m => item.Description)
             </th>
             <td>
-                <partial name="_TableButtonPartial" model="item.Id" />
+                <partial name="_TableButtonPartialAdminProducts" model="item.Id" />
             </td>
         </tr>
         }
