@@ -60,14 +60,7 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 // initialize
                 Products = new List<Products>(),
-
-                // eager Loading
-                Users = from u in _colibriDbContext.ApplicationUsers
-                        join p in _colibriDbContext.Products
-                        .Include(p => p.ApplicationUser)
-                        .ThenInclude(p => p.UserName)
-                        on u.Id equals p.ApplicationUserId
-                        select u
+                Users = new List<ApplicationUser>()
             };
         }
 
@@ -106,8 +99,14 @@ namespace Colibri.Areas.Customer.Controllers
                 param.Append(filterMine);
             }
 
-            // populate the List
+            // populate the Lists
             AdvertisementViewModel.Products = _colibriDbContext.Products.ToList();
+            AdvertisementViewModel.Users = from u in _colibriDbContext.ApplicationUsers
+                                                    join p in _colibriDbContext.Products
+                                                    .Include(p => p.ApplicationUser)
+                                                    .ThenInclude(p => p.UserName)
+                                                    on u.Id equals p.ApplicationUserId
+                                                    select u;
 
 
             // Search Conditions

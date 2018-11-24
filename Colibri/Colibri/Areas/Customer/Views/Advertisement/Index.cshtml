@@ -117,7 +117,7 @@
                         @Html.DisplayFor(m => item.NumberOfClicks)
                     </td>
                     <td>
-                        @Html.DisplayFor(m => item.ApplicationUser.UserName)
+                        @Html.DisplayFor(m => m.Users)
                     </td>
                     @if (User.Identity.IsAuthenticated)
                     {
