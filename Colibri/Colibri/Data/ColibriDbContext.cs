@@ -21,6 +21,7 @@ namespace Colibri.Data
 
 
         // Each Entity will need DbSet<T> Property
+        public DbSet<CategoryGroups> CategoryGroups { get; set; }
         public DbSet<CategoryTypes> CategoryTypes { get; set; }
         public DbSet<SpecialTags> SpecialTags { get; set; }
         public DbSet<Products> Products { get; set; }
