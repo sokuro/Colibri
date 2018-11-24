@@ -40,6 +40,7 @@ namespace Colibri.Areas.Admin.Controllers
             // initialize the Constructor for the ProductsController
             ProductsViewModel = new ProductsViewModel()
             {
+                CategoryGroups = _colibriDbContext.CategoryGroups.ToList(),
                 CategoryTypes = _colibriDbContext.CategoryTypes.ToList(),
                 SpecialTags = _colibriDbContext.SpecialTags.ToList(),
                 Products = new Models.Products()
@@ -51,7 +52,11 @@ namespace Colibri.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             // List of Products
-            var productList = await _colibriDbContext.Products.Include(m => m.CategoryTypes).Include(m => m.SpecialTags).ToListAsync();
+            var productList = await _colibriDbContext.Products
+                                    .Include(m => m.CategoryGroups)
+                                    .Include(m => m.CategoryTypes)
+                                    .Include(m => m.SpecialTags)
+                                    .ToListAsync();
 
             return View(productList);
         }
@@ -151,7 +156,11 @@ namespace Colibri.Areas.Admin.Controllers
 
             // search for the ID
             // incl. ProductTypes and SpecialTags too
-            ProductsViewModel.Products = await _colibriDbContext.Products.Include(m => m.CategoryTypes).Include(m => m.SpecialTags).SingleOrDefaultAsync(m => m.Id == id);
+            ProductsViewModel.Products = await _colibriDbContext.Products
+                                            .Include(m => m.CategoryGroups)
+                                            .Include(m => m.CategoryTypes)
+                                            .Include(m => m.SpecialTags)
+                                            .SingleOrDefaultAsync(m => m.Id == id);
 
             if (ProductsViewModel.Products == null)
             {
@@ -251,7 +260,11 @@ namespace Colibri.Areas.Admin.Controllers
 
             // search for the ID
             // incl. ProductTypes and SpecialTags too
-            ProductsViewModel.Products = await _colibriDbContext.Products.Include(m => m.CategoryTypes).Include(m => m.SpecialTags).SingleOrDefaultAsync(m => m.Id == id);
+            ProductsViewModel.Products = await _colibriDbContext.Products
+                                                .Include(m => m.CategoryGroups)
+                                                .Include(m => m.CategoryTypes)
+                                                .Include(m => m.SpecialTags)
+                                                .SingleOrDefaultAsync(m => m.Id == id);
 
             if (ProductsViewModel.Products == null)
             {
@@ -272,7 +285,11 @@ namespace Colibri.Areas.Admin.Controllers
 
             // search for the ID
             // incl. ProductTypes and SpecialTags too
-            ProductsViewModel.Products = await _colibriDbContext.Products.Include(m => m.CategoryTypes).Include(m => m.SpecialTags).SingleOrDefaultAsync(m => m.Id == id);
+            ProductsViewModel.Products = await _colibriDbContext.Products
+                                                .Include(m => m.CategoryGroups)
+                                                .Include(m => m.CategoryTypes)
+                                                .Include(m => m.SpecialTags)
+                                                .SingleOrDefaultAsync(m => m.Id == id);
 
             if (ProductsViewModel.Products == null)
             {
