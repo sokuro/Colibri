@@ -50,6 +50,7 @@ namespace Colibri.Areas.Customer.Controllers
             // initialize the Constructor for the ProductsController
             ProductsViewModel = new ProductsViewModel()
             {
+                CategoryGroups = _colibriDbContext.CategoryGroups.ToList(),
                 CategoryTypes = _colibriDbContext.CategoryTypes.ToList(),
                 SpecialTags = _colibriDbContext.SpecialTags.ToList(),
                 Products = new Models.Products()
@@ -241,6 +242,7 @@ namespace Colibri.Areas.Customer.Controllers
 
             // get the individual Product
             var product = await _colibriDbContext.Products
+                    .Include(p => p.CategoryGroups)
                     .Include(p => p.CategoryTypes)
                     .Include(p => p.SpecialTags)
                     .Where(p => p.Id == id)
