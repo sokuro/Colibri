@@ -39,6 +39,15 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
+                <label asp-for="CategoryGroups"></label>
+            </div>
+            <!-- using the Extension Method for DropDown -->
+            <div class="col-5">
+                <select asp-for="@Model.Products.CategoryGroupId" asp-items="Model.CategoryGroups.ToSelectListItem(Model.Products.CategoryGroupId)"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
                 <label asp-for="CategoryTypes"></label>
             </div>
             <!-- using the Extension Method for DropDown -->
