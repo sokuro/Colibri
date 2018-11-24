@@ -23,7 +23,16 @@ namespace Colibri.Models
         /*
          * Foreign References
          */
-        // #1 Category Type
+        // #1 Category Group
+        [Display(Name = "Category Group")]
+        public int CategoryGroupId { get; set; }
+
+        // 1 Product = 1 Category Type
+        // 'virtual': not added to the DB
+        [ForeignKey("CategoryGroupId")]
+        public virtual CategoryGroups CategoryGroups { get; set; }
+
+        // #2 Category Type
         [Display(Name = "Category Type")]
         public int CategoryTypeId { get; set; }
 
@@ -32,7 +41,7 @@ namespace Colibri.Models
         [ForeignKey("CategoryTypeId")]
         public virtual CategoryTypes CategoryTypes { get; set; }
 
-        // #2 Special Tag
+        // #3 Special Tag
         [Display(Name = "Special Tag")]
         public int SpecialTagId { get; set; }
 
@@ -41,7 +50,7 @@ namespace Colibri.Models
         [ForeignKey("SpecialTagId")]
         public virtual SpecialTags SpecialTags { get; set; }
 
-        // #3 User
+        // #4 User
         public string ApplicationUserId { get; set;}
 
         // 1 Product = 1 User
