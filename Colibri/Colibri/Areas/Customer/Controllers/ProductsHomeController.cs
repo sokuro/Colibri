@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Colibri.Customer.Controllers
+namespace Colibri.Areas.Customer.Controllers
 {
     /*
      * Controller for the Products View
