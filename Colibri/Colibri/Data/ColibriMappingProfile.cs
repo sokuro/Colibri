@@ -4,8 +4,9 @@ using Colibri.ViewModels;
 
 namespace Colibri.Data
 {
-    // TODO
-    // if mapping used later, if not -> delete!
+    /*
+     * AutoMapper Helper Class
+     */
     public class ColibriMappingProfile : Profile
     {
         public ColibriMappingProfile()
@@ -19,9 +20,17 @@ namespace Colibri.Data
             //    .ReverseMap();
 
 
-            // new Map Product, ProductViewModel
+            // Map: Product, ProductViewModel
             //CreateMap<Product, ProductViewModel>()
             //    .ReverseMap();
+
+            // Map: Products, AdvertisementViewModel
+            CreateMap<Products, AdvertisementViewModel>()
+                .ReverseMap();
+
+            // Map: ApplicationUser, AdvertisementViewModel
+            CreateMap<ApplicationUser, AdvertisementViewModel>()
+                .ReverseMap();
         }
     }
 }
