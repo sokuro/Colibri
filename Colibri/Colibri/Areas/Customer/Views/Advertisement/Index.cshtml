@@ -123,7 +123,7 @@
                     @Html.DisplayFor(m => item.NumberOfClicks)
                 </td>
                 <td>
-                    @Html.DisplayFor(m => m.Users)
+                    @Html.DisplayFor(m => m.Users.FirstOrDefault().UserName)
                 </td>
                 @if (User.Identity.IsAuthenticated)
                 {
