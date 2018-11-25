@@ -1,15 +1,19 @@
 ﻿@model Colibri.Models.ApplicationUser
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
 @{
     ViewData["Title"] = "Delete";
 }
 
-<h2 class="text-info">Delete Admin User</h2>
+<h2 class="text-info">@ViewData["DeleteAdminUser"]</h2>
 
 <form method="post">
     <div class="p-4 border rounded">
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="FirstName"></label>
+                <label asp-for="FirstName">@ViewData["FirstName"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="FirstName" readonly class="form-control" />
@@ -17,7 +21,7 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="LastName"></label>
+                <label asp-for="LastName">@ViewData["LastName"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="LastName" readonly class="form-control" />
@@ -25,7 +29,7 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Email"></label>
+                <label asp-for="Email">@ViewData["Email"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="Email" readonly class="form-control" />
@@ -33,15 +37,15 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="PhoneNumber"></label>
+                <label asp-for="PhoneNumber">@ViewData["PhoneNumber"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="PhoneNumber" readonly class="form-control" />
             </div>
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-danger" asp-route-id="@Model.Id" value="Delete" />
-            <a asp-action="Index" class="btn btn-success">Back to List</a>
+            <input type="submit" class="btn btn-danger" asp-route-id="@Model.Id" value=@ViewData["Delete"] />
+            <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
         </div>
     </div>
 </form>

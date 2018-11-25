@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Colibri.Areas.Customer.Controllers;
 using Colibri.Data;
 using Colibri.Models;
 using Colibri.Utility;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace Colibri.Areas.Admin.Controllers
 {
@@ -21,10 +23,12 @@ namespace Colibri.Areas.Admin.Controllers
     public class AdminUsersController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
+        private readonly IStringLocalizer<AdminUsersController> _localizer;
 
-        public AdminUsersController(ColibriDbContext colibriDbContext)
+        public AdminUsersController(ColibriDbContext colibriDbContext, IStringLocalizer<AdminUsersController> localizer)
         {
             _colibriDbContext = colibriDbContext;
+            _localizer = localizer;
         }
 
         // Main Index EntryPage
@@ -35,6 +39,17 @@ namespace Colibri.Areas.Admin.Controllers
             var listOfSuperAdminUsers = await _colibriDbContext.ApplicationUsers
                                     .Where(u => u.IsSuperAdmin == true)
                                     .ToListAsync();
+
+            // i18n
+            ViewData["AdminUser"] = _localizer["AdminUserText"];
+            ViewData["NewAdminUser"] = _localizer["NewAdminUserText"];
+            ViewData["FirstName"] = _localizer["FirstNameText"];
+            ViewData["LastName"] = _localizer["LastNameText"];
+            ViewData["Email"] = _localizer["EmailText"];
+            ViewData["PhoneNumber"] = _localizer["PhoneNumberText"];
+            ViewData["Disabled"] = _localizer["DisabledText"];
+            ViewData["Edit"] = _localizer["EditText"];
+            ViewData["Delete"] = _localizer["DeleteText"];
 
             return View(listOfSuperAdminUsers);
         }
@@ -56,6 +71,16 @@ namespace Colibri.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            // i18n
+            ViewData["EditAdminUser"] = _localizer["EditAdminUserText"];
+            ViewData["Edit"] = _localizer["EditText"];
+            ViewData["FirstName"] = _localizer["FirstNameText"];
+            ViewData["LastName"] = _localizer["LastNameText"];
+            ViewData["Email"] = _localizer["EmailText"];
+            ViewData["PhoneNumber"] = _localizer["PhoneNumberText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
 
             // pass the User to the View
             return View(userFromDb);
@@ -108,6 +133,15 @@ namespace Colibri.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            // i18n
+            ViewData["DeleteAdminUser"] = _localizer["DeleteAdminUserText"];
+            ViewData["Delete"] = _localizer["DeleteText"];
+            ViewData["FirstName"] = _localizer["FirstNameText"];
+            ViewData["LastName"] = _localizer["LastNameText"];
+            ViewData["Email"] = _localizer["EmailText"];
+            ViewData["PhoneNumber"] = _localizer["PhoneNumberText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
 
             // pass the User to the View
             return View(userFromDb);

@@ -1,9 +1,13 @@
 ﻿@model Colibri.Models.ApplicationUser
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
 @{
     ViewData["Title"] = "Edit";
 }
 
-<h2 class="text-info">Edit Admin User</h2>
+<h2 class="text-info">@ViewData["EditAdminUser"]</h2>
 
 <form method="post" asp-action="Edit">
     <div class="p-4 border rounded">
@@ -11,7 +15,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="FirstName"></label>
+                <label asp-for="FirstName">@ViewData["FirstName"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="FirstName" class="form-control" />
@@ -20,7 +24,7 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="LastName"></label>
+                <label asp-for="LastName">@ViewData["LastName"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="LastName" class="form-control" />
@@ -29,7 +33,7 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Email"></label>
+                <label asp-for="Email">@ViewData["Email"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="Email" readonly class="form-control" />
@@ -37,7 +41,7 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="PhoneNumber"></label>
+                <label asp-for="PhoneNumber">@ViewData["PhoneNumber"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="PhoneNumber" class="form-control" />
@@ -45,8 +49,8 @@
             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" asp-route-id="@Model.Id" value="Update" />
-            <a asp-action="Index" class="btn btn-success">Back to List</a>
+            <input type="submit" class="btn btn-primary" asp-route-id="@Model.Id" value=@ViewData["Update"] />
+            <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
         </div>
     </div>
 </form>
