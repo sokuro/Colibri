@@ -1,36 +1,39 @@
 ﻿@model IEnumerable<Colibri.Models.Products>
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
 
 <div class="row">
     <div class="col-6 text-center">
-        <h2 class="text-info">Product List</h2>
+        <h2 class="text-info">@ViewData["ProductList"]</h2>
     </div>
     <div class="col-6 text-right">
-        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Product</a>
+        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewProduct"]</a>
     </div>
 </div>
 <div>
     <table class="table table-striped border">
         <tr class="text-info">
             <th>
-                @Html.DisplayNameFor(m => m.Name)
+                @ViewData["Name"]
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.Price)
+                @ViewData["Price"]
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.Available)
+                @ViewData["Available"]
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.CategoryGroups)
+                @ViewData["CategoryGroup"]
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.CategoryTypes)
+                @ViewData["CategoryType"]
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.SpecialTags)
+                @ViewData["SpecialTag"]
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.Description)
+                @ViewData["Description"]
             </th>
             <th></th>
             <th></th>
@@ -38,35 +41,35 @@
 
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(m => item.Name)
-            </td>
-            <td>
-                @String.Format("{0:c}", item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.Available)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.CategoryGroups.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.CategoryTypes.Name)
-            </td>
-            <td>
-                @if (!item.SpecialTags.Name.Equals("--None--"))
-                {
-                    @Html.DisplayFor(m => item.SpecialTags.Name)
-                }
-            </td>
-            <th>
-                @Html.DisplayNameFor(m => item.Description)
-            </th>
-            <td>
-                <partial name="_TableButtonPartialAdminProducts" model="item.Id" />
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Name)
+                </td>
+                <td>
+                    @String.Format("{0:c}", item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Available)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CategoryGroups.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CategoryTypes.Name)
+                </td>
+                <td>
+                    @if (!item.SpecialTags.Name.Equals("--None--"))
+                    {
+                        @Html.DisplayFor(m => item.SpecialTags.Name)
+                    }
+                </td>
+                <th>
+                    @Html.DisplayNameFor(m => item.Description)
+                </th>
+                <td>
+                    <partial name="_TableButtonPartialAdminProducts" model="item.Id" />
+                </td>
+            </tr>
         }
     </table>
 </div>

@@ -1,11 +1,14 @@
 ﻿@model Colibri.ViewModels.ProductsViewModel
 @using Colibri.Extensions
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h2 class="text-info">Create Product</h2>
+<h2 class="text-info">@ViewData["CreateProduct"]</h2>
 
 <!-- for Images: enctype="multipart/form-data" -->
 <form method="post" enctype="multipart/form-data" asp-action="Create">
@@ -13,7 +16,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Products.Name"></label>
+                <label asp-for="Products.Name">@ViewData["Name"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="Products.Name" class="form-control" />
@@ -22,7 +25,7 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Products.Price"></label>
+                <label asp-for="Products.Price">@ViewData["Price"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="Products.Price" class="form-control" />
@@ -31,7 +34,7 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Products.Image"></label>
+                <label asp-for="Products.Image">@ViewData["Image"]</label>
             </div>
             <div class="col-5">
                 <input type="file" name="file" class="form-control" />
@@ -39,7 +42,7 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="CategoryGroups"></label>
+                <label asp-for="CategoryGroups">@ViewData["CategoryGroup"]</label>
             </div>
             <!-- using the Extension Method for DropDown -->
             <div class="col-5">
@@ -48,7 +51,7 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="CategoryTypes"></label>
+                <label asp-for="CategoryTypes">@ViewData["CategoryType"]</label>
             </div>
             <!-- using the Extension Method for DropDown -->
             <div class="col-5">
@@ -57,7 +60,7 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="SpecialTags"></label>
+                <label asp-for="SpecialTags">@ViewData["SpecialTag"]</label>
             </div>
             <!-- using the Extension Method for DropDown -->
             <div class="col-5">
@@ -67,7 +70,7 @@
         <!-- Available with a Checkbox -->
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Products.Available"></label>
+                <label asp-for="Products.Available">@ViewData["Available"]</label>
             </div>
             <div class="col-5">
                 <input type="checkbox" asp-for="Products.Available" />
@@ -75,7 +78,7 @@
         </div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Products.Description"></label>
+                <label asp-for="Products.Description">@ViewData["Description"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="Products.Description" class="form-control" />
@@ -83,8 +86,8 @@
             <span asp-validation-for="Products.Description" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Create" />
-            <a asp-action="Index" class="btn btn-success">Back to List</a>
+            <input type="submit" class="btn btn-primary" value=@ViewData["Create"] />
+            <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
         </div>
     </div>
 </form>

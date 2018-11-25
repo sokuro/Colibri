@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace Colibri.Areas.Admin.Controllers
 {
@@ -25,6 +26,7 @@ namespace Colibri.Areas.Admin.Controllers
     {
         private readonly ColibriDbContext _colibriDbContext;
         private readonly HostingEnvironment _hostingEnvironment;
+        private readonly IStringLocalizer<ProductsController> _localizer;
 
         // bind to the ViewModel
         // not necessary to create new Objects
@@ -32,10 +34,12 @@ namespace Colibri.Areas.Admin.Controllers
         public ProductsViewModel ProductsViewModel { get; set; }
 
         public ProductsController(ColibriDbContext colibriDbContext,
-            HostingEnvironment hostingEnvironment)
+            HostingEnvironment hostingEnvironment,
+            IStringLocalizer<ProductsController> localizer)
         {
             _colibriDbContext = colibriDbContext;
             _hostingEnvironment = hostingEnvironment;
+            _localizer = localizer;
 
             // initialize the Constructor for the ProductsController
             ProductsViewModel = new ProductsViewModel()
@@ -58,6 +62,17 @@ namespace Colibri.Areas.Admin.Controllers
                                     .Include(m => m.SpecialTags)
                                     .ToListAsync();
 
+            // i18n
+            ViewData["ProductList"] = _localizer["ProductListText"];
+            ViewData["NewProduct"] = _localizer["NewProductText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
             return View(productList);
         }
 
@@ -66,6 +81,19 @@ namespace Colibri.Areas.Admin.Controllers
         [Route("Admin/Products/Create")]
         public IActionResult Create()
         {
+            // i18n
+            ViewData["CreateProduct"] = _localizer["CreateProductText"];
+            ViewData["Create"] = _localizer["CreateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["Image"] = _localizer["ImageText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
             return View(ProductsViewModel);
         }
 
@@ -166,6 +194,21 @@ namespace Colibri.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            // i18n
+            ViewData["EditProduct"] = _localizer["EditProductText"];
+            ViewData["Edit"] = _localizer["EditText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["Image"] = _localizer["ImageText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
             // send the ProductsViewModel into the View
             return View(ProductsViewModel);
         }
@@ -270,6 +313,19 @@ namespace Colibri.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            // i18n
+            ViewData["ProductDetails"] = _localizer["ProductDetailsText"];
+            ViewData["Edit"] = _localizer["EditText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
             // send the ProductsViewModel into the View
             return View(ProductsViewModel);
         }
@@ -295,6 +351,19 @@ namespace Colibri.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            // i18n
+            ViewData["DeleteProduct"] = _localizer["DeleteProductText"];
+            ViewData["Delete"] = _localizer["DeleteText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
             // send the ProductsViewModel into the View
             return View(ProductsViewModel);
         }

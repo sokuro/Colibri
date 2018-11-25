@@ -1,7 +1,10 @@
 ﻿@model Colibri.ViewModels.ProductsViewModel
 @using Colibri.Extensions
+@using Microsoft.AspNetCore.Mvc.Localization
 
-<h2 class="text-info">Delete Product</h2>
+@inject IViewLocalizer Localizer
+
+<h2 class="text-info">@ViewData["DeleteProduct"]</h2>
 
 <form method="post" asp-action="Delete">
     <div class="p-4 border rounded row">
@@ -19,7 +22,7 @@
         <div class="col-8">
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Products.Name"></label>
+                    <label asp-for="Products.Name">@ViewData["Name"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="Products.Name" readonly class="form-control" />
@@ -27,7 +30,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Products.Price"></label>
+                    <label asp-for="Products.Price">@ViewData["Price"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="Products.Price" readonly class="form-control" />
@@ -35,7 +38,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="CategoryGroups"></label>
+                    <label asp-for="CategoryGroups">@ViewData["CategoryGroup"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="Products.CategoryGroups.Name" readonly class="form-control" />
@@ -43,7 +46,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="CategoryTypes"></label>
+                    <label asp-for="CategoryTypes">@ViewData["CategoryType"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="Products.CategoryTypes.Name" readonly class="form-control" />
@@ -51,7 +54,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="SpecialTags"></label>
+                    <label asp-for="SpecialTags">@ViewData["SpecialTag"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="Products.SpecialTags.Name" readonly class="form-control" />
@@ -60,7 +63,7 @@
             <!-- Available with a Checkbox -->
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Products.Available"></label>
+                    <label asp-for="Products.Available">@ViewData["Available"]</label>
                 </div>
                 <div class="col-8">
                     <input type="checkbox" asp-for="Products.Available" />
@@ -68,7 +71,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Products.Description"></label>
+                    <label asp-for="Products.Description">@ViewData["Description"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="Products.Description" readonly class="form-control" />
@@ -77,8 +80,8 @@
         </div>
         <!-- Buttons -->
         <div class="form-group">
-            <input type="submit" class="btn btn-danger" value="Delete" />
-            <a asp-action="Index" class="btn btn-success">Back to List</a>
+            <input type="submit" class="btn btn-danger" value=@ViewData["Delete"] />
+            <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
         </div>
     </div>
 </form>
