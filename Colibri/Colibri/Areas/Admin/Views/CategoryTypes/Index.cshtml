@@ -1,18 +1,21 @@
 ﻿@model IEnumerable<Colibri.Models.CategoryTypes>
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
 
 <div class="row">
     <div class="col-6 text-center">
-        <h2 class="text-info">Category Type List</h2>
+        <h2 class="text-info">@ViewData["CategoryType"]</h2>
     </div>
     <div class="col-6 text-right">
-        <a asp-action="Create" asp-controller="CategoryTypes" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Category Type</a>
+        <a asp-action="Create" asp-controller="CategoryTypes" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewCategoryType"]</a>
     </div>
 </div>
 <div>
     <table class="table table-striped border">
         <tr class="text-info">
             <th>
-                @Html.DisplayNameFor(m => m.Name)
+                @ViewData["Name"]
             </th>
             <th></th>
             <th></th>
