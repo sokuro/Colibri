@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Colibri.Areas.Customer.Controllers;
 using Colibri.Data;
 using Colibri.Models;
 using Colibri.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace Colibri.Areas.Admin.Controllers
 {
@@ -16,16 +18,22 @@ namespace Colibri.Areas.Admin.Controllers
     public class CategoryGroupsController : Controller
     {
         private ColibriDbContext _colibriDbContext;
+        private readonly IStringLocalizer<CategoryGroupsController> _localizer;
 
-        public CategoryGroupsController(ColibriDbContext colibriDbContext)
+        public CategoryGroupsController(ColibriDbContext colibriDbContext, IStringLocalizer<CategoryGroupsController> localizer)
         {
             _colibriDbContext = colibriDbContext;
+            _localizer = localizer;
         }
 
         [Route("Admin/CategoryGroups/Index")]
         public IActionResult Index()
         {
             var categoryGroupsList = _colibriDbContext.CategoryGroups.ToList();
+
+            // i18n
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["NewCategoryGroup"] = _localizer["NewCategoryGroupText"];
 
             return View(categoryGroupsList);
         }
@@ -34,6 +42,12 @@ namespace Colibri.Areas.Admin.Controllers
         [Route("Admin/CategoryGroups/Create")]
         public IActionResult Create()
         {
+            // i18n
+            ViewData["CreateCategoryGroup"] = _localizer["CreateCategoryGroupText"];
+            ViewData["Create"] = _localizer["CreateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+
             return View();
         }
 
@@ -78,6 +92,14 @@ namespace Colibri.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            // i18n
+            ViewData["EditCategoryGroup"] = _localizer["EditCategoryGroupText"];
+            ViewData["Edit"] = _localizer["EditText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+
             return View(categoryGroup);
         }
 
@@ -128,6 +150,13 @@ namespace Colibri.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            // i18n
+            ViewData["DetailsCategoryGroup"] = _localizer["DetailsCategoryGroupText"];
+            ViewData["Edit"] = _localizer["EditText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+
             return View(categoryGroup);
         }
 
@@ -147,6 +176,13 @@ namespace Colibri.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            // i18n
+            ViewData["DeleteCategoryGroup"] = _localizer["DeleteCategoryGroupText"];
+            ViewData["Delete"] = _localizer["DeleteText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+
             return View(categoryGroup);
         }
 

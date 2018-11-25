@@ -1,11 +1,14 @@
 ﻿@model IEnumerable<Colibri.Models.CategoryGroups>
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
 
 <div class="row">
     <div class="col-6 text-center">
-        <h2 class="text-info">Category Type List</h2>
+        <h2 class="text-info">@ViewData["CategoryGroup"]</h2>
     </div>
     <div class="col-6 text-right">
-        <a asp-action="Create" asp-controller="CategoryGroups" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Category Group</a>
+        <a asp-action="Create" asp-controller="CategoryGroups" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewCategoryGroup"]</a>
     </div>
 </div>
 <div>

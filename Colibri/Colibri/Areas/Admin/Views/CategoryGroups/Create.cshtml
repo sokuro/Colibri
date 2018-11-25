@@ -1,16 +1,20 @@
 ﻿@model Colibri.Models.CategoryGroups
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
 @{
     ViewData["Title"] = "Create";
 }
 
-<h2 class="text-info">Create Category Group</h2>
+<h2 class="text-info">@ViewData["CreateCategoryGroup"]</h2>
 
 <form method="post" asp-action="Create">
     <div class="p-4 border rounded">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Name"></label>
+                <label asp-for="Name">@ViewData["Name"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="Name" class="form-control" />
@@ -18,8 +22,8 @@
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value="Create" />
-            <a asp-action="Index" class="btn btn-success">Back to List</a>
+            <input type="submit" class="btn btn-primary" value=@ViewData["Create"] />
+            <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
         </div>
     </div>
 </form>
