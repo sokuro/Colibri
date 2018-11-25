@@ -25,6 +25,7 @@ namespace Colibri.Data
         public DbSet<CategoryTypes> CategoryTypes { get; set; }
         public DbSet<SpecialTags> SpecialTags { get; set; }
         public DbSet<Products> Products { get; set; }
+        public DbSet<UserServices> UserServices { get; set; }
         public DbSet<Appointments> Appointments { get; set; }
         public DbSet<ProductsSelectedForAppointment> ProductsSelectedForAppointment { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
