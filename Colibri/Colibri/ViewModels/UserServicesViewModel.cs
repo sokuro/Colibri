@@ -9,7 +9,7 @@ namespace Colibri.ViewModels
 {
     public class UserServicesViewModel
     {
-        public UserServices UserServices { get; set; }
+        public List<UserServices> UserServices { get; set; }
 
         public IEnumerable<CategoryGroups> CategoryGroups { get; set; }
         public IEnumerable<CategoryTypes> CategoryTypes { get; set; }
