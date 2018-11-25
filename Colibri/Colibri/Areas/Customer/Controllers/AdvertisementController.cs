@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Colibri.Data;
 using Colibri.Extensions;
 using Colibri.Models;
@@ -268,6 +269,17 @@ namespace Colibri.Areas.Customer.Controllers
                     .Include(p => p.SpecialTags)
                     .Where(p => p.Id == id)
                     .FirstOrDefaultAsync();
+
+            // get the Product's User
+            var user = (IEnumerable<ApplicationUser>)(from u in _colibriDbContext.ApplicationUsers
+                                    join p in _colibriDbContext.Products
+                                    .Include(p => p.ApplicationUser)
+                                    .ThenInclude(p => p.UserName)
+                                    on u.Id equals p.ApplicationUserId
+                                    select u);
+
+            // add the user as the ApplicationUser to the Product
+            product.ApplicationUser = user.FirstOrDefault();
 
             // count the Number of Clicks on the Product
             product.NumberOfClicks += 1;
