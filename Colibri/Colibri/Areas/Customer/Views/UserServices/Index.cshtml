@@ -1,0 +1,137 @@
+﻿@model Colibri.ViewModels.UserServicesViewModel
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+
+<!-- individual CSS -->
+@section applicationUsers {
+    <link href="~/css/applicationUsers.css" rel="stylesheet" />
+}
+
+@inject IViewLocalizer Localizer
+
+<form method="get">
+    <div class="row">
+        <div class="col-6 text-center">
+            <h2 class="text-info">@ViewData["UserService"]</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewUserService"]</a>
+        </div>
+    </div>
+
+    <!-- Search -->
+    <div class="container">
+        <div class="col-12">
+            <!-- 1st row -->
+            <div class="row">
+                <div class="col-2">
+                    @ViewData["UserName"]
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <!-- empty column -->
+                <div class="col-2">
+                </div>
+
+                <div class="col-2">
+                    @ViewData["UserServiceName"]
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchServiceName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <!-- END: 1st row -->
+            </div>
+
+            <!-- Search row -->
+            <div class="row">
+                <div class="col-2">
+                    @*Show mine*@
+                </div>
+                <div class="col-3">
+                    @*@Html.Editor("filterMine", new { htmlAttributes = new { @class = "form-control" } })*@
+                </div>
+
+                <!-- empty column -->
+                <div class="col-2">
+                </div>
+
+                <div class="col-2">
+                </div>
+                <div class="col-3">
+                    <button type="submit" name="submit" value="Search" class="btn btn-primary form-control">
+                        <i class="fas fa-search"></i> @ViewData["Search"]
+                    </button>
+                </div>
+                <!-- END: Search row -->
+            </div>
+        </div>
+        <!-- END: Search -->
+    </div>
+
+    <br />
+
+    <div>
+        <table class="table table-striped border">
+            <tr class="text-info">
+                <th>
+                    @ViewData["UserServiceName"]
+                </th>
+                <th>
+                    @ViewData["Price"]
+                </th>
+                <th>
+                    @ViewData["CategoryGroup"]
+                </th>
+                <th>
+                    @ViewData["CategoryType"]
+                </th>
+                <th>
+                    @ViewData["Description"]
+                </th>
+                <th>
+                    @ViewData["NumberOfClicks"]
+                </th>
+                <th>
+                    @ViewData["UserName"]
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.UserServices)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.Name)
+                    </td>
+                    <td>
+                        @String.Format("{0:c}", item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CategoryGroups.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CategoryTypes.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(m => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfClicks)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.Users.FirstOrDefault().UserName)
+                    </td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <td>
+                            <partial name="_TableButtonPartialCustomer" model="item.Id" />
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+    </div>
+</form>
