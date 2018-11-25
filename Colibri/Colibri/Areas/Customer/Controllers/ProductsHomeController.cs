@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Colibri.Areas.Admin.Controllers;
 using Colibri.Data;
 using Colibri.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace Colibri.Areas.Customer.Controllers
 {
@@ -18,12 +20,14 @@ namespace Colibri.Areas.Customer.Controllers
     {
         //private readonly IColibriRepository _repository;
         private readonly ColibriDbContext _colibriDbContext;
+        private readonly IStringLocalizer<ProductsHomeController> _localizer;
 
         //public ProductsHomeController(IColibriRepository repository)
-        public ProductsHomeController(ColibriDbContext colibriDbContext)
+        public ProductsHomeController(ColibriDbContext colibriDbContext, IStringLocalizer<ProductsHomeController> localizer)
         {
             //_repository = repository;
             _colibriDbContext = colibriDbContext;
+            _localizer = localizer;
         }
 
         // Entry (Index) View
@@ -36,6 +40,11 @@ namespace Colibri.Areas.Customer.Controllers
                     .Include(p => p.CategoryTypes)
                     .Include(p => p.SpecialTags)
                     .ToListAsync();
+
+            // i18n
+            ViewData["ProductName"] = _localizer["ProductNameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
 
             return View(productList);
         }
@@ -57,6 +66,18 @@ namespace Colibri.Areas.Customer.Controllers
 
             // save the Changes in DB
             await _colibriDbContext.SaveChangesAsync();
+
+            // i18n
+            ViewData["ProductDetails"] = _localizer["ProductDetailsText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
+            ViewData["RemoveFromBag"] = _localizer["RemoveFromBagText"];
+            ViewData["Order"] = _localizer["OrderText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
 
             return View(product);
         }
