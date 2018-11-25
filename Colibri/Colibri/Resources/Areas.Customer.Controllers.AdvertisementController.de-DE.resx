@@ -117,14 +117,62 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AdvertisementDetailsText" xml:space="preserve">
+    <value>Inserat Details</value>
+  </data>
+  <data name="AdvertisementNameText" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="AdvertisementText" xml:space="preserve">
     <value>Inserat</value>
   </data>
-  <data name="NewProductText" xml:space="preserve">
-    <value>Neues Produkt</value>
+  <data name="AvailableText" xml:space="preserve">
+    <value>Verfügbar</value>
   </data>
-  <data name="ProductNameText" xml:space="preserve">
-    <value>ProduktenName</value>
+  <data name="BackToListText" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="CategoryGroupText" xml:space="preserve">
+    <value>Rubrik-Gruppe</value>
+  </data>
+  <data name="CategoryTypeText" xml:space="preserve">
+    <value>Rubrik</value>
+  </data>
+  <data name="ContactOwnerText" xml:space="preserve">
+    <value>Kontaktiere Inhaber</value>
+  </data>
+  <data name="CreateAdvertisementText" xml:space="preserve">
+    <value>Erstelle Inserat</value>
+  </data>
+  <data name="CreateText" xml:space="preserve">
+    <value>Erstelle</value>
+  </data>
+  <data name="DescriptionText" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="ImageText" xml:space="preserve">
+    <value>Bild</value>
+  </data>
+  <data name="NewAdvertisementText" xml:space="preserve">
+    <value>Neues Inserat</value>
+  </data>
+  <data name="NumberOfClicksText" xml:space="preserve">
+    <value>Anzahl Gesehen</value>
+  </data>
+  <data name="OrderText" xml:space="preserve">
+    <value>Bestelle</value>
+  </data>
+  <data name="PriceText" xml:space="preserve">
+    <value>Preis</value>
+  </data>
+  <data name="RemoveFromBagText" xml:space="preserve">
+    <value>Storniere Bestellung</value>
+  </data>
+  <data name="SearchText" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="SpecialTagText" xml:space="preserve">
+    <value>Spezial Tag</value>
   </data>
   <data name="UserNameText" xml:space="preserve">
     <value>Name des Users</value>

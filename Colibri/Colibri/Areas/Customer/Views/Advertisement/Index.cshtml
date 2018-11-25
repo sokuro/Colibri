@@ -16,7 +16,7 @@
             <h2 class="text-info">@ViewData["Advertisement"]</h2>
         </div>
         <div class="col-6 text-right">
-            <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewProduct"]</a>
+            <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewAdvertisement"]</a>
         </div>
     </div>
 
@@ -62,7 +62,7 @@
                 </div>
                 <div class="col-3">
                     <button type="submit" name="submit" value="Search" class="btn btn-primary form-control">
-                        <i class="fas fa-search"></i> Search
+                        <i class="fas fa-search"></i> @ViewData["Search"]
                     </button>
                 </div>
                 <!-- END: Search row -->
@@ -77,25 +77,25 @@
         <table class="table table-striped border">
             <tr class="text-info">
                 <th>
-                    @Html.DisplayNameFor(m => m.Products.FirstOrDefault().Name)
+                    @ViewData["AdvertisementName"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.Products.FirstOrDefault().Price)
+                    @ViewData["Price"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.Products.FirstOrDefault().CategoryGroups)
+                    @ViewData["CategoryGroup"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.Products.FirstOrDefault().CategoryTypes)
+                    @ViewData["CategoryType"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.Products.FirstOrDefault().Description)
+                    @ViewData["Description"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.Products.FirstOrDefault().NumberOfClicks)
+                    @ViewData["NumberOfClicks"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.Products.FirstOrDefault().ApplicationUser.UserName)
+                    @ViewData["UserName"]
                 </th>
                 <th></th>
                 <th></th>

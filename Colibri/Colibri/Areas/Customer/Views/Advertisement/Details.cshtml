@@ -1,12 +1,14 @@
 ﻿@model Colibri.Models.Products
 @using Microsoft.AspNetCore.Http
 @using Colibri.Extensions
+@using Microsoft.AspNetCore.Mvc.Localization
 
 <!-- handle Session: is the Item in the Bag -->
 @inject IHttpContextAccessor HttpContextAccessor
 
+@inject IViewLocalizer Localizer
 
-<h2 class="text-info">Product Details</h2>
+<h2 class="text-info">@ViewData["AdvertisementDetails"]</h2>
 
 <form method="post">
     <div class="p-4 border rounded row">
@@ -26,7 +28,7 @@
         <div class="col-8">
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Name"></label>
+                    <label asp-for="Name">@ViewData["AdvertisementName"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="Name" class="form-control" readonly />
@@ -34,7 +36,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Price"></label>
+                    <label asp-for="Price">@ViewData["Price"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="Price" class="form-control" readonly />
@@ -42,7 +44,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="CategoryGroups"></label>
+                    <label asp-for="CategoryGroups">@ViewData["CategoryGroup"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="CategoryGroups.Name" class="form-control" readonly />
@@ -50,7 +52,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="CategoryTypes"></label>
+                    <label asp-for="CategoryTypes">@ViewData["CategoryType"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="CategoryTypes.Name" class="form-control" readonly />
@@ -60,7 +62,7 @@
             {
                 <div class="form-group row">
                     <div class="col-4">
-                        <label asp-for="SpecialTags"></label>
+                        <label asp-for="SpecialTags">@ViewData["SpecialTag"]</label>
                     </div>
                     <div class="col-8">
                         <input asp-for="SpecialTags.Name" class="form-control" readonly />
@@ -69,7 +71,7 @@
             }
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Description"></label>
+                    <label asp-for="Description">@ViewData["Description"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="Description" class="form-control" readonly />
@@ -78,7 +80,7 @@
             <!-- Number of Clicks -->
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="NumberOfClicks"></label>
+                    <label asp-for="NumberOfClicks">@ViewData["NumberOfClicks"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="NumberOfClicks" class="form-control" readonly />
@@ -87,7 +89,7 @@
             <!-- Application User: Advertisement's Owner -->
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="ApplicationUser"></label>
+                    <label asp-for="ApplicationUser">@ViewData["UserName"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="@Model.ApplicationUser.UserName" class="form-control" readonly />
@@ -98,7 +100,7 @@
                 <div class="col-4">
                 </div>
                 <div class="col-8">
-                    <a asp-action="ContactUser" asp-controller="ApplicationUser" class="btn btn-outline-primary form-control" asp-route-id="@Model.ApplicationUserId">Contact Owner</a>
+                    <a asp-action="ContactUser" asp-controller="ApplicationUser" class="btn btn-outline-primary form-control" asp-route-id="@Model.ApplicationUserId">@ViewData["ContactOwner"]</a>
                 </div>
             </div>
             <!-- Order -->
@@ -122,11 +124,11 @@
 
                     @if (isInBag)
                     {
-                        <button type="submit" value="Remove from Bag" asp-action="remove" asp-route-id="@Model.Id" class="btn btn-primary form-control">Remove from Bag</button>
+                        <button type="submit" value="Remove from Bag" asp-action="remove" asp-route-id="@Model.Id" class="btn btn-primary form-control">@ViewData["RemoveFromBag"]</button>
                     }
                     else
                     {
-                        <button type="submit" value="Order" asp-route-id="@Model.Id" class="btn btn-outline-success form-control">Order</button>
+                        <button type="submit" value="Order" asp-route-id="@Model.Id" class="btn btn-outline-success form-control">@ViewData["Order"]</button>
                     }
                 </div>
             </div>
@@ -134,7 +136,7 @@
         <div class="form-group">
             <!-- hidden Field Id to use in the Session -->
             <input hidden asp-for="Id" />
-            <a asp-action="Index" class="btn btn-success">Back to List</a>
+            <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
         </div>
     </div>
 </form>
