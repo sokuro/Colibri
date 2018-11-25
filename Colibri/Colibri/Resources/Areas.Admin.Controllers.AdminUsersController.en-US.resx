@@ -126,6 +126,9 @@
   <data name="CreateText" xml:space="preserve">
     <value>Create</value>
   </data>
+  <data name="DeleteAdminUserText" xml:space="preserve">
+    <value>Delete Administrator</value>
+  </data>
   <data name="DeleteText" xml:space="preserve">
     <value>Delete</value>
   </data>
