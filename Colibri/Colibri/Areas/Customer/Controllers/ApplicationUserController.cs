@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Colibri.Areas.Admin.Controllers;
 using Colibri.Data;
 using Colibri.Models;
 using Colibri.Utility;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace Colibri.Areas.Customer.Controllers
 {
@@ -25,13 +27,17 @@ namespace Colibri.Areas.Customer.Controllers
     {
         private readonly ColibriDbContext _colibriDbContext;
         private readonly IEmailSender _emailSender;
+        private readonly IStringLocalizer<ApplicationUserController> _localizer;
 
         // CTOR
         // get the Data from the DB
-        public ApplicationUserController(ColibriDbContext colibriDbContext, IEmailSender emailSender)
+        public ApplicationUserController(ColibriDbContext colibriDbContext,
+            IEmailSender emailSender,
+            IStringLocalizer<ApplicationUserController> localizer)
         {
             _colibriDbContext = colibriDbContext;
             _emailSender = emailSender;
+            _localizer = localizer;
         }
 
         // extend the Method with the Parameters for Search:
@@ -87,6 +93,18 @@ namespace Colibri.Areas.Customer.Controllers
                 applicationUserViewModel.ApplicationUsers = applicationUserViewModel.ApplicationUsers.Where(a => a.LastName.ToLower().Contains(searchLastName.ToLower())).ToList();
             }
 
+            // i18n
+            ViewData["ApplicationUsers"] = _localizer["ApplicationUsersText"];
+            ViewData["NewApplicationUser"] = _localizer["NewApplicationUserText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["FirstName"] = _localizer["FirstNameText"];
+            ViewData["LastName"] = _localizer["LastNameText"];
+            ViewData["Search"] = _localizer["SearchText"];
+            ViewData["Email"] = _localizer["EmailText"];
+            ViewData["PhoneNumber"] = _localizer["PhoneNumberText"];
+            ViewData["Disabled"] = _localizer["DisabledText"];
+            ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
+
             // return the List of registered Application Users
             return View(applicationUserViewModel);
         }
@@ -100,6 +118,14 @@ namespace Colibri.Areas.Customer.Controllers
                             .Where(u => u.Id == id)
                             .FirstOrDefaultAsync();
 
+            // i18n
+            ViewData["ApplicationUserDetails"] = _localizer["ApplicationUserDetailsText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["FirstName"] = _localizer["FirstNameText"];
+            ViewData["LastName"] = _localizer["LastNameText"];
+            ViewData["Contact"] = _localizer["ContactText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+
             return View(user);
         }
 
@@ -108,6 +134,15 @@ namespace Colibri.Areas.Customer.Controllers
         [HttpGet("contactUser")]
         public ActionResult ContactUser()
         {
+            // i18n
+            ViewData["YourName"] = _localizer["YourNameText"];
+            ViewData["Email"] = _localizer["EmailText"];
+            ViewData["Subject"] = _localizer["SubjectText"];
+            ViewData["Message"] = _localizer["MessageText"];
+            ViewData["SendMessage"] = _localizer["SendMessageText"];
+            ViewData["MessageSent"] = _localizer["MessageSentText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+
             return View();
         }
 
@@ -128,6 +163,7 @@ namespace Colibri.Areas.Customer.Controllers
 
                 // display Sent Message
                 ViewBag.UserMessage = "Message sent";
+                //ViewBag.UserMessage = _localizer["MessageSentText"];
                 // clear the Model
                 ModelState.Clear();
             }

@@ -1,14 +1,17 @@
 ﻿@model Colibri.ViewModels.ApplicationUserViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
 
 <!-- individual CSS -->
 @section applicationUsers {
     <link href="~/css/applicationUsers.css" rel="stylesheet" />
 }
 
+@inject IViewLocalizer Localizer
+
 <form method="get">
     <div class="row">
         <div class="col-6 text-center">
-            <h2 class="text-info">Application Users List</h2>
+            <h2 class="text-info">@ViewData["ApplicationUsers"]</h2>
         </div>
         <div class="col-6 text-right">
             <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New User</a>
@@ -21,7 +24,7 @@
             <!-- 1st row -->
             <div class="row">
                 <div class="col-2">
-                    User Name
+                    @ViewData["UserName"]
                 </div>
                 <div class="col-3">
                     @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
@@ -32,7 +35,7 @@
                 </div>
 
                 <div class="col-2">
-                    First Name
+                    @ViewData["FirstName"]
                 </div>
                 <div class="col-3">
                     @Html.Editor("searchFirstName", new { htmlAttributes = new { @class = "form-control" } })
@@ -52,7 +55,7 @@
                 </div>
 
                 <div class="col-2">
-                    Last Name
+                    @ViewData["LastName"]
                 </div>
                 <div class="col-3">
                     @Html.Editor("searchLastName", new { htmlAttributes = new { @class = "form-control" } })
@@ -72,13 +75,13 @@
                 </div>
                 <div class="col-3">
                     <button type="submit" name="submit" value="Search" class="btn btn-primary form-control">
-                        <i class="fas fa-search"></i> Search
+                        <i class="fas fa-search"></i> @ViewData["Search"]
                     </button>
                 </div>
-            <!-- END: Search row -->
+                <!-- END: Search row -->
             </div>
         </div>
-    <!-- END: Search -->
+        <!-- END: Search -->
     </div>
 
     <br />
@@ -89,22 +92,22 @@
             <!-- the Titles Row -->
             <tr class="text-info">
                 <th>
-                    @Html.DisplayNameFor(m => m.ApplicationUsers.FirstOrDefault().UserName)
+                    @ViewData["UserName"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.ApplicationUsers.FirstOrDefault().FirstName)
+                    @ViewData["FirstName"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.ApplicationUsers.FirstOrDefault().LastName)
+                    @ViewData["LastName"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.ApplicationUsers.FirstOrDefault().Email)
+                    @ViewData["Email"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.ApplicationUsers.FirstOrDefault().PhoneNumber)
+                    @ViewData["PhoneNumber"]
                 </th>
                 <th>
-                    Disabled
+                    @ViewData["Disabled"]
                 </th>
                 <th></th>
             </tr>
@@ -131,14 +134,14 @@
                         <!-- Condition 'Lockout': if the Date ends, lock the User out -->
                         @if (item.LockoutEnd != null || item.LockoutEnd > DateTime.Now)
                         {
-                            <label>Disabled</label>
+                        <label>@ViewData["Disabled"]</label>
                         }
                     </td>
                     <td>
                         <!-- Condition 'Lockout': if the Date does NOT end, allow Redirection -->
                         @if (item.LockoutEnd == null || item.LockoutEnd < DateTime.Now)
                         {
-                            <a asp-action="Details" asp-controller="ApplicationUser" class="btn btn-success pull-right btn-outline-info" asp-route-id="@item.Id">View Details</a>
+                            <a asp-action="Details" asp-controller="ApplicationUser" class="btn btn-success pull-right btn-outline-info" asp-route-id="@item.Id">@ViewData["ViewDetails"]</a>
                         }
                     </td>
                 </tr>
