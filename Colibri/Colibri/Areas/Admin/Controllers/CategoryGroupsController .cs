@@ -6,6 +6,7 @@ using Colibri.Areas.Customer.Controllers;
 using Colibri.Data;
 using Colibri.Models;
 using Colibri.Utility;
+using EasyNetQ;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -64,8 +65,14 @@ namespace Colibri.Areas.Admin.Controllers
                 _colibriDbContext.Add(categoryGroups);
                 await _colibriDbContext.SaveChangesAsync();
 
-                // avoid Refreshing the POST Operation -> Redirect
+                // Publish the Created Category
+                using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                {
+                    bus.Publish(categoryGroups, "create_category_groups");
+                }
 
+
+                // avoid Refreshing the POST Operation -> Redirect
                 return RedirectToAction(nameof(Index));
                 //return RedirectToAction("Index", "CategoryGroups", new { area = "Admin" });
             }
@@ -199,6 +206,12 @@ namespace Colibri.Areas.Admin.Controllers
 
             // Update the Changes
             await _colibriDbContext.SaveChangesAsync();
+
+            // Publish the Removed Category
+            using (var bus = RabbitHutch.CreateBus("host=localhost"))
+            {
+                bus.Publish(categoryGroup, "remove_category_groups");
+            }
 
             // avoid Refreshing the POST Operation -> Redirect
             //return View("Details", newCategory);
