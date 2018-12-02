@@ -1,0 +1,28 @@
+﻿@model SubscriberViewModel
+
+@*@model string*@
+
+@*@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}*@
+
+<div>
+    <p>@Model.Notifications.Message</p>
+    @*<p>@Model.MyMessage</p>*@
+
+    @*<p>@ViewBag.MyMessagesList</p>*@
+    
+    @foreach (var item in ViewData.ModelMetadata.Properties)
+    {
+        @*<p>@Html.DisplayFor(s => item)</p>*@
+
+        <p>@(item.Name??item.Name)</p>
+    }
+
+
+
+    @*@Html.Raw(ViewBag.MyMessagesList)
+    
+    @ViewData["MyMessagesList"]*@
+</div>
