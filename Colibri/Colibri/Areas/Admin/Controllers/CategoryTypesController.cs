@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Models;
 using Colibri.Utility;
+using EasyNetQ;
+using EasyNetQ.NonGeneric;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
@@ -64,8 +66,13 @@ namespace Colibri.Areas.Admin.Controllers
                 _colibriDbContext.Add(categoryTypes);
                 await _colibriDbContext.SaveChangesAsync();
 
-                // avoid Refreshing the POST Operation -> Redirect
+                // Publish the Created Category Type
+                using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                {
+                    bus.Publish(categoryTypes, "create_category_types");
+                }
 
+                // avoid Refreshing the POST Operation -> Redirect
                 return RedirectToAction(nameof(Index));
                 //return RedirectToAction("Index", "CategoryTypes", new { area = "Admin" });
             }

@@ -68,7 +68,15 @@ namespace Colibri.Areas.Admin.Controllers
                 // Publish the Created Category
                 using (var bus = RabbitHutch.CreateBus("host=localhost"))
                 {
-                    bus.Publish(categoryGroups, "create_category_groups");
+                    //bus.Publish(categoryGroups, "create_category_groups");
+                    await bus.PublishAsync("create_category_groups").ContinueWith(task =>
+                     {
+                         if (task.IsCompleted && !task.IsFaulted)
+                         {
+                             Console.WriteLine("Task Completed");
+                             Console.ReadLine();
+                         }
+                     });
                 }
 
 
