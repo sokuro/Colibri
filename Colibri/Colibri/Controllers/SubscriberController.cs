@@ -16,28 +16,23 @@ namespace Colibri.Controllers
         private readonly ColibriDbContext _colibriDbContext;
 
         [BindProperty]
-        public SubscriberViewModel SubscriberViewModel { get; }
+        public SubscriberViewModel SubscriberViewModel { get; set; }
 
-        //public SubscriberController(ColibriDbContext colibriDbContext)
-        //{
-        //    _colibriDbContext = colibriDbContext;
-
-        //    SubscriberViewModel = new SubscriberViewModel {
-        //        MyMessage = new List<string>()
-        //        //Notifications = new List<Notifications>()
-        //    };
-        //}
-        public SubscriberController()
+        public SubscriberController(ColibriDbContext colibriDbContext)
         {
+            _colibriDbContext = colibriDbContext;
+
             SubscriberViewModel = new SubscriberViewModel
             {
                 //MyMessage = new List<string>()
+                //Notifications = new List<Notifications>()
+
                 Notifications = new Notifications()
             };
         }
 
         [Route("Subscriber/Index")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             //Notifications message = new Notifications();
 
@@ -48,6 +43,7 @@ namespace Colibri.Controllers
                     {
                         var message = "Added Category Group: " + groups.Name;
                         SubscriberViewModel.Notifications.Message = message;
+                        SubscriberViewModel.Notifications.NotificationType = "CategoryGroup";
                     }));
 
 
@@ -56,8 +52,13 @@ namespace Colibri.Controllers
                     {
                         var message = "Added Category Type: " + categoryTypes.Name;
                         SubscriberViewModel.Notifications.Message = message;
+                        SubscriberViewModel.Notifications.NotificationType = "CategoryType";
                     }));
             }
+
+            // persist
+            await _colibriDbContext.AddAsync(SubscriberViewModel.Notifications);
+            await _colibriDbContext.SaveChangesAsync();
 
             return View(SubscriberViewModel);
         }
