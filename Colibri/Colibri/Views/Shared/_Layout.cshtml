@@ -105,6 +105,9 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-route-area="" asp-controller="About" asp-action="">About</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-route-area="" asp-controller="Subscriber" asp-action="Index">Subscriber</a>
+                    </li>
 
                     <!-- handle Session: Values in the Session -->
                     @if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart") != null)
