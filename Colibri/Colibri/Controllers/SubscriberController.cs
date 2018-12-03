@@ -43,30 +43,23 @@ namespace Colibri.Controllers
 
             using (var bus = RabbitHutch.CreateBus("host=localhost"))
             {
-                bus.Subscribe<CategoryGroups>("create_category_groups", HandleAddedCategoryGroupMessage);
+                bus.SubscribeAsync<CategoryGroups>("create_category_groups",
+                    groups => Task.Factory.StartNew(() =>
+                    {
+                        var message = "Added Category Group: " + groups.Name;
+                        SubscriberViewModel.Notifications.Message = message;
+                    }));
+
+
+                bus.Subscribe<CategoryTypes>("create_category_types", 
+                    categoryTypes => Task.Factory.StartNew(() =>
+                    {
+                        var message = "Added Category Type: " + categoryTypes.Name;
+                        SubscriberViewModel.Notifications.Message = message;
+                    }));
             }
 
-            void HandleAddedCategoryGroupMessage(CategoryGroups obj1)
-            {
-                //Console.WriteLine("Added Category Name: {0}", obj1.Name);
-                //message = "Added Category Name: {0}" + obj1.Name;
-                //ViewBag.MyMessagesList = "Added Category Name: {0}" + obj1.Name;
-
-                var message = "Added Category Name: " + obj1.Name;
-
-                //SubscriberViewModel.Notifications.Add(message);
-                //_colibriDbContext.Add(SubscriberViewModel.Notifications);
-
-                SubscriberViewModel.Notifications.Message = message;
-
-
-                //_colibriDbContext.SaveChanges();
-
-            }
-
-            //return View("Index", message);
             return View(SubscriberViewModel);
-            //return View();
         }
     }
 }
