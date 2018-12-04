@@ -54,6 +54,14 @@ namespace Colibri.Controllers
                         SubscriberViewModel.Notifications.Message = message;
                         SubscriberViewModel.Notifications.NotificationType = "CategoryType";
                     }));
+
+                //bus.Subscribe<Products>("create_product_by_admin",
+                //    categoryTypes => Task.Factory.StartNew(() =>
+                //    {
+                //        var message = "Added Product by Admin: " + typeof(Products);
+                //        SubscriberViewModel.Notifications.Message = message;
+                //        SubscriberViewModel.Notifications.NotificationType = "ProductsByAdmin";
+                //    }));
             }
 
             // persist
@@ -61,6 +69,26 @@ namespace Colibri.Controllers
             await _colibriDbContext.SaveChangesAsync();
 
             return View(SubscriberViewModel);
+        }
+
+        public async Task<IActionResult> SendReceive()
+        {
+            using (var bus = RabbitHutch.CreateBus("host=localhost"))
+            {
+                bus.Receive("create_product_by_admin", x => x.Add<Products>(p => HandleProductByAdmin(p)));
+            }
+
+            // persist
+            //await _colibriDbContext.AddAsync(SubscriberViewModel.Notifications);
+            //await _colibriDbContext.SaveChangesAsync();
+
+            return View(SubscriberViewModel);
+        }
+
+        private void HandleProductByAdmin(Products product)
+        {
+            SubscriberViewModel.Notifications.Message = "Added a Product by Admin: " + product.Name;
+            SubscriberViewModel.Notifications.NotificationType = product.CategoryTypes.Name;
         }
     }
 }
