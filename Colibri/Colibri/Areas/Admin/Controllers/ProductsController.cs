@@ -7,6 +7,7 @@ using Colibri.Data;
 using Colibri.Models;
 using Colibri.Utility;
 using Colibri.ViewModels;
+using EasyNetQ;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -162,6 +163,26 @@ namespace Colibri.Areas.Admin.Controllers
                 // save the Changes asynchronously
                 // update the Image Part inside of the DB
                 await _colibriDbContext.SaveChangesAsync();
+
+                // Publish the Created Product
+                //using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                //{
+                //    //bus.Publish(categoryGroups, "create_category_groups");
+                //    await bus.PublishAsync("create_product_by_admin").ContinueWith(task =>
+                //    {
+                //        if (task.IsCompleted && !task.IsFaulted)
+                //        {
+                //            Console.WriteLine("Task Completed");
+                //            Console.ReadLine();
+                //        }
+                //    });
+                //}
+
+                using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                {
+                    await bus.SendAsync("create_product_by_admin", productsFromDb);
+                }
+
 
                 // avoid Refreshing the POST Operation -> Redirect
                 return RedirectToAction(nameof(Index));
@@ -402,6 +423,18 @@ namespace Colibri.Areas.Admin.Controllers
 
                 // save the Changes asynchronously
                 await _colibriDbContext.SaveChangesAsync();
+
+
+                // TODO
+                // Publish the Created Advertisement's Product
+                using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                {
+                    Console.WriteLine("Publishing messages with publish and subscribe.");
+                    Console.WriteLine();
+
+                    bus.Publish(products, "removed_products_by_admin");
+                }
+
 
                 // avoid Refreshing the POST Operation -> Redirect
                 return RedirectToAction(nameof(Index));
