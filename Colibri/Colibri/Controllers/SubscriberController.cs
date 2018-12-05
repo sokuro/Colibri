@@ -77,6 +77,7 @@ namespace Colibri.Controllers
             using (var bus = RabbitHutch.CreateBus("host=localhost"))
             {
                 bus.Receive("create_product_by_admin", x => x.Add<Products>(p => HandleProductByAdmin(p)));
+                bus.Receive("create_advertisement", x => x.Add<Products>(p => HandleAdvertisements(p)));
             }
 
             // persist
@@ -84,6 +85,12 @@ namespace Colibri.Controllers
             //await _colibriDbContext.SaveChangesAsync();
 
             return View(SubscriberViewModel);
+        }
+
+        private void HandleAdvertisements(Products product)
+        {
+            SubscriberViewModel.Notifications.Message = "Added a Advertisement: " + product.Name;
+            SubscriberViewModel.Notifications.NotificationType = product.CategoryTypes.Name;
         }
 
         private void HandleProductByAdmin(Products product)

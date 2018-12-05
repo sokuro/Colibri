@@ -269,15 +269,16 @@ namespace Colibri.Areas.Customer.Controllers
                 // update the Image Part inside of the DB
                 await _colibriDbContext.SaveChangesAsync();
 
-                // TODO
                 // Publish the Created Advertisement's Product
                 using (var bus = RabbitHutch.CreateBus("host=localhost"))
                 {
-                    Console.WriteLine("Publishing messages with publish and subscribe.");
+                    Console.WriteLine("Publishing an Advertisement Message.");
                     Console.WriteLine();
 
                     //bus.Publish<AdvertisementViewModel>(AdvertisementViewModel, "my_subscription_id");
-                    bus.Publish(productsFromDb, "my_subscription_id");
+                    //bus.Publish(productsFromDb, "my_subscription_id");
+
+                    await bus.SendAsync("create_advertisement", productsFromDb);
                 }
 
                 // TODO
