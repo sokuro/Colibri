@@ -103,36 +103,46 @@
 
             @foreach (var item in Model.Products)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(m => item.Name)
-                </td>
-                <td>
-                    @String.Format("{0:c}", item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.CategoryGroups.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.CategoryTypes.Name)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(m => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.NumberOfClicks)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => m.Users.FirstOrDefault().UserName)
-                </td>
-                @if (User.Identity.IsAuthenticated)
-                {
+                <tr>
                     <td>
-                        <partial name="_TableButtonPartialCustomer" model="item.Id" />
+                        @Html.DisplayFor(m => item.Name)
                     </td>
-                }
-            </tr>
+                    <td>
+                        @String.Format("{0:c}", item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CategoryGroups.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CategoryTypes.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(m => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfClicks)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => m.Users.FirstOrDefault().UserName)
+                    </td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <td>
+                            <partial name="_TableButtonPartialCustomer" model="item.Id" />
+                        </td>
+                    }
+                </tr>
             }
         </table>
+    </div>
+
+    <!-- Pagination -->
+    <div page-model="@Model.PagingInfo"
+         page-action="Index"
+         page-classes-enabled="true"
+         page-class="btn border"
+         page-class-normal="btn btn-default active"
+         page-class-selected="btn btn-primary active"
+         class="btn-group m-1">
     </div>
 </form>

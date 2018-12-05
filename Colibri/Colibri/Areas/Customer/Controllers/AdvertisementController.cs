@@ -33,6 +33,9 @@ namespace Colibri.Areas.Customer.Controllers
         private readonly HostingEnvironment _hostingEnvironment;
         private readonly IStringLocalizer<AdvertisementController> _localizer;
 
+        // PageSize (for the Pagination: 5 Appointments/Page)
+        private int PageSize = 4;
+
         // bind to the Advertisement ViewModel
         // not necessary to create new Objects
         // allowed to use the ViewModel without passing it as ActionMethod Parameter
@@ -70,6 +73,7 @@ namespace Colibri.Areas.Customer.Controllers
         // Index
         [Route("Customer/Advertisement/Index")]
         public async Task<IActionResult> Index(
+            int productPage = 1,
             string searchUserName=null,
             string searchProductName=null,
             string filterMine=null
@@ -85,7 +89,7 @@ namespace Colibri.Areas.Customer.Controllers
             // Filter the Search Criteria
             StringBuilder param = new StringBuilder();
 
-            param.Append("/Customer/Advertisement?productPage=:");
+            param.Append("/Customer/Advertisement/Index?productPage=:");
             param.Append("&searchName=");
             if (searchUserName != null)
             {
@@ -129,6 +133,27 @@ namespace Colibri.Areas.Customer.Controllers
             //    advertisementViewModel.Products = advertisementViewModel.Products
             //                                        .Where(a => a.ApplicationUserId == claim.Value.ToString()).ToList();
             //}
+
+            // Pagination
+            // count Advertisements alltogether
+            var count = AdvertisementViewModel.Products.Count;
+
+            // Iterate and Filter Appointments
+            // fetch the right Record (if on the 2nd Page, skip the first 3 (if PageSize=3) and continue on the next Page)
+            AdvertisementViewModel.Products = AdvertisementViewModel.Products
+                                                    .OrderBy(p => p.Name)
+                                                    .Skip((productPage - 1) * PageSize)
+                                                    .Take(PageSize).ToList();
+
+            // populate the PagingInfo Model
+            // StringBuilder
+            AdvertisementViewModel.PagingInfo = new PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItems = count,
+                urlParam = param.ToString()
+            };
 
             // i18n
             ViewData["Advertisement"] = _localizer["AdvertisementText"];
