@@ -142,7 +142,7 @@
                             <i class="fas fa-bell fa-fw"></i>
                             <!-- handle Session: Values in the Session -->
                             @*@if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("productsByAdminNotifications") != null)*@
-                            @if (HttpContextAccessor.HttpContext.Session.Get<Notifications>("productsByAdminNotifications") != null)
+                            @*@if (HttpContextAccessor.HttpContext.Session.Get<Notifications>("productsByAdminNotifications") != null)
                             {
                                 <span class="badge badge-danger">
                                     @{
@@ -150,7 +150,7 @@
                                     }
                                     (@countNotifications)
                                 </span>
-                            }
+                            }*@
                             <span class="badge badge-danger"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
