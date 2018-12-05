@@ -28,6 +28,9 @@ namespace Colibri.Areas.Customer.Controllers
         private readonly HostingEnvironment _hostingEnvironment;
         private readonly IStringLocalizer<UserServicesController> _localizer;
 
+        // PageSize (for the Pagination: 5 Appointments/Page)
+        private int PageSize = 4;
+
         // bind to the UserServices ViewModel
         // not necessary to create new Objects
         // allowed to use the ViewModel without passing it as ActionMethod Parameter
@@ -56,13 +59,14 @@ namespace Colibri.Areas.Customer.Controllers
         // Index
         [Route("Customer/UserServices/Index")]
         public async Task<IActionResult> Index(
+            int productPage = 1,
             string searchUserName = null,
             string searchServiceName = null)
         {
             // Filter the Search Criteria
             StringBuilder param = new StringBuilder();
 
-            param.Append("/Customer/UserService?servicePage=:");
+            param.Append("/Customer/UserService/Index?servicePage=:");
             param.Append("&searchName=");
             if (searchUserName != null)
             {
@@ -94,6 +98,27 @@ namespace Colibri.Areas.Customer.Controllers
                 UserServicesViewModel.UserServices = UserServicesViewModel.UserServices
                     .Where(a => a.Name.ToLower().Contains(searchServiceName.ToLower())).ToList();
             }
+
+            // Pagination
+            // count Advertisements alltogether
+            var count = UserServicesViewModel.UserServices.Count;
+
+            // Iterate and Filter Appointments
+            // fetch the right Record (if on the 2nd Page, skip the first 3 (if PageSize=3) and continue on the next Page)
+            UserServicesViewModel.UserServices = UserServicesViewModel.UserServices
+                                                        .OrderBy(p => p.Name)
+                                                        .Skip((productPage - 1) * PageSize)
+                                                        .Take(PageSize).ToList();
+
+            // populate the PagingInfo Model
+            // StringBuilder
+            UserServicesViewModel.PagingInfo = new PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItems = count,
+                urlParam = param.ToString()
+            };
 
             // i18n
             ViewData["UserService"] = _localizer["UserServiceText"];

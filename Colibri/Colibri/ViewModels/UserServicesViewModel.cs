@@ -16,5 +16,8 @@ namespace Colibri.ViewModels
         public IEnumerable<SpecialTags> SpecialTags { get; set; }
 
         public IEnumerable<ApplicationUser> Users { get; set; }
+
+        // Custom Pagination
+        public PagingInfo PagingInfo { get; set; }
     }
 }
