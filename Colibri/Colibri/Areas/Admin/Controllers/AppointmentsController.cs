@@ -62,7 +62,7 @@ namespace Colibri.Areas.Admin.Controllers
             StringBuilder param = new StringBuilder();
             // set the default url for the Pagination
             // append search Properties
-            param.Append("/Admin/Appointments?productPage=:");
+            param.Append("/Admin/Appointments/Index?productPage=:");
             param.Append("&searchName=");
             if (searchName != null)
             {
