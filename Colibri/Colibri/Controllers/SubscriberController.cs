@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Colibri.Data;
+using Colibri.Extensions;
 using Colibri.Models;
 using Colibri.ViewModels;
 using EasyNetQ;
@@ -89,6 +90,10 @@ namespace Colibri.Controllers
         {
             SubscriberViewModel.Notifications.Message = "Added a Product by Admin: " + product.Name;
             SubscriberViewModel.Notifications.NotificationType = product.CategoryTypes.Name;
+
+            // set the Session: Name, Value
+            HttpContext.Session.Set("productsByAdminNotifications", product);
+            //HttpContext.Session.Set("productsByAdminNotifications", SubscriberViewModel.Notifications);
         }
     }
 }

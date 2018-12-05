@@ -11,6 +11,7 @@ using Colibri.Extensions;
 using Colibri.Models;
 using Colibri.Utility;
 using Colibri.ViewModels;
+using EasyNetQ;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -242,6 +243,22 @@ namespace Colibri.Areas.Customer.Controllers
                 // save the Changes asynchronously
                 // update the Image Part inside of the DB
                 await _colibriDbContext.SaveChangesAsync();
+
+                // TODO
+                // Publish the Created Advertisement's Product
+                using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                {
+                    Console.WriteLine("Publishing messages with publish and subscribe.");
+                    Console.WriteLine();
+
+                    //bus.Publish<AdvertisementViewModel>(AdvertisementViewModel, "my_subscription_id");
+                    bus.Publish(productsFromDb, "my_subscription_id");
+                }
+
+                // TODO
+                // Convert to JSON
+                //var parsedJson = new JavaScriptSerializer().Serialize(ProductsViewModel);
+                var result = Json(ProductsViewModel);
 
                 // avoid Refreshing the POST Operation -> Redirect
                 return RedirectToAction(nameof(Index));
