@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /Colibri/Colibri/wwwroot/img/ProductImage
+/Colibri/Colibri/wwwroot/img/ServiceImage
