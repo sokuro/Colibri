@@ -232,8 +232,8 @@ namespace Colibri.Areas.Customer.Controllers
                 if (files.Count != 0)
                 {
                     // Image has been uploaded
-                    // the exact Location of the ImageFolder
-                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolder);
+                    // the exact Location of the ImageFolderProduct
+                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderProduct);
 
                     // find the Extension of the File
                     var extension = Path.GetExtension(files[0].FileName);
@@ -246,19 +246,19 @@ namespace Colibri.Areas.Customer.Controllers
                     }
 
                     // ProductsImage = exact Path of the Image on the Server + ImageName + Extension
-                    productsFromDb.Image = @"\" + StaticDetails.ImageFolder + @"\" + ProductsViewModel.Products.Id + extension;
+                    productsFromDb.Image = @"\" + StaticDetails.ImageFolderProduct + @"\" + ProductsViewModel.Products.Id + extension;
                 }
                 // Image File has not been uploaded -> use a default one
                 else
                 {
                     // a DUMMY Image if the User does not have uploaded any File (default Image)
-                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolder + @"\" + StaticDetails.DefaultProductImage);
+                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderProduct + @"\" + StaticDetails.DefaultProductImage);
 
                     // copy the Image from the Server and rename it as the ProductImage ID
-                    System.IO.File.Copy(uploads, webRootPath + @"\" + StaticDetails.ImageFolder + @"\" + ProductsViewModel.Products.Id + ".jpg");
+                    System.IO.File.Copy(uploads, webRootPath + @"\" + StaticDetails.ImageFolderProduct + @"\" + ProductsViewModel.Products.Id + ".jpg");
 
                     // update the ProductFromDb.Image with the actual FileName
-                    productsFromDb.Image = @"\" + StaticDetails.ImageFolder + @"\" + ProductsViewModel.Products.Id + ".jpg";
+                    productsFromDb.Image = @"\" + StaticDetails.ImageFolderProduct + @"\" + ProductsViewModel.Products.Id + ".jpg";
                 }
                 // add Special Tags (Id #1 = Offer)
                 // TODO: create a Switch to Offer/Order

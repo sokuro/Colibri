@@ -132,8 +132,8 @@ namespace Colibri.Areas.Admin.Controllers
                 if (files.Count != 0)
                 {
                     // Image has been uploaded
-                    // the exact Location of the ImageFolder
-                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolder);
+                    // the exact Location of the ImageFolderProduct
+                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderProduct);
 
                     // find the Extension of the File
                     var extension = Path.GetExtension(files[0].FileName);
@@ -146,19 +146,19 @@ namespace Colibri.Areas.Admin.Controllers
                     }
 
                     // ProductsImage = exact Path of the Image on the Server + ImageName + Extension
-                    productsFromDb.Image = @"\" + StaticDetails.ImageFolder + @"\" + ProductsViewModel.Products.Id + extension;
+                    productsFromDb.Image = @"\" + StaticDetails.ImageFolderProduct + @"\" + ProductsViewModel.Products.Id + extension;
                 }
                 // Image File has not been uploaded -> use a default one
                 else
                 {
                     // a DUMMY Image if the User does not have uploaded any File (default Image)
-                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolder + @"\" + StaticDetails.DefaultProductImage);
+                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderProduct + @"\" + StaticDetails.DefaultProductImage);
 
                     // copy the Image from the Server and rename it as the ProductImage ID
-                    System.IO.File.Copy(uploads, webRootPath + @"\" + StaticDetails.ImageFolder + @"\" + ProductsViewModel.Products.Id + ".jpg");
+                    System.IO.File.Copy(uploads, webRootPath + @"\" + StaticDetails.ImageFolderProduct + @"\" + ProductsViewModel.Products.Id + ".jpg");
 
                     // update the ProductFromDb.Image with the actual FileName
-                    productsFromDb.Image = @"\" + StaticDetails.ImageFolder + @"\" + ProductsViewModel.Products.Id + ".jpg";
+                    productsFromDb.Image = @"\" + StaticDetails.ImageFolderProduct + @"\" + ProductsViewModel.Products.Id + ".jpg";
                 }
                 // save the Changes asynchronously
                 // update the Image Part inside of the DB
@@ -254,7 +254,7 @@ namespace Colibri.Areas.Admin.Controllers
                 if (files.Count > 0 && files[0] != null)
                 {
                     // if the User uploades a new Image
-                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolder);
+                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderProduct);
                     // find out the Extension of the new Image File and also the Extension of the old Image existing in the DB
                     var extension_new = Path.GetExtension(files[0].FileName);
                     var extension_old = Path.GetExtension(productFromDb.Image);
@@ -274,7 +274,7 @@ namespace Colibri.Areas.Admin.Controllers
                     }
 
                     // ProductsImage = exact Path of the Image on the Server + ImageName + Extension
-                    ProductsViewModel.Products.Image = @"\" + StaticDetails.ImageFolder + @"\" + ProductsViewModel.Products.Id + extension_new;
+                    ProductsViewModel.Products.Image = @"\" + StaticDetails.ImageFolderProduct + @"\" + ProductsViewModel.Products.Id + extension_new;
                 }
 
                 /*
@@ -408,7 +408,7 @@ namespace Colibri.Areas.Admin.Controllers
             else
             {
                 // find the Image File
-                var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolder);
+                var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderProduct);
                 // find the Extension
                 var extension = Path.GetExtension(products.Image);
                 // exists the File?
