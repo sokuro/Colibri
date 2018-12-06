@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Models;
 using Colibri.Utility;
 using Colibri.ViewModels;
+using EasyNetQ;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +40,11 @@ namespace Colibri.Areas.Customer.Controllers
         [BindProperty]
         public UserServicesViewModel UserServicesViewModel { get; set; }
 
+        // bind to the UserServices ViewModel
+        // necessary to create new Objects
+        [BindProperty]
+        public UserServicesAddToEntityViewModel UserServicesAddToEntityViewModel { get; set; }
+
         public UserServicesController(ColibriDbContext colibriDbContext, 
             HostingEnvironment hostingEnvironment,
             IStringLocalizer<UserServicesController> localizer)
@@ -45,7 +53,7 @@ namespace Colibri.Areas.Customer.Controllers
             _hostingEnvironment = hostingEnvironment;
             _localizer = localizer;
 
-            // initialize the Constructor for the ProductsController
+            // initialize the Constructor with the UserServicesViewModel
             UserServicesViewModel = new UserServicesViewModel()
             {
                 CategoryGroups = _colibriDbContext.CategoryGroups.ToList(),
@@ -53,6 +61,15 @@ namespace Colibri.Areas.Customer.Controllers
                 SpecialTags = _colibriDbContext.SpecialTags.ToList(),
                 UserServices = new List<UserServices>(),
                 Users = new List<ApplicationUser>()
+            };
+
+            // initialize the Constructor with the UserServicesAddToEntityViewModel
+            UserServicesAddToEntityViewModel = new UserServicesAddToEntityViewModel()
+            {
+                CategoryGroups = _colibriDbContext.CategoryGroups.ToList(),
+                CategoryTypes = _colibriDbContext.CategoryTypes.ToList(),
+                SpecialTags = _colibriDbContext.SpecialTags.ToList(),
+                UserServices = new Models.UserServices()
             };
         }
 
@@ -133,6 +150,132 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["NumberOfClicks"] = _localizer["NumberOfClicksText"];
 
             return View(UserServicesViewModel);
+        }
+
+        // GET: create a new Service
+        // pass the ViewModel for the DropDown Functionality of the Category Types
+        [Route("Customer/UserServices/Create")]
+        public IActionResult Create()
+        {
+            // i18n
+            ViewData["CreateUserService"] = _localizer["CreateUserServiceText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["UserServiceName"] = _localizer["UserServiceNameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["Image"] = _localizer["ImageText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["NumberOfClicks"] = _localizer["NumberOfClicksText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["Create"] = _localizer["CreateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+
+            return View(UserServicesAddToEntityViewModel);
+        }
+
+        // POST: create a new Service
+        // ViewModel bound automatically
+        [Route("Customer/UserServices/Create")]
+        [HttpPost, ActionName("Create")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> createPost()
+        {
+            //// Security Claims
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+            //// Claims Identity
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                // add a UserService first to retrieve it, so one can add User Service to it
+                _colibriDbContext.Add(UserServicesAddToEntityViewModel.UserServices);
+                await _colibriDbContext.SaveChangesAsync();
+
+                // Image being saved
+                // use the Hosting Environment
+                string webRootPath = _hostingEnvironment.WebRootPath;
+
+                // retrieve all Files (typed by the User in the View )
+                var files = HttpContext.Request.Form.Files;
+
+                // to update the User Service from the DB: retrieve the Db Files
+                // new Properties will be added to the specific User Service -> Id needed!
+                var userServicesFromDb = _colibriDbContext.UserServices.Find(UserServicesAddToEntityViewModel.UserServices.Id);
+
+                // Image File has been uploaded from the View
+                if (files.Count != 0)
+                {
+                    // Image has been uploaded
+                    // the exact Location of the ImageFolderProduct for the Service
+                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderService);
+
+                    // find the Extension of the File
+                    var extension = Path.GetExtension(files[0].FileName);
+
+                    // use the FileStreamObject -> copy the File from the Uploaded to the Server
+                    // create the File on the Server
+                    using (var filestream = new FileStream(Path.Combine(uploads, UserServicesAddToEntityViewModel.UserServices.Id + extension), FileMode.Create))
+                    {
+                        files[0].CopyTo(filestream);
+                    }
+
+                    // ProductsImage = exact Path of the Image on the Server + ImageName + Extension
+                    userServicesFromDb.Image = @"\" + StaticDetails.ImageFolderService + @"\" + UserServicesAddToEntityViewModel.UserServices.Id + extension;
+                }
+                // Image File has not been uploaded -> use a default one
+                else
+                {
+                    // a DUMMY Image if the User does not have uploaded any File (default Image)
+                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderService + @"\" + StaticDetails.DefaultServiceImage);
+
+                    // copy the Image from the Server and rename it as the ProductImage ID
+                    System.IO.File.Copy(uploads, webRootPath + @"\" + StaticDetails.ImageFolderService + @"\" + UserServicesAddToEntityViewModel.UserServices.Id + ".jpg");
+
+                    // update the ProductFromDb.Image with the actual FileName
+                    userServicesFromDb.Image = @"\" + StaticDetails.ImageFolderService + @"\" + UserServicesAddToEntityViewModel.UserServices.Id + ".jpg";
+                }
+                // add Special Tags (Id #1 = Offer)
+                // TODO: create a Switch to Offer/Order
+                userServicesFromDb.SpecialTagId = 1;
+
+                // add the current User as the Creator of the Advertisement
+                userServicesFromDb.ApplicationUserId = claim.Value;
+
+                // save the Changes asynchronously
+                // update the Image Part inside of the DB
+                await _colibriDbContext.SaveChangesAsync();
+
+                // Publish the Created Advertisement's Product
+                using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                {
+                    Console.WriteLine("Publishing an User Service Message.");
+                    Console.WriteLine();
+
+                    //bus.Publish<AdvertisementViewModel>(AdvertisementViewModel, "my_subscription_id");
+                    //bus.Publish(productsFromDb, "my_subscription_id");
+
+                    await bus.SendAsync("create_user_service", userServicesFromDb);
+                }
+
+                // TODO
+                // Convert to JSON
+                //var parsedJson = new JavaScriptSerializer().Serialize(ProductsViewModel);
+                var result = Json(UserServicesAddToEntityViewModel);
+
+                // avoid Refreshing the POST Operation -> Redirect
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(UserServicesAddToEntityViewModel);
+            }
         }
     }
 }
