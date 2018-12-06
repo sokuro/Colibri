@@ -135,6 +135,9 @@
   <data name="CreateText" xml:space="preserve">
     <value>Create</value>
   </data>
+  <data name="CreateUserServiceText" xml:space="preserve">
+    <value>Create User Service</value>
+  </data>
   <data name="DescriptionText" xml:space="preserve">
     <value>Description</value>
   </data>
