@@ -277,5 +277,57 @@ namespace Colibri.Areas.Customer.Controllers
                 return View(UserServicesAddToEntityViewModel);
             }
         }
+
+        // GET: Details
+        [Route("Customer/UserServices/Details/{id}")]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // get the individual User Service
+            var userService = await _colibriDbContext.UserServices
+                    .Include(p => p.CategoryGroups)
+                    .Include(p => p.CategoryTypes)
+                    .Include(p => p.SpecialTags)
+                    .Where(p => p.Id == id)
+                    .FirstOrDefaultAsync();
+
+            // get the User Service's User
+            var user = (IEnumerable<ApplicationUser>)(from u in _colibriDbContext.ApplicationUsers
+                                                      join p in _colibriDbContext.UserServices
+                                                      .Include(p => p.ApplicationUser)
+                                                      .ThenInclude(p => p.UserName)
+                                                      on u.Id equals p.ApplicationUserId
+                                                      select u);
+
+            // add the user as the ApplicationUser to the User Service
+            userService.ApplicationUser = user.FirstOrDefault();
+
+            // count the Number of Clicks on the User Service
+            userService.NumberOfClicks += 1;
+
+            // save the Changes in DB
+            await _colibriDbContext.SaveChangesAsync();
+
+            // i18n
+            ViewData["UserServiceDetails"] = _localizer["UserServiceDetailsText"];
+            ViewData["UserServiceName"] = _localizer["UserServiceNameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["NumberOfClicks"] = _localizer["NumberOfClicksText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["ContactOwner"] = _localizer["ContactOwnerText"];
+            ViewData["RemoveFromBag"] = _localizer["RemoveFromBagText"];
+            ViewData["Order"] = _localizer["OrderText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+
+            return View(userService);
+        }
     }
 }
