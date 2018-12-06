@@ -60,6 +60,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="wwwroot\img\ServiceImage\" />
   </ItemGroup>
 
 </Project>
