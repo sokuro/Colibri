@@ -41,7 +41,10 @@
     <Content Update="Areas\Admin\Views\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomer.cshtml">
+    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerService.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerAdvertisement.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Customer\Views\_ViewImports.cshtml">
