@@ -46,7 +46,9 @@ namespace Colibri.Areas.Customer.Controllers
         [BindProperty]
         public ProductsViewModel ProductsViewModel { get; set; }
 
-        public AdvertisementController(ColibriDbContext colibriDbContext, HostingEnvironment hostingEnvironment, IStringLocalizer<AdvertisementController> localizer)
+        public AdvertisementController(ColibriDbContext colibriDbContext, 
+            HostingEnvironment hostingEnvironment, 
+            IStringLocalizer<AdvertisementController> localizer)
         {
             _colibriDbContext = colibriDbContext;
             _hostingEnvironment = hostingEnvironment;
