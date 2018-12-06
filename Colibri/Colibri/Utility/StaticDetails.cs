@@ -15,7 +15,7 @@ namespace Colibri.Utility
 
         // Image Folder for the Services
         public const string DefaultServiceImage = "default_service.jpg";
-        public const string ImageFolderProductService = @"img\ServiceImage";
+        public const string ImageFolderService = @"img\ServiceImage";
 
         // User Roles
         public const string AdminEndUser = "Admin";
