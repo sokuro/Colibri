@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace Colibri.ViewModels
 {
+    /*
+     * ViewModel using the List of the UserServices
+     *
+     * used: Index
+     */
     public class UserServicesViewModel
     {
         public List<UserServices> UserServices { get; set; }
