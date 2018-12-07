@@ -150,6 +150,9 @@
   <data name="NewCategoryGroupText" xml:space="preserve">
     <value>New Category Group</value>
   </data>
+  <data name="TypeOfCategoryGroupText" xml:space="preserve">
+    <value>Category Group Type</value>
+  </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Update</value>
   </data>

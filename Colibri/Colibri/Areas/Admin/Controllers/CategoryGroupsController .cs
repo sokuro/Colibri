@@ -35,6 +35,8 @@ namespace Colibri.Areas.Admin.Controllers
             // i18n
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
             ViewData["NewCategoryGroup"] = _localizer["NewCategoryGroupText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["TypeOfCategoryGroup"] = _localizer["TypeOfCategoryGroupText"];
 
             return View(categoryGroupsList);
         }
@@ -48,6 +50,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Create"] = _localizer["CreateText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["Name"] = _localizer["NameText"];
+            ViewData["TypeOfCategoryGroup"] = _localizer["TypeOfCategoryGroupText"];
 
             return View();
         }
@@ -114,6 +117,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["Name"] = _localizer["NameText"];
             ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["TypeOfCategoryGroup"] = _localizer["TypeOfCategoryGroupText"];
 
             return View(categoryGroup);
         }
@@ -171,6 +175,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Edit"] = _localizer["EditText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["Name"] = _localizer["NameText"];
+            ViewData["TypeOfCategoryGroup"] = _localizer["TypeOfCategoryGroupText"];
 
             return View(categoryGroup);
         }
@@ -197,6 +202,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Delete"] = _localizer["DeleteText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["Name"] = _localizer["NameText"];
+            ViewData["TypeOfCategoryGroup"] = _localizer["TypeOfCategoryGroupText"];
 
             return View(categoryGroup);
         }

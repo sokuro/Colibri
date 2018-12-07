@@ -15,7 +15,12 @@
     <table class="table table-striped border">
         <tr class="text-info">
             <th>
-                @Html.DisplayNameFor(m => m.Name)
+                @*@Html.DisplayNameFor(m => m.Name)*@
+                @ViewData["Name"]
+            </th>
+            <th>
+                @*@Html.DisplayNameFor(m => m.TypeOfCategoryGroup)*@
+                @ViewData["TypeOfCategoryGroup"]
             </th>
             <th></th>
             <th></th>
@@ -23,14 +28,17 @@
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(m => item.Name)
-                </td>
-                <td>
-                    <partial name="_TableButtonPartial" model="item.Id" />
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(m => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.TypeOfCategoryGroup)
+            </td>
+            <td>
+                <partial name="_TableButtonPartial" model="item.Id" />
+            </td>
+        </tr>
         }
     </table>
 </div>

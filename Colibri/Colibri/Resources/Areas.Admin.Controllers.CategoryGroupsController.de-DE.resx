@@ -150,6 +150,9 @@
   <data name="NewCategoryGroupText" xml:space="preserve">
     <value>Neue Rubrik</value>
   </data>
+  <data name="TypeOfCategoryGroupText" xml:space="preserve">
+    <value>Rubriken Gruppen-Typ</value>
+  </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Aktualisiere</value>
   </data>
