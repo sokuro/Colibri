@@ -12,15 +12,15 @@
         <div class="d-flex">
             <div class="p-lg-5 p-3 flex-fill">
                 <div class="categoryInfo">
-                    <img src="~/img/Categories/category_tree.png" />
+                    <img src="~/img/SystemImages/ChoiceArrows.png" />
                     <table>
-                        @foreach (var category in Model.CategoryTypes)
+                        @foreach (var categoryGroup in Model.CategoryGroups)
                         {
                             <tr>
-                                <td>@category.Id</td>
-                                <td>@category.Name</td>
+                                <td>@categoryGroup.Id</td>
+                                <td>@categoryGroup.Name</td>
                                 <td>
-                                    <a asp-action="Details" asp-route-id="@category.Id">Details</a>
+                                    <a asp-action="Details" asp-route-id="@categoryGroup.Id">Details</a>
                                 </td>
                             </tr>
                         }
@@ -30,15 +30,15 @@
             </div>
             <div class="p-lg-5 p-3 flex-fill">
                 <div class="categoryInfo">
-                    <img src="~/img/Categories/category_tree.png" />
+                    <img src="~/img/SystemImages/ChoiceFigure.png" />
                     <table>
-                        @foreach (var category in Model.CategoryTypes)
+                        @foreach (var categoryType in Model.CategoryTypes)
                         {
                             <tr>
-                                <td>@category.Id</td>
-                                <td>@category.Name</td>
+                                <td>@categoryType.Id</td>
+                                <td>@categoryType.Name</td>
                                 <td>
-                                    <a asp-action="Details" asp-route-id="@category.Id">Details</a>
+                                    <a asp-action="Details" asp-route-id="@categoryType.Id">Details</a>
                                 </td>
                             </tr>
                         }
@@ -52,15 +52,15 @@
         <div class="d-flex">
             <div class="p-lg-5 p-3 flex-fill">
                 <div class="categoryInfo">
-                    <img src="~/img/Categories/category_tree.png" />
+                    <img src="~/img/SystemImages/ChoiceRowsSigned.png" />
                     <table>
-                        @foreach (var category in Model.CategoryTypes)
+                        @foreach (var specialTag in Model.SpecialTags)
                         {
                             <tr>
-                                <td>@category.Id</td>
-                                <td>@category.Name</td>
+                                <td>@specialTag.Id</td>
+                                <td>@specialTag.Name</td>
                                 <td>
-                                    <a asp-action="Details" asp-route-id="@category.Id">Details</a>
+                                    <a asp-action="Details" asp-route-id="@specialTag.Id">Details</a>
                                 </td>
                             </tr>
                         }
@@ -70,20 +70,19 @@
             </div>
             <div class="p-lg-5 p-3 flex-fill">
                 <div class="categoryInfo">
-                    <img src="~/img/Categories/category_tree.png" />
+                    <img src="~/img/SystemImages/Connection.png" />
                     <table>
-                        @foreach (var category in Model.CategoryTypes)
+                        @foreach (var user in Model.Users)
                         {
                             <tr>
-                                <td>@category.Id</td>
-                                <td>@category.Name</td>
+                                @*<td>@user.Id</td>*@
+                                <td>@user.UserName</td>
                                 <td>
-                                    <a asp-action="Details" asp-route-id="@category.Id">Details</a>
+                                    <a asp-route-area="Customer" asp-action="Details" asp-controller="ApplicationUser" class="btn btn-success pull-right btn-outline-info" asp-route-id="@user.Id">@ViewData["ViewDetails"]</a>
                                 </td>
                             </tr>
                         }
                     </table>
-                    @*<a asp-action="Create">Add Category</a>*@
                 </div>
             </div>
         </div>
