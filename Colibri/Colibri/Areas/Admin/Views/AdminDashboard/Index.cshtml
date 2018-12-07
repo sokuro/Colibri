@@ -1,0 +1,91 @@
+﻿@model Colibri.ViewModels.HomeIndexViewModel
+
+<div class="col main pt-1 mt-1">
+    <h1 class="display-4 d-none d-sm-block">
+        Colibri Dashboard
+    </h1>
+</div>
+
+<div container-dashboard>
+    <div row>
+        <!-- Column #1 -->
+        <div class="d-flex">
+            <div class="p-lg-5 p-3 flex-fill">
+                <div class="categoryInfo">
+                    <img src="~/img/SystemImages/ChoiceArrows.png" />
+                    <table>
+                        @foreach (var categoryGroup in Model.CategoryGroups)
+                        {
+                            <tr>
+                                <td>@categoryGroup.Id</td>
+                                <td>@categoryGroup.Name</td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@categoryGroup.Id">Details</a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    @*<a asp-action="Create">Add Category</a>*@
+                </div>
+            </div>
+            <div class="p-lg-5 p-3 flex-fill">
+                <div class="categoryInfo">
+                    <img src="~/img/SystemImages/ChoiceFigure.png" />
+                    <table>
+                        @foreach (var categoryType in Model.CategoryTypes)
+                        {
+                            <tr>
+                                <td>@categoryType.Id</td>
+                                <td>@categoryType.Name</td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@categoryType.Id">Details</a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    @*<a asp-action="Create">Add Category</a>*@
+                </div>
+            </div>
+        </div>
+        <!-- END: Column #1 -->
+        <!-- Column #2 -->
+        <div class="d-flex">
+            <div class="p-lg-5 p-3 flex-fill">
+                <div class="categoryInfo">
+                    <img src="~/img/SystemImages/ChoiceRowsSigned.png" />
+                    <table>
+                        @foreach (var specialTag in Model.SpecialTags)
+                        {
+                            <tr>
+                                <td>@specialTag.Id</td>
+                                <td>@specialTag.Name</td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@specialTag.Id">Details</a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    @*<a asp-action="Create">Add Category</a>*@
+                </div>
+            </div>
+            <div class="p-lg-5 p-3 flex-fill">
+                <div class="categoryInfo">
+                    <img src="~/img/SystemImages/Connection.png" />
+                    <table>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                @*<td>@user.Id</td>*@
+                                <td>@user.UserName</td>
+                                <td>
+                                    <a asp-route-area="Customer" asp-action="Details" asp-controller="ApplicationUser" class="btn btn-success pull-right btn-outline-info" asp-route-id="@user.Id">@ViewData["ViewDetails"]</a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END: Column #2 -->
+    </div>
+</div>

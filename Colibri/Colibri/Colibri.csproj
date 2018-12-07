@@ -32,6 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\Admin\Views\AdminDashboard\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Admin\Views\Shared\_TableButtonPartialAdminProducts.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
