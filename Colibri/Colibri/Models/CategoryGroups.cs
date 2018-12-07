@@ -12,5 +12,15 @@ namespace Colibri.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
+
+        // Product/Services
+        [Required]
+        public string TypeOfCategoryGroup { get; set; }
+
+        public enum ETypeOfCategoryGroup
+        {
+            Products = 0,
+            Services = 1
+        }
     }
 }
