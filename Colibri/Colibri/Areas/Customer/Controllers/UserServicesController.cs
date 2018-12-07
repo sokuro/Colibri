@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Colibri.Data;
+using Colibri.Extensions;
 using Colibri.Models;
 using Colibri.Utility;
 using Colibri.ViewModels;
@@ -328,6 +329,32 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["BackToList"] = _localizer["BackToListText"];
 
             return View(userService);
+        }
+
+        // Details POST
+        [Route("Customer/UserServices/Details/{id}")]
+        [HttpPost, ActionName("Details")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DetailsPost(int id)
+        {
+            // check first, if anything exists in the Session
+            // Session Name : "ssShoppingCart"
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+
+            // check if null -> create new
+            if (lstCartItems == null)
+            {
+                lstCartItems = new List<int>();
+            }
+
+            // add the retrieved Item (id)
+            lstCartItems.Add(id);
+            // set the Session:
+            // Session Name, Value
+            HttpContext.Session.Set("ssShoppingCart", lstCartItems);
+
+            // redirect to Action
+            return RedirectToAction("Index", "UserServices", new { area = "Customer" });
         }
     }
 }

@@ -10,11 +10,13 @@ namespace Colibri.ViewModels
     /*
      * Shopping Cart View Model with:
      * #1: Products
-     * #2: Appointments
+     * #2: Services
+     * #3: Appointments
      */
     public class ShoppingCartViewModel
     {
         public List<Products> Products { get; set; }
+        public List<UserServices> UserServices { get; set; }
         public Appointments Appointments { get; set; }
     }
 }
