@@ -8,6 +8,7 @@ using Colibri.Models;
 using Colibri.ViewModels;
 using EasyNetQ;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Colibri.Controllers
@@ -66,8 +67,11 @@ namespace Colibri.Controllers
             }
 
             // persist
-            await _colibriDbContext.AddAsync(SubscriberViewModel.Notifications);
-            await _colibriDbContext.SaveChangesAsync();
+            if (SubscriberViewModel.Notifications.Message != null)
+            {
+                await _colibriDbContext.AddAsync(SubscriberViewModel.Notifications);
+                await _colibriDbContext.SaveChangesAsync();
+            }
 
             return View(SubscriberViewModel);
         }
@@ -78,11 +82,15 @@ namespace Colibri.Controllers
             {
                 bus.Receive("create_product_by_admin", x => x.Add<Products>(p => HandleProductByAdmin(p)));
                 bus.Receive("create_advertisement", x => x.Add<Products>(p => HandleAdvertisements(p)));
+                bus.Receive("create_category_groups", x => x.Add<CategoryGroups>(p => HandleCategoryGroups(p)));
             }
 
             // persist
-            //await _colibriDbContext.AddAsync(SubscriberViewModel.Notifications);
-            //await _colibriDbContext.SaveChangesAsync();
+            if (SubscriberViewModel.Notifications.Message != null)
+            {
+                await _colibriDbContext.AddAsync(SubscriberViewModel.Notifications);
+                await _colibriDbContext.SaveChangesAsync();
+            }
 
             return View(SubscriberViewModel);
         }
@@ -93,6 +101,11 @@ namespace Colibri.Controllers
             SubscriberViewModel.Notifications.NotificationType = product.CategoryTypes.Name;
         }
 
+        private void HandleCategoryGroups(CategoryGroups categoryGroups)
+        {
+            SubscriberViewModel.Notifications.Message = "Added a Category Group: " + categoryGroups.Name;
+        }
+
         private void HandleProductByAdmin(Products product)
         {
             SubscriberViewModel.Notifications.Message = "Added a Product by Admin: " + product.Name;
@@ -101,6 +114,13 @@ namespace Colibri.Controllers
             // set the Session: Name, Value
             HttpContext.Session.Set("productsByAdminNotifications", product);
             //HttpContext.Session.Set("productsByAdminNotifications", SubscriberViewModel.Notifications);
+        }
+
+        public async Task<IActionResult> ShowAllNotifications()
+        {
+            var notificationsList = await _colibriDbContext.Notifications.ToListAsync();
+
+            return View(notificationsList);
         }
     }
 }
