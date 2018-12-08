@@ -1,23 +1,69 @@
 ﻿@model Colibri.ViewModels.HomeIndexViewModel
 
-<div class="col main pt-1 mt-1">
-    <h1 class="display-4 d-none d-sm-block">
-        Colibri Dashboard
-    </h1>
-</div>
-
-<div container-dashboard>
-    <div row>
-        <!-- Column #1 -->
-        <div class="d-flex">
-            TODO
+<div class="col-md-12">
+    <div class="form-border">
+        <div class="custom-center">
+            <h4>Website durchsuchen</h4>
+            <br />
         </div>
-        <!-- END: Column #1 -->
-        <!-- Column #2 -->
-        <div class="d-flex">
-            TODO
+        <div class="row">
+            <!--Angebote suchen-->
+            <div class="col-md-6">
+                <div>
+                    <a asp-controller="Searches" asp-action="Index" type="button" class="btn btn-primary custom-button">
+                        Angebot Suchen &nbsp;
+                        <i class="fas fa-search-plus"></i>
+                    </a>
+                </div>
+                <br />
+                <div class="col-md-8">
+                    <form asp-controller="Home" asp-action="AdvertisementResults">
+                        <input asp-for="SearchAdvertisement" class="form-control" />
+                    </form>
+                </div>
+            </div>
+            <!--Nachfragen suchen-->
+            <div class="col-md-6">
+                <div>
+                    <a asp-action="Create" type="button" class="btn btn-primary custom-button">
+                        Nachfrage Suchen &nbsp;
+                        <i class="fas fa-search-plus"></i>
+                    </a>
+                </div>
+                <br />
+                <div class="col-md-8">
+                    <input asp-for="SearchAdvertisementRequest" class="form-control" />
+                </div>
+            </div>
         </div>
-        <!-- END: Column #2 -->
     </div>
 </div>
-
+<br />
+<div class="col-md-12">
+    <div class="form-border">
+        <div class="custom-center">
+            <h4>Inserat hochladen</h4>
+            <br />
+        </div>
+        <div class="row">
+            <!--Angebote erstellen-->
+            <div class="col-md-6">
+                <div>
+                    <a asp-controller="Advertisements" asp-action="Create" type="button" class="btn btn-primary custom-button">
+                        Angebot erstellen &nbsp;
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+            <!--Nachfragen erstellen-->
+            <div class="col-md-6">
+                <div>
+                    <a asp-controller="Advertisements" asp-action="Create" type="button" class="btn btn-primary custom-button">
+                        Nachfrage erstellen &nbsp;
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
