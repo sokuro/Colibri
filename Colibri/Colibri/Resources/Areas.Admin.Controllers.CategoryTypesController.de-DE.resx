@@ -120,17 +120,20 @@
   <data name="BackToListText" xml:space="preserve">
     <value>Zurück</value>
   </data>
+  <data name="CategoryGroupText" xml:space="preserve">
+    <value>Rubrik Gruppe</value>
+  </data>
   <data name="CategoryTypeText" xml:space="preserve">
     <value>Rubriken</value>
   </data>
   <data name="CreateCategoryTypeText" xml:space="preserve">
-    <value>Erstelle neue Rubrik</value>
+    <value>Neue Rubrik erstellen</value>
   </data>
   <data name="CreateText" xml:space="preserve">
-    <value>Erstelle</value>
+    <value>Erstellen</value>
   </data>
   <data name="DeleteCategoryTypeText" xml:space="preserve">
-    <value>Lösche Rubrik</value>
+    <value>Rubrik Löschen</value>
   </data>
   <data name="DeleteText" xml:space="preserve">
     <value>Lösche</value>

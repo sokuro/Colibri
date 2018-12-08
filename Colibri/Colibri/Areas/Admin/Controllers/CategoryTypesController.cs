@@ -10,6 +10,7 @@ using EasyNetQ;
 using EasyNetQ.NonGeneric;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
 namespace Colibri.Areas.Admin.Controllers
@@ -32,14 +33,16 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         [Route("Admin/CategoryTypes/Index")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var categoryTypesList = _colibriDbContext.CategoryTypes.ToList();
+            var categoryTypesList = await _colibriDbContext.CategoryTypes.Include(s => s.CategoryGroups).ToListAsync();
 
             // i18n
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
             ViewData["NewCategoryType"] = _localizer["NewCategoryTypeText"];
             ViewData["Name"] = _localizer["NameText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+
 
             return View(categoryTypesList);
         }
@@ -71,6 +74,12 @@ namespace Colibri.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CategoryTypesAndCategoryGroupsViewModel model)
         {
+            // i18n
+            ViewData["CreateCategoryType"] = _localizer["CreateCategoryTypeText"];
+            ViewData["Create"] = _localizer["CreateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
@@ -197,7 +206,7 @@ namespace Colibri.Areas.Admin.Controllers
             }
 
             // search for the ID
-            var categoryType = await _colibriDbContext.CategoryTypes.FindAsync(id);
+            var categoryType = await _colibriDbContext.CategoryTypes.Include(s => s.CategoryGroups).SingleOrDefaultAsync(m => m.Id == id);
 
             if (categoryType == null)
             {
@@ -209,6 +218,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Edit"] = _localizer["EditText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["Name"] = _localizer["NameText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
 
             return View(categoryType);
         }

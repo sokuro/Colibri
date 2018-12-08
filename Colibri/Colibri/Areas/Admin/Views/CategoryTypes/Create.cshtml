@@ -1,5 +1,8 @@
 ﻿@model Colibri.ViewModels.CategoryTypesAndCategoryGroupsViewModel
 @using Colibri.Extensions
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
 
 @{
     ViewData["Title"] = "Create";
@@ -10,58 +13,64 @@
 @Html.Partial("_StatusMessage", Model.StatusMessage)
 <hr />
 
-<form method="post" asp-action="Create">
-    <div class="p-4 border rounded">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="row">
+    <div class="col-8">
+        <form asp-action="Create">
+            <div class="p-4 border rounded">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="CategoryTypes.Name">@ViewData["Name"]</label>
-            </div>
-            <div class="col-5">
-                <input asp-for="CategoryTypes.Name" class="form-control" />
-            </div>
-            <span asp-validation-for="CategoryTypes.Name" class="text-danger"></span>
-        </div>
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="CategoryTypes.Name">@ViewData["Name"]</label>
+                    </div>
+                    <div class="col-5">
+                        <input asp-for="CategoryTypes.Name" class="form-control" />
+                    </div>
+                    <span asp-validation-for="CategoryTypes.Name" class="text-danger"></span>
+                </div>
 
-        <div class="form-group row">
-            <div class="col-2">
-                <label asp-for="CategoryTypes.CategoryGroupId" class="custom-label"></label>
-            </div>
-            <div class="col-5">
-                <select asp-for="CategoryTypes.CategoryGroupId" asp-items="Model.CategoryGroupsList.ToSelectListItem(Model.CategoryTypes.CategoryGroupId)" class="form-control"></select>
-            </div>
-        </div>
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="CategoryTypes.CategoryGroupId" class="custom-label"></label>
+                    </div>
+                    <div class="col-5">
+                        <select asp-for="CategoryTypes.CategoryGroupId" asp-items="Model.CategoryGroupsList.ToSelectListItem(Model.CategoryTypes.CategoryGroupId)" class="form-control"></select>
+                    </div>
+                </div>
 
-        <div class="form-group row">
-            <div class="col-3">
-                <label asp-for="isNew" class="custom-label"></label>
-            </div>
-            <div class="col-5">
-                <input asp-for="isNew" class="form-control" />
-            </div>
-        </div>
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="isNew" class="custom-label"></label>
+                    </div>
+                    <div class="col-5">
+                        <input asp-for="isNew" class="form-control" />
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value=@ViewData["Create"] />
-            <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
-        </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value=@ViewData["Create"] />
+                    <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
+                </div>
+            </div>
+
+        </form>
+
     </div>
-</form>
-
-<!--Liste mit vorhandenen Rubriken anzeigen-->
-<div class="col-4">
-    @if (Model.CategoryTypesList.Count() > 0)
-    {
-        <p>Vorhandene Rubriken</p>
-        <ul class="list-group">
-            @foreach (var item in Model.CategoryTypesList)
-            {
-                <li class="list-group-item">@item</li>
-            }
-        </ul>
-    }
+    <!--Liste mit vorhandenen Rubriken anzeigen-->
+    <div class="col-4">
+        @if (Model.CategoryTypesList.Count() > 0)
+        {
+            <p>Vorhandene Rubriken</p>
+            <ul class="list-group">
+                @foreach (var item in Model.CategoryTypesList)
+                {
+                    <li class="list-group-item">@item</li>
+                }
+            </ul>
+        }
+    </div>
 </div>
+
 
 @section Scripts{
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}

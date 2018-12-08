@@ -17,6 +17,9 @@
             <th>
                 @ViewData["Name"]
             </th>
+            <th>
+                @ViewData["CategoryGroup"]
+            </th>
             <th></th>
             <th></th>
         </tr>
@@ -26,6 +29,9 @@
             <tr>
                 <td>
                     @Html.DisplayFor(m => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CategoryGroups.Name)
                 </td>
                 <td>
                     <partial name="_TableButtonPartial" model="item.Id" />
