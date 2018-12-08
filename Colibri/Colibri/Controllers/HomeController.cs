@@ -36,6 +36,9 @@ namespace Colibri.Controllers
         [BindProperty]
         public HomeIndexViewModel HomeIndexViewModel { get; set; }
 
+        [BindProperty]
+        public SearchViewModel searchVM { get; set; }
+
         // CTOR: use the ICategoryData Service
         //public HomeController(ICategoryTypesData categoryData, IEmailSender emailSender)
         public HomeController(ColibriDbContext colibriDbContext,
@@ -59,6 +62,21 @@ namespace Colibri.Controllers
                 Users = _colibriDbContext.ApplicationUsers.ToList()
                 //Users = new List<ApplicationUser>()
             };
+
+            searchVM = new SearchViewModel()
+            {
+                Products = new Models.Products(),
+                UserServices = new Models.UserServices(),
+                //CategoryTypes = new Models.CategoryTypes()
+                CategoryTypesList = _colibriDbContext.CategoryTypes.ToList()
+            };
+        }
+
+        // GET: /<controller>/
+        //[Route("Admin/AdminDashboard/Index")]
+        public IActionResult Index()
+        {
+            return View(HomeIndexViewModel);
         }
 
         // GET: /<controller>/Contact
@@ -87,59 +105,32 @@ namespace Colibri.Controllers
             return View();
         }
 
-        // GET: /<controller>/
-        public IActionResult Index()
+        // POST : Action for Index
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(SearchViewModel model)
         {
-            // build a new Instance of the DTO
-            //var model = new HomeIndexViewModel();
-
-            // get Category Information from the Category Service
-            //model.CategoryTypes = _categoryData.GetAll();
-
-            HomeIndexViewModel.CategoryGroups = HomeIndexViewModel.CategoryGroups
-                                                        .OrderBy(c => c.Id);
-
-            HomeIndexViewModel.CategoryTypes = HomeIndexViewModel.CategoryTypes
-                                                        .OrderBy(g => g.Id);
-
-            HomeIndexViewModel.Users = HomeIndexViewModel.Users
-                                                        .OrderBy(u => u.UserName);
-
-            // render the Model Information
-            //return View(model);
-            return View(HomeIndexViewModel);
-        }
-
-        // GET: Category Groups
-        public IActionResult ShowCategoryGroups()
-        {
+            if (!string.IsNullOrEmpty(model.SearchAdvertisement))
+            {
+                searchVM.SearchAdvertisement = model.SearchAdvertisement;
+                RedirectToAction("AdvertisementResults", "Home", new { str = model.SearchAdvertisement });
+            }
             return View();
         }
 
-        // Get: /<controller>/Details
-        // @param: Id (Category)
-        public async Task<IActionResult> Details(int? id)
+        // GET : Action for AdvertisementResults
+        public async Task<IActionResult> AdvertisementResults(SearchViewModel model)
         {
-            // get Category Information from the Service
-            //var model = _categoryData.GetById(id);
+            searchVM.ProductsList = await _colibriDbContext.Products.Where(m => m.Name.Contains(model.SearchAdvertisement)).ToListAsync();
+            searchVM.ResultsCounter = searchVM.ProductsList.Count();
 
-            // show the Product
-
-            // NullPointer-Exception Handling
-            //if (model == null)
-            if (id == null)
+            if (searchVM.ResultsCounter < 1)
             {
-                //return View("The Category does not exists yet!");
-                return NotFound();
+                searchVM.ArchiveEntryList = await _colibriDbContext.ArchiveEntry.Where(m => m.Name.Contains(model.SearchAdvertisement)).Where(m => m.TypeOfAdvertisement == "0").ToListAsync();
+                searchVM.ResultsCounterArchive = searchVM.ArchiveEntryList.Count();
             }
 
-            // get the individual Item
-            var categoryGroup = await _colibriDbContext.CategoryGroups
-                .Where(g => g.Id == id)
-                .FirstOrDefaultAsync();
-
-            // render the Model Information
-            return View(categoryGroup);
+            return View(searchVM);
         }
     }
 }
