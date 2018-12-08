@@ -6,6 +6,9 @@
 }
 
 <h2 class="text-info">@ViewData["CreateCategoryType"]</h2>
+<br />
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+<hr />
 
 <form method="post" asp-action="Create">
     <div class="p-4 border rounded">
@@ -43,23 +46,22 @@
             <input type="submit" class="btn btn-primary" value=@ViewData["Create"] />
             <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
         </div>
-
-        <!--Liste mit vorhandenen Rubriken anzeigen-->
-        <div class="col-4">
-            @if (Model.CategoryTypesList.Count() > 0)
-            {
-                <p>Vorhandene Rubriken</p>
-                <ul class="list-group">
-                    @foreach (var item in Model.CategoryTypesList)
-                    {
-                        <li class="list-group-item">@item</li>
-                    }
-                </ul>
-            }
-        </div>
-
     </div>
 </form>
+
+<!--Liste mit vorhandenen Rubriken anzeigen-->
+<div class="col-4">
+    @if (Model.CategoryTypesList.Count() > 0)
+    {
+        <p>Vorhandene Rubriken</p>
+        <ul class="list-group">
+            @foreach (var item in Model.CategoryTypesList)
+            {
+                <li class="list-group-item">@item</li>
+            }
+        </ul>
+    }
+</div>
 
 @section Scripts{
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
