@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Models;
 using Colibri.Utility;
+using Colibri.ViewModels;
 using EasyNetQ;
 using EasyNetQ.NonGeneric;
 using Microsoft.AspNetCore.Authorization;
@@ -20,6 +21,9 @@ namespace Colibri.Areas.Admin.Controllers
     {
         private ColibriDbContext _colibriDbContext;
         private readonly IStringLocalizer<CategoryTypesController> _localizer;
+
+        [TempData]
+        public string StatusMessage { get; set; }
 
         public CategoryTypesController(ColibriDbContext colibriDbContext, IStringLocalizer<CategoryTypesController> localizer)
         {
@@ -50,7 +54,14 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["Name"] = _localizer["NameText"];
 
-            return View();
+            CategoryTypesAndCategoryGroupsViewModel model = new CategoryTypesAndCategoryGroupsViewModel()
+            {
+                CategoryGroupsList = _colibriDbContext.CategoryGroups.ToList(),
+                CategoryTypes = new CategoryTypes(),
+                CategoryTypesList = _colibriDbContext.CategoryTypes.OrderBy(p => p.Name).Select(p => p.Name).Distinct().ToList()
+            };
+
+            return View(model);
         }
 
         // Post: /<controller>/Create
@@ -58,30 +69,64 @@ namespace Colibri.Areas.Admin.Controllers
         [Route("Admin/CategoryTypes/Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CategoryTypes categoryTypes)
+        public async Task<IActionResult> Create(CategoryTypesAndCategoryGroupsViewModel model)
         {
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
-                _colibriDbContext.Add(categoryTypes);
-                await _colibriDbContext.SaveChangesAsync();
+                // check if CategoryTypes exists or not & check if Combination of CategoryTypes and CategoryGroup exists
+                var doesCategoryTypesExist = _colibriDbContext.CategoryTypes.Where(s => s.Name == model.CategoryTypes.Name).Count();
+                var doesCategoryTypesAndCategoryGroupsExist = _colibriDbContext.CategoryTypes.Where(s => s.Name == model.CategoryTypes.Name && s.CategoryGroupId == model.CategoryTypes.CategoryGroupId).Count();
 
-                // Publish the Created Category Type
-                using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                if (doesCategoryTypesExist > 0 && model.isNew)
                 {
-                    //bus.Publish(categoryTypes, "create_category_types");
-                    await bus.SendAsync("create_category_types", categoryTypes);
+                    // error
+                    StatusMessage = "Error : CategoryTypes Name already exists";
                 }
+                else
+                {
+                    if (doesCategoryTypesAndCategoryGroupsExist == 0 && !model.isNew)
+                    {
+                        // error
+                        StatusMessage = "Error : CategoryTypes does not exist";
+                    }
+                    else
+                    {
+                        if (doesCategoryTypesAndCategoryGroupsExist > 0)
+                        {
+                            // error
+                            StatusMessage = "Error : CategoryTypes and CategoryGroups combination already exists";
+                        }
+                        else
+                        {
+                            // Wenn keine Fehler, Eintrag in DB hinzufügen
+                            _colibriDbContext.Add(model.CategoryTypes);
+                            await _colibriDbContext.SaveChangesAsync();
+                            
 
-                // avoid Refreshing the POST Operation -> Redirect
-                return RedirectToAction(nameof(Index));
-                //return RedirectToAction("Index", "CategoryTypes", new { area = "Admin" });
+                            // Publish the Created Category Type
+                            using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                            {
+                                //bus.Publish(categoryTypes, "create_category_types");
+                                await bus.SendAsync("create_category_types", model.CategoryTypes);
+                            }
+
+                            return RedirectToAction(nameof(Index));
+                        }
+                    }
+                }
             }
-            else
+
+            // If ModelState is not valid
+            CategoryTypesAndCategoryGroupsViewModel modelVM = new CategoryTypesAndCategoryGroupsViewModel()
             {
-                // one can simply return to the Form View again for Correction
-                return View(categoryTypes);
-            }
+                CategoryGroupsList = _colibriDbContext.CategoryGroups.ToList(),
+                CategoryTypes = model.CategoryTypes,
+                CategoryTypesList = _colibriDbContext.CategoryTypes.OrderBy(p => p.Name).Select(p => p.Name).ToList(),
+                StatusMessage = StatusMessage
+            };
+
+            return View(modelVM);
         }
 
         // Get: /<controller>/Edit
