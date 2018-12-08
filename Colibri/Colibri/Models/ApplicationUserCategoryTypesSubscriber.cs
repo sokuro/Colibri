@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace Colibri.Models
 {
     /*
-     * Model to bind pesist the n <-> n Relationship between the Application User and the Category Types
+     * Model to bind persist the n <-> n Relationship between the Application User and the Category Types
      */
-    public class ApplicationUserCategoryTypesSubsriber
+    public class ApplicationUserCategoryTypesSubscriber
     {
         public int Id { get; set; }
 
