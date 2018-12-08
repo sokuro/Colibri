@@ -69,7 +69,8 @@ namespace Colibri.Areas.Admin.Controllers
                 // Publish the Created Category Type
                 using (var bus = RabbitHutch.CreateBus("host=localhost"))
                 {
-                    bus.Publish(categoryTypes, "create_category_types");
+                    //bus.Publish(categoryTypes, "create_category_types");
+                    await bus.SendAsync("create_category_types", categoryTypes);
                 }
 
                 // avoid Refreshing the POST Operation -> Redirect
