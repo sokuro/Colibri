@@ -9,9 +9,14 @@ namespace Colibri.Models
 {
     public class CategoryGroups
     {
+        [Required]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
+
+        // Timestamp, wann die Rubrik angelegt wurde
+        [Display(Name = "Erstellt am")]
+        public DateTime CreatedOn { get; set; }
 
         // Product/Services
         [Required]
