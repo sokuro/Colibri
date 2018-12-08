@@ -27,7 +27,7 @@ namespace Colibri.Models
         // Gültigkeit via PLZ
         public bool isGlobal { get; set; }
 
-        public IEnumerable<string> PLZList { get; set; }
+        public string PLZ { get; set; }
 
         // Fremdschlüssel für Rubrik-Gruppe
         [Required]
