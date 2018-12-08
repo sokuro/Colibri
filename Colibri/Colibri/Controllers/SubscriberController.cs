@@ -83,6 +83,7 @@ namespace Colibri.Controllers
                 bus.Receive("create_product_by_admin", x => x.Add<Products>(p => HandleProductByAdmin(p)));
                 bus.Receive("create_advertisement", x => x.Add<Products>(p => HandleAdvertisements(p)));
                 bus.Receive("create_category_groups", x => x.Add<CategoryGroups>(p => HandleCategoryGroups(p)));
+                bus.Receive("create_category_types", x => x.Add<CategoryTypes>(p => HandleCategoryTypes(p)));
             }
 
             // persist
@@ -101,9 +102,14 @@ namespace Colibri.Controllers
             SubscriberViewModel.Notifications.NotificationType = product.CategoryTypes.Name;
         }
 
-        private void HandleCategoryGroups(CategoryGroups categoryGroups)
+        private void HandleCategoryGroups(CategoryGroups categoryGroup)
         {
-            SubscriberViewModel.Notifications.Message = "Added a Category Group: " + categoryGroups.Name;
+            SubscriberViewModel.Notifications.Message = "Added a Category Group: " + categoryGroup.Name;
+        }
+
+        private void HandleCategoryTypes(CategoryTypes categoryType)
+        {
+            SubscriberViewModel.Notifications.Message = "Added a Category Type: " + categoryType.Name;
         }
 
         private void HandleProductByAdmin(Products product)
@@ -116,11 +122,40 @@ namespace Colibri.Controllers
             //HttpContext.Session.Set("productsByAdminNotifications", SubscriberViewModel.Notifications);
         }
 
+        // show all Notifications
         public async Task<IActionResult> ShowAllNotifications()
         {
             var notificationsList = await _colibriDbContext.Notifications.ToListAsync();
 
             return View(notificationsList);
+        }
+
+        // filter with id
+        public async Task<IActionResult> ShowMyNotifications(int? id)
+        {
+            SubscriberViewModel.Notifications = await _colibriDbContext.Notifications
+                .SingleOrDefaultAsync(n => n.Id == id);
+
+            if (SubscriberViewModel.Notifications == null)
+            {
+                return NotFound();
+            }
+
+            return View(SubscriberViewModel);
+        }
+
+        // filter with string
+        public async Task<IActionResult> ShowMyNotificationsString(string notificationType)
+        {
+            SubscriberViewModel.Notifications = await _colibriDbContext.Notifications
+                .SingleOrDefaultAsync(n => n.NotificationType.Contains(notificationType));
+
+            if (SubscriberViewModel.Notifications == null)
+            {
+                return NotFound();
+            }
+
+            return View(SubscriberViewModel);
         }
     }
 }
