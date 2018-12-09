@@ -77,7 +77,10 @@ namespace Colibri.Areas.Customer.Controllers
             }
 
             // populate the List
-            applicationUserViewModel.ApplicationUsers = _colibriDbContext.ApplicationUsers.ToList();
+            // DO NOT display SuperAdmins!
+            applicationUserViewModel.ApplicationUsers = await _colibriDbContext.ApplicationUsers
+                                                                .Where(u => u.IsSuperAdmin == false)
+                                                                .ToListAsync();
 
             // Search Conditions
             if (searchUserName != null)
