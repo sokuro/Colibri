@@ -120,7 +120,6 @@ namespace Colibri.Areas.Customer.Controllers
                                                     on u.Id equals p.ApplicationUserId
                                                     select u;
 
-
             // Search Conditions
             if (searchUserName != null)
             {
@@ -274,6 +273,7 @@ namespace Colibri.Areas.Customer.Controllers
 
                 // add the current User as the Creator of the Advertisement
                 productsFromDb.ApplicationUserId = claim.Value;
+                productsFromDb.ApplicationUserName = claim.Subject.Name;
 
                 // save the Changes asynchronously
                 // update the Image Part inside of the DB
@@ -331,8 +331,7 @@ namespace Colibri.Areas.Customer.Controllers
                                     on u.Id equals p.ApplicationUserId
                                     select u);
 
-            // add the user as the ApplicationUser to the Product
-            product.ApplicationUser = user.FirstOrDefault();
+
 
             // count the Number of Clicks on the Product
             product.NumberOfClicks += 1;
