@@ -103,35 +103,41 @@
 
             @foreach (var item in Model.Products)
             {
-                <tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Name)
+                </td>
+                <td>
+                    @String.Format("{0:c}", item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CategoryGroups.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CategoryTypes.Name)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(m => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.NumberOfClicks)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.Users.FirstOrDefault().UserName)
+                </td>
+                @if (User.Identity.IsAuthenticated && Model.CurrentUserId == item.ApplicationUser.Id)
+                {
                     <td>
-                        @Html.DisplayFor(m => item.Name)
+                        <partial name="_TableButtonPartialCustomerAdvertisementAuthorized" model="item.Id" />
                     </td>
+                }
+                else
+                {
                     <td>
-                        @String.Format("{0:c}", item.Price)
+                        <partial name="_TableButtonPartialCustomerAdvertisement" model="item.Id" />
                     </td>
-                    <td>
-                        @Html.DisplayFor(m => item.CategoryGroups.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => item.CategoryTypes.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayNameFor(m => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => item.NumberOfClicks)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(m => m.Users.FirstOrDefault().UserName)
-                    </td>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <td>
-                            <partial name="_TableButtonPartialCustomerAdvertisement" model="item.Id" />
-                        </td>
-                    }
-                </tr>
+                }
+            </tr>
             }
         </table>
     </div>

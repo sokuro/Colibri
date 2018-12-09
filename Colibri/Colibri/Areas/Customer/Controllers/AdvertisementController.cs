@@ -88,6 +88,9 @@ namespace Colibri.Areas.Customer.Controllers
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
+            // add the current User as the Creator of the Advertisement
+            AdvertisementViewModel.CurrentUserId = claim.Value;
+
             // Filter the Search Criteria
             StringBuilder param = new StringBuilder();
 
@@ -374,6 +377,46 @@ namespace Colibri.Areas.Customer.Controllers
 
             // redirect to Action
             return RedirectToAction("Index", "Advertisement", new { area = "Customer" });
+        }
+
+        // Get: /<controller>/Edit
+        [Route("Customer/Advertisement/Edit/{id}")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            // incl. ProductTypes and SpecialTags too
+            ProductsViewModel.Products = await _colibriDbContext.Products
+                .Include(m => m.CategoryGroups)
+                .Include(m => m.CategoryTypes)
+                .Include(m => m.SpecialTags)
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (ProductsViewModel.Products == null)
+            {
+                return NotFound();
+            }
+
+            // i18n
+            ViewData["EditProduct"] = _localizer["EditProductText"];
+            ViewData["Edit"] = _localizer["EditText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["Image"] = _localizer["ImageText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
+            // send the ProductsViewModel into the View
+            return View(ProductsViewModel);
         }
     }
 }
