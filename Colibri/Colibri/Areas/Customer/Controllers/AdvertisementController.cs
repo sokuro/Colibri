@@ -124,8 +124,10 @@ namespace Colibri.Areas.Customer.Controllers
             // Search Conditions
             if (searchUserName != null)
             {
-                AdvertisementViewModel.Products = AdvertisementViewModel.Products
-                                                    .Where(a => a.ApplicationUser.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
+                //AdvertisementViewModel.Products = AdvertisementViewModel.Products
+                //                                    .Where(a => a.ApplicationUser.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
+                AdvertisementViewModel.Users = AdvertisementViewModel.Users
+                                                    .Where(a => a.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
             }
             if (searchProductName != null)
             {
