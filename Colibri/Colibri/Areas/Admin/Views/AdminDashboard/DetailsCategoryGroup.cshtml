@@ -4,8 +4,12 @@
 
 <h1>@Model.Name</h1>
 
-<div class="py-1">
+@*<div class="py-1">
     <a asp-route-area="Customer" asp-controller="DashboardMiddleLayer" asp-action="Index" class="btn btn-outline-info">Extend Category</a>
+</div>*@
+
+<div class="py-1">
+    <a asp-route-area="Admin" asp-controller="CategoryGroups" asp-action="Create" class="btn btn-outline-info">Extend Category Group</a>
 </div>
 
 <div class="py-1">

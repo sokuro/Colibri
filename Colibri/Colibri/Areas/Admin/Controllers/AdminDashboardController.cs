@@ -113,16 +113,10 @@ namespace Colibri.Controllers
             return View(HomeIndexViewModel);
         }
 
-        // GET: Category Groups
-        public IActionResult ShowCategoryGroups()
-        {
-            return View();
-        }
-
-        // Get: /<controller>/Details
+        // Get: /<controller>/DetailsCategoryGroup
         // @param: Id (Category)
-        [Route("Admin/AdminDashboard/Details/{id}")]
-        public async Task<IActionResult> Details(int? id)
+        [Route("Admin/AdminDashboard/DetailsCategoryGroup/{id}")]
+        public async Task<IActionResult> DetailsCategoryGroup(int? id)
         {
             // get Category Information from the Service
             //var model = _categoryData.GetById(id);
@@ -144,6 +138,75 @@ namespace Colibri.Controllers
 
             // render the Model Information
             return View(categoryGroup);
+        }
+
+        // Get: /<controller>/Details
+        // @param: Id (Category)
+        [Route("Admin/AdminDashboard/DetailsCategoryType/{id}")]
+        public async Task<IActionResult> DetailsCategoryType(int? id)
+        {
+            // NullPointer-Exception Handling
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // get the individual Item
+            var categoryType = await _colibriDbContext.CategoryTypes
+                .Where(g => g.Id == id)
+                .FirstOrDefaultAsync();
+
+            // render the Model Information
+            return View(categoryType);
+        }
+
+        // Get: /<controller>/Details
+        // @param: Id (Category)
+        [Route("Admin/AdminDashboard/DetailsSpecialTag/{id}")]
+        public async Task<IActionResult> DetailsSpecialTag(int? id)
+        {
+            // NullPointer-Exception Handling
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // get the individual Item
+            var specialTag = await _colibriDbContext.SpecialTags
+                .Where(g => g.Id == id)
+                .FirstOrDefaultAsync();
+
+            // render the Model Information
+            return View(specialTag);
+        }
+
+        // Get: /<controller>/Details
+        // @param: Id (Category)
+        [Route("Admin/AdminDashboard/DetailsAdminUser/{id}")]
+        public async Task<IActionResult> DetailsAdminUser(string id)
+        {
+            // NullPointer-Exception Handling
+            if (id == "")
+            {
+                return NotFound();
+            }
+
+            // get the individual Item
+            var adminUser = await _colibriDbContext.ApplicationUsers
+                .Where(g => g.IsSuperAdmin == true && g.Id == id)
+                .FirstOrDefaultAsync();
+
+            // i18n
+            ViewData["AdminUserDetails"] = _localizer["AdminUserDetailsText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["FirstName"] = _localizer["FirstNameText"];
+            ViewData["LastName"] = _localizer["LastNameText"];
+            ViewData["Contact"] = _localizer["ContactText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["RegisterNewAdmin"] = _localizer["RegisterNewAdminText"];
+
+            // render the Model Information
+            return View(adminUser);
         }
     }
 }
