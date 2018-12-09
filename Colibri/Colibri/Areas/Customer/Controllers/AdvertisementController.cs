@@ -418,5 +418,174 @@ namespace Colibri.Areas.Customer.Controllers
             // send the ProductsViewModel into the View
             return View(ProductsViewModel);
         }
+
+        // Post: /<controller>/Edit
+        // @param Category
+        [Route("Customer/Advertisement/Edit/{id}")]
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPost(int id)
+        {
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                // for uploaded Images
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                var files = HttpContext.Request.Form.Files;
+                // to replace an Image, first remove the old One
+                // get the Product from the DB
+                var productFromDb = await _colibriDbContext.Products.Where(m => m.Id == ProductsViewModel.Products.Id).FirstOrDefaultAsync();
+                // does the File exist and was uploaded by the User
+                if (files.Count > 0 && files[0] != null)
+                {
+                    // if the User uploades a new Image
+                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderProduct);
+                    // find out the Extension of the new Image File and also the Extension of the old Image existing in the DB
+                    var extension_new = Path.GetExtension(files[0].FileName);
+                    var extension_old = Path.GetExtension(productFromDb.Image);
+
+                    // delete the old File
+                    if (System.IO.File.Exists(Path.Combine(uploads, ProductsViewModel.Products.Id + extension_old)))
+                    {
+                        System.IO.File.Delete(Path.Combine(uploads, ProductsViewModel.Products.Id + extension_old));
+                    }
+
+                    // copy the new File
+                    // use the FileStreamObject -> copy the File from the Uploaded to the Server
+                    // create the File on the Server
+                    using (var filestream = new FileStream(Path.Combine(uploads, ProductsViewModel.Products.Id + extension_new), FileMode.Create))
+                    {
+                        files[0].CopyTo(filestream);
+                    }
+
+                    // ProductsImage = exact Path of the Image on the Server + ImageName + Extension
+                    ProductsViewModel.Products.Image = @"\" + StaticDetails.ImageFolderProduct + @"\" + ProductsViewModel.Products.Id + extension_new;
+                }
+
+                /*
+                 * update the productsFromDb and save them back into the DB
+                 */
+                // Image
+                if (ProductsViewModel.Products.Image != null)
+                {
+                    // replace the old Image
+                    productFromDb.Image = ProductsViewModel.Products.Image;
+                }
+                // Name
+                productFromDb.Name = ProductsViewModel.Products.Name;
+                // Price
+                productFromDb.Price = ProductsViewModel.Products.Price;
+                // Available
+                productFromDb.Available = ProductsViewModel.Products.Available;
+                // CategoryTypeId
+                productFromDb.CategoryTypeId = ProductsViewModel.Products.CategoryTypeId;
+                // SpecialTagId
+                productFromDb.SpecialTagId = ProductsViewModel.Products.SpecialTagId;
+                // Description
+                productFromDb.Description = ProductsViewModel.Products.Description;
+
+                // Save the Changes
+                await _colibriDbContext.SaveChangesAsync();
+
+                // avoid Refreshing the POST Operation -> Redirect
+                //return View("Details", newCategory);
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(ProductsViewModel);
+            }
+        }
+
+        // Get: /<controller>/Delete
+        [Route("Customer/Advertisement/Delete/{id}")]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            // incl. ProductTypes and SpecialTags too
+            ProductsViewModel.Products = await _colibriDbContext.Products
+                                                .Include(m => m.CategoryGroups)
+                                                .Include(m => m.CategoryTypes)
+                                                .Include(m => m.SpecialTags)
+                                                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (ProductsViewModel.Products == null)
+            {
+                return NotFound();
+            }
+
+            // i18n
+            ViewData["DeleteProduct"] = _localizer["DeleteProductText"];
+            ViewData["Delete"] = _localizer["DeleteText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
+            // send the ProductsViewModel into the View
+            return View(ProductsViewModel);
+        }
+
+        // Post: /<controller>/Delete
+        // @param Category
+        [Route("Customer/Advertisement/Delete/{id}")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            // find the webRootPath
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            // find the Product by it's ID
+            Products products = await _colibriDbContext.Products.FindAsync(id);
+
+            if (products == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                // find the Image File
+                var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderProduct);
+                // find the Extension
+                var extension = Path.GetExtension(products.Image);
+                // exists the File?
+                if (System.IO.File.Exists(Path.Combine(uploads, products.Id + extension)))
+                {
+                    // remove the File
+                    System.IO.File.Delete(Path.Combine(uploads, products.Id + extension));
+                }
+
+                // remove the Entry from the DB
+                _colibriDbContext.Products.Remove(products);
+
+                // save the Changes asynchronously
+                await _colibriDbContext.SaveChangesAsync();
+
+
+                // TODO
+                // Publish the Created Advertisement's Product
+                using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                {
+                    Console.WriteLine("Publishing messages with publish and subscribe.");
+                    Console.WriteLine();
+
+                    bus.Publish(products, "removed_products_by_admin");
+                }
+
+
+                // avoid Refreshing the POST Operation -> Redirect
+                return RedirectToAction(nameof(Index));
+            }
+        }
     }
 }
