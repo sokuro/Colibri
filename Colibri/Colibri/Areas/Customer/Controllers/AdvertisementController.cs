@@ -164,6 +164,7 @@ namespace Colibri.Areas.Customer.Controllers
             // i18n
             ViewData["Advertisement"] = _localizer["AdvertisementText"];
             ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["ProductName"] = _localizer["ProductNameText"];
             ViewData["AdvertisementName"] = _localizer["AdvertisementNameText"];
             ViewData["Search"] = _localizer["SearchText"];
             ViewData["NewAdvertisement"] = _localizer["NewAdvertisementText"];

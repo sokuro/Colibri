@@ -180,6 +180,9 @@
   <data name="PriceText" xml:space="preserve">
     <value>Price</value>
   </data>
+  <data name="ProductNameText" xml:space="preserve">
+    <value>Product Name</value>
+  </data>
   <data name="RemoveFromBagText" xml:space="preserve">
     <value>Remove from Order</value>
   </data>
