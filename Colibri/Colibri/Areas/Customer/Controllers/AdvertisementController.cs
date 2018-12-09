@@ -133,11 +133,12 @@ namespace Colibri.Areas.Customer.Controllers
                                                     .Where(a => a.Name.ToLower().Contains(searchProductName.ToLower())).ToList();
             }
             //if (claim != null)
-            //{
-            //    filterMine = claim.Value.ToString();
-            //    advertisementViewModel.Products = advertisementViewModel.Products
-            //                                        .Where(a => a.ApplicationUserId == claim.Value.ToString()).ToList();
-            //}
+            if (filterMine != null)
+            {
+                //filterMine = claim.Value.ToString();
+                AdvertisementViewModel.Products = AdvertisementViewModel.Products
+                                                    .Where(a => a.ApplicationUserId == AdvertisementViewModel.CurrentUserId).ToList();
+            }
 
             // Pagination
             // count Advertisements alltogether
@@ -171,6 +172,7 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
             ViewData["Description"] = _localizer["DescriptionText"];
             ViewData["NumberOfClicks"] = _localizer["NumberOfClicksText"];
+            ViewData["ShowMine"] = _localizer["ShowMineText"];
 
             // return the List of Products
             return View(AdvertisementViewModel);
