@@ -1,7 +1,13 @@
 ﻿@model SubscriberViewModel
 
-<div>
-    <p>@Model.Notifications.Message</p>
-    <p>@Model.Notifications.NotificationType</p>
+<div class="p-4 border rounded row">
+    <div>
+        <p>@Model.Notifications.Message</p>
+        <p>@Model.Notifications.NotificationType</p>
+    </div>
 
+    <div class="col-6">
+        @* Partial View *@
+        @*<partial name="~/Views/Shared/Components/Notifications/_ShowAllNotifications.cshtml" model="Model.Notifications" />*@
+    </div>
 </div>
