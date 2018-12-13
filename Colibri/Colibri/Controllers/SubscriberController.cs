@@ -100,7 +100,7 @@ namespace Colibri.Controllers
         {
             SubscriberViewModel.Notifications.Message = "Added a Advertisement: " + product.Name;
             SubscriberViewModel.Notifications.NotificationType = product.CategoryTypes.Name;
-            SubscriberViewModel.Notifications.CategoryTypes = product.CategoryTypes;
+            //SubscriberViewModel.Notifications.CategoryTypes = product.CategoryTypes;
             SubscriberViewModel.Notifications.CategoryTypeId = product.CategoryTypes.Id;
         }
 
