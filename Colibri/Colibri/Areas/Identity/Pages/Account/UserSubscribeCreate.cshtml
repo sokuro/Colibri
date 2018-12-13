@@ -6,37 +6,45 @@
     ViewData["Title"] = "Notification Choice";
 }
 
-<h2>@ViewData["Title"]</h2>
 
 <div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+    <div class="col-12">
+        @*<form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">*@
+        <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <div class="col-2">
+            <div class="form-group row">
+                <div class="col-4">
                     <label asp-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId"></label>
 
                 </div>
                 <div class="col-5">
-                    <input asp-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId" class="form-control"/>
+                    @*<input asp-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId" type="hidden" value="@Model.UserSubscribeNotificationsViewModel.ApplicationUserId" class="form-control" />*@
+
+                    <input asp-for="@Model.UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId" value="@Model.UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId" class="form-control" />
+
+                    @*<input asp-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId" class="form-control" />*@
                 </div>
-                <span asp-validation-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId" class="text-danger"></span>
+
+                @*<span asp-validation-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId" class="text-danger"></span>*@
             </div>
             @*<div class="form-group">
                 <label asp-for="UserSubscribeNotifications.CategoryTypeId"></label>
                 <input asp-for="UserSubscribeNotifications.CategoryTypeId" type="checkbox" class="form-control" />
             </div>*@
             <div class="form-group row">
-                <div class="col-2">
+                <div class="col-4">
                     <label asp-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.CategoryTypeId"></label>
                 </div>
                 <!-- using the Extension Method for DropDown -->
                 <div class="col-5">
                     @*<input asp-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.CategoryTypeId" class="form-control" />*@
+
                     <select asp-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.CategoryTypeId" asp-items="Model.UserSubscribeNotificationsViewModel.CategoryTypes.ToSelectListItem(Model.UserSubscribeNotificationsViewModel.CategoryTypeId)" class="form-control"></select>
 
+                    @*<input type="file" name="files" multiple class="form-control"/>*@
+
                 </div>
-                <span asp-validation-for="CategoryTypes" class="text-danger"></span>
+                @*<span asp-validation-for="CategoryTypes" class="text-danger"></span>*@
             </div>
             
             <table class="table table-striped">
@@ -49,7 +57,7 @@
                 @*}*@
             </table>
 
-            <button type="submit" class="btn btn-default">Save</button>
+            <button type="submit" value="" class="btn btn-default">Save</button>
         </form>
     </div>
 </div>
