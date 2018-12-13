@@ -33,10 +33,10 @@ namespace Colibri.Areas.Identity.Pages.Account
         [BindProperty]
         public UserSubscribeNotificationsViewModel UserSubscribeNotificationsViewModel { get; set; }
 
-        [BindProperty]
-        public CategoryTypes CategoryTypes { get; set; }
+        //[BindProperty]
+        //public CategoryTypes CategoryTypes { get; set; }
 
-        public string ReturnUrl { get; set; }
+        //public string ReturnUrl { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
@@ -55,9 +55,11 @@ namespace Colibri.Areas.Identity.Pages.Account
         }
 
         // POST
-        public async Task<IActionResult> OnPostAsync(
-            UserSubscribeNotificationsViewModel model,
-            string returnUrl = null)
+        //public async Task<IActionResult> OnPostAsync(
+        //    UserSubscribeNotificationsViewModel model,
+        //    string returnUrl = null)
+        //{
+        public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
             {
@@ -69,24 +71,37 @@ namespace Colibri.Areas.Identity.Pages.Account
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
                 // extend the Properties
-                UserSubscribeNotificationsViewModel userSubscribeNotificationsModel = new UserSubscribeNotificationsViewModel()
-                {
-                    // add the current User as the Creator
-                    //ApplicationUserId = UserSubscribeNotifications.ApplicationUserId,
-                    //CategoryTypeId = UserSubscribeNotifications.CategoryTypeId
-                    CategoryTypes = _colibriDbContext.CategoryTypes.ToList(),
-                    ApplicationUserId = claim.Value,
-                    CategoryTypeId = CategoryTypes.Id
-                };
+                //UserSubscribeNotificationsViewModel userSubscribeNotificationsModel = new UserSubscribeNotificationsViewModel()
+                //{
+                //    // add the current User as the Creator
+                //    //ApplicationUserId = UserSubscribeNotifications.ApplicationUserId,
+                //    //CategoryTypeId = UserSubscribeNotifications.CategoryTypeId
+                //    ApplicationUserCategoryTypesSubscriber = new ApplicationUserCategoryTypesSubscriber(),
+                //    CategoryTypes = _colibriDbContext.CategoryTypes.ToList(),
+                //    ApplicationUserId = claim.Value
+                //};
+
+                UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId =
+                    claim.Value;
+
+                // simple save
+                // TODO
+                await _colibriDbContext.ApplicationUserCategoryTypesSubscribers.AddAsync(UserSubscribeNotificationsViewModel
+                    .ApplicationUserCategoryTypesSubscriber);
+
+                //await _colibriDbContext.ApplicationUserCategoryTypesSubscribers.AddAsync(userSubscribeNotificationsModel.ApplicationUserCategoryTypesSubscriber);
+
+                await _colibriDbContext.SaveChangesAsync();
 
                 // create a DB Entry
-                var result = await _colibriDbContext.AddAsync(userSubscribeNotificationsModel);
+                //var result = await _colibriDbContext.ApplicationUserCategoryTypesSubscribers.AddAsync(userSubscribeNotificationsModel.ApplicationUserCategoryTypesSubscriber);
 
-                if (result != null)
-                {
-                    await _colibriDbContext.SaveChangesAsync();
-                    _logger.LogInformation("User chose the Notification Category Type.");
-                }
+                //if (result != null)
+                //{
+                //    await _colibriDbContext.SaveChangesAsync();
+                //    _logger.LogInformation("User chose the Notification Category Type.");
+                //}
+
                 return RedirectToAction("Index", "", new { area = "" });
             }
             // If we got this far, something failed, redisplay form
