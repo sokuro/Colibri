@@ -1,5 +1,6 @@
 ﻿@page
 @using Colibri.Extensions
+@using Colibri.ViewModels
 @using Microsoft.EntityFrameworkCore
 @model UserSubscribeCreateModel
 @{
@@ -49,12 +50,12 @@
             
             <table class="table table-striped">
                 @*@for (var i = 0; i < 5; i++)*@
-                @*@foreach(var item in Model.CategoryTypes.Name)
-                {*@
+                @foreach(var item in Model.UserSubscribeNotificationsViewModel.CategoryTypes)
+                {
                     @*<input type="checkbox" name="CategoryTypeId" value="@i" />*@
-                    @*<input type="checkbox" name="CategoryTypeId" value="@item" />
-                    <br/>*@
-                @*}*@
+                    <input type="checkbox" name="CategoryTypeId" value="@item" />
+                    <br/>
+                }
             </table>
 
             <button type="submit" value="" class="btn btn-default">Save</button>
