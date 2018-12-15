@@ -75,7 +75,7 @@
                                 <h6 class="dropdown-header">Categories & Types:</h6>
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryGroups" asp-action="Index">Category Groups</a>
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryTypes" asp-action="Index">Category Types</a>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="SpecialTags" asp-action="Index">Special Tags</a>
+                                @*<a class="dropdown-item" asp-route-area="Admin" asp-controller="SpecialTags" asp-action="Index">Special Tags</a>*@
                                 <div class="dropdown-divider"></div>
                                 <h6 class="dropdown-header">Items & Users:</h6>
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="Products" asp-action="Index">Products</a>
@@ -118,7 +118,7 @@
                     {
                         <li style="color:white">
                             <a asp-route-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="nav-link">
-                                <i class="fas fa-shopping-cart"></i> &nbsp;
+                                <i class="fa fa-list-ol"></i> &nbsp;
                                 <!-- # Items in the Shopping Cart -->
                                 @{
                                     var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart").Count;
@@ -131,7 +131,7 @@
                     {
                         <li style="color:white">
                             <a asp-route-area="Customer" asp-controller="ShoppingCart" asp-action="Index" class="nav-link">
-                                <i class="fas fa-shopping-cart"></i> &nbsp;
+                                <i class="fa fa-list-ul"></i> &nbsp;
                                 <!-- display Zero -->
                                 (0)
                             </a>
@@ -165,19 +165,6 @@
                             <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="SendReceive">SendReceive</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="ShowAllNotifications">ShowAllNotifications</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-envelope fa-fw"></i>
-                            @*<span class="badge badge-danger">7</span>*@
-                            <span class="badge badge-danger"></span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
                         </div>
                     </li>
                 </ul>
