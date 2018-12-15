@@ -54,25 +54,6 @@
         <div class="d-flex">
             <div class="p-lg-5 p-3 flex-fill">
                 <div class="categoryInfo">
-                    <h5>Special Tags</h5>
-                    <img src="~/img/SystemImages/ChoiceRowsSigned.png"/>
-                    <table>
-                        @foreach (var specialTag in Model.SpecialTags)
-                        {
-                            <tr>
-                                @*<td>@specialTag.Id</td>*@
-                                <td>@specialTag.Name</td>
-                                <td>
-                                    <a asp-action="DetailsSpecialTag" asp-route-id="@specialTag.Id">Details</a>
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                    @*<a asp-action="Create">Add Category</a>*@
-                </div>
-            </div>
-            <div class="p-lg-5 p-3 flex-fill">
-                <div class="categoryInfo">
                     <h5>Admin Users</h5>
                     <img src="~/img/SystemImages/Connection.png"/>
                     <table>
@@ -87,6 +68,24 @@
                             </tr>
                         }
                     </table>
+                </div>
+            </div>
+            <div class="p-lg-5 p-3 flex-fill">
+                <div class="categoryInfo">
+                    @*<h5>Special Tags</h5>
+                    <img src="~/img/SystemImages/ChoiceRowsSigned.png"/>*@
+                    <table>
+                        @*@foreach (var specialTag in Model.SpecialTags)
+                        {*@
+                            @*<tr>
+                                <td>@specialTag.Name</td>
+                                <td>
+                                    <a asp-action="DetailsSpecialTag" asp-route-id="@specialTag.Id">Details</a>
+                                </td>
+                            </tr>*@
+                        @*}*@
+                    </table>
+                    @*<a asp-action="Create">Add Category</a>*@
                 </div>
             </div>
         </div>
