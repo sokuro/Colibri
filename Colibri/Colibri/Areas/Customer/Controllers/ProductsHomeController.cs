@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Colibri.Areas.Admin.Controllers;
 using Colibri.Data;
 using Colibri.Extensions;
+using Colibri.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -50,7 +51,9 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // Details View GET
+        // authorize only the AdminEndUser(registered User)
         [Route("Customer/ProductsHome/Details/{id}")]
+        [Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
         public async Task<IActionResult> Details(int id)
         {
             // get the individual Product
