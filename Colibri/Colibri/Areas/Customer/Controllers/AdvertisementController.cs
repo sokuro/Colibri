@@ -380,7 +380,7 @@ namespace Colibri.Areas.Customer.Controllers
             HttpContext.Session.Set("ssScheduling", lstCartItems);
 
             // redirect to Action
-            return RedirectToAction("Index", "Advertisement", new { area = "Customer" });
+            return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
         }
 
         // Get: /<controller>/Edit
