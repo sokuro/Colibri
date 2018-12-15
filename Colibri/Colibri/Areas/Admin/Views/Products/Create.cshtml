@@ -58,15 +58,15 @@
                 <select asp-for="@Model.Products.CategoryTypeId" asp-items="Model.CategoryTypes.ToSelectListItem(Model.Products.CategoryTypeId)"></select>
             </div>
         </div>
-        <div class="form-group row">
+        @*<div class="form-group row">
             <div class="col-2">
                 <label asp-for="SpecialTags">@ViewData["SpecialTag"]</label>
-            </div>
+            </div>*@
             <!-- using the Extension Method for DropDown -->
-            <div class="col-5">
+            @*<div class="col-5">
                 <select asp-for="@Model.Products.SpecialTagId" asp-items="Model.SpecialTags.ToSelectListItem(Model.Products.SpecialTagId)"></select>
             </div>
-        </div>
+        </div>*@
         <!-- Available with a Checkbox -->
         <div class="form-group row">
             <div class="col-2">

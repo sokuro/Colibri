@@ -56,7 +56,7 @@ namespace Colibri.Areas.Customer.Controllers
                     // use the eager Method
                     Products products = await _colibriDbContext.Products
                         .Include(p => p.CategoryTypes)
-                        .Include(p => p.SpecialTags)
+                        //.Include(p => p.SpecialTags)
                         .Where(p => p.Id == cartItem)
                         .FirstOrDefaultAsync();
 
@@ -146,7 +146,7 @@ namespace Colibri.Areas.Customer.Controllers
                 // add Products inside the Shopping Cart Model
                 ShoppingCartViewModel.Products.Add(_colibriDbContext.Products
                                                     .Include(p => p.CategoryTypes)
-                                                    .Include(p => p.SpecialTags)
+                                                    //.Include(p => p.SpecialTags)
                                                     .Where(p => p.Id == prodObj.ProductId)
                                                     .FirstOrDefault());
             }

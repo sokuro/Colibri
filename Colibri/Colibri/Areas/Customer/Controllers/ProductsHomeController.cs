@@ -38,7 +38,7 @@ namespace Colibri.Areas.Customer.Controllers
             var productList = await _colibriDbContext.Products
                     .Include(p => p.CategoryGroups)
                     .Include(p => p.CategoryTypes)
-                    .Include(p => p.SpecialTags)
+                    //.Include(p => p.SpecialTags)
                     .ToListAsync();
 
             // i18n
@@ -57,7 +57,7 @@ namespace Colibri.Areas.Customer.Controllers
             var product = await _colibriDbContext.Products
                     .Include(p => p.CategoryGroups)
                     .Include(p => p.CategoryTypes)
-                    .Include(p => p.SpecialTags)
+                    //.Include(p => p.SpecialTags)
                     .Where(p => p.Id == id)
                     .FirstOrDefaultAsync();
 

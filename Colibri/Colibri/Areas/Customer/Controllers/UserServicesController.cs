@@ -243,7 +243,7 @@ namespace Colibri.Areas.Customer.Controllers
                 }
                 // add Special Tags (Id #1 = Offer)
                 // TODO: create a Switch to Offer/Order
-                userServicesFromDb.SpecialTagId = 1;
+                //userServicesFromDb.SpecialTagId = 1;
 
                 // add the current User as the Creator of the Advertisement
                 userServicesFromDb.ApplicationUserId = claim.Value;
@@ -292,7 +292,7 @@ namespace Colibri.Areas.Customer.Controllers
             var userService = await _colibriDbContext.UserServices
                     .Include(p => p.CategoryGroups)
                     .Include(p => p.CategoryTypes)
-                    .Include(p => p.SpecialTags)
+                    //.Include(p => p.SpecialTags)
                     .Where(p => p.Id == id)
                     .FirstOrDefaultAsync();
 

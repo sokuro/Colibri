@@ -9,11 +9,17 @@ namespace Colibri.ViewModels
 {
     public class AdvertisementViewModel
     {
+        // Liste mit Güter
         public List<Products> Products { get; set; }
+        public Products Product { get; set; }
+
+        // Liste mit Dienstleistungen
+        public List<UserServices> UserServices { get; set; }
+        public UserServices UserService { get; set; }
 
         public IEnumerable<CategoryGroups> CategoryGroups { get; set; }
         public IEnumerable<CategoryTypes> CategoryTypes { get; set; }
-        public IEnumerable<SpecialTags> SpecialTags { get; set; }
+        //public IEnumerable<SpecialTags> SpecialTags { get; set; }
 
         public IEnumerable<ApplicationUser> Users { get; set; }
 
@@ -21,5 +27,7 @@ namespace Colibri.ViewModels
         public PagingInfo PagingInfo { get; set; }
 
         public string CurrentUserId { get; set; }
+
+        public string OwnerId { get; set; }
     }
 }

@@ -10,15 +10,24 @@ namespace Colibri.Models
 {
     public class Products
     {
+        [Required]
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public double Price { get; set; }
         public bool Available { get; set; }
         public string Image { get; set; }
         public string Description { get; set; }
 
+        public DateTime DueDateFrom { get; set; }
+        public DateTime DueDateTo { get; set; }
+        public DateTime CreatedOn { get; set; }
+
         // Number of Clicks on the Product
         public int NumberOfClicks { get; set; }
+
+        [Required]
+        public bool isOffer { get; set; }
 
         /*
          * Foreign References
@@ -41,14 +50,14 @@ namespace Colibri.Models
         [ForeignKey("CategoryTypeId")]
         public virtual CategoryTypes CategoryTypes { get; set; }
 
-        // #3 Special Tag
-        [Display(Name = "Special Tag")]
-        public int SpecialTagId { get; set; }
+        //// #3 Special Tag
+        //[Display(Name = "Special Tag")]
+        //public int SpecialTagId { get; set; }
 
-        // 1 Product = 1 Category Type
-        // 'virtual': not added to the DB
-        [ForeignKey("SpecialTagId")]
-        public virtual SpecialTags SpecialTags { get; set; }
+        //// 1 Product = 1 Category Type
+        //// 'virtual': not added to the DB
+        //[ForeignKey("SpecialTagId")]
+        //public virtual SpecialTags SpecialTags { get; set; }
 
         // #4 User
         public string ApplicationUserId { get; set;}

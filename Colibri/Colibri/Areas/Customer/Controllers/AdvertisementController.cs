@@ -270,7 +270,7 @@ namespace Colibri.Areas.Customer.Controllers
                 }
                 // add Special Tags (Id #1 = Offer)
                 // TODO: create a Switch to Offer/Order
-                productsFromDb.SpecialTagId = 1;
+                //productsFromDb.SpecialTagId = 1;
 
                 // add the current User as the Creator of the Advertisement
                 productsFromDb.ApplicationUserId = claim.Value;
@@ -319,7 +319,7 @@ namespace Colibri.Areas.Customer.Controllers
             var product = await _colibriDbContext.Products
                     .Include(p => p.CategoryGroups)
                     .Include(p => p.CategoryTypes)
-                    .Include(p => p.SpecialTags)
+                    //.Include(p => p.SpecialTags)
                     .Where(p => p.Id == id)
                     .FirstOrDefaultAsync();
 
@@ -398,7 +398,7 @@ namespace Colibri.Areas.Customer.Controllers
             ProductsViewModel.Products = await _colibriDbContext.Products
                 .Include(m => m.CategoryGroups)
                 .Include(m => m.CategoryTypes)
-                .Include(m => m.SpecialTags)
+                //.Include(m => m.SpecialTags)
                 .SingleOrDefaultAsync(m => m.Id == id);
 
             if (ProductsViewModel.Products == null)
@@ -485,7 +485,7 @@ namespace Colibri.Areas.Customer.Controllers
                 // CategoryTypeId
                 productFromDb.CategoryTypeId = ProductsViewModel.Products.CategoryTypeId;
                 // SpecialTagId
-                productFromDb.SpecialTagId = ProductsViewModel.Products.SpecialTagId;
+                //productFromDb.SpecialTagId = ProductsViewModel.Products.SpecialTagId;
                 // Description
                 productFromDb.Description = ProductsViewModel.Products.Description;
 
@@ -517,7 +517,7 @@ namespace Colibri.Areas.Customer.Controllers
             ProductsViewModel.Products = await _colibriDbContext.Products
                                                 .Include(m => m.CategoryGroups)
                                                 .Include(m => m.CategoryTypes)
-                                                .Include(m => m.SpecialTags)
+                                                //.Include(m => m.SpecialTags)
                                                 .SingleOrDefaultAsync(m => m.Id == id);
 
             if (ProductsViewModel.Products == null)
