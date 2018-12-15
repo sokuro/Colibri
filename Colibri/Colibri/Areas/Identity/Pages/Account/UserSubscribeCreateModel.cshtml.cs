@@ -55,10 +55,6 @@ namespace Colibri.Areas.Identity.Pages.Account
         }
 
         // POST
-        //public async Task<IActionResult> OnPostAsync(
-        //    UserSubscribeNotificationsViewModel model,
-        //    string returnUrl = null)
-        //{
         public async Task<IActionResult> OnPostAsync()
         {
             if (ModelState.IsValid)
@@ -70,44 +66,22 @@ namespace Colibri.Areas.Identity.Pages.Account
                 var claimsIdentity = (ClaimsIdentity)this.User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-                // extend the Properties
-                //UserSubscribeNotificationsViewModel userSubscribeNotificationsModel = new UserSubscribeNotificationsViewModel()
-                //{
-                //    // add the current User as the Creator
-                //    //ApplicationUserId = UserSubscribeNotifications.ApplicationUserId,
-                //    //CategoryTypeId = UserSubscribeNotifications.CategoryTypeId
-                //    ApplicationUserCategoryTypesSubscriber = new ApplicationUserCategoryTypesSubscriber(),
-                //    CategoryTypes = _colibriDbContext.CategoryTypes.ToList(),
-                //    ApplicationUserId = claim.Value
-                //};
-
                 UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId =
                     claim.Value;
 
-                // simple save
-                // TODO
-                await _colibriDbContext.ApplicationUserCategoryTypesSubscribers.AddAsync(UserSubscribeNotificationsViewModel
-                    .ApplicationUserCategoryTypesSubscriber);
-
-                //await _colibriDbContext.ApplicationUserCategoryTypesSubscribers.AddAsync(userSubscribeNotificationsModel.ApplicationUserCategoryTypesSubscriber);
-
-                await _colibriDbContext.SaveChangesAsync();
-
                 // create a DB Entry
-                //var result = await _colibriDbContext.ApplicationUserCategoryTypesSubscribers.AddAsync(userSubscribeNotificationsModel.ApplicationUserCategoryTypesSubscriber);
+                var result = await _colibriDbContext.ApplicationUserCategoryTypesSubscribers
+                                                        .AddAsync(UserSubscribeNotificationsViewModel
+                                                            .ApplicationUserCategoryTypesSubscriber);
 
-                //if (result != null)
-                //{
-                //    await _colibriDbContext.SaveChangesAsync();
-                //    _logger.LogInformation("User chose the Notification Category Type.");
-                //}
-
+                if (result != null)
+                {
+                    await _colibriDbContext.SaveChangesAsync();
+                    _logger.LogInformation("User chose the Notification Category Type.");
+                }
                 return RedirectToAction("Index", "", new { area = "" });
             }
-            // If we got this far, something failed, redisplay form
             return Page();
         }
-
-
     }
 }
