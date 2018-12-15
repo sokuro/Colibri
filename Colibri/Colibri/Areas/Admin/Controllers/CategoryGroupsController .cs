@@ -65,6 +65,16 @@ namespace Colibri.Areas.Admin.Controllers
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
+                // Strings für TypeOfCategoryGroup schreiben
+                if(categoryGroups.TypeOfCategoryGroup.Equals("0"))
+                {
+                    categoryGroups.TypeOfCategoryGroup = "Product";
+                }
+                else
+                {
+                    categoryGroups.TypeOfCategoryGroup = "Service";
+                }
+
                 _colibriDbContext.Add(categoryGroups);
                 await _colibriDbContext.SaveChangesAsync();
 

@@ -94,7 +94,7 @@ namespace Colibri.Areas.Admin.Controllers
                 }
                 else
                 {
-                    if (doesCategoryTypesAndCategoryGroupsExist == 0 && !model.isNew)
+                    if (doesCategoryTypesExist == 0 && !model.isNew)
                     {
                         // error
                         StatusMessage = "Error : CategoryTypes does not exist";
@@ -155,6 +155,14 @@ namespace Colibri.Areas.Admin.Controllers
                 return NotFound();
             }
 
+            // Viewmodel
+            CategoryTypesAndCategoryGroupsViewModel model = new CategoryTypesAndCategoryGroupsViewModel()
+            {
+                CategoryGroupsList = _colibriDbContext.CategoryGroups.ToList(),
+                CategoryTypes = categoryType,
+                CategoryTypesList = _colibriDbContext.CategoryTypes.Select(p => p.Name).Distinct().ToList()
+            };
+
             // i18n
             ViewData["EditCategoryType"] = _localizer["EditCategoryTypeText"];
             ViewData["Edit"] = _localizer["EditText"];
@@ -162,7 +170,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Name"] = _localizer["NameText"];
             ViewData["Update"] = _localizer["UpdateText"];
 
-            return View(categoryType);
+            return View(model);
         }
 
         // Post: /<controller>/Edit
@@ -170,30 +178,63 @@ namespace Colibri.Areas.Admin.Controllers
         [Route("Admin/CategoryTypes/Edit/{id}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, CategoryTypes categoryTypes)
+        public async Task<IActionResult> Edit(int id, CategoryTypesAndCategoryGroupsViewModel model)
         {
-            // the IDs should be equal
-            if (id != categoryTypes.Id)
-            {
-                return NotFound();
-            }
+            // i18n
+            ViewData["CreateCategoryType"] = _localizer["CreateCategoryTypeText"];
+            ViewData["Create"] = _localizer["CreateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+
+            // check if CategoryTypes exists or not & check if Combination of CategoryTypes and CategoryGroup exists
+            var doesCategoryTypesExist = _colibriDbContext.CategoryTypes.Where(s => s.Name == model.CategoryTypes.Name).Count();
+            var doesCategoryTypesAndCategoryGroupsExist = _colibriDbContext.CategoryTypes.Where(s => s.Name == model.CategoryTypes.Name && s.CategoryGroupId == model.CategoryTypes.CategoryGroupId).Count();
 
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
-                // Update the Changes
-                _colibriDbContext.Update(categoryTypes);
-                await _colibriDbContext.SaveChangesAsync();
+                if(doesCategoryTypesExist == 0)
+                {
+                    // error
+                    StatusMessage = "Error : CategoryTypes does not exist. You cannot add a new CategoryTypes here.";
+                }
+                else
+                {
+                    if(doesCategoryTypesAndCategoryGroupsExist > 0)
+                    {
+                        // error
+                        StatusMessage = "Error : CategoryTypes and CategoryGroups combination already exists!";
+                    }
+                    else
+                    {
+                        // Wenn keine Fehler, Eintrag in DB hinzufügen
+                        var catTypeFromDb = _colibriDbContext.CategoryTypes.Find(id);
+                        catTypeFromDb.Name = model.CategoryTypes.Name;
+                        catTypeFromDb.CategoryGroupId = model.CategoryTypes.CategoryGroupId;
 
-                // avoid Refreshing the POST Operation -> Redirect
-                //return View("Details", newCategory);
-                return RedirectToAction(nameof(Index));
+                        await _colibriDbContext.SaveChangesAsync();
+
+                        // Publish the Created Category Type
+                        using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                        {
+                            //bus.Publish(categoryTypes, "create_category_types");
+                            await bus.SendAsync("create_category_types", model.CategoryTypes);
+                        }
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
             }
-            else
+            // If ModelState is not valid
+            CategoryTypesAndCategoryGroupsViewModel modelVM = new CategoryTypesAndCategoryGroupsViewModel()
             {
-                // one can simply return to the Form View again for Correction
-                return View(categoryTypes);
-            }
+                CategoryGroupsList = _colibriDbContext.CategoryGroups.ToList(),
+                CategoryTypes = model.CategoryTypes,
+                CategoryTypesList = _colibriDbContext.CategoryTypes.Select(p => p.Name).Distinct().ToList(),
+                StatusMessage = StatusMessage
+            };
+
+            return View(modelVM);
         }
 
         // Get: /<controller>/Details
@@ -233,7 +274,7 @@ namespace Colibri.Areas.Admin.Controllers
             }
 
             // search for the ID
-            var categoryType = await _colibriDbContext.CategoryTypes.FindAsync(id);
+            var categoryType = await _colibriDbContext.CategoryTypes.Include(s => s.CategoryGroups).SingleOrDefaultAsync(m => m.Id == id);
 
             if (categoryType == null)
             {
