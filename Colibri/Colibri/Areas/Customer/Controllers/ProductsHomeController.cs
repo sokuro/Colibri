@@ -92,8 +92,8 @@ namespace Colibri.Areas.Customer.Controllers
         public async Task<IActionResult> DetailsPost(int id)
         {
             // check first, if anything exists in the Session
-            // Session Name : "ssShoppingCart"
-            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+            // Session Name : "ssScheduling"
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
 
             // check if null -> create new
             if (lstCartItems == null)
@@ -105,7 +105,7 @@ namespace Colibri.Areas.Customer.Controllers
             lstCartItems.Add(id);
             // set the Session:
             // Session Name, Value
-            HttpContext.Session.Set("ssShoppingCart", lstCartItems);
+            HttpContext.Session.Set("ssScheduling", lstCartItems);
 
             // redirect to Action
             return RedirectToAction("Index", "ProductsHome", new { area = "Customer" });
@@ -115,7 +115,7 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/ProductsHome/Remove/{id}")]
         public IActionResult Remove(int id)
         {
-            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
 
             if (lstCartItems.Count > 0)
             {
@@ -126,7 +126,7 @@ namespace Colibri.Areas.Customer.Controllers
                 }
             }
             // set the Session: Name, Value
-            HttpContext.Session.Set("ssShoppingCart", lstCartItems);
+            HttpContext.Session.Set("ssScheduling", lstCartItems);
 
             // redirect to Action
             return RedirectToAction(nameof(Index));

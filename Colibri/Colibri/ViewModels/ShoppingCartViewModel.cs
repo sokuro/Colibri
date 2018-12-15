@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace Colibri.ViewModels
 {
     /*
-     * Shopping Cart View Model with:
+     * Scheduling View Model with:
      * #1: Products
      * #2: Services
      * #3: Appointments
      */
-    public class ShoppingCartViewModel
+    public class SchedulingViewModel
     {
         public List<Products> Products { get; set; }
         public List<UserServices> UserServices { get; set; }

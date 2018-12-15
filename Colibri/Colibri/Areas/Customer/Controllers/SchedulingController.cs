@@ -15,38 +15,38 @@ using Microsoft.EntityFrameworkCore;
 namespace Colibri.Areas.Customer.Controllers
 {
     /*
-     * Controller of the ordered Items in the Shopping Cart
+     * Controller of the ordered Items in the Scheduling
      */
     [Area("Customer")]
-    public class ShoppingCartController : Controller
+    public class SchedulingController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
         private readonly IEmailSender _emailSender;
 
-        // bind the ShoppingCartViewModel
+        // bind the SchedulingViewModel
         [BindProperty]
-        public ShoppingCartViewModel ShoppingCartViewModel { get; set; }
+        public SchedulingViewModel SchedulingViewModel { get; set; }
 
-        public ShoppingCartController(ColibriDbContext colibriDbContext, IEmailSender emailSender)
+        public SchedulingController(ColibriDbContext colibriDbContext, IEmailSender emailSender)
         {
             _colibriDbContext = colibriDbContext;
             _emailSender = emailSender;
 
-            // initialize the ShoppingCartViewModel
-            ShoppingCartViewModel = new ShoppingCartViewModel()
+            // initialize the SchedulingViewModel
+            SchedulingViewModel = new SchedulingViewModel()
             {
                 Products = new List<Models.Products>()
             };
         }
 
-        // Get Index ShoppingCart
+        // Get Index Scheduling
         // retrieve all the Products from the Session
-        [Route("Customer/ShoppingCart/Index")]
+        [Route("Customer/Scheduling/Index")]
         public async Task<IActionResult> Index()
         {
             // check first, if anything exists in the Session
-            // Session Name : "ssShoppingCart"
-            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+            // Session Name : "ssScheduling"
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
 
             if (lstCartItems != null && lstCartItems.Any())
             {
@@ -60,33 +60,33 @@ namespace Colibri.Areas.Customer.Controllers
                         .Where(p => p.Id == cartItem)
                         .FirstOrDefaultAsync();
 
-                    // add the Products to the Shopping Cart
-                    ShoppingCartViewModel.Products.Add(products);
+                    // add the Products to the Scheduling
+                    SchedulingViewModel.Products.Add(products);
                 }
             }
             
-            // pass the ShoppingCartViewModel to the View
-            return View(ShoppingCartViewModel);
+            // pass the SchedulingViewModel to the View
+            return View(SchedulingViewModel);
         }
 
         // POST: Index
         // create an Appointment
-        [Route("Customer/ShoppingCart/Index")]
+        [Route("Customer/Scheduling/Index")]
         [HttpPost, ActionName("Index")]
         [ValidateAntiForgeryToken]
         public IActionResult IndexPost()
         {
             // check first, if anything exists in the Session
-            // Session Name : "ssShoppingCart"
-            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+            // Session Name : "ssScheduling"
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
 
             // merge (add) the Appointment Date and Time to the Appointment Date itself
-            ShoppingCartViewModel.Appointments.AppointmentDate = ShoppingCartViewModel.Appointments.AppointmentDate
-                                                                    .AddHours(ShoppingCartViewModel.Appointments.AppointmentTime.Hour)
-                                                                    .AddMinutes (ShoppingCartViewModel.Appointments.AppointmentTime.Minute);
+            SchedulingViewModel.Appointments.AppointmentDate = SchedulingViewModel.Appointments.AppointmentDate
+                                                                    .AddHours(SchedulingViewModel.Appointments.AppointmentTime.Hour)
+                                                                    .AddMinutes (SchedulingViewModel.Appointments.AppointmentTime.Minute);
 
             // create an Object for the Appointments
-            Appointments appointments = ShoppingCartViewModel.Appointments;
+            Appointments appointments = SchedulingViewModel.Appointments;
 
             // add the Appointments to the DB
             _colibriDbContext.Appointments.Add(appointments);
@@ -113,26 +113,26 @@ namespace Colibri.Areas.Customer.Controllers
 
             // After adding the Items to the DB, empty the Cart (by creating a new Session)
             lstCartItems = new List<int>();
-            HttpContext.Session.Set("ssShoppingCart", lstCartItems);
+            HttpContext.Session.Set("ssScheduling", lstCartItems);
 
             // TODO
             // send Email
-            _emailSender.SendEmailAsync(ShoppingCartViewModel.Appointments.CustomerEmail, "Your Order at Colibri", $"We are happy to inform you about your Order");
+            _emailSender.SendEmailAsync(SchedulingViewModel.Appointments.CustomerEmail, "Your Order at Colibri", $"We are happy to inform you about your Order");
 
             // redirect to Action:
             // ActionMethod: AppointmentConfirmation
-            // Controller: ShoppingCart
+            // Controller: Scheduling
             // pass the Appointment ID
-            return RedirectToAction("AppointmentConfirmation", "ShoppingCart", new { Id = appointmentId });
+            return RedirectToAction("AppointmentConfirmation", "Scheduling", new { Id = appointmentId });
         }
 
         // Get
         // Apointment Confirmation
-        [Route("Customer/ShoppingCart/AppointmentConfirmation/{id}")]
+        [Route("Customer/Scheduling/AppointmentConfirmation/{id}")]
         public IActionResult AppointmentConfirmation(int id)
         {
             // fill the ViewModel with the Information bound to the specific Id
-            ShoppingCartViewModel.Appointments = _colibriDbContext.Appointments
+            SchedulingViewModel.Appointments = _colibriDbContext.Appointments
                                                             .Where(a => a.Id == id)
                                                             .FirstOrDefault();
 
@@ -143,23 +143,23 @@ namespace Colibri.Areas.Customer.Controllers
             // iterate the List
             foreach (ProductsSelectedForAppointment prodObj in elemProdList)
             {
-                // add Products inside the Shopping Cart Model
-                ShoppingCartViewModel.Products.Add(_colibriDbContext.Products
+                // add Products inside the Scheduling Model
+                SchedulingViewModel.Products.Add(_colibriDbContext.Products
                                                     .Include(p => p.CategoryTypes)
                                                     //.Include(p => p.SpecialTags)
                                                     .Where(p => p.Id == prodObj.ProductId)
                                                     .FirstOrDefault());
             }
 
-            // pass the Shopping Cart View Model as Object
-            return View(ShoppingCartViewModel);
+            // pass the Scheduling View Model as Object
+            return View(SchedulingViewModel);
         }
 
         // Remove (from Bag)
-        [Route("Customer/ShoppingCart/Remove/{id}")]
+        [Route("Customer/Scheduling/Remove/{id}")]
         public IActionResult Remove(int id)
         {
-            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssShoppingCart");
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
 
             if (lstCartItems.Count > 0)
             {
@@ -170,7 +170,7 @@ namespace Colibri.Areas.Customer.Controllers
                 }
             }
             // set the Session: Name, Value
-            HttpContext.Session.Set("ssShoppingCart", lstCartItems);
+            HttpContext.Session.Set("ssScheduling", lstCartItems);
 
             // redirect to Action
             return RedirectToAction(nameof(Index));

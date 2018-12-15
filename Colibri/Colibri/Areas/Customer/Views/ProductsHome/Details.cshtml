@@ -74,12 +74,12 @@
                 <div class="col-4">
                 </div>
                 <div class="col-8">
-                    <!-- remove Item from the ShoppingCart possible -->
+                    <!-- remove Item from the Scheduling possible -->
                     @{
                         // Flag if the Item is already in the Bag
                         bool isInBag = false;
-                        // Shopping Cart
-                        List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssShoppingCart");
+                        // Scheduling
+                        List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssScheduling");
 
                         // check if the List already contains the ID of the Page
                         if (lstCart != null && lstCart.Contains(Model.Id))
