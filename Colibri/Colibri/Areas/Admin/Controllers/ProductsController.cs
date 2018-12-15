@@ -60,7 +60,7 @@ namespace Colibri.Areas.Admin.Controllers
             var productList = await _colibriDbContext.Products
                                     .Include(m => m.CategoryGroups)
                                     .Include(m => m.CategoryTypes)
-                                    .Include(m => m.SpecialTags)
+                                    //.Include(m => m.SpecialTags)
                                     .ToListAsync();
 
             // i18n
@@ -208,7 +208,7 @@ namespace Colibri.Areas.Admin.Controllers
             ProductsViewModel.Products = await _colibriDbContext.Products
                                             .Include(m => m.CategoryGroups)
                                             .Include(m => m.CategoryTypes)
-                                            .Include(m => m.SpecialTags)
+                                            //.Include(m => m.SpecialTags)
                                             .SingleOrDefaultAsync(m => m.Id == id);
 
             if (ProductsViewModel.Products == null)
@@ -295,7 +295,7 @@ namespace Colibri.Areas.Admin.Controllers
                 // CategoryTypeId
                 productFromDb.CategoryTypeId = ProductsViewModel.Products.CategoryTypeId;
                 // SpecialTagId
-                productFromDb.SpecialTagId = ProductsViewModel.Products.SpecialTagId;
+                //productFromDb.SpecialTagId = ProductsViewModel.Products.SpecialTagId;
                 // Description
                 productFromDb.Description = ProductsViewModel.Products.Description;
 
@@ -327,7 +327,7 @@ namespace Colibri.Areas.Admin.Controllers
             ProductsViewModel.Products = await _colibriDbContext.Products
                                                 .Include(m => m.CategoryGroups)
                                                 .Include(m => m.CategoryTypes)
-                                                .Include(m => m.SpecialTags)
+                                                //.Include(m => m.SpecialTags)
                                                 .SingleOrDefaultAsync(m => m.Id == id);
 
             if (ProductsViewModel.Products == null)
@@ -365,7 +365,7 @@ namespace Colibri.Areas.Admin.Controllers
             ProductsViewModel.Products = await _colibriDbContext.Products
                                                 .Include(m => m.CategoryGroups)
                                                 .Include(m => m.CategoryTypes)
-                                                .Include(m => m.SpecialTags)
+                                                //.Include(m => m.SpecialTags)
                                                 .SingleOrDefaultAsync(m => m.Id == id);
 
             if (ProductsViewModel.Products == null)
