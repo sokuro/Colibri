@@ -1,11 +1,69 @@
-﻿@model Colibri.Models.CategoryTypes
-@{
-    ViewData["Title"] = "Edit";
-}
+﻿@model Colibri.ViewModels.CategoryTypesAndCategoryGroupsViewModel
+@using Colibri.Extensions
+
 
 <h2 class="text-info">@ViewData["EditCategoryType"]</h2>
+<br />
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+<hr />
 
-<form method="post" asp-action="Edit">
+<div class="row">
+    <div class="col-8">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="CategoryTypes.Name" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="CategoryTypes.Name" class="form-control" />
+                </div>
+                <span asp-validation-for="CategoryTypes.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="CategoryTypes.CategoryGroupId" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <select asp-for="CategoryTypes.CategoryGroupId" asp-items="Model.CategoryGroupsList.ToSelectListItem(Model.CategoryTypes.CategoryGroupId)" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3"></div>
+                <div class="col-5">
+                    <input type="submit" value="Aktualisieren" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-success">Zurück zur Liste</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <!--Liste mit vorhandenen RubrikGruppen anzeigen-->
+    <div class="col-4">
+        @if (Model.CategoryTypesList.Count() > 0)
+        {
+            <p>Vorhandene Rubriken</p>
+            <ul class="list-group">
+                @foreach (var item in Model.CategoryTypesList)
+                {
+                    <li class="list-group-item">@item</li>
+                }
+            </ul>
+        }
+    </div>
+</div>
+
+
+
+
+
+
+
+@*<form method="post" asp-action="Edit">
     <div class="p-4 border rounded">
         <input type="hidden" asp-for="Id" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -23,7 +81,7 @@
             <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
         </div>
     </div>
-</form>
+</form>*@
 
 @section Scripts{
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
