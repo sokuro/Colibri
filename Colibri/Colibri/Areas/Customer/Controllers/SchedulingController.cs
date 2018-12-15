@@ -23,7 +23,7 @@ namespace Colibri.Areas.Customer.Controllers
     {
         private readonly ColibriDbContext _colibriDbContext;
         private readonly IEmailSender _emailSender;
-        private readonly IStringLocalizer<AdvertisementController> _localizer;
+        private readonly IStringLocalizer<SchedulingController> _localizer;
 
         // bind the SchedulingViewModel
         [BindProperty]
@@ -31,7 +31,7 @@ namespace Colibri.Areas.Customer.Controllers
 
         public SchedulingController(ColibriDbContext colibriDbContext, 
             IEmailSender emailSender,
-            IStringLocalizer<AdvertisementController> localizer)
+            IStringLocalizer<SchedulingController> localizer)
         {
             _colibriDbContext = colibriDbContext;
             _emailSender = emailSender;
@@ -71,7 +71,7 @@ namespace Colibri.Areas.Customer.Controllers
             }
 
             // i18n
-            ViewData["SchedulingTitle"] = _localizer["SchedulingTitleText"];
+            ViewData["Scheduling"] = _localizer["SchedulingText"];
             ViewData["ScheduledItemName"] = _localizer["ScheduledItemNameText"];
             ViewData["Price"] = _localizer["PriceText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
@@ -79,7 +79,7 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Description"] = _localizer["DescriptionText"];
             ViewData["UserName"] = _localizer["UserNameText"];
             ViewData["NameSchedulingUser"] = _localizer["NameSchedulingUserText"];
-            ViewData["PhoneNumber"] = _localizer["PhoneNumberTextText"];
+            ViewData["PhoneNumber"] = _localizer["PhoneNumberText"];
             ViewData["Email"] = _localizer["EmailText"];
             ViewData["AppointmentDate"] = _localizer["AppointmentDateText"];
             ViewData["AppointmentTime"] = _localizer["AppointmentTimeText"];
