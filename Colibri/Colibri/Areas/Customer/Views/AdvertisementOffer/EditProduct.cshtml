@@ -1,0 +1,139 @@
+﻿@model Colibri.ViewModels.AdvertisementViewModel
+@using Colibri.Extensions
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        getCategoryTypes();
+        $("#CategoryGroup").change(function () {
+            getCategoryTypes();
+        });
+    });
+
+    function getCategoryTypes() {
+        console.log("Begin of getCategoryTypes");
+        var url = '@Url.Content("~/")' + "Customer/AdvertisementOffer/CreateProduct/GetCategory";
+        console.log("Url: " + url);
+        var ddlsource = '#CategoryGroup';
+
+        $.getJSON(url, { CategoryGroupID: $(ddlsource).val() }, function (data) {
+
+            var items = '';
+            $("#CategoryTypeId").empty();
+            $.each(data, function (i, categoryType) {
+                items += "<option value ='" + categoryType.value + "'>" + categoryType.text + "</option>";
+            });
+
+            $("#CategoryTypeId").html(items);
+        });
+    }
+</script>
+
+<h2>EditProduct</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-border row">
+        <input type="hidden" asp-for="Product.Id" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="col-8">
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Product.Name" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Product.Name" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Product.Description" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Product.Description" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Product.CategoryGroupId" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <select asp-for="@Model.Product.CategoryGroupId" asp-items="Model.CategoryGroups.ToSelectListItem(Model.Product.CategoryGroupId)" id="CategoryGroup" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Product.CategoryTypeId" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <select asp-for="Product.CategoryTypeId" name="CategoryTypeId" id="CategoryTypeId" asp-items="@(new SelectList(string.Empty, "Id", "Name"))" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Product.Image" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <input type="file" name="files" multiple class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Product.Price" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Product.Price" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Product.DueDateFrom" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Product.DueDateFrom" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Product.DueDateTo" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Product.DueDateTo" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="Product.Available" class="custom-label"></label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="Product.Available" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-success">Zurück zur Liste</a>
+            </div>
+        </div>
+        <div class="col-3">
+            <img src="@Model.Product.Image" width="100%" style="border-radius:5px;border:1px solid #bbb9b9" />
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
