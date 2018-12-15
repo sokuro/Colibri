@@ -22,19 +22,15 @@
                             <!-- Table Headers -->
                             <th id="imageRowHeader"></th>
                             <th>
-                                @*<label asp-for="@Model.Products.FirstOrDefault().Name"></label>*@
                                 @ViewData["ScheduledItemName"]
                             </th>
                             <th>
-                                @*<label asp-for="@Model.Products.FirstOrDefault().Price"></label>*@
                                 @ViewData["Price"]
                             </th>
                             <th>
-                                @*<label asp-for="@Model.Products.FirstOrDefault().CategoryTypes"></label>*@
                                 @ViewData["CategoryType"]
                             </th>
                             <th>
-                                @*<label asp-for="@Model.Products.FirstOrDefault().Description"></label>*@
                                 @ViewData["Description"]
                             </th>
                             <th></th>
@@ -81,30 +77,35 @@
                         </div>
                         <div class="col-12">
                             <input asp-for="@Model.Appointments.CustomerName" class="form-control" />
+                            <span asp-validation-for="@Model.Appointments.CustomerName" class="text-danger"></span>
                         </div>
                         <div class="col-12">
                             <label>@ViewData["PhoneNumber"] : </label>
                         </div>
                         <div class="col-12">
                             <input asp-for="@Model.Appointments.CustomerPhoneNumber" class="form-control" />
+                            <span asp-validation-for="@Model.Appointments.CustomerPhoneNumber" class="text-danger"></span>
                         </div>
                         <div class="col-12">
                             <label>@ViewData["Email"] : </label>
                         </div>
                         <div class="col-12">
                             <input asp-for="@Model.Appointments.CustomerEmail" class="form-control" />
+                            <span asp-validation-for="@Model.Appointments.CustomerEmail" class="text-danger"></span>
                         </div>
                         <div class="col-12">
                             <label>@ViewData["AppointmentDate"] : </label>
                         </div>
                         <div class="col-12">
                             <input asp-for="@Model.Appointments.AppointmentDate" value="" type="text" id="datepicker" class="form-control" />
+                            <span asp-validation-for="@Model.Appointments.AppointmentDate" class="text-danger"></span>
                         </div>
                         <div class="col-12">
                             <label>@ViewData["AppointmentTime"] : </label>
                         </div>
                         <div class="col-12">
                             <input asp-for="@Model.Appointments.AppointmentTime" value="" type="text" class="timepicker form-control" />
+                            <span asp-validation-for="@Model.Appointments.AppointmentTime" class="text-danger"></span>
                         </div>
                         <div class="col-12">
                             <button type="submit" id="btnPlaceOrder" class="btn btn-success">@ViewData["ScheduleAppointment"]</button>
@@ -146,7 +147,6 @@
                 maxDate: "+3M"
             });
         });
-
     </script>
 
     <partial name="_ValidationScriptsPartial" />
