@@ -14,7 +14,7 @@ namespace Colibri.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApplicationUserId = table.Column<string>(nullable: true),
-                    CategoryTypeId = table.Column<int>(nullable: false)
+                    CategoryTypeId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {

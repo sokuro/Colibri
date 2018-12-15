@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Colibri.Models.Notifications>
+<!-- individual CSS -->
+@section appointments {
+    <link href="~/css/appointments.css" rel="stylesheet" />
+}
+
+@if (Model != null)
+{
+    <div class="appointment-product-details">
+        <table class="table table-striped">
+            <tr class="table-info">
+                <th>
+                    <label asp-for="@Model.FirstOrDefault().Id"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.FirstOrDefault().Message"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.FirstOrDefault().NotificationType"></label>
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr class="table-content">
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(n => item.Id)
+                    </td>
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(n => item.Message)
+                    </td>
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(n => item.NotificationType)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+else
+{
+    <div>No Items added!</div>
+}

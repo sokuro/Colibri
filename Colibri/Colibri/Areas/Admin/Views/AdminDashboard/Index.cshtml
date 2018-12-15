@@ -2,7 +2,7 @@
 
 <div class="col main pt-1 mt-1">
     <h1 class="display-4 d-none d-sm-block">
-        Colibri Dashboard
+        Admin Dashboard
     </h1>
 </div>
 
@@ -12,15 +12,16 @@
         <div class="d-flex">
             <div class="p-lg-5 p-3 flex-fill">
                 <div class="categoryInfo">
-                    <img src="~/img/SystemImages/ChoiceArrows.png" />
+                    <h5>Category Groups</h5>
+                    <img src="~/img/SystemImages/ChoiceArrows.png"/>
                     <table>
                         @foreach (var categoryGroup in Model.CategoryGroups)
                         {
                             <tr>
-                                <td>@categoryGroup.Id</td>
+                                @*<td>@categoryGroup.Id</td>*@
                                 <td>@categoryGroup.Name</td>
                                 <td>
-                                    <a asp-action="Details" asp-route-id="@categoryGroup.Id">Details</a>
+                                    <a asp-action="DetailsCategoryGroup" asp-route-id="@categoryGroup.Id">Details</a>
                                 </td>
                             </tr>
                         }
@@ -30,15 +31,16 @@
             </div>
             <div class="p-lg-5 p-3 flex-fill">
                 <div class="categoryInfo">
-                    <img src="~/img/SystemImages/ChoiceFigure.png" />
+                    <h5>Categories</h5>
+                    <img src="~/img/SystemImages/ChoiceFigure.png"/>
                     <table>
                         @foreach (var categoryType in Model.CategoryTypes)
                         {
                             <tr>
-                                <td>@categoryType.Id</td>
+                                @*<td>@categoryType.Id</td>*@
                                 <td>@categoryType.Name</td>
                                 <td>
-                                    <a asp-action="Details" asp-route-id="@categoryType.Id">Details</a>
+                                    <a asp-action="DetailsCategoryType" asp-route-id="@categoryType.Id">Details</a>
                                 </td>
                             </tr>
                         }
@@ -52,15 +54,16 @@
         <div class="d-flex">
             <div class="p-lg-5 p-3 flex-fill">
                 <div class="categoryInfo">
-                    <img src="~/img/SystemImages/ChoiceRowsSigned.png" />
+                    <h5>Special Tags</h5>
+                    <img src="~/img/SystemImages/ChoiceRowsSigned.png"/>
                     <table>
                         @foreach (var specialTag in Model.SpecialTags)
                         {
                             <tr>
-                                <td>@specialTag.Id</td>
+                                @*<td>@specialTag.Id</td>*@
                                 <td>@specialTag.Name</td>
                                 <td>
-                                    <a asp-action="Details" asp-route-id="@specialTag.Id">Details</a>
+                                    <a asp-action="DetailsSpecialTag" asp-route-id="@specialTag.Id">Details</a>
                                 </td>
                             </tr>
                         }
@@ -70,15 +73,16 @@
             </div>
             <div class="p-lg-5 p-3 flex-fill">
                 <div class="categoryInfo">
-                    <img src="~/img/SystemImages/Connection.png" />
+                    <h5>Admin Users</h5>
+                    <img src="~/img/SystemImages/Connection.png"/>
                     <table>
                         @foreach (var user in Model.Users)
                         {
                             <tr>
-                                @*<td>@user.Id</td>*@
                                 <td>@user.UserName</td>
                                 <td>
-                                    <a asp-route-area="Customer" asp-action="Details" asp-controller="ApplicationUser" class="btn btn-success pull-right btn-outline-info" asp-route-id="@user.Id">@ViewData["ViewDetails"]</a>
+                                    @*<a asp-route-area="Customer" asp-action="Details" asp-controller="ApplicationUser" class="btn btn-success pull-right btn-outline-info" asp-route-id="@user.Id">@ViewData["ViewDetails"]</a>*@
+                                    <a asp-action="DetailsAdminUser" asp-route-id="@user.Id">Details</a>
                                 </td>
                             </tr>
                         }

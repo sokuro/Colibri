@@ -19,21 +19,33 @@
                 <th>
                     <label asp-for="@Model.FirstOrDefault().NotificationType"></label>
                 </th>
+                <th>
+                    <label asp-for="@Model.FirstOrDefault().CategoryTypeId"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.FirstOrDefault().CategoryTypes"></label>
+                </th>
             </tr>
 
             @foreach (var item in Model)
             {
-                <tr class="table-content">
-                    <td class="tableContentColumn">
-                        @Html.DisplayFor(n => item.Id)
-                    </td>
-                    <td class="tableContentColumn">
-                        @Html.DisplayFor(n => item.Message)
-                    </td>
-                    <td class="tableContentColumn">
-                        @Html.DisplayFor(n => item.NotificationType)
-                    </td>
-                </tr>
+            <tr class="table-content">
+                <td class="tableContentColumn">
+                    @Html.DisplayFor(n => item.Id)
+                </td>
+                <td class="tableContentColumn">
+                    @Html.DisplayFor(n => item.Message)
+                </td>
+                <td class="tableContentColumn">
+                    @Html.DisplayFor(n => item.NotificationType)
+                </td>
+                <td class="tableContentColumn">
+                    @Html.DisplayFor(n => item.CategoryTypeId)
+                </td>
+                <td class="tableContentColumn">
+                    @Html.DisplayFor(n => item.CategoryTypes)
+                </td>
+            </tr>
             }
         </table>
     </div>

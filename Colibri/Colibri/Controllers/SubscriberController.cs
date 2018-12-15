@@ -82,8 +82,8 @@ namespace Colibri.Controllers
             {
                 bus.Receive("create_product_by_admin", x => x.Add<Products>(p => HandleProductByAdmin(p)));
                 bus.Receive("create_advertisement", x => x.Add<Products>(p => HandleAdvertisements(p)));
-                bus.Receive("create_category_groups", x => x.Add<CategoryGroups>(p => HandleCategoryGroups(p)));
-                bus.Receive("create_category_types", x => x.Add<CategoryTypes>(p => HandleCategoryTypes(p)));
+                //bus.Receive("create_category_groups", x => x.Add<CategoryGroups>(p => HandleCategoryGroups(p)));
+                //bus.Receive("create_category_types", x => x.Add<CategoryTypes>(p => HandleCategoryTypes(p)));
             }
 
             // persist
@@ -100,6 +100,8 @@ namespace Colibri.Controllers
         {
             SubscriberViewModel.Notifications.Message = "Added a Advertisement: " + product.Name;
             SubscriberViewModel.Notifications.NotificationType = product.CategoryTypes.Name;
+            //SubscriberViewModel.Notifications.CategoryTypes = product.CategoryTypes;
+            SubscriberViewModel.Notifications.CategoryTypeId = product.CategoryTypes.Id;
         }
 
         private void HandleCategoryGroups(CategoryGroups categoryGroup)

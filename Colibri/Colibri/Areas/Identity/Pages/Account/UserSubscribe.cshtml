@@ -1,4 +1,25 @@
 ﻿@page
+@using Colibri.Extensions
+@using Microsoft.EntityFrameworkCore
+@using Colibri.Areas.Identity.Pages
 @model UserSubscribeModel
 @{
+    ViewData["Title"] = "Notification Choice";
 }
+
+<div class="row">
+    <div class="col-md-4">
+        <table class="table table-striped">
+            @foreach (var category in Model.UserSubscribeNotificationsIndexViewModel.CategoryTypes)
+            {
+                <h3 style="padding-left:50px;" class="text-success">@category.Name</h3>
+                <div class="row">
+                    <div class="col-sm-12">
+                        @* Partial View *@
+                        @*@Html.Partial("_ThumbnailAreaPartial",Model.UserSubscribeNotificationsIndexViewModel.UserSubscriber.Where(u => u.CategoryTypes.Name.Equals(category.Name)))*@
+                    </div>
+                </div>
+            }
+        </table>
+    </div>
+</div>

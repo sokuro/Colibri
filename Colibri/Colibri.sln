@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Colibri", "Colibri\Colibri.csproj", "{F91E722F-34A1-428C-855F-8A519F8F436A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Colibri.Subscriber.Core", "Colibri.Subscriber.Core\Colibri.Subscriber.Core.csproj", "{2EADDE8A-FDE4-4EC4-A440-C3FA01E79F59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F91E722F-34A1-428C-855F-8A519F8F436A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F91E722F-34A1-428C-855F-8A519F8F436A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F91E722F-34A1-428C-855F-8A519F8F436A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EADDE8A-FDE4-4EC4-A440-C3FA01E79F59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EADDE8A-FDE4-4EC4-A440-C3FA01E79F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EADDE8A-FDE4-4EC4-A440-C3FA01E79F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EADDE8A-FDE4-4EC4-A440-C3FA01E79F59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

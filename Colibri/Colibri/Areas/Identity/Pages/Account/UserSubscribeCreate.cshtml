@@ -1,0 +1,68 @@
+﻿@page
+@using Colibri.Extensions
+@using Colibri.ViewModels
+@using Microsoft.EntityFrameworkCore
+@model UserSubscribeCreateModel
+@{
+    ViewData["Title"] = "Notification Choice";
+}
+
+
+<div class="row">
+    <div class="col-12">
+        @*<form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">*@
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <div class="col-4">
+                    @*<label asp-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId"></label>*@
+
+                </div>
+                <div class="col-5">
+                    @*<input asp-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId" type="hidden" value="@Model.UserSubscribeNotificationsViewModel.ApplicationUserId" class="form-control" />*@
+
+                    @*<input asp-for="@Model.UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId" value="@Model.UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId" class="form-control" />*@
+
+                    @*<input asp-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId" class="form-control" />*@
+                </div>
+
+                @*<span asp-validation-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.ApplicationUserId" class="text-danger"></span>*@
+            </div>
+            @*<div class="form-group">
+                <label asp-for="UserSubscribeNotifications.CategoryTypeId"></label>
+                <input asp-for="UserSubscribeNotifications.CategoryTypeId" type="checkbox" class="form-control" />
+            </div>*@
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.CategoryTypeId"></label>
+                </div>
+                <!-- using the Extension Method for DropDown -->
+                <div class="col-5">
+                    @*<input asp-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.CategoryTypeId" class="form-control" />*@
+
+                    <select asp-for="UserSubscribeNotificationsViewModel.ApplicationUserCategoryTypesSubscriber.CategoryTypeId" asp-items="Model.UserSubscribeNotificationsViewModel.CategoryTypes.ToSelectListItem(Model.UserSubscribeNotificationsViewModel.CategoryTypeId)" class="form-control"></select>
+
+                    @*<input type="file" name="files" multiple class="form-control"/>*@
+
+                </div>
+                @*<span asp-validation-for="CategoryTypes" class="text-danger"></span>*@
+            </div>
+            
+            <table class="table table-striped">
+                @*@for (var i = 0; i < 5; i++)*@
+                @foreach(var item in Model.UserSubscribeNotificationsViewModel.CategoryTypes)
+                {
+                    @*<input type="checkbox" name="CategoryTypeId" value="@i" />*@
+                    <input type="checkbox" name="CategoryTypeId" value="@item" />
+                    <br/>
+                }
+            </table>
+
+            <button type="submit" value="" class="btn btn-default">Save</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

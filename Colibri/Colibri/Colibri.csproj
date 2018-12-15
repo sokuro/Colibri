@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20181210221642_addUserCategoryTypesSubscribers.cs" />
+    <Compile Remove="Data\Migrations\20181210222019_addApplicationUserToCategoryTypesSubscriber.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.1.0" />
     <PackageReference Include="EasyNetQ" Version="3.3.5" />
@@ -32,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Areas\Admin\Views\AdminDashboard\Details.cshtml">
+    <Content Update="Areas\Admin\Views\AdminDashboard\DetailsCategoryType.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Admin\Views\Shared\_TableButtonPartialAdminProducts.cshtml">
@@ -60,6 +65,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Identity\Pages\Account\Register.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Identity\Pages\Account\UserSubscribeCreate.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Pages\_ViewStart.cshtml">

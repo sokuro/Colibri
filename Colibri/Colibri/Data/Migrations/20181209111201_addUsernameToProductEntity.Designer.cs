@@ -4,14 +4,16 @@ using Colibri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Colibri.Migrations
 {
     [DbContext(typeof(ColibriDbContext))]
-    partial class ColibriDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181209111201_addUsernameToProductEntity")]
+    partial class addUsernameToProductEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,15 +146,11 @@ namespace Colibri.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CategoryTypeId");
-
                     b.Property<string>("Message");
 
                     b.Property<string>("NotificationType");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryTypeId");
 
                     b.ToTable("Notifications");
                 });
@@ -173,24 +171,17 @@ namespace Colibri.Migrations
 
                     b.Property<int>("CategoryTypeId");
 
-                    b.Property<DateTime>("CreatedOn");
-
                     b.Property<string>("Description");
-
-                    b.Property<DateTime>("DueDateFrom");
-
-                    b.Property<DateTime>("DueDateTo");
 
                     b.Property<string>("Image");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.Property<int>("NumberOfClicks");
 
                     b.Property<double>("Price");
 
-                    b.Property<bool>("isOffer");
+                    b.Property<int>("SpecialTagId");
 
                     b.HasKey("Id");
 
@@ -199,6 +190,8 @@ namespace Colibri.Migrations
                     b.HasIndex("CategoryGroupId");
 
                     b.HasIndex("CategoryTypeId");
+
+                    b.HasIndex("SpecialTagId");
 
                     b.ToTable("Products");
                 });
@@ -250,22 +243,19 @@ namespace Colibri.Migrations
 
                     b.Property<int>("CategoryTypeId");
 
-                    b.Property<DateTime>("CreatedOn");
-
                     b.Property<string>("Description");
 
-                    b.Property<DateTime>("DueDateFrom");
-
-                    b.Property<DateTime>("DueDateTo");
+                    b.Property<double>("Duration");
 
                     b.Property<string>("Image");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
                     b.Property<int>("NumberOfClicks");
 
                     b.Property<double>("Price");
+
+                    b.Property<int>("SpecialTagId");
 
                     b.HasKey("Id");
 
@@ -274,6 +264,8 @@ namespace Colibri.Migrations
                     b.HasIndex("CategoryGroupId");
 
                     b.HasIndex("CategoryTypeId");
+
+                    b.HasIndex("SpecialTagId");
 
                     b.ToTable("UserServices");
                 });
@@ -499,14 +491,6 @@ namespace Colibri.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Colibri.Models.Notifications", b =>
-                {
-                    b.HasOne("Colibri.Models.CategoryTypes", "CategoryTypes")
-                        .WithMany()
-                        .HasForeignKey("CategoryTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("Colibri.Models.Products", b =>
                 {
                     b.HasOne("Colibri.Models.ApplicationUser", "ApplicationUser")
@@ -521,6 +505,11 @@ namespace Colibri.Migrations
                     b.HasOne("Colibri.Models.CategoryTypes", "CategoryTypes")
                         .WithMany()
                         .HasForeignKey("CategoryTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Colibri.Models.SpecialTags", "SpecialTags")
+                        .WithMany()
+                        .HasForeignKey("SpecialTagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -551,6 +540,11 @@ namespace Colibri.Migrations
                     b.HasOne("Colibri.Models.CategoryTypes", "CategoryTypes")
                         .WithMany()
                         .HasForeignKey("CategoryTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Colibri.Models.SpecialTags", "SpecialTags")
+                        .WithMany()
+                        .HasForeignKey("SpecialTagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
