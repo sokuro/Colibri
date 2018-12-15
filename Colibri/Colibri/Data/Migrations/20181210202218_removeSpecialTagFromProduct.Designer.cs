@@ -4,14 +4,16 @@ using Colibri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Colibri.Migrations
 {
     [DbContext(typeof(ColibriDbContext))]
-    partial class ColibriDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181210202218_removeSpecialTagFromProduct")]
+    partial class removeSpecialTagFromProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,8 +186,6 @@ namespace Colibri.Migrations
 
                     b.Property<double>("Price");
 
-                    b.Property<bool>("isOffer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
@@ -261,6 +261,8 @@ namespace Colibri.Migrations
 
                     b.Property<double>("Price");
 
+                    b.Property<int>("SpecialTagId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
@@ -268,6 +270,8 @@ namespace Colibri.Migrations
                     b.HasIndex("CategoryGroupId");
 
                     b.HasIndex("CategoryTypeId");
+
+                    b.HasIndex("SpecialTagId");
 
                     b.ToTable("UserServices");
                 });
@@ -537,6 +541,11 @@ namespace Colibri.Migrations
                     b.HasOne("Colibri.Models.CategoryTypes", "CategoryTypes")
                         .WithMany()
                         .HasForeignKey("CategoryTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Colibri.Models.SpecialTags", "SpecialTags")
+                        .WithMany()
+                        .HasForeignKey("SpecialTagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

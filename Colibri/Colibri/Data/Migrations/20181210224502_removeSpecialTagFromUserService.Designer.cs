@@ -4,14 +4,16 @@ using Colibri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Colibri.Migrations
 {
     [DbContext(typeof(ColibriDbContext))]
-    partial class ColibriDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181210224502_removeSpecialTagFromUserService")]
+    partial class removeSpecialTagFromUserService
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,8 +185,6 @@ namespace Colibri.Migrations
                     b.Property<int>("NumberOfClicks");
 
                     b.Property<double>("Price");
-
-                    b.Property<bool>("isOffer");
 
                     b.HasKey("Id");
 
