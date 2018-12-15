@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace Colibri.Areas.Customer.Controllers
 {
@@ -22,15 +23,19 @@ namespace Colibri.Areas.Customer.Controllers
     {
         private readonly ColibriDbContext _colibriDbContext;
         private readonly IEmailSender _emailSender;
+        private readonly IStringLocalizer<AdvertisementController> _localizer;
 
         // bind the SchedulingViewModel
         [BindProperty]
         public SchedulingViewModel SchedulingViewModel { get; set; }
 
-        public SchedulingController(ColibriDbContext colibriDbContext, IEmailSender emailSender)
+        public SchedulingController(ColibriDbContext colibriDbContext, 
+            IEmailSender emailSender,
+            IStringLocalizer<AdvertisementController> localizer)
         {
             _colibriDbContext = colibriDbContext;
             _emailSender = emailSender;
+            _localizer = localizer;
 
             // initialize the SchedulingViewModel
             SchedulingViewModel = new SchedulingViewModel()
@@ -64,7 +69,23 @@ namespace Colibri.Areas.Customer.Controllers
                     SchedulingViewModel.Products.Add(products);
                 }
             }
-            
+
+            // i18n
+            ViewData["SchedulingTitle"] = _localizer["SchedulingTitleText"];
+            ViewData["ScheduledItemName"] = _localizer["ScheduledItemNameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["NameSchedulingUser"] = _localizer["NameSchedulingUserText"];
+            ViewData["PhoneNumber"] = _localizer["PhoneNumberTextText"];
+            ViewData["Email"] = _localizer["EmailText"];
+            ViewData["AppointmentDate"] = _localizer["AppointmentDateText"];
+            ViewData["AppointmentTime"] = _localizer["AppointmentTimeText"];
+            ViewData["ScheduleAppointment"] = _localizer["ScheduleAppointmentText"];
+            ViewData["NoItemsAdded"] = _localizer["NoItemsAddedText"];
+
             // pass the SchedulingViewModel to the View
             return View(SchedulingViewModel);
         }

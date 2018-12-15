@@ -1,16 +1,15 @@
 ﻿@model Colibri.ViewModels.SchedulingViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
 
 <!-- individual CSS -->
 @section scheduling {
     <link href="~/css/scheduling.css" rel="stylesheet" />
 }
 
-@{
-    ViewData["Title"] = "Index";
-}
+@inject IViewLocalizer Localizer
 
 <form method="post">
-    <h2 class="text-info">Your Scheduling</h2>
+    <h2 class="text-info">@ViewData["SchedulingTitle"]</h2>
     @if (Model.Products.Count > 0)
     {
         <div class="container border border-secondary rounded">
@@ -23,16 +22,20 @@
                             <!-- Table Headers -->
                             <th id="imageRowHeader"></th>
                             <th>
-                                <label asp-for="@Model.Products.FirstOrDefault().Name"></label>
+                                @*<label asp-for="@Model.Products.FirstOrDefault().Name"></label>*@
+                                @ViewData["ScheduledItemName"]
                             </th>
                             <th>
-                                <label asp-for="@Model.Products.FirstOrDefault().Price"></label>
+                                @*<label asp-for="@Model.Products.FirstOrDefault().Price"></label>*@
+                                @ViewData["Price"]
                             </th>
                             <th>
-                                <label asp-for="@Model.Products.FirstOrDefault().CategoryTypes"></label>
+                                @*<label asp-for="@Model.Products.FirstOrDefault().CategoryTypes"></label>*@
+                                @ViewData["CategoryType"]
                             </th>
                             <th>
-                                <label asp-for="@Model.Products.FirstOrDefault().Description"></label>
+                                @*<label asp-for="@Model.Products.FirstOrDefault().Description"></label>*@
+                                @ViewData["Description"]
                             </th>
                             <th></th>
                             <!-- END: Table Headers -->
@@ -74,37 +77,37 @@
                 <div class="col-4">
                     <div class="row">
                         <div class="col-12">
-                            <label>Name : </label>
+                            <label>@ViewData["NameSchedulingUser"] : </label>
                         </div>
                         <div class="col-12">
                             <input asp-for="@Model.Appointments.CustomerName" class="form-control" />
                         </div>
                         <div class="col-12">
-                            <label>Phone Number : </label>
+                            <label>@ViewData["PhoneNumber"] : </label>
                         </div>
                         <div class="col-12">
                             <input asp-for="@Model.Appointments.CustomerPhoneNumber" class="form-control" />
                         </div>
                         <div class="col-12">
-                            <label>Email : </label>
+                            <label>@ViewData["Email"] : </label>
                         </div>
                         <div class="col-12">
                             <input asp-for="@Model.Appointments.CustomerEmail" class="form-control" />
                         </div>
                         <div class="col-12">
-                            <label>Appointment Date : </label>
+                            <label>@ViewData["AppointmentDate"] : </label>
                         </div>
                         <div class="col-12">
                             <input asp-for="@Model.Appointments.AppointmentDate" value="" type="text" id="datepicker" class="form-control" />
                         </div>
                         <div class="col-12">
-                            <label>Appointment Time : </label>
+                            <label>@ViewData["AppointmentTime"] : </label>
                         </div>
                         <div class="col-12">
                             <input asp-for="@Model.Appointments.AppointmentTime" value="" type="text" class="timepicker form-control" />
                         </div>
                         <div class="col-12">
-                            <button type="submit" id="btnPlaceOrder" class="btn btn-success">Schedule Appointment</button>
+                            <button type="submit" id="btnPlaceOrder" class="btn btn-success">@ViewData["ScheduleAppointment"]</button>
                         </div>
                     </div>
                 </div>
@@ -113,7 +116,7 @@
     }
     else
     {
-        <div>No items added!</div>
+        <div>@ViewData["NoItemsAdded"]</div>
     }
 </form>
 
@@ -121,7 +124,7 @@
 <!-- min Date: tomorrow -->
 <!-- max Date: 3 Months -->
 @section Scripts
-{
+    {
     <script>
         // Time-Picker
         $('.timepicker').timepicker({
