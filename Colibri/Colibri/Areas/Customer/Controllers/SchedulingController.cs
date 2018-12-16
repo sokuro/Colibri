@@ -23,7 +23,7 @@ namespace Colibri.Areas.Customer.Controllers
     {
         private readonly ColibriDbContext _colibriDbContext;
         private readonly IEmailSender _emailSender;
-        private readonly IStringLocalizer<AdvertisementController> _localizer;
+        private readonly IStringLocalizer<SchedulingController> _localizer;
 
         // bind the SchedulingViewModel
         [BindProperty]
@@ -31,7 +31,7 @@ namespace Colibri.Areas.Customer.Controllers
 
         public SchedulingController(ColibriDbContext colibriDbContext, 
             IEmailSender emailSender,
-            IStringLocalizer<AdvertisementController> localizer)
+            IStringLocalizer<SchedulingController> localizer)
         {
             _colibriDbContext = colibriDbContext;
             _emailSender = emailSender;

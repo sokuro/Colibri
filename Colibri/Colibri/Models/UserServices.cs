@@ -27,6 +27,9 @@ namespace Colibri.Models
         // Number of Clicks on the Product
         public int NumberOfClicks { get; set; }
 
+        [Required]
+        public bool isOffer { get; set; }
+
         /*
          * Foreign References
          */

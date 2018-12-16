@@ -126,7 +126,7 @@ namespace Colibri.Controllers
 
             if (searchVM.ResultsCounter < 1)
             {
-                searchVM.ArchiveEntryList = await _colibriDbContext.ArchiveEntry.Where(m => m.Name.Contains(model.SearchAdvertisement)).Where(m => m.TypeOfAdvertisement == "0").ToListAsync();
+                searchVM.ArchiveEntryList = await _colibriDbContext.ArchiveEntry.Where(m => m.Name.Contains(model.SearchAdvertisement)).Where(m => m.isOffer == true).ToListAsync();
                 searchVM.ResultsCounterArchive = searchVM.ArchiveEntryList.Count();
             }
 
