@@ -4,14 +4,16 @@ using Colibri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Colibri.Migrations
 {
     [DbContext(typeof(ColibriDbContext))]
-    partial class ColibriDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181215160549_addForeignKeysToArchiveEntry")]
+    partial class addForeignKeysToArchiveEntry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,8 +52,6 @@ namespace Colibri.Migrations
 
                     b.Property<string>("CustomerEmail");
 
-                    b.Property<string>("CustomerId");
-
                     b.Property<string>("CustomerName");
 
                     b.Property<string>("CustomerPhoneNumber");
@@ -61,8 +61,6 @@ namespace Colibri.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppPersonId");
-
-                    b.HasIndex("CustomerId");
 
                     b.ToTable("Appointments");
                 });
@@ -83,10 +81,8 @@ namespace Colibri.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("TypeOfCategoryGroup")
+                    b.Property<string>("TypeOfAdvertisement")
                         .IsRequired();
-
-                    b.Property<bool>("isOffer");
 
                     b.HasKey("Id");
 
@@ -272,8 +268,6 @@ namespace Colibri.Migrations
                     b.Property<int>("NumberOfClicks");
 
                     b.Property<double>("Price");
-
-                    b.Property<bool>("isOffer");
 
                     b.HasKey("Id");
 
@@ -486,10 +480,6 @@ namespace Colibri.Migrations
                     b.HasOne("Colibri.Models.ApplicationUser", "AppPerson")
                         .WithMany()
                         .HasForeignKey("AppPersonId");
-
-                    b.HasOne("Colibri.Models.ApplicationUser", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
                 });
 
             modelBuilder.Entity("Colibri.Models.ArchiveEntry", b =>

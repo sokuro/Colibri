@@ -81,7 +81,7 @@ namespace Colibri.Areas.Customer.Controllers
                 .Include(m => m.CategoryGroups)
                 .Include(m => m.CategoryTypes)
                 .ToListAsync();
-            
+
             // UserServices (Dienstleistungen)
             AdvertisementViewModel.UserServices = await _colibriDbContext.UserServices.Where(s => s.ApplicationUserId.Equals(AdvertisementViewModel.CurrentUserId))
                 .Include(m => m.CategoryGroups)
@@ -98,9 +98,9 @@ namespace Colibri.Areas.Customer.Controllers
 
         // GET : Action for CreateProduct
         [Route("Customer/AdvertisementOffer/CreateProduct")]
-        public async Task <IActionResult> CreateProduct()
+        public async Task<IActionResult> CreateProduct()
         {
-            AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.ToListAsync();
+            AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.Where(m => m.TypeOfCategoryGroup == "Product").ToListAsync();
             return View(AdvertisementViewModel);
         }
 
@@ -143,9 +143,6 @@ namespace Colibri.Areas.Customer.Controllers
             _colibriDbContext.Products.Add(AdvertisementViewModel.Product);
             await _colibriDbContext.SaveChangesAsync();
 
-            // TO-DO: Save Changes to Corporate Memory ("Archive")
-
-
             // Save Image 
             // use the Hosting Environment
             string webRootPath = _hostingEnvironment.WebRootPath;
@@ -161,26 +158,26 @@ namespace Colibri.Areas.Customer.Controllers
             //if (files != null)
             if (files.Count() > 0)
             {
-                if(files[0].Length > 0)
+                if (files[0].Length > 0)
                 {
-                // the exact Location of the ImageFolderProduct
-                //var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderProduct);
-                var uploads = Path.Combine(webRootPath, "images");
+                    // the exact Location of the ImageFolderProduct
+                    //var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderProduct);
+                    var uploads = Path.Combine(webRootPath, "img/ProductImage");
 
-                // find the Extension of the File
-                //var extension = Path.GetExtension(files[0].FileName);
-                var extension = files[0].FileName.Substring(files[0].FileName.LastIndexOf("."), files[0].FileName.Length - files[0].FileName.LastIndexOf("."));
+                    // find the Extension of the File
+                    //var extension = Path.GetExtension(files[0].FileName);
+                    var extension = files[0].FileName.Substring(files[0].FileName.LastIndexOf("."), files[0].FileName.Length - files[0].FileName.LastIndexOf("."));
 
-                // use the FileStreamObject -> copy the File from the Uploaded to the Server
-                // create the File on the Server
-                using (var filestream = new FileStream(Path.Combine(uploads, AdvertisementViewModel.Product.Id + extension), FileMode.Create))
-                {
-                    files[0].CopyTo(filestream);
-                }
+                    // use the FileStreamObject -> copy the File from the Uploaded to the Server
+                    // create the File on the Server
+                    using (var filestream = new FileStream(Path.Combine(uploads, AdvertisementViewModel.Product.Id + extension), FileMode.Create))
+                    {
+                        files[0].CopyTo(filestream);
+                    }
 
-                // ProductsImage = exact Path of the Image on the Server + ImageName + Extension
-                //productsFromDb.Image = @"\" + StaticDetails.ImageFolderProduct + @"\" + AdvertisementViewModel.Product.Id + extension;
-                productsFromDb.Image = @"\images\" + AdvertisementViewModel.Product.Id + extension;
+                    // ProductsImage = exact Path of the Image on the Server + ImageName + Extension
+                    //productsFromDb.Image = @"\" + StaticDetails.ImageFolderProduct + @"\" + AdvertisementViewModel.Product.Id + extension;
+                    productsFromDb.Image = @"\img\ProductImage\" + AdvertisementViewModel.Product.Id + extension;
                 }
             }
             else
@@ -191,10 +188,10 @@ namespace Colibri.Areas.Customer.Controllers
 
                 // copy the Image from the Server and rename it as the ProductImage ID
                 //System.IO.File.Copy(uploads, webRootPath + @"\" + StaticDetails.ImageFolderProduct + @"\" + AdvertisementViewModel.Product.Id + ".jpg");
-                System.IO.File.Copy(uploads, webRootPath + @"\images\" + AdvertisementViewModel.Product.Id + ".jpg");
+                System.IO.File.Copy(uploads, webRootPath + @"\img\ProductImage\" + AdvertisementViewModel.Product.Id + ".jpg");
 
                 // update the ProductFromDb.Image with the actual FileName
-                productsFromDb.Image = @"\images\" + AdvertisementViewModel.Product.Id + ".jpg";
+                productsFromDb.Image = @"\img\ProductImage\" + AdvertisementViewModel.Product.Id + ".jpg";
             }
 
             await _colibriDbContext.SaveChangesAsync();
@@ -216,9 +213,10 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 Name = AdvertisementViewModel.Product.Name,
                 Description = AdvertisementViewModel.Product.Description,
-                TypeOfAdvertisement = "Offer",
-                CategoryTypes = await _colibriDbContext.CategoryTypes.FirstOrDefaultAsync(m => m.Id == AdvertisementViewModel.Product.CategoryTypeId),
-                CategoryGroups = await _colibriDbContext.CategoryGroups.FirstOrDefaultAsync(m => m.Id == AdvertisementViewModel.Product.CategoryGroupId),
+                isOffer = true,
+                CategoryTypeId = AdvertisementViewModel.Product.CategoryTypeId,
+                CategoryGroupId = AdvertisementViewModel.Product.CategoryGroupId,
+                TypeOfCategoryGroup = "Product",
                 CreatedOn = System.DateTime.Now
             };
 
@@ -226,17 +224,15 @@ namespace Colibri.Areas.Customer.Controllers
             _colibriDbContext.ArchiveEntry.Add(archiveEntry);
             await _colibriDbContext.SaveChangesAsync();
 
-
             // Zurück zu Index-View
             return RedirectToAction(nameof(Index));
         }
-
 
         // GET : Action for CreateUserService
         [Route("Customer/AdvertisementOffer/CreateUserService")]
         public async Task<IActionResult> CreateUserService()
         {
-            AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.ToListAsync();
+            AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.Where(m => m.TypeOfCategoryGroup == "Service").ToListAsync();
             return View(AdvertisementViewModel);
         }
 
@@ -244,7 +240,7 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/AdvertisementOffer/CreateUserService")]
         [HttpPost, ActionName("CreateUserService")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateUserServicePOST ()
+        public async Task<IActionResult> CreateUserServicePOST()
         {
             // Security Claims
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
@@ -272,12 +268,12 @@ namespace Colibri.Areas.Customer.Controllers
             // set "available" to TRUE
             AdvertisementViewModel.UserService.Available = true;
 
+            // set "isOffer" to TRUE
+            AdvertisementViewModel.UserService.isOffer = true;
+
             // If ModelState is valid, save changes to DB
             _colibriDbContext.UserServices.Add(AdvertisementViewModel.UserService);
             await _colibriDbContext.SaveChangesAsync();
-
-            // TO-DO: Save Changes to Corporate Memory ("Archive")
-
 
             // Save Image 
             // use the Hosting Environment
@@ -292,13 +288,13 @@ namespace Colibri.Areas.Customer.Controllers
 
             // Image File has been uploaded from the View
             //if (files != null)
-            if(files.Count()>0)
+            if (files.Count() > 0)
             {
                 if (files[0].Length > 0)
                 {
                     // the exact Location of the ImageFolderProduct
                     //var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderProduct);
-                    var uploads = Path.Combine(webRootPath, "images");
+                    var uploads = Path.Combine(webRootPath, "img/ServiceImage");
 
                     // find the Extension of the File
                     //var extension = Path.GetExtension(files[0].FileName);
@@ -313,21 +309,21 @@ namespace Colibri.Areas.Customer.Controllers
 
                     // ProductsImage = exact Path of the Image on the Server + ImageName + Extension
                     //productsFromDb.Image = @"\" + StaticDetails.ImageFolderProduct + @"\" + AdvertisementViewModel.UserService.Id + extension;
-                    servicesFromDb.Image = @"\images\" + AdvertisementViewModel.UserService.Id + extension;
+                    servicesFromDb.Image = @"\img\ServiceImage\" + AdvertisementViewModel.UserService.Id + extension;
                 }
             }
             else
             {
                 // a DUMMY Image if the User does not have uploaded any File (default Image)
                 //var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderProduct + @"\" + StaticDetails.DefaultProductImage);
-                var uploads = Path.Combine(webRootPath, @"img\ProductImage\" + StaticDetails.DefaultProductImage);
+                var uploads = Path.Combine(webRootPath, @"img\ServiceImage\" + StaticDetails.DefaultServiceImage);
 
                 // copy the Image from the Server and rename it as the ProductImage ID
                 //System.IO.File.Copy(uploads, webRootPath + @"\" + StaticDetails.ImageFolderProduct + @"\" + AdvertisementViewModel.Product.Id + ".jpg");
-                System.IO.File.Copy(uploads, webRootPath + @"\images\" + AdvertisementViewModel.UserService.Id + ".jpg");
+                System.IO.File.Copy(uploads, webRootPath + @"\img\ServiceImage\" + AdvertisementViewModel.UserService.Id + ".jpg");
 
                 // update the ProductFromDb.Image with the actual FileName
-                servicesFromDb.Image = @"\images\" + AdvertisementViewModel.UserService.Id + ".jpg";
+                servicesFromDb.Image = @"\img\ServiceImage\" + AdvertisementViewModel.UserService.Id + ".jpg";
             }
 
             await _colibriDbContext.SaveChangesAsync();
@@ -349,9 +345,10 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 Name = AdvertisementViewModel.UserService.Name,
                 Description = AdvertisementViewModel.UserService.Description,
-                TypeOfAdvertisement = "Offer",
-                CategoryTypes = await _colibriDbContext.CategoryTypes.FirstOrDefaultAsync(m => m.Id == AdvertisementViewModel.UserService.CategoryTypeId),
-                CategoryGroups = await _colibriDbContext.CategoryGroups.FirstOrDefaultAsync(m => m.Id == AdvertisementViewModel.UserService.CategoryGroupId),
+                isOffer = true,
+                CategoryTypeId = AdvertisementViewModel.UserService.CategoryTypeId,
+                CategoryGroupId = AdvertisementViewModel.UserService.CategoryGroupId,
+                TypeOfCategoryGroup = "Service",
                 CreatedOn = System.DateTime.Now
             };
 
@@ -365,15 +362,15 @@ namespace Colibri.Areas.Customer.Controllers
 
         // GET : Action for DeleteProduct
         [Route("Customer/AdvertisementOffer/DeleteProduct")]
-        public async Task<IActionResult> DeleteProduct (int? id)
+        public async Task<IActionResult> DeleteProduct(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var product = await _colibriDbContext.Products.Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).SingleOrDefaultAsync(m => m.Id == id);
-            if(product == null)
+            if (product == null)
             {
                 return NotFound();
             }
@@ -387,22 +384,42 @@ namespace Colibri.Areas.Customer.Controllers
         public async Task<IActionResult> DeleteProductPOST(int id)
         {
             var product = await _colibriDbContext.Products.SingleOrDefaultAsync(m => m.Id == id);
+
+            // Delete Image from DB
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            var uploads = Path.Combine(webRootPath, "img/ProductImage/");
+            var extension_Old = product.Image.Substring(product.Image.LastIndexOf("."), product.Image.Length - product.Image.LastIndexOf("."));
+
+
+            // delete Image
+            try
+            {
+                    System.IO.File.Delete(Path.Combine(uploads, AdvertisementViewModel.Product.Id + extension_Old));
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            // Remove product from DB
             _colibriDbContext.Remove(product);
+
+            // Save Changes
             await _colibriDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         // GET : Action for DeleteUserService
         [Route("Customer/AdvertisementOffer/DeleteUserService")]
-        public async Task<IActionResult> DeleteUserService (int? id)
+        public async Task<IActionResult> DeleteUserService(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var userService = await _colibriDbContext.UserServices.Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).SingleOrDefaultAsync(m => m.Id == id);
-            if(userService == null)
+            if (userService == null)
             {
                 return NotFound();
             }
@@ -416,7 +433,26 @@ namespace Colibri.Areas.Customer.Controllers
         public async Task<IActionResult> DeleteUserServicePOST(int id)
         {
             var userService = await _colibriDbContext.UserServices.SingleOrDefaultAsync(m => m.Id == id);
+
+            // Delete Image from DB
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            var uploads = Path.Combine(webRootPath, "img/ServiceImage/");
+            var extension_Old = userService.Image.Substring(userService.Image.LastIndexOf("."), userService.Image.Length - userService.Image.LastIndexOf("."));
+
+            // delete Image
+            try
+            {
+                System.IO.File.Delete(Path.Combine(uploads, AdvertisementViewModel.Product.Id + extension_Old));
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            // Remove userService from DB
             _colibriDbContext.Remove(userService);
+
+            // save changes
             await _colibriDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -446,17 +482,17 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/AdvertisementOffer/EditProduct")]
         [HttpPost, ActionName("EditProduct")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditProductPOST (int id)
+        public async Task<IActionResult> EditProductPOST(int id)
         {
             // Convert
             AdvertisementViewModel.Product.CategoryTypeId = Convert.ToInt32(Request.Form["CategoryTypeId"].ToString());
 
-            if(id != AdvertisementViewModel.Product.Id)
+            if (id != AdvertisementViewModel.Product.Id)
             {
                 return NotFound();
             }
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -478,11 +514,11 @@ namespace Colibri.Areas.Customer.Controllers
                     if (files[0].Length > 0 && files[0] != null)
                     {
                         //if user uploads a new image
-                        var uploads = Path.Combine(webRootPath, "images");
+                        var uploads = Path.Combine(webRootPath, "img/ProductImage");
                         var extension_New = files[0].FileName.Substring(files[0].FileName.LastIndexOf("."), files[0].FileName.Length - files[0].FileName.LastIndexOf("."));
                         var extension_Old = productFromDb.Image.Substring(productFromDb.Image.LastIndexOf("."), productFromDb.Image.Length - productFromDb.Image.LastIndexOf("."));
 
-                        if(System.IO.File.Exists(Path.Combine(uploads, AdvertisementViewModel.Product.Id + extension_Old)))
+                        if (System.IO.File.Exists(Path.Combine(uploads, AdvertisementViewModel.Product.Id + extension_Old)))
                         {
                             System.IO.File.Delete(Path.Combine(uploads, AdvertisementViewModel.Product.Id + extension_Old));
                         }
@@ -491,17 +527,17 @@ namespace Colibri.Areas.Customer.Controllers
                         {
                             files[0].CopyTo(filestream);
                         }
-                        AdvertisementViewModel.Product.Image = @"\images\" + AdvertisementViewModel.Product.Id + extension_New;
+                        AdvertisementViewModel.Product.Image = @"\img\ProductImage\" + AdvertisementViewModel.Product.Id + extension_New;
                     }
 
-                    if(AdvertisementViewModel.Product.Image != null)
+                    if (AdvertisementViewModel.Product.Image != null)
                     {
                         productFromDb.Image = AdvertisementViewModel.Product.Image;
                     }
 
 
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                 }
@@ -609,7 +645,7 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/AdvertisementOffer/DetailsProduct")]
         public async Task<IActionResult> DetailsProduct(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -618,7 +654,7 @@ namespace Colibri.Areas.Customer.Controllers
                 .Include(m => m.CategoryGroups)
                 .Include(m => m.CategoryTypes)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if(product == null)
+            if (product == null)
             {
                 return NotFound();
             }
@@ -635,7 +671,10 @@ namespace Colibri.Areas.Customer.Controllers
                 return NotFound();
             }
 
-            var userService = await _colibriDbContext.UserServices.FirstOrDefaultAsync(m => m.Id == id);
+            var userService = await _colibriDbContext.UserServices
+                .Include(m => m.CategoryGroups)
+                .Include(m => m.CategoryTypes)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (userService == null)
             {
                 return NotFound();
