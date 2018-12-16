@@ -28,6 +28,11 @@ namespace Colibri.Models
         public DateTime AppointmentTime { get; set; }
 
         // Customer Section
+        [Display(Name = "Appointment Customer")]
+        public string CustomerId { get; set; }
+        [ForeignKey("CustomerId")]
+        public virtual ApplicationUser Customer { get; set; }
+
         public string CustomerName { get; set; }
         public string CustomerPhoneNumber { get; set; }
         public string CustomerEmail { get; set; }
