@@ -15,18 +15,18 @@ using Microsoft.EntityFrameworkCore;
 namespace Colibri.Areas.Admin.Controllers
 {
     /*
-     * Controller to handle the User Appointments
+     * Controller to handle all User Appointments
      * 
-     * Authorize both the Admin and SuperAdmin
+     * Authorize only the SuperAdmin
      */
-    [Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
+    [Authorize(Roles = StaticDetails.SuperAdminEndUser)]
     [Area("Admin")]
     public class AppointmentsController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
 
         // PageSize (for the Pagination: 5 Appointments/Page)
-        private int PageSize = 4;
+        private int PageSize = 10;
 
         public AppointmentsController(ColibriDbContext colibriDbContext)
         {
@@ -89,15 +89,6 @@ namespace Colibri.Areas.Admin.Controllers
             appointmentViewModel.Appointments = _colibriDbContext.Appointments
                                                     .Include(a => a.AppPerson).ToList();
 
-            // check if the User is Admin or SuperAdmin
-            if (User.IsInRole(StaticDetails.AdminEndUser))
-            {
-                // AdminEndUser sees only Appoints addressed to them!!!
-                appointmentViewModel.Appointments = appointmentViewModel.Appointments
-                                                        .Where(a => a.AppPersonId == claim.Value)
-                                                        .ToList();
-            }
-
             // Search Conditions
             if (searchName != null)
             {
@@ -136,7 +127,6 @@ namespace Colibri.Areas.Admin.Controllers
                                                     .Take(PageSize).ToList();
 
             // populate the PagingInfo Model
-            // StringBuilder
             appointmentViewModel.PagingInfo = new PagingInfo
             {
                 CurrentPage = productPage,
