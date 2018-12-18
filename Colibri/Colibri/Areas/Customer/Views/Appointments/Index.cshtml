@@ -1,17 +1,19 @@
 ﻿@model Colibri.ViewModels.AppointmentViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
 <!-- individual CSS -->
 @section appointments {
     <link href="~/css/appointments.css" rel="stylesheet" />
 }
+@inject IViewLocalizer Localizer
 
 <form method="get">
-    <h2 class="text-info">Appointment List</h2>
+    <h2 class="text-info">@ViewData["AppointmentsList"]</h2>
     <!-- Search Criteria -->
     <div class="container">
         <div class="col-12">
             <div class="row">
                 <div class="col-2">
-                    Customer Name
+                    @ViewData["CustomerName"]
                 </div>
                 <div class="col-3">
                     @Html.Editor("searchName", new { htmlAttributes = new { @class = "form-control" } })
@@ -20,7 +22,7 @@
 
                 </div>
                 <div class="col-2">
-                    Email
+                    @ViewData["CustomerEmail"]
                 </div>
                 <div class="col-3">
                     @Html.Editor("searchEmail", new { htmlAttributes = new { @class = "form-control" } })
@@ -29,7 +31,7 @@
             </div>
             <div class="row">
                 <div class="col-2">
-                    Phone Number
+                    @ViewData["CustomerPhoneNumber"]
                 </div>
                 <div class="col-3">
                     @Html.Editor("searchPhone", new { htmlAttributes = new { @class = "form-control" } })
@@ -38,7 +40,7 @@
 
                 </div>
                 <div class="col-2">
-                    Appointment Date
+                    @ViewData["AppointmentDate"]
                 </div>
                 <div class="col-3">
                     @Html.Editor("searchDate", new { htmlAttributes = new { @class = "form-control", @id = "datepicker" } })
@@ -57,7 +59,7 @@
                 </div>
                 <div class="col-3">
                     <button type="submit" name="submit" value="Search" class="btn btn-primary form-control">
-                        <i class="fas fa-search"></i> Search
+                        <i class="fas fa-search"></i> @ViewData["Search"]
                     </button>
                 </div>
             </div>
@@ -71,22 +73,22 @@
             <!-- the Titles Row -->
             <tr class="table-info">
                 <th>
-                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().AppPerson.UserName)
+                    @ViewData["UserName"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().AppointmentDate)
+                    @ViewData["AppointmentDate"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerName)
+                    @ViewData["CustomerName"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerPhoneNumber)
+                    @ViewData["CustomerPhoneNumber"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().CustomerEmail)
+                    @ViewData["CustomerEmail"]
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.Appointments.FirstOrDefault().isConfirmed)
+                    @ViewData["IsConfirmed"]
                 </th>
                 <th></th>
                 <th></th>

@@ -1,8 +1,93 @@
-﻿
-@{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿@model Colibri.ViewModels.AppointmentDetailsViewModel
+@using Colibri.Extensions
+@using Colibri.Utility
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
-<h2>Details</h2>
+<h2 class="text-info">@ViewData["AppointmentDate"]</h2>
 
+
+<div class="p-4 border rounded row">
+
+    <!-- Product Properties -->
+    <div class="col-6">
+        <div class="form-group row">
+            <div class="col-4">
+                @ViewData["CustomerName"]
+            </div>
+            <div class="col-8">
+                <input asp-for="Appointment.Customer.UserName" disabled class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                @ViewData["CustomerEmail"]
+            </div>
+            <div class="col-8">
+                <input asp-for="Appointment.CustomerEmail" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                @ViewData["AppointmentDate"]
+            </div>
+            <div class="col-8">
+                <input asp-for="Appointment.AppointmentDate" type="text" disabled class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                @ViewData["AppointmentTime"]
+            </div>
+            <div class="col-8">
+                <input asp-for="Appointment.AppointmentTime" type="text" disabled class="timepicker form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                @ViewData["CustomerPhoneNumber"]
+            </div>
+            <div class="col-8">
+                <input asp-for="Appointment.CustomerPhoneNumber" disabled class="form-control" />
+            </div>
+        </div>
+
+        <!-- AppPerson -->
+        <div class="form-group row">
+            <div class="col-4">
+                @ViewData["AppPerson"]
+            </div>
+            <div class="col-8">
+                @if (User.IsInRole(StaticDetails.AdminEndUser))
+                {
+                    <input asp-for="Appointment.AppPerson.Id" readonly class="form-control" />
+                    <input asp-for="Appointment.AppPersonId" hidden />
+                }
+                else
+                {
+                    <select asp-for="Appointment.AppPersonId" asp-items="Model.AppPerson.ToSelectListItemString(Model.Appointment.AppPersonId)" class="form-control"></select>
+                }
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                @ViewData["IsConfirmed"]
+            </div>
+            <div class="col-8">
+                <input asp-for="Appointment.isConfirmed" disabled class="form-control" />
+            </div>
+        </div>
+        <!-- END: Product Properties -->
+    </div>
+
+    <!-- Product Details -->
+    <div class="col-6">
+        @* Partial View *@
+        <partial name="~/Views/Shared/_AppointmentProductDetails.cshtml" model="Model.Products" />
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-group">
+        <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
+    </div>
+</div>
