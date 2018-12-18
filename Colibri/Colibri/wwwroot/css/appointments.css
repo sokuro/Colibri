@@ -25,14 +25,19 @@
 
 .appointment-product-details > #imageContent > a > img {
     width: 100%;
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 100% !important;
+    max-height: 100% !important;
     margin: auto;
     display: block;
     border-radius: 5px;
     border: 1px solid #bbb9b9;
 }
 
-.appointment-product-details > .tableContentColumn {
+#imageContent > a > img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+    .appointment-product-details > .tableContentColumn {
     text-align: center;
 }
