@@ -20,9 +20,9 @@
                     @ViewData["CustomerName"]
                 </div>
                 <div class="col-8">
-                    <input asp-for="Appointment.CustomerName" class="form-control" />
+                    <input asp-for="Appointment.Customer.UserName" class="form-control" />
                 </div>
-                <span asp-validation-for="Appointment.CustomerName" class="text-danger"></span>
+                <span asp-validation-for="Appointment.Customer.UserName" class="text-danger"></span>
             </div>
             <div class="form-group row">
                 <div class="col-4">
