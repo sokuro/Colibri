@@ -11,6 +11,8 @@ using Colibri.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 
 namespace Colibri.Areas.Admin.Controllers
 {
@@ -24,13 +26,19 @@ namespace Colibri.Areas.Admin.Controllers
     public class AppointmentsController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
+        private readonly IStringLocalizer<AppointmentsController> _localizer;
+        private readonly ILogger<AppointmentsController> _logger;
 
         // PageSize (for the Pagination: 5 Appointments/Page)
         private int PageSize = 10;
 
-        public AppointmentsController(ColibriDbContext colibriDbContext)
+        public AppointmentsController(ColibriDbContext colibriDbContext,
+            IStringLocalizer<AppointmentsController> localizer,
+            ILogger<AppointmentsController> logger)
         {
             _colibriDbContext = colibriDbContext;
+            _localizer = localizer;
+            _logger = logger;
         }
 
         // extend the Method with the Parameters for Search:
@@ -135,6 +143,17 @@ namespace Colibri.Areas.Admin.Controllers
                 urlParam = param.ToString()
             };
 
+            // i18n
+            ViewData["AppointmentsList"] = _localizer["AppointmentsListText"];
+            ViewData["CustomerName"] = _localizer["CustomerNameText"];
+            ViewData["CustomerEmail"] = _localizer["CustomerEmailText"];
+            ViewData["CustomerPhoneNumber"] = _localizer["CustomerPhoneNumberText"];
+            ViewData["AppointmentDate"] = _localizer["AppointmentDateText"];
+            ViewData["AppointmentTime"] = _localizer["AppointmentTimeText"];
+            ViewData["IsConfirmed"] = _localizer["IsConfirmedText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["Search"] = _localizer["SearchText"];
+
             // return the View Model for the Appointments
             return View(appointmentViewModel);
         }
@@ -166,6 +185,18 @@ namespace Colibri.Areas.Admin.Controllers
                 // get the List of all Products
                 Products = productList.ToList()
             };
+
+            // i18n
+            ViewData["EditAppointments"] = _localizer["EditAppointmentsText"];
+            ViewData["CustomerName"] = _localizer["CustomerNameText"];
+            ViewData["CustomerEmail"] = _localizer["CustomerEmailText"];
+            ViewData["CustomerPhoneNumber"] = _localizer["CustomerPhoneNumberText"];
+            ViewData["AppointmentDate"] = _localizer["AppointmentDateText"];
+            ViewData["AppointmentTime"] = _localizer["AppointmentTimeText"];
+            ViewData["IsConfirmed"] = _localizer["IsConfirmedText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
 
             // return the ViewModel
             return View(objAppointmentVM);
@@ -245,6 +276,19 @@ namespace Colibri.Areas.Admin.Controllers
                 Products = productList.ToList()
             };
 
+            // i18n
+            ViewData["AppointmentsDetails"] = _localizer["AppointmentsDetailsText"];
+            ViewData["CustomerName"] = _localizer["CustomerNameText"];
+            ViewData["CustomerEmail"] = _localizer["CustomerEmailText"];
+            ViewData["CustomerPhoneNumber"] = _localizer["CustomerPhoneNumberText"];
+            ViewData["AppointmentDate"] = _localizer["AppointmentDateText"];
+            ViewData["AppointmentTime"] = _localizer["AppointmentTimeText"];
+            ViewData["IsConfirmed"] = _localizer["IsConfirmedText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["Search"] = _localizer["SearchText"];
+            ViewData["AppPerson"] = _localizer["AppPersonText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+
             // return the ViewModel
             return View(appointmentViewModel);
         }
@@ -280,6 +324,19 @@ namespace Colibri.Areas.Admin.Controllers
                 Products = productList.ToList()
             };
 
+            // i18n
+            ViewData["Delete"] = _localizer["DeleteText"];
+            ViewData["DeleteAppointment"] = _localizer["DeleteAppointmentText"];
+            ViewData["CustomerName"] = _localizer["CustomerNameText"];
+            ViewData["CustomerEmail"] = _localizer["CustomerEmailText"];
+            ViewData["CustomerPhoneNumber"] = _localizer["CustomerPhoneNumberText"];
+            ViewData["AppointmentDate"] = _localizer["AppointmentDateText"];
+            ViewData["AppointmentTime"] = _localizer["AppointmentTimeText"];
+            ViewData["IsConfirmed"] = _localizer["IsConfirmedText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+
             // return the ViewModel
             return View(appointmentViewModel);
         }
@@ -292,6 +349,8 @@ namespace Colibri.Areas.Admin.Controllers
         {
             // get an Appointment from the DB
             var appointment = await _colibriDbContext.Appointments.FindAsync(id);
+
+            _logger.LogInformation("An Appointment has been deleted");
 
             _colibriDbContext.Appointments.Remove(appointment);
 

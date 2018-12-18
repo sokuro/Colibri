@@ -1,13 +1,10 @@
 ﻿@model Colibri.ViewModels.AppointmentDetailsViewModel
 @using Colibri.Extensions
 @using Colibri.Utility
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 
-@{
-    ViewData["Title"] = "Edit";
-}
-
-
-<h2 class="text-info">Delete Appointment</h2>
+<h2 class="text-info">@ViewData["DeleteAppointment"]</h2>
 <form method="post">
     <div class="p-4 border rounded row">
         <input hidden asp-for="Appointment.Id" />
@@ -15,7 +12,7 @@
         <div class="col-6">
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Appointment.CustomerName"></label>
+                    @ViewData["CustomerName"]
                 </div>
                 <div class="col-8">
                     <input asp-for="Appointment.CustomerName" readonly class="form-control" />
@@ -23,7 +20,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Appointment.CustomerEmail"></label>
+                    @ViewData["CustomerEmail"]
                 </div>
                 <div class="col-8">
                     <input asp-for="Appointment.CustomerEmail" readonly class="form-control" />
@@ -31,7 +28,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Appointment.AppointmentDate"></label>
+                    @ViewData["AppointmentDate"]
                 </div>
                 <div class="col-8">
                     <input asp-for="Appointment.AppointmentDate" readonly id="datepicker" type="text" class="form-control" />
@@ -39,7 +36,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Appointment.AppointmentTime"></label>
+                    @ViewData["AppointmentTime"]
                 </div>
                 <div class="col-8">
                     <input asp-for="Appointment.AppointmentTime" id="timepicker" readonly type="text" class="timepicker form-control" />
@@ -47,7 +44,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Appointment.CustomerPhoneNumber"></label>
+                    @ViewData["CustomerPhoneNumber"]
                 </div>
                 <div class="col-8">
                     <input asp-for="Appointment.CustomerPhoneNumber" readonly class="form-control" />
@@ -55,7 +52,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Appointment.AppPerson"></label>
+                    @ViewData["AppPerson"]
                 </div>
                 <div class="col-8">
                     @if (User.IsInRole(StaticDetails.AdminEndUser))
@@ -71,7 +68,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Appointment.isConfirmed"></label>
+                    @ViewData["IsConfirmed"]
                 </div>
                 <div class="col-8">
                     <input asp-for="Appointment.isConfirmed" readonly class="form-control" />
@@ -85,8 +82,8 @@
 
         <br />
         <div class="form-group">
-            <input type="submit" class="btn btn-danger" asp-route-id="@Model.Appointment.Id" value="Delete" />
-            <a asp-action="Index" class="btn btn-success">Back to List</a>
+            <input type="submit" class="btn btn-danger" asp-route-id="@Model.Appointment.Id" value="@ViewData["Delete"]" />
+            <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
         </div>
     </div>
 </form>
