@@ -1,0 +1,56 @@
+﻿@model Colibri.ViewModels.SubscriberViewModel
+
+<!-- individual CSS -->
+@section appointments {
+    <link href="~/css/appointments.css" rel="stylesheet" />
+}
+
+@if (Model != null)
+{
+    <div class="appointment-product-details">
+        <table class="table table-striped">
+            <tr class="table-info">
+                <th>
+                    <label asp-for="@Model.CurrentUserId"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Notifications.Message"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Notifications.NotificationType"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Notifications.CategoryTypeId"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.Notifications.CategoryTypes"></label>
+                </th>
+            </tr>
+
+            @foreach (var item in Model.NotificationsEnumerable)
+            {
+                <tr class="table-content">
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(n => item.Id)
+                    </td>
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(n => item.Message)
+                    </td>
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(n => item.NotificationType)
+                    </td>
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(n => item.CategoryTypeId)
+                    </td>
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(n => item.CategoryTypes)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+else
+{
+    <div>No Items added!</div>
+}

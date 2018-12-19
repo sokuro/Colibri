@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Extensions;
@@ -29,7 +30,9 @@ namespace Colibri.Controllers
                 //MyMessage = new List<string>()
                 //Notifications = new List<Notifications>()
 
-                Notifications = new Notifications()
+                Notifications = new Notifications(),
+                ApplicationUserCategoryTypesSubscriber = new ApplicationUserCategoryTypesSubscriber(),
+                NotificationsEnumerable = new List<Notifications>()
             };
         }
 
@@ -133,10 +136,19 @@ namespace Colibri.Controllers
         }
 
         // filter with id
-        public async Task<IActionResult> ShowMyNotifications(int? id)
+        public async Task<IActionResult> ShowMyNotifications()
         {
-            SubscriberViewModel.Notifications = await _colibriDbContext.Notifications
-                .SingleOrDefaultAsync(n => n.Id == id);
+            // Security Claims
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+            // Claims Identity
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            SubscriberViewModel.CurrentUserId = claim.Value;
+
+            SubscriberViewModel.NotificationsEnumerable = (IEnumerable<Notifications>)(from n in _colibriDbContext.Notifications
+                join s in _colibriDbContext.ApplicationUserCategoryTypesSubscribers
+                    on n.CategoryTypeId equals s.CategoryTypeId
+                select n);
 
             if (SubscriberViewModel.Notifications == null)
             {

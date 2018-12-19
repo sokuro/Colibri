@@ -11,13 +11,15 @@ namespace Colibri.ViewModels
     {
         public Notifications Notifications { get; set; }
 
-        //public List<string> MyMessage { get; set; }
+        public IEnumerable<Notifications> NotificationsEnumerable { get; set; }
 
-        //public IEnumerable<Notifications> NotificationsEnumerable { get; set; }
+        //public List<string> MyMessage { get; set; }
 
         //public List<Notifications> NotificationList { get; set; }
 
         public ApplicationUserCategoryTypesSubscriber ApplicationUserCategoryTypesSubscriber { get; set; }
+
+        public string CurrentUserId { get; set; }
 
         // Custom Pagination
         public PagingInfo PagingInfo { get; set; }
