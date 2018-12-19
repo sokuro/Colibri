@@ -45,16 +45,34 @@ namespace Colibri
             // -> Token
             services.AddAuthentication()
                 .AddCookie();
-                //.AddJwtBearer(cfg =>
-                //{
-                //    // validation Parameters needed
-                //    cfg.TokenValidationParameters = new TokenValidationParameters()
-                //    {
-                //        ValidIssuer = _configuration["Tokens:Issuer"],
-                //        ValidAudience = _configuration["Tokens:Audience"],
-                //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]))
-                //    };
-                //});
+            //.AddJwtBearer(cfg =>
+            //{
+            //    // validation Parameters needed
+            //    cfg.TokenValidationParameters = new TokenValidationParameters()
+            //    {
+            //        ValidIssuer = _configuration["Tokens:Issuer"],
+            //        ValidAudience = _configuration["Tokens:Audience"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]))
+            //    };
+            //});
+
+            // Add Authentication
+            // -> Facebook
+            services.AddAuthentication()
+                .AddFacebook(facebookOptions =>
+                {
+                    facebookOptions.AppId = "2160036487581365";
+                    facebookOptions.AppSecret = "32b1d1a4a8119468a680654eb6b6db45";
+                });
+
+            // Add Authentication
+            // -> Google+
+            services.AddAuthentication()
+                .AddGoogle(googleOptions =>
+                {
+                    googleOptions.ClientId = "361598547615-m4hpnviha4v4j1jm33t6gar197lss7jq.apps.googleusercontent.com";
+                    googleOptions.ClientSecret = "q_6PYvO3wjkLa44fEzufpqhd";
+                });
 
             // Adding ICategoryData Service
             services.AddScoped<ICategoryTypesData, SqlCategoryTypesData>();
