@@ -151,7 +151,8 @@ namespace Colibri.Controllers
             SubscriberViewModel.NotificationsEnumerable = (IEnumerable<Notifications>)(from n in _colibriDbContext.Notifications
                 join s in _colibriDbContext.ApplicationUserCategoryTypesSubscribers
                     on n.CategoryTypeId equals s.CategoryTypeId
-                select n);
+                select n)
+                .Distinct();
 
             if (SubscriberViewModel.Notifications == null)
             {
