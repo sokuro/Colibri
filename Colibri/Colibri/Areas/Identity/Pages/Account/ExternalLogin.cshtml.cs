@@ -129,6 +129,7 @@ namespace Colibri.Areas.Identity.Pages.Account
                 var user = new ApplicationUser()
                 {
                     UserName = Input.Email,
+                    //UserName = Input.UserName,
                     Email = Input.Email,
                     FirstName = name[0].ToString(),
                     LastName = name[1].ToString(),

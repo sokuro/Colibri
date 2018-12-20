@@ -1,15 +1,26 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using Colibri.Areas.Identity.Pages.Account.Manage
+@using Colibri.Extensions
+@using Microsoft.AspNetCore.Identity
 @using Colibri.Models
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @using Colibri.Utility
+@using Microsoft.AspNetCore.Rewrite.Internal
+@using Microsoft.IdentityModel.Tokens.Saml
 
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-route-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li id="loggedUser">
-                <a asp-route-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@await Component.InvokeAsync("UserName")</a>
+                @if (User.Identity.Name.Contains("@"))
+                {
+                    <a asp-route-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                }
+                else
+                {
+                    <a asp-route-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@await Component.InvokeAsync("UserName")</a>
+                }
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
