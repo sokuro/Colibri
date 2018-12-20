@@ -63,6 +63,9 @@ namespace Colibri
                 {
                     facebookOptions.AppId = "2160036487581365";
                     facebookOptions.AppSecret = "32b1d1a4a8119468a680654eb6b6db45";
+                    // Azure
+                    //facebookOptions.AppId = "593636237757896";
+                    //facebookOptions.AppSecret = "2b1f39841810aa12a8ac583ccadc1b10";
                 });
 
             // Add Authentication
@@ -72,6 +75,9 @@ namespace Colibri
                 {
                     googleOptions.ClientId = "361598547615-m4hpnviha4v4j1jm33t6gar197lss7jq.apps.googleusercontent.com";
                     googleOptions.ClientSecret = "q_6PYvO3wjkLa44fEzufpqhd";
+                    // Azure
+                    //googleOptions.ClientId = "831326771786-mhe9g88ou0vlenrsgfvphvh8q7envc2g.apps.googleusercontent.com";
+                    //googleOptions.ClientSecret = "221EXPkc9ODmojPvJyQhA1oi";
                 });
 
             // Adding ICategoryData Service
