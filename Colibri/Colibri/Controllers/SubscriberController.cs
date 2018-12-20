@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Extensions;
 using Colibri.Models;
+using Colibri.Utility;
 using Colibri.ViewModels;
 using EasyNetQ;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Colibri.Controllers
 {
+    [Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
     public class SubscriberController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
