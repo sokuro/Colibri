@@ -36,7 +36,7 @@
                 <label asp-for="Email">@ViewData["Email"]</label>
             </div>
             <div class="col-5">
-                <input asp-for="Email" readonly class="form-control" />
+                <input asp-for="Email" class="form-control" />
             </div>
         </div>
         <div class="form-group row">
@@ -47,6 +47,46 @@
                 <input asp-for="PhoneNumber" class="form-control" />
             </div>
             <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Street">@ViewData["Street"]</label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Street" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="CareOf">@ViewData["CareOf"]</label>
+            </div>
+            <div class="col-5">
+                <input asp-for="CareOf" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="City">@ViewData["City"]</label>
+            </div>
+            <div class="col-5">
+                <input asp-for="City" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Zip">@ViewData["Zip"]</label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Zip" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Country">@ViewData["Country"]</label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Country" class="form-control" />
+            </div>
         </div>
         <div class="form-group">
             <input type="submit" class="btn btn-primary" asp-route-id="@Model.Id" value=@ViewData["Update"] />
