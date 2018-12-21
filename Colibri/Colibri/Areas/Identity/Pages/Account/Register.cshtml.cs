@@ -104,6 +104,11 @@ namespace Colibri.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     PhoneNumber = Input.PhoneNumber,
+                    Street = Input.Street,
+                    CareOf = Input.CareOf,
+                    Zip = Input.Zip,
+                    City = Input.City,
+                    Country = Input.Country,
                     IsSuperAdmin = false};
 
                 // create a new User inside the DB
