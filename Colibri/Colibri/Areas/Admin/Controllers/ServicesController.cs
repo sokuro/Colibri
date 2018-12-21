@@ -17,23 +17,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
-namespace Colibri.Areas.Customer.Controllers
+namespace Colibri.Areas.Admin.Controllers
 {
     /*
      * Controller for the User Services View
      *
-     * authorize only the AdminEndUser (registered User)
+     * authorize only the SuperAdmin
      */
-    //[Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
-    [Area("Customer")]
-    public class UserServicesController : Controller
+    [Authorize(Roles = StaticDetails.SuperAdminEndUser)]
+    [Area("Admin")]
+    public class ServicesController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
         private readonly HostingEnvironment _hostingEnvironment;
-        private readonly IStringLocalizer<UserServicesController> _localizer;
+        private readonly IStringLocalizer<ServicesController> _localizer;
 
-        // PageSize (for the Pagination: 5 Appointments/Page)
-        private int PageSize = 4;
+        private int PageSize = 5;
 
         // bind to the UserServices ViewModel
         // not necessary to create new Objects
@@ -46,9 +45,9 @@ namespace Colibri.Areas.Customer.Controllers
         [BindProperty]
         public UserServicesAddToEntityViewModel UserServicesAddToEntityViewModel { get; set; }
 
-        public UserServicesController(ColibriDbContext colibriDbContext, 
+        public ServicesController(ColibriDbContext colibriDbContext, 
             HostingEnvironment hostingEnvironment,
-            IStringLocalizer<UserServicesController> localizer)
+            IStringLocalizer<ServicesController> localizer)
         {
             _colibriDbContext = colibriDbContext;
             _hostingEnvironment = hostingEnvironment;
@@ -73,7 +72,7 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // Index
-        [Route("Customer/UserServices/Index")]
+        [Route("Admin/UserServices/Index")]
         public async Task<IActionResult> Index(
             int productPage = 1,
             string searchUserName = null,
@@ -82,7 +81,7 @@ namespace Colibri.Areas.Customer.Controllers
             // Filter the Search Criteria
             StringBuilder param = new StringBuilder();
 
-            param.Append("/Customer/UserService/Index?servicePage=:");
+            param.Append("/Admin/UserService/Index?servicePage=:");
             param.Append("&searchName=");
             if (searchUserName != null)
             {
@@ -153,7 +152,7 @@ namespace Colibri.Areas.Customer.Controllers
 
         // GET: create a new Service
         // pass the ViewModel for the DropDown Functionality of the Category Types
-        [Route("Customer/UserServices/Create")]
+        [Route("Admin/UserServices/Create")]
         public IActionResult Create()
         {
             // i18n
@@ -177,7 +176,7 @@ namespace Colibri.Areas.Customer.Controllers
 
         // POST: create a new Service
         // ViewModel bound automatically
-        [Route("Customer/UserServices/Create")]
+        [Route("Admin/UserServices/Create")]
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> createPost()
@@ -239,9 +238,6 @@ namespace Colibri.Areas.Customer.Controllers
                     // update the ProductFromDb.Image with the actual FileName
                     userServicesFromDb.Image = @"\" + StaticDetails.ImageFolderService + @"\" + UserServicesAddToEntityViewModel.UserServices.Id + ".jpg";
                 }
-                // add Special Tags (Id #1 = Offer)
-                // TODO: create a Switch to Offer/Order
-                //userServicesFromDb.SpecialTagId = 1;
 
                 // add the current User as the Creator of the Advertisement
                 userServicesFromDb.ApplicationUserId = claim.Value;
@@ -278,7 +274,7 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // GET: Details
-        [Route("Customer/UserServices/Details/{id}")]
+        [Route("Admin/UserServices/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -290,7 +286,6 @@ namespace Colibri.Areas.Customer.Controllers
             var userService = await _colibriDbContext.UserServices
                     .Include(p => p.CategoryGroups)
                     .Include(p => p.CategoryTypes)
-                    //.Include(p => p.SpecialTags)
                     .Where(p => p.Id == id)
                     .FirstOrDefaultAsync();
 
@@ -317,7 +312,6 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Price"] = _localizer["PriceText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
-            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
             ViewData["Description"] = _localizer["DescriptionText"];
             ViewData["NumberOfClicks"] = _localizer["NumberOfClicksText"];
             ViewData["UserName"] = _localizer["UserNameText"];
@@ -330,7 +324,7 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // Details POST
-        [Route("Customer/UserServices/Details/{id}")]
+        [Route("Admin/UserServices/Details/{id}")]
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DetailsPost(int id)
@@ -352,7 +346,43 @@ namespace Colibri.Areas.Customer.Controllers
             HttpContext.Session.Set("ssScheduling", lstCartItems);
 
             // redirect to Action
-            return RedirectToAction("Index", "UserServices", new { area = "Customer" });
+            return RedirectToAction("Index", "Services", new { area = "Admin" });
+        }
+
+        // Get: /<controller>/Delete
+        [Route("Admin/UserServices/Delete/{id}")]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            // incl. ProductTypes and SpecialTags too
+            UserServicesAddToEntityViewModel.UserServices = await _colibriDbContext.UserServices
+                .Include(m => m.CategoryGroups)
+                .Include(m => m.CategoryTypes)
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (UserServicesAddToEntityViewModel.UserServices == null)
+            {
+                return NotFound();
+            }
+
+            // i18n
+            ViewData["DeleteUserService"] = _localizer["DeleteUserServiceText"];
+            ViewData["Delete"] = _localizer["DeleteText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
+            // send the ProductsViewModel into the View
+            return View(UserServicesAddToEntityViewModel);
         }
     }
 }

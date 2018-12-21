@@ -47,7 +47,6 @@ namespace Colibri.Areas.Admin.Controllers
             {
                 CategoryGroups = _colibriDbContext.CategoryGroups.ToList(),
                 CategoryTypes = _colibriDbContext.CategoryTypes.ToList(),
-                SpecialTags = _colibriDbContext.SpecialTags.ToList(),
                 Products = new Models.Products()
             };
         }
@@ -71,7 +70,6 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Available"] = _localizer["AvailableText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
-            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
             ViewData["Description"] = _localizer["DescriptionText"];
 
             return View(productList);
@@ -91,7 +89,6 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Image"] = _localizer["ImageText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
-            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
             ViewData["Available"] = _localizer["AvailableText"];
             ViewData["Description"] = _localizer["DescriptionText"];
 
@@ -226,7 +223,6 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Image"] = _localizer["ImageText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
-            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
             ViewData["Available"] = _localizer["AvailableText"];
             ViewData["Description"] = _localizer["DescriptionText"];
 
@@ -294,8 +290,6 @@ namespace Colibri.Areas.Admin.Controllers
                 productFromDb.Available = ProductsViewModel.Products.Available;
                 // CategoryTypeId
                 productFromDb.CategoryTypeId = ProductsViewModel.Products.CategoryTypeId;
-                // SpecialTagId
-                //productFromDb.SpecialTagId = ProductsViewModel.Products.SpecialTagId;
                 // Description
                 productFromDb.Description = ProductsViewModel.Products.Description;
 
@@ -343,7 +337,6 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Price"] = _localizer["PriceText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
-            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
             ViewData["Available"] = _localizer["AvailableText"];
             ViewData["Description"] = _localizer["DescriptionText"];
 
@@ -365,7 +358,6 @@ namespace Colibri.Areas.Admin.Controllers
             ProductsViewModel.Products = await _colibriDbContext.Products
                                                 .Include(m => m.CategoryGroups)
                                                 .Include(m => m.CategoryTypes)
-                                                //.Include(m => m.SpecialTags)
                                                 .SingleOrDefaultAsync(m => m.Id == id);
 
             if (ProductsViewModel.Products == null)
@@ -381,7 +373,6 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Price"] = _localizer["PriceText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
-            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
             ViewData["Available"] = _localizer["AvailableText"];
             ViewData["Description"] = _localizer["DescriptionText"];
 

@@ -117,64 +117,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AdminUserText" xml:space="preserve">
-    <value>Administrators</value>
+  <data name="AvailableText" xml:space="preserve">
+    <value>Verfügbar</value>
   </data>
   <data name="BackToListText" xml:space="preserve">
-    <value>Back</value>
+    <value>Zurück</value>
   </data>
-  <data name="CareOfText" xml:space="preserve">
-    <value>Care Of</value>
+  <data name="CategoryGroupText" xml:space="preserve">
+    <value>Rubrik-Gruppe</value>
   </data>
-  <data name="CityText" xml:space="preserve">
-    <value>City</value>
+  <data name="CategoryTypeText" xml:space="preserve">
+    <value>Rubrik</value>
   </data>
-  <data name="CountryText" xml:space="preserve">
-    <value>Country</value>
+  <data name="ContactOwnerText" xml:space="preserve">
+    <value>Kontaktiere Inhaber</value>
   </data>
   <data name="CreateText" xml:space="preserve">
-    <value>Create</value>
+    <value>Erstelle</value>
   </data>
-  <data name="DeleteAdminUserText" xml:space="preserve">
-    <value>Delete Administrator</value>
+  <data name="CreateUserServiceText" xml:space="preserve">
+    <value>Erstelle eine Dienstleistung</value>
   </data>
-  <data name="DeleteText" xml:space="preserve">
-    <value>Delete</value>
+  <data name="DeleteUserServiceText" xml:space="preserve">
+    <value>Lösche Dienstleistung</value>
   </data>
-  <data name="DisabledText" xml:space="preserve">
-    <value>Disabled</value>
-  </data>
-  <data name="EditAdminUserText" xml:space="preserve">
-    <value>Edit Administrator</value>
-  </data>
-  <data name="EditText" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="EmailText" xml:space="preserve">
-    <value>Email</value>
-  </data>
-  <data name="FirstNameText" xml:space="preserve">
-    <value>First Name</value>
+  <data name="DescriptionText" xml:space="preserve">
+    <value>Beschreibung</value>
   </data>
   <data name="ImageText" xml:space="preserve">
-    <value>Image</value>
+    <value>Bild</value>
   </data>
-  <data name="LastNameText" xml:space="preserve">
-    <value>Last Name</value>
+  <data name="NewUserServiceText" xml:space="preserve">
+    <value>Neue Dienstleistung</value>
   </data>
-  <data name="NewAdminUserText" xml:space="preserve">
-    <value>New Administrator</value>
+  <data name="NumberOfClicksText" xml:space="preserve">
+    <value>Anzahl Klicks</value>
   </data>
-  <data name="PhoneNumberText" xml:space="preserve">
-    <value>Phone Number </value>
+  <data name="OrderText" xml:space="preserve">
+    <value>Bestelle</value>
   </data>
-  <data name="StreetText" xml:space="preserve">
-    <value>Street</value>
+  <data name="PriceText" xml:space="preserve">
+    <value>Preis</value>
   </data>
-  <data name="UpdateText" xml:space="preserve">
-    <value>Update</value>
+  <data name="RemoveFromBagText" xml:space="preserve">
+    <value>Entferne aus der Bestellung</value>
   </data>
-  <data name="ZipText" xml:space="preserve">
-    <value>ZIP</value>
+  <data name="SearchText" xml:space="preserve">
+    <value>Suche</value>
+  </data>
+  <data name="SpecialTagText" xml:space="preserve">
+    <value>Spezial Tag</value>
+  </data>
+  <data name="UserNameText" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="UserServiceDetailsText" xml:space="preserve">
+    <value>Dienstleistungen Details</value>
+  </data>
+  <data name="UserServiceNameText" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="UserServiceText" xml:space="preserve">
+    <value>Dienstleistungen</value>
   </data>
 </root>

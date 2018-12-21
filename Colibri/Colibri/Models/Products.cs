@@ -26,6 +26,9 @@ namespace Colibri.Models
         // Number of Clicks on the Product
         public int NumberOfClicks { get; set; }
 
+        // Rating of the Product
+        public string ProductRating { get; set; }
+
         [Required]
         public bool isOffer { get; set; }
 

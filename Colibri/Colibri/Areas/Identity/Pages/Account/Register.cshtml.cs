@@ -73,11 +73,20 @@ namespace Colibri.Areas.Identity.Pages.Account
             [Required]
             public string LastName { get; set; }
 
+            public string Street { get; set; }
+            public string CareOf { get; set; }
+            public string City { get; set; }
+            public int Zip { get; set; }
+            public string Country { get; set; }
+
             [Required]
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
 
             public bool IsSuperAdmin { get; set; }
+
+            public DateTime Created { get; set; }
+            public DateTime Modified { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -98,7 +107,15 @@ namespace Colibri.Areas.Identity.Pages.Account
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
                     PhoneNumber = Input.PhoneNumber,
-                    IsSuperAdmin = false};
+                    Street = Input.Street,
+                    CareOf = Input.CareOf,
+                    Zip = Input.Zip,
+                    City = Input.City,
+                    Country = Input.Country,
+                    IsSuperAdmin = false,
+                    Created = DateTime.Now,
+                    Modified = DateTime.Now
+                };
 
                 // create a new User inside the DB
                 var result = await _userManager.CreateAsync(user, Input.Password);

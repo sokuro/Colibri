@@ -118,63 +118,75 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AdminUserText" xml:space="preserve">
-    <value>Administrators</value>
+    <value>Administratoren</value>
   </data>
   <data name="BackToListText" xml:space="preserve">
-    <value>Back</value>
+    <value>Zurück</value>
   </data>
   <data name="CareOfText" xml:space="preserve">
-    <value>Care Of</value>
+    <value>c/o</value>
   </data>
   <data name="CityText" xml:space="preserve">
-    <value>City</value>
+    <value>Ort</value>
   </data>
   <data name="CountryText" xml:space="preserve">
-    <value>Country</value>
+    <value>Land</value>
   </data>
   <data name="CreateText" xml:space="preserve">
-    <value>Create</value>
+    <value>Erstelle</value>
+  </data>
+  <data name="CustomerUserText" xml:space="preserve">
+    <value>Registrierte Benutzer</value>
   </data>
   <data name="DeleteAdminUserText" xml:space="preserve">
-    <value>Delete Administrator</value>
+    <value>Lösche Administrator</value>
+  </data>
+  <data name="DeleteCustomerUserText" xml:space="preserve">
+    <value>Lösche registrierten Benutzer</value>
   </data>
   <data name="DeleteText" xml:space="preserve">
-    <value>Delete</value>
+    <value>Lösche</value>
   </data>
   <data name="DisabledText" xml:space="preserve">
-    <value>Disabled</value>
+    <value>Deaktiviert</value>
   </data>
   <data name="EditAdminUserText" xml:space="preserve">
-    <value>Edit Administrator</value>
+    <value>Editiere Administrator</value>
+  </data>
+  <data name="EditCustomerUserText" xml:space="preserve">
+    <value>Editiere registrierten Benutzer</value>
   </data>
   <data name="EditText" xml:space="preserve">
-    <value>Edit</value>
+    <value>Editiere</value>
   </data>
   <data name="EmailText" xml:space="preserve">
     <value>Email</value>
   </data>
   <data name="FirstNameText" xml:space="preserve">
-    <value>First Name</value>
+    <value>Vorname</value>
   </data>
   <data name="ImageText" xml:space="preserve">
-    <value>Image</value>
+    <value>Bild</value>
   </data>
   <data name="LastNameText" xml:space="preserve">
-    <value>Last Name</value>
+    <value>Nachname</value>
   </data>
   <data name="NewAdminUserText" xml:space="preserve">
-    <value>New Administrator</value>
+    <value>Neuer Administrator</value>
+  </data>
+  <data name="NewCustomerUserText" xml:space="preserve">
+    <value>Neuer registrierte Benutzer</value>
   </data>
   <data name="PhoneNumberText" xml:space="preserve">
-    <value>Phone Number </value>
+    <value>Telefonnummer</value>
   </data>
   <data name="StreetText" xml:space="preserve">
-    <value>Street</value>
+    <value>Strasse</value>
   </data>
   <data name="UpdateText" xml:space="preserve">
-    <value>Update</value>
+    <value>Aktualisiere</value>
   </data>
   <data name="ZipText" xml:space="preserve">
-    <value>ZIP</value>
+    <value>PLZ</value>
   </data>
 </root>

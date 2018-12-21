@@ -20,29 +20,29 @@ namespace Colibri.Areas.Admin.Controllers
      // authorize only the SuperAdminEndUser
     [Authorize(Roles = StaticDetails.SuperAdminEndUser)]
     [Area("Admin")]
-    public class AdminUsersController : Controller
+    public class CustomerUsersController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
-        private readonly IStringLocalizer<AdminUsersController> _localizer;
+        private readonly IStringLocalizer<CustomerUsersController> _localizer;
 
-        public AdminUsersController(ColibriDbContext colibriDbContext, IStringLocalizer<AdminUsersController> localizer)
+        public CustomerUsersController(ColibriDbContext colibriDbContext, IStringLocalizer<CustomerUsersController> localizer)
         {
             _colibriDbContext = colibriDbContext;
             _localizer = localizer;
         }
 
         // Main Index EntryPage
-        [Route("Admin/AdminUsers/Index")]
+        [Route("Admin/CustomerUsers/Index")]
         public async Task<IActionResult> Index()
         {
             // return the List of the Super Admin Users
-            var listOfSuperAdminUsers = await _colibriDbContext.ApplicationUsers
-                                    .Where(u => u.IsSuperAdmin == true)
+            var listOfCustomerUsers = await _colibriDbContext.ApplicationUsers
+                                    .Where(u => u.IsSuperAdmin == false)
                                     .ToListAsync();
 
             // i18n
-            ViewData["AdminUser"] = _localizer["AdminUserText"];
-            ViewData["NewAdminUser"] = _localizer["NewAdminUserText"];
+            ViewData["CustomerUser"] = _localizer["CustomerUserText"];
+            ViewData["NewCustomerUser"] = _localizer["NewCustomerUserText"];
             ViewData["FirstName"] = _localizer["FirstNameText"];
             ViewData["LastName"] = _localizer["LastNameText"];
             ViewData["Email"] = _localizer["EmailText"];
@@ -51,12 +51,12 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Edit"] = _localizer["EditText"];
             ViewData["Delete"] = _localizer["DeleteText"];
 
-            return View(listOfSuperAdminUsers);
+            return View(listOfCustomerUsers);
         }
 
         // Get: Method Edit User
         // ID -> GUI (as string)
-        [Route("Admin/AdminUsers/Edit/{id}")]
+        [Route("Admin/CustomerUsers/Edit/{id}")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null || id.Trim().Length == 0)
@@ -73,7 +73,7 @@ namespace Colibri.Areas.Admin.Controllers
             }
 
             // i18n
-            ViewData["EditAdminUser"] = _localizer["EditAdminUserText"];
+            ViewData["EditCustomerUser"] = _localizer["EditCustomerUserText"];
             ViewData["Edit"] = _localizer["EditText"];
             ViewData["FirstName"] = _localizer["FirstNameText"];
             ViewData["LastName"] = _localizer["LastNameText"];
@@ -92,7 +92,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // POST: Method Edit User
-        [Route("Admin/AdminUsers/Edit/{id}")]
+        [Route("Admin/CustomerUsers/Edit/{id}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(string id, ApplicationUser applicationUser)
@@ -131,7 +131,7 @@ namespace Colibri.Areas.Admin.Controllers
 
         // Get: Method Delete User
         // ID -> GUI (as string)
-        [Route("Admin/AdminUsers/Delete/{id}")]
+        [Route("Admin/CustomerUsers/Delete/{id}")]
         public async Task<IActionResult> Delete (string id)
         {
             if (id == null || id.Trim().Length == 0)
@@ -148,7 +148,7 @@ namespace Colibri.Areas.Admin.Controllers
             }
 
             // i18n
-            ViewData["DeleteAdminUser"] = _localizer["DeleteAdminUserText"];
+            ViewData["DeleteCustomerUser"] = _localizer["DeleteCustomerUserText"];
             ViewData["Delete"] = _localizer["DeleteText"];
             ViewData["FirstName"] = _localizer["FirstNameText"];
             ViewData["LastName"] = _localizer["LastNameText"];
@@ -161,7 +161,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // POST: Method Delete User
-        [Route("Admin/AdminUsers/Delete/{id}")]
+        [Route("Admin/CustomerUsers/Delete/{id}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeletePost (string id)

@@ -123,6 +123,15 @@
   <data name="BackToListText" xml:space="preserve">
     <value>Zurück</value>
   </data>
+  <data name="CareOfText" xml:space="preserve">
+    <value>c/o</value>
+  </data>
+  <data name="CityText" xml:space="preserve">
+    <value>Ort</value>
+  </data>
+  <data name="CountryText" xml:space="preserve">
+    <value>Land</value>
+  </data>
   <data name="CreateText" xml:space="preserve">
     <value>Erstelle</value>
   </data>
@@ -159,7 +168,13 @@
   <data name="PhoneNumberText" xml:space="preserve">
     <value>Telefonnummer</value>
   </data>
+  <data name="StreetText" xml:space="preserve">
+    <value>Strasse</value>
+  </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Aktualisiere</value>
+  </data>
+  <data name="ZipText" xml:space="preserve">
+    <value>PLZ</value>
   </data>
 </root>
