@@ -73,6 +73,12 @@ namespace Colibri.Areas.Identity.Pages.Account
             [Required]
             public string LastName { get; set; }
 
+            public string Street { get; set; }
+            public string CareOf { get; set; }
+            public string City { get; set; }
+            public int Zip { get; set; }
+            public string Country { get; set; }
+
             [Required]
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
