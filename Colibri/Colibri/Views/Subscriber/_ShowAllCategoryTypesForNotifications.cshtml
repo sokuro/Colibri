@@ -1,0 +1,29 @@
+﻿@model Colibri.ViewModels.SubscriberViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+<div class="row">
+    <div class="col-6 text-center">
+        <h2 class="text-info">@ViewData["CategoryType"]</h2>
+    </div>
+</div>
+<div>
+    <table class="table table-striped border">
+        <tr class="text-info">
+            <th>
+                @ViewData["Name"]
+                Name
+            </th>
+        </tr>
+
+        @foreach (var item in Model.CategoryTypes)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Name)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

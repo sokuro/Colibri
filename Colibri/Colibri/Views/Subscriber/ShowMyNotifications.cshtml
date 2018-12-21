@@ -1,12 +1,18 @@
-﻿@model IEnumerable<Colibri.Models.Notifications>
+﻿@model Colibri.ViewModels.SubscriberViewModel
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
+
+<!-- Show All Notification Groups -->
+<div class="col-6">
+    <partial name="~/Views/Subscriber/_ShowAllCategoryTypesForNotifications.cshtml" model="Model" />
+</div>
 
 @if (Model != null)
 {
     <div>
         <table class="table table-striped">
-            <tr class="table-info">
+            @*<tr class="table-info">*@
+            <tr class="text-info">
                 <th>
                     @ViewData["CurrentUser"]
                 </th>
@@ -22,9 +28,11 @@
                 <th>
                     @ViewData["CategoryTypes"]
                 </th>
+                <th></th>
+                <th></th>
             </tr>
 
-            @foreach (var item in Model)
+            @foreach (var item in Model.NotificationsEnumerable)
             {
                 <tr class="table-content">
                     <td class="tableContentColumn">
@@ -40,12 +48,22 @@
                         @Html.DisplayFor(n => item.CategoryTypeId)
                     </td>
                     <td class="tableContentColumn">
-                        @Html.DisplayFor(n => item.CategoryTypes)
+                        @Html.DisplayFor(n => item.CategoryTypes.Name)
                     </td>
                 </tr>
             }
         </table>
     </div>
+
+    <!-- Pagination -->
+    @*<div page-model="@Model.PagingInfo"
+         page-action="Index"
+         page-classes-enabled="true"
+         page-class="btn border"
+         page-class-normal="btn btn-default active"
+         page-class-selected="btn btn-primary active"
+         class="btn-group m-1">
+    </div>*@
 }
 else
 {

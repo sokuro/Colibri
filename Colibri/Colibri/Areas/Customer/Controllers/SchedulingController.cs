@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Extensions;
@@ -60,8 +61,8 @@ namespace Colibri.Areas.Customer.Controllers
                     // get the Products from the DB
                     // use the eager Method
                     Products products = await _colibriDbContext.Products
+                        .Include(p => p.CategoryGroups)
                         .Include(p => p.CategoryTypes)
-                        //.Include(p => p.SpecialTags)
                         .Where(p => p.Id == cartItem)
                         .FirstOrDefaultAsync();
 
@@ -106,6 +107,22 @@ namespace Colibri.Areas.Customer.Controllers
                                                                     .AddHours(SchedulingViewModel.Appointments.AppointmentTime.Hour)
                                                                     .AddMinutes (SchedulingViewModel.Appointments.AppointmentTime.Minute);
 
+            // Security Claims
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+            // Claims Identity
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            // add the current User as the Appointments Customer
+            SchedulingViewModel.Appointments.CustomerId = claim.Value;
+            // get the Customer's Properties
+            SchedulingViewModel.Appointments.Customer = _colibriDbContext.ApplicationUsers
+                .FirstOrDefault(u => u.Id == SchedulingViewModel.Appointments.CustomerId);
+
+            SchedulingViewModel.Appointments.CustomerEmail = SchedulingViewModel.Appointments.Customer.Email;
+            SchedulingViewModel.Appointments.CustomerPhoneNumber = SchedulingViewModel.Appointments.Customer.PhoneNumber;
+
             // create an Object for the Appointments
             Appointments appointments = SchedulingViewModel.Appointments;
 
@@ -119,6 +136,11 @@ namespace Colibri.Areas.Customer.Controllers
             // this created Id can be used to insert Records inside the selected Products
             foreach (int productId in lstCartItems)
             {
+                // add the Product's Owner
+                SchedulingViewModel.Appointments.AppPersonId = _colibriDbContext.Products
+                    .FirstOrDefault(p => p.Id == productId).ApplicationUserId;
+
+
                 // everytime a new Object will be created
                 ProductsSelectedForAppointment productsSelectedForAppointment = new ProductsSelectedForAppointment()
                 {
@@ -126,7 +148,7 @@ namespace Colibri.Areas.Customer.Controllers
                     ProductId = productId
                 };
 
-                // add to the DB
+                // add to the DB ProductsSelectedForAppointment
                 _colibriDbContext.ProductsSelectedForAppointment.Add(productsSelectedForAppointment);
             }
             // save the Changes all together after the Iteration
@@ -137,7 +159,8 @@ namespace Colibri.Areas.Customer.Controllers
             HttpContext.Session.Set("ssScheduling", lstCartItems);
 
             // TODO
-            // send Email
+            // send Email: to the Customer and the Owner
+            // build a Template mit Customers Details
             _emailSender.SendEmailAsync(SchedulingViewModel.Appointments.CustomerEmail, "Your Order at Colibri", $"We are happy to inform you about your Order");
 
             // redirect to Action:
@@ -161,13 +184,15 @@ namespace Colibri.Areas.Customer.Controllers
             List<ProductsSelectedForAppointment> elemProdList = _colibriDbContext.ProductsSelectedForAppointment
                 .Where(p => p.AppointmentId == id).ToList();
 
+
             // iterate the List
             foreach (ProductsSelectedForAppointment prodObj in elemProdList)
             {
                 // add Products inside the Scheduling Model
                 SchedulingViewModel.Products.Add(_colibriDbContext.Products
+                                                    .Include(p => p.CategoryGroups)
                                                     .Include(p => p.CategoryTypes)
-                                                    //.Include(p => p.SpecialTags)
+                                                    .Include(p => p.ApplicationUser)
                                                     .Where(p => p.Id == prodObj.ProductId)
                                                     .FirstOrDefault());
             }

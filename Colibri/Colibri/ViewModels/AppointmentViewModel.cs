@@ -17,5 +17,11 @@ namespace Colibri.ViewModels
 
         // Custom Pagination
         public PagingInfo PagingInfo { get; set; }
+
+        public string CurrentUserId { get; set; }
+
+        public IEnumerable<ApplicationUser> Customer { get; set; }
+
+        public string CustomerId { get; set; }
     }
 }

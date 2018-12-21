@@ -22,6 +22,8 @@
         <!-- Custom CSS -->
         <link href="~/css/index.css" rel="stylesheet" />
         <link href="~/css/products.css" rel="stylesheet" />
+        <link href="~/css/appointments.css" rel="stylesheet" />
+        @*<link href="~/css/applicationUsers.css" rel="stylesheet" />*@
         <!-- individual CSS -->
         @RenderSection("scheduling", false)
         @RenderSection("appointments", false)
@@ -37,6 +39,8 @@
         <!-- Custom CSS -->
         <link href="~/css/index.css" rel="stylesheet" />
         <link href="~/css/products.css" rel="stylesheet" />
+        <link href="~/css/appointments.css" rel="stylesheet" />
+        @*<link href="~/css/applicationUsers.css" rel="stylesheet" />*@
         <!-- individual CSS -->
         @RenderSection("scheduling", false)
         @RenderSection("appointments", false)
@@ -75,11 +79,11 @@
                                 <h6 class="dropdown-header">Categories & Types:</h6>
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryGroups" asp-action="Index">Category Groups</a>
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryTypes" asp-action="Index">Category Types</a>
-                                @*<a class="dropdown-item" asp-route-area="Admin" asp-controller="SpecialTags" asp-action="Index">Special Tags</a>*@
                                 <div class="dropdown-divider"></div>
                                 <h6 class="dropdown-header">Items & Users:</h6>
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="Products" asp-action="Index">Products</a>
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="AdminUsers" asp-action="Index">Admin Users</a>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="Appointments" asp-action="Index">Appointments</a>
                             </div>
                         </li>
                     }
@@ -93,11 +97,11 @@
                                 <span>Reg. Users</span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="registeredUserPagesDropdown">
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="Appointments" asp-action="Index">Appointments</a>
                                 <a class="dropdown-item" asp-route-area="Customer" asp-controller="ApplicationUser" asp-action="Index">Application Users</a>
                                 <a class="dropdown-item" asp-route-area="Customer" asp-controller="Advertisement" asp-action="Index">Advertisements</a>
                                 <a class="dropdown-item" asp-route-area="Customer" asp-controller="UserServices" asp-action="Index">User Services</a>
                                 <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementOffer" asp-action="Index">Angebot Erstellen</a>
+                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="Appointments" asp-action="Index">Appointments</a>
                                 <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementRequest" asp-action="Index">Nachfrage Erstellen</a>
                             </div>
                         </li>
@@ -166,6 +170,7 @@
                             <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="SendReceive">SendReceive</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="ShowAllNotifications">ShowAllNotifications</a>
+                            <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="ShowMyNotifications">ShowMyNotifications</a>
                         </div>
                     </li>
                 </ul>

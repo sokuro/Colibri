@@ -7,31 +7,37 @@
     padding-top: 10px;
 }
 
-appointment-product-details > .table.table-striped {
-    width: 50%;
+.appointment-product-details > .table.table-striped {
+    width: 50% !important;
 }
 
-appointment-product-details > .table-info {
+.appointment-product-details > .table-info {
     text-align: center;
 }
 
-appointment-product-details > #imageRowHeader {
+.appointment-product-details > #imageRowHeader {
     width: 20%;
 }
 
-appointment-product-details > .table-content {
+.appointment-product-details > .table-content {
     padding: 50px;
 }
 
-appointment-product-details > #imageContent > a > img {
+.appointment-product-details > #imageContent > a > img {
     width: 100%;
-    max-width: 100%;
+    max-width: 100% !important;
+    max-height: 100% !important;
     margin: auto;
     display: block;
     border-radius: 5px;
     border: 1px solid #bbb9b9;
 }
 
-appointment-product-details > .tableContentColumn {
+#imageContent > a > img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+    .appointment-product-details > .tableContentColumn {
     text-align: center;
 }
