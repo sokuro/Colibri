@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Colibri.Areas.Admin.Controllers;
 using Colibri.Data;
 using Colibri.Extensions;
 using Colibri.Models;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Localization;
 
 namespace Colibri.Controllers
 {
@@ -20,13 +22,18 @@ namespace Colibri.Controllers
     public class SubscriberController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
+        private readonly IStringLocalizer<SubscriberController> _localizer;
+
+        private int PageSize = 10;
 
         [BindProperty]
         public SubscriberViewModel SubscriberViewModel { get; set; }
 
-        public SubscriberController(ColibriDbContext colibriDbContext)
+        public SubscriberController(ColibriDbContext colibriDbContext,
+            IStringLocalizer<SubscriberController> localizer)
         {
             _colibriDbContext = colibriDbContext;
+            _localizer = localizer;
 
             SubscriberViewModel = new SubscriberViewModel
             {
@@ -35,7 +42,8 @@ namespace Colibri.Controllers
 
                 Notifications = new Notifications(),
                 ApplicationUserCategoryTypesSubscriber = new ApplicationUserCategoryTypesSubscriber(),
-                NotificationsEnumerable = new List<Notifications>()
+                NotificationsEnumerable = new List<Notifications>(),
+                CategoryTypes = _colibriDbContext.CategoryTypes.ToList()
             };
         }
 
@@ -135,7 +143,26 @@ namespace Colibri.Controllers
         {
             var notificationsList = await _colibriDbContext.Notifications.ToListAsync();
 
+            // i18n
+            ViewData["CurrentUser"] = _localizer["CurrentUserText"];
+            ViewData["Message"] = _localizer["MessageText"];
+            ViewData["NotificationType"] = _localizer["NotificationTypeText"];
+            ViewData["CategoryTypeId"] = _localizer["CategoryTypeIdText"];
+            ViewData["CategoryTypes"] = _localizer["CategoryTypesText"];
+
             return View(notificationsList);
+        }
+
+        // Show all CategoryTypes for Notifications
+        public async Task<IActionResult> ShowAllCategoryTypesForNotifications()
+        {
+            SubscriberViewModel.CategoryTypes = await _colibriDbContext.CategoryTypes.ToListAsync();
+
+            // i18n
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Name"] = _localizer["NameText"];
+
+            return View(SubscriberViewModel);
         }
 
         // filter with id
@@ -158,6 +185,13 @@ namespace Colibri.Controllers
             {
                 return NotFound();
             }
+
+            // i18n
+            ViewData["CurrentUser"] = _localizer["CurrentUserText"];
+            ViewData["Message"] = _localizer["MessageText"];
+            ViewData["NotificationType"] = _localizer["NotificationTypeText"];
+            ViewData["CategoryTypeId"] = _localizer["CategoryTypeIdText"];
+            ViewData["CategoryTypes"] = _localizer["CategoryTypesText"];
 
             return View(SubscriberViewModel);
         }

@@ -13,9 +13,7 @@ namespace Colibri.ViewModels
 
         public IEnumerable<Notifications> NotificationsEnumerable { get; set; }
 
-        //public List<string> MyMessage { get; set; }
-
-        //public List<Notifications> NotificationList { get; set; }
+        public IEnumerable<CategoryTypes> CategoryTypes { get; set; }
 
         public ApplicationUserCategoryTypesSubscriber ApplicationUserCategoryTypesSubscriber { get; set; }
 
