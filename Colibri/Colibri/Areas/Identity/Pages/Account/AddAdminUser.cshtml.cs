@@ -55,7 +55,8 @@ namespace Colibri.Areas.Identity.Pages.Account
                     Email = "admin@yacrol.com",
                     PhoneNumber = "0313010347",
                     FirstName = "Site",
-                    LastName = "Admin"
+                    LastName = "Admin",
+                    IsSuperAdmin = true
                 };
 
                 // create the AdminUser
