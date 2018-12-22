@@ -52,6 +52,9 @@
     <Content Update="Areas\Admin\Views\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Customer\Views\Advertisement\_RateAdvertisement.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerAdvertisementAuthorized.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

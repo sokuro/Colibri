@@ -183,8 +183,20 @@
   <data name="ProductNameText" xml:space="preserve">
     <value>Product Name</value>
   </data>
+  <data name="ProductRatingText" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="RateProductText" xml:space="preserve">
+    <value>Rate</value>
+  </data>
+  <data name="RateQuestionText" xml:space="preserve">
+    <value>How would you rate this Advertisement?</value>
+  </data>
   <data name="RemoveFromBagText" xml:space="preserve">
     <value>Remove from Order</value>
+  </data>
+  <data name="SaveText" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="SearchText" xml:space="preserve">
     <value>Search</value>

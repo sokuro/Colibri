@@ -1,0 +1,104 @@
+﻿@*@model Colibri.Models.Products*@
+@*@model int*@
+
+@model Colibri.ViewModels.ProductsViewModel
+
+
+<!-- Rating -->
+<form method="post" enctype="multipart/form-data" asp-action="RateAdvertisement">
+    <div class="form-group" id="rating-ability-wrapper">
+        <label class="control-label" for="rating">
+            <span class="field-label-header">@ViewData["RateQuestion"]</span><br>
+            <span class="field-label-info"></span>
+            <input type="hidden" id="selected_rating" name="selected_rating" value="" required="required">
+        </label>
+        <h2 class="bold rating-header" style="">
+            <span class="selected-rating">0</span><small> / 5</small>
+        </h2>
+
+        <!-- first, necessary to bind the ViewModel Object! -->
+        <input type="hidden" asp-for="Products.Name" />
+        
+        @{ var temp = 0; }
+
+        <!-- handle Buttons -->
+        <button type="button" asp-for="@Model.Products.ProductRating" value="1" class="btnrating btn btn-default btn-lg" data-attr="1" id="rating-star-1" onclick="@Model.Products.ProductRating=1">
+            <i class="fa fa-star" aria-hidden="true"></i>
+        </button>
+
+        <button type="button" class="btnrating btn btn-default btn-lg" data-attr="2" id="rating-star-2">
+            <i class="fa fa-star" aria-hidden="true"></i>
+            <input type="hidden" asp-for="@Model.Products.ProductRating" value="2" />
+        </button>
+
+        <button type="button" asp-for="@Model.Products.ProductRating" value="3" class="btnrating btn btn-default btn-lg" data-attr="3" id="rating-star-3" onclick="@temp = 3">
+            <i class="fa fa-star" aria-hidden="true"></i>
+        </button>
+
+        <button type="button" asp-for="@Model.Products.ProductRating" value="4" class="btnrating btn btn-default btn-lg" data-attr="4" id="rating-star-4" onclick="@temp = 4">
+            <i class="fa fa-star" aria-hidden="true"></i>
+            @*<input type="hidden" asp-for="@Model.Products.ProductRating" value="4" />*@
+        </button>
+        <button type="button" asp-for="@Model.Products.ProductRating" value="5" class="btnrating btn btn-default btn-lg" data-attr="5" id="rating-star-5" onclick="@temp = 5">
+            <i class="fa fa-star" aria-hidden="true"></i>
+            @*<input type="hidden" asp-for="@Model.Products.ProductRating" value="5" />*@
+        </button>
+
+        @{
+            switch(@temp)
+            {
+                //case "rating-star-1":
+                case 1:
+                    <input type="hidden" asp-for="@Model.Products.ProductRating" value="1" />
+                    break;
+                //case "rating-star-2":
+                case 2:
+                    <input type="hidden" asp-for="@Model.Products.ProductRating" value="2" />
+                    break;
+                //case "rating-star-3":
+                case 3:
+                    <input type="hidden" asp-for="@Model.Products.ProductRating" value="3" />
+                    break;
+                //case "rating-star-4":
+                case 4:
+                    <input type="hidden" asp-for="@Model.Products.ProductRating" value="4" />
+                    break;
+                //case "rating-star-5":
+                case 5:
+                    <input type="hidden" asp-for="@Model.Products.ProductRating" value="5" />
+                    break;
+            }
+        }
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value=Save />
+        </div>
+    </div>
+</form>
+
+@section Scripts
+            {
+    <script>
+        jQuery(document).ready(function ($) {
+            $(".btnrating").on('click', (function (e) {
+                    var previous_value = $("#selected_rating").val();
+
+                    var selected_value = $(this).attr("data-attr");
+                $("#selected_rating").val(selected_value);
+
+                $(".selected-rating").empty();
+                $(".selected-rating").html(selected_value);
+
+                    for (i = 1; i <= selected_value; ++i) {
+                    $("#rating-star-" + i).toggleClass('btn-warning');
+                    $("#rating-star-" + i).toggleClass('btn-default');
+                    }
+
+                    for (ix = 1; ix <= previous_value; ++ix) {
+                    $("#rating-star-" + ix).toggleClass('btn-warning');
+                    $("#rating-star-" + ix).toggleClass('btn-default');
+                    }
+                }));
+            });
+    </script>
+}
