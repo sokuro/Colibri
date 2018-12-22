@@ -75,6 +75,15 @@
                     <input asp-for="NumberOfClicks" class="form-control" readonly />
                 </div>
             </div>
+            <!-- Rating -->
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ProductRating">@ViewData["ProductRating"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ProductRating" class="form-control" readonly />
+                </div>
+            </div>
             <!-- Application User: Advertisement's Owner -->
             <div class="form-group row">
                 <div class="col-4">
@@ -124,37 +133,44 @@
 
             <!-- Rating -->
             <!-- Product Details -->
+            <div class="form-group row">
+                <div class="col-4">
+                </div>
+                <div class="col-8">
+                    <a asp-action="RateAdvertisement" asp-controller="Advertisement" class="btn btn-outline-primary form-control" asp-route-id="@Model.Id">@ViewData["RateProduct"]</a>
+                </div>
+            </div>
             <div>
                 @* Partial View *@
                 @*<partial name="~/Views/Shared/_RateAdvertisement.cshtml" model="Model" />*@
-                <partial name="_RateAdvertisement.cshtml" model="Model" />
+                @*<partial name="_RateAdvertisement.cshtml" model="Model.Id" />*@
             </div>
 
             @*<div class="form-group" id="rating-ability-wrapper">
-                <label class="control-label" for="rating">
-                    <span class="field-label-header">How would you rate this Advertisement?</span><br>
-                    <span class="field-label-info"></span>
-                    <input type="hidden" id="selected_rating" name="selected_rating" value="" required="required">
-                </label>
-                <h2 class="bold rating-header" style="">
-                    <span class="selected-rating">0</span><small> / 5</small>
-                </h2>
-                <button type="button" class="btnrating btn btn-default btn-lg" data-attr="1" id="rating-star-1">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                </button>
-                <button type="button" class="btnrating btn btn-default btn-lg" data-attr="2" id="rating-star-2">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                </button>
-                <button type="button" class="btnrating btn btn-default btn-lg" data-attr="3" id="rating-star-3">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                </button>
-                <button type="button" class="btnrating btn btn-default btn-lg" data-attr="4" id="rating-star-4">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                </button>
-                <button type="button" class="btnrating btn btn-default btn-lg" data-attr="5" id="rating-star-5">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                </button>
-            </div>*@
+            <label class="control-label" for="rating">
+                <span class="field-label-header">How would you rate this Advertisement?</span><br>
+                <span class="field-label-info"></span>
+                <input type="hidden" id="selected_rating" name="selected_rating" value="" required="required">
+            </label>
+            <h2 class="bold rating-header" style="">
+                <span class="selected-rating">0</span><small> / 5</small>
+            </h2>
+            <button type="button" class="btnrating btn btn-default btn-lg" data-attr="1" id="rating-star-1">
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btnrating btn btn-default btn-lg" data-attr="2" id="rating-star-2">
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btnrating btn btn-default btn-lg" data-attr="3" id="rating-star-3">
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btnrating btn btn-default btn-lg" data-attr="4" id="rating-star-4">
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="btnrating btn btn-default btn-lg" data-attr="5" id="rating-star-5">
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </button>
+        </div>*@
         </div>
         <div class="form-group">
             <!-- hidden Field Id to use in the Session -->

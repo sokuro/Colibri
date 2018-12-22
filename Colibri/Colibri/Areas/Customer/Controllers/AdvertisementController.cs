@@ -349,12 +349,14 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["RemoveFromBag"] = _localizer["RemoveFromBagText"];
             ViewData["Order"] = _localizer["OrderText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["ProductRating"] = _localizer["ProductRatingText"];
+            ViewData["RateProduct"] = _localizer["RateProductText"];
 
             return View(product);
         }
 
         // Handle Ratings
-        [Route("Customer/Advertisement/Details/{id}")]
+        [Route("Customer/Advertisement/RateAdvertisement/{id}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RateAdvertisement(int id)
@@ -371,41 +373,40 @@ namespace Colibri.Areas.Customer.Controllers
                 // save the Changes in DB
                 await _colibriDbContext.SaveChangesAsync();
 
-                //return RedirectToAction(nameof(Details));
-                return View(ProductsViewModel);
+                return RedirectToAction(nameof(Details));
             }
             else
             {
                 // one can simply return to the Form View again for Correction
-                return View(ProductsViewModel);
+                return View();
             }
         }
 
         // Details POST
-        //[Route("Customer/Advertisement/Details/{id}")]
-        //[HttpPost, ActionName("Details")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DetailsPost(int id)
-        //{
-        //    // check first, if anything exists in the Session
-        //    // Session Name : "ssScheduling"
-        //    List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
+        [Route("Customer/Advertisement/Details/{id}")]
+        [HttpPost, ActionName("Details")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DetailsPost(int id)
+        {
+            // check first, if anything exists in the Session
+            // Session Name : "ssScheduling"
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
 
-        //    // check if null -> create new
-        //    if (lstCartItems == null)
-        //    {
-        //        lstCartItems = new List<int>();
-        //    }
+            // check if null -> create new
+            if (lstCartItems == null)
+            {
+                lstCartItems = new List<int>();
+            }
 
-        //    // add the retrieved Item (id)
-        //    lstCartItems.Add(id);
-        //    // set the Session:
-        //    // Session Name, Value
-        //    HttpContext.Session.Set("ssScheduling", lstCartItems);
+            // add the retrieved Item (id)
+            lstCartItems.Add(id);
+            // set the Session:
+            // Session Name, Value
+            HttpContext.Session.Set("ssScheduling", lstCartItems);
 
-        //    // redirect to Action
-        //    return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
-        //}
+            // redirect to Action
+            return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
+        }
 
         // Get: /<controller>/Edit
         [Route("Customer/Advertisement/Edit/{id}")]
@@ -614,6 +615,27 @@ namespace Colibri.Areas.Customer.Controllers
                 // avoid Refreshing the POST Operation -> Redirect
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        // Remove (from Bag)
+        [Route("Customer/Advertisement/Remove/{id}")]
+        public IActionResult Remove(int id)
+        {
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
+
+            if (lstCartItems.Count > 0)
+            {
+                if (lstCartItems.Contains(id))
+                {
+                    // remove the Item (id)
+                    lstCartItems.Remove(id);
+                }
+            }
+            // set the Session: Name, Value
+            HttpContext.Session.Set("ssScheduling", lstCartItems);
+
+            // redirect to Action
+            return RedirectToAction(nameof(Index));
         }
     }
 }
