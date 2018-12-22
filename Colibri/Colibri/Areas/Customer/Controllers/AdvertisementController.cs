@@ -387,7 +387,7 @@ namespace Colibri.Areas.Customer.Controllers
 
         [Route("Customer/Advertisement/RateAdvertisement/{id}")]
         [HttpPost, ActionName("RateAdvertisement")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> RateAdvertisementPost(int id)
         {
             // Check the State Model Binding
@@ -395,6 +395,7 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 // to overwrite a Rating, first get the old One
                 // get the Product from the DB
+
                 var productFromDb = await _colibriDbContext.Products
                                         .Where(m => m.Id == id)
                                         .FirstOrDefaultAsync();
