@@ -355,18 +355,49 @@ namespace Colibri.Areas.Customer.Controllers
             return View(product);
         }
 
-        // Handle Ratings
+        // Handle Ratings: GET
         [Route("Customer/Advertisement/RateAdvertisement/{id}")]
-        [HttpPost]
+        public async Task<IActionResult> RateAdvertisement(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // get the individual Product
+            ProductsViewModel.Products = await _colibriDbContext.Products
+                    .Include(p => p.CategoryGroups)
+                    .Include(p => p.CategoryTypes)
+                    .Where(p => p.Id == id)
+                    .FirstOrDefaultAsync();
+
+            // save the Changes in DB
+            await _colibriDbContext.SaveChangesAsync();
+
+            // i18n
+            ViewData["RateQuestion"] = _localizer["RateQuestionText"];
+            ViewData["Save"] = _localizer["SaveText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["ProductRating"] = _localizer["ProductRatingText"];
+            ViewData["RateProduct"] = _localizer["RateProductText"];
+
+            return View(ProductsViewModel);
+        }
+
+
+        [Route("Customer/Advertisement/RateAdvertisement/{id}")]
+        [HttpPost, ActionName("RateAdvertisement")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RateAdvertisement(int id)
+        public async Task<IActionResult> RateAdvertisementPost(int id)
         {
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
                 // to overwrite a Rating, first get the old One
                 // get the Product from the DB
-                var productFromDb = await _colibriDbContext.Products.Where(m => m.Id == ProductsViewModel.Products.Id).FirstOrDefaultAsync();
+                var productFromDb = await _colibriDbContext.Products
+                                        .Where(m => m.Id == id)
+                                        .FirstOrDefaultAsync();
 
                 productFromDb.ProductRating = ProductsViewModel.Products.ProductRating;
 
@@ -374,11 +405,12 @@ namespace Colibri.Areas.Customer.Controllers
                 await _colibriDbContext.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Details));
+                //return View();
             }
             else
             {
                 // one can simply return to the Form View again for Correction
-                return View();
+                return View(ProductsViewModel);
             }
         }
 

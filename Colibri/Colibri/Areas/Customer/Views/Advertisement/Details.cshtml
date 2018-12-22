@@ -136,8 +136,12 @@
             <div class="form-group row">
                 <div class="col-4">
                 </div>
+                @*<div class="col-8">
+                    <a asp-controller="Advertisement" asp-action="RateAdvertisement" class="btn btn-outline-primary form-control" asp-route-id="@Model.Id">@ViewData["RateProduct"]</a>
+                </div>*@
                 <div class="col-8">
-                    <a asp-action="RateAdvertisement" asp-controller="Advertisement" class="btn btn-outline-primary form-control" asp-route-id="@Model.Id">@ViewData["RateProduct"]</a>
+                    <input hidden asp-for="@Model.Id" />
+                    <a asp-action="RateAdvertisement" class="btn btn-outline-primary form-control">@ViewData["RateProduct"]</a>
                 </div>
             </div>
             <div>

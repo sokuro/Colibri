@@ -1,11 +1,14 @@
 ﻿@*@model Colibri.Models.Products*@
-@model int
+@*@model int*@
+
+@model Colibri.ViewModels.ProductsViewModel
+
 
 <!-- Rating -->
 <form method="post">
     <div class="form-group" id="rating-ability-wrapper">
         <label class="control-label" for="rating">
-            <span class="field-label-header">How would you rate this Advertisement?</span><br>
+            <span class="field-label-header">@ViewData["RateQuestion"]</span><br>
             <span class="field-label-info"></span>
             <input type="hidden" id="selected_rating" name="selected_rating" value="" required="required">
         </label>
@@ -15,41 +18,44 @@
         @*<input type="button" asp-for="@Model.ProductRating" class="btnrating btn btn-default btn-lg" data-attr="1" id="rating-star-1"><i class="fa fa-star" aria-hidden="true"></i></input>*@
 
         @*<button type="submit" value="1" class="btnrating btn btn-default btn-lg" data-attr="1" id="rating-star-1">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </button>
+            <button type="submit" value="2" class="btnrating btn btn-default btn-lg" data-attr="2" id="rating-star-2">
                 <i class="fa fa-star" aria-hidden="true"></i>
             </button>
-        <button type="submit" value="2" class="btnrating btn btn-default btn-lg" data-attr="2" id="rating-star-2">
-            <i class="fa fa-star" aria-hidden="true"></i>
-        </button>
-        <button type="submit" value="3" class="btnrating btn btn-default btn-lg" data-attr="3" id="rating-star-3">
-            <i class="fa fa-star" aria-hidden="true"></i>
-        </button>
-        <button type="submit" value="4" class="btnrating btn btn-default btn-lg" data-attr="4" id="rating-star-4">
-            <i class="fa fa-star" aria-hidden="true"></i>
-        </button>
-        <button type="submit" value="5" class="btnrating btn btn-default btn-lg" data-attr="5" id="rating-star-5">
-            <i class="fa fa-star" aria-hidden="true"></i>
-        </button>*@
+            <button type="submit" value="3" class="btnrating btn btn-default btn-lg" data-attr="3" id="rating-star-3">
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </button>
+            <button type="submit" value="4" class="btnrating btn btn-default btn-lg" data-attr="4" id="rating-star-4">
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </button>
+            <button type="submit" value="5" class="btnrating btn btn-default btn-lg" data-attr="5" id="rating-star-5">
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </button>*@
         @*<div class="form-group">
-            <input type="submit" class="btn btn-primary" value=Save />
-        </div>*@
+                <input type="submit" class="btn btn-primary" value=Save />
+            </div>*@
+        
+        <input asp-for="@Model.Products.ProductRating" />
 
-        <button type="button" class="btnrating btn btn-default btn-lg" data-attr="1" id="rating-star-1">
+        <button type="submit" asp-for="@Model.Products.ProductRating" value="1" class="btnrating btn btn-default btn-lg" data-attr="1" id="rating-star-1">
             <i class="fa fa-star" aria-hidden="true"></i>
         </button>
-        <button type="button" class="btnrating btn btn-default btn-lg" data-attr="2" id="rating-star-2">
+        <button type="submit" asp-for="@Model.Products.ProductRating" value="2" class="btnrating btn btn-default btn-lg" data-attr="2" id="rating-star-2">
             <i class="fa fa-star" aria-hidden="true"></i>
         </button>
-        <button type="button" class="btnrating btn btn-default btn-lg" data-attr="3" id="rating-star-3">
+        <button type="submit" asp-for="@Model.Products.ProductRating" value="3" class="btnrating btn btn-default btn-lg" data-attr="3" id="rating-star-3">
             <i class="fa fa-star" aria-hidden="true"></i>
         </button>
-        <button type="button" class="btnrating btn btn-default btn-lg" data-attr="4" id="rating-star-4">
+        <button type="submit" asp-for="@Model.Products.ProductRating" value="4" class="btnrating btn btn-default btn-lg" data-attr="4" id="rating-star-4">
             <i class="fa fa-star" aria-hidden="true"></i>
         </button>
-        <button type="button" class="btnrating btn btn-default btn-lg" data-attr="5" id="rating-star-5">
+        <button type="submit" asp-for="@Model.Products.ProductRating" value="5" class="btnrating btn btn-default btn-lg" data-attr="5" id="rating-star-5">
             <i class="fa fa-star" aria-hidden="true"></i>
         </button>
         <div class="form-group">
-            <input type="submit" class="btn btn-primary" value=Save />
+            @*<input type="submit" class="btn btn-primary" value=Save />*@
+            <button type="submit" class="btn btn-primary">Save</button>
         </div>
     </div>
 </form>
