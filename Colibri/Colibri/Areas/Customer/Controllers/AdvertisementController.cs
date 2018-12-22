@@ -318,7 +318,6 @@ namespace Colibri.Areas.Customer.Controllers
             var product = await _colibriDbContext.Products
                     .Include(p => p.CategoryGroups)
                     .Include(p => p.CategoryTypes)
-                    //.Include(p => p.SpecialTags)
                     .Where(p => p.Id == id)
                     .FirstOrDefaultAsync();
 
@@ -329,8 +328,6 @@ namespace Colibri.Areas.Customer.Controllers
                                     .ThenInclude(p => p.UserName)
                                     on u.Id equals p.ApplicationUserId
                                     select u);
-
-
 
             // count the Number of Clicks on the Product
             product.NumberOfClicks += 1;
@@ -356,31 +353,59 @@ namespace Colibri.Areas.Customer.Controllers
             return View(product);
         }
 
-        // Details POST
+        // Handle Ratings
         [Route("Customer/Advertisement/Details/{id}")]
-        [HttpPost, ActionName("Details")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DetailsPost(int id)
+        public async Task<IActionResult> RateAdvertisement(int id)
         {
-            // check first, if anything exists in the Session
-            // Session Name : "ssScheduling"
-            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
-
-            // check if null -> create new
-            if (lstCartItems == null)
+            // Check the State Model Binding
+            if (ModelState.IsValid)
             {
-                lstCartItems = new List<int>();
+                // to overwrite a Rating, first get the old One
+                // get the Product from the DB
+                var productFromDb = await _colibriDbContext.Products.Where(m => m.Id == ProductsViewModel.Products.Id).FirstOrDefaultAsync();
+
+                productFromDb.ProductRating = ProductsViewModel.Products.ProductRating;
+
+                // save the Changes in DB
+                await _colibriDbContext.SaveChangesAsync();
+
+                //return RedirectToAction(nameof(Details));
+                return View(ProductsViewModel);
             }
-
-            // add the retrieved Item (id)
-            lstCartItems.Add(id);
-            // set the Session:
-            // Session Name, Value
-            HttpContext.Session.Set("ssScheduling", lstCartItems);
-
-            // redirect to Action
-            return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(ProductsViewModel);
+            }
         }
+
+        // Details POST
+        //[Route("Customer/Advertisement/Details/{id}")]
+        //[HttpPost, ActionName("Details")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DetailsPost(int id)
+        //{
+        //    // check first, if anything exists in the Session
+        //    // Session Name : "ssScheduling"
+        //    List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
+
+        //    // check if null -> create new
+        //    if (lstCartItems == null)
+        //    {
+        //        lstCartItems = new List<int>();
+        //    }
+
+        //    // add the retrieved Item (id)
+        //    lstCartItems.Add(id);
+        //    // set the Session:
+        //    // Session Name, Value
+        //    HttpContext.Session.Set("ssScheduling", lstCartItems);
+
+        //    // redirect to Action
+        //    return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
+        //}
 
         // Get: /<controller>/Edit
         [Route("Customer/Advertisement/Edit/{id}")]
