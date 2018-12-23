@@ -351,6 +351,7 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["ProductRating"] = _localizer["ProductRatingText"];
             ViewData["RateProduct"] = _localizer["RateProductText"];
+            ViewData["NumberOfProductRates"] = _localizer["NumberOfProductRatesText"];
 
             return View(product);
         }
