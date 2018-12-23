@@ -400,7 +400,18 @@ namespace Colibri.Areas.Customer.Controllers
                                         .Where(m => m.Id == id)
                                         .FirstOrDefaultAsync();
 
-                productFromDb.ProductRating = ProductsViewModel.Products.ProductRating;
+                // calculate the new ProductRating
+                if (productFromDb.NumberOfProductRates == 0)
+                {
+                    productFromDb.ProductRating = ProductsViewModel.Products.ProductRating;
+                }
+                else
+                {
+                    productFromDb.ProductRating = (productFromDb.ProductRating * productFromDb.NumberOfProductRates + ProductsViewModel.Products.ProductRating) / productFromDb.NumberOfProductRates + 1;
+                }
+
+                // increment the Number of Product Rates of the Product
+                productFromDb.NumberOfProductRates += 1;
 
                 // save the Changes in DB
                 await _colibriDbContext.SaveChangesAsync();
