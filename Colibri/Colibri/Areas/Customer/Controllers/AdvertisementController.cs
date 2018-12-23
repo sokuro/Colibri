@@ -388,26 +388,48 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/Advertisement/RateAdvertisement/{id}")]
         [HttpPost, ActionName("RateAdvertisement")]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> RateAdvertisementPost(int id)
+        public async Task<IActionResult> RateAdvertisementPost(int id, string command)
         {
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
                 // to overwrite a Rating, first get the old One
                 // get the Product from the DB
-
                 var productFromDb = await _colibriDbContext.Products
                                         .Where(m => m.Id == id)
                                         .FirstOrDefaultAsync();
 
+                int tempProductRating = 0;
+
+                if (command.Equals("1"))
+                {
+                    tempProductRating = 1;
+                }
+                else if (command.Equals("2"))
+                {
+                    tempProductRating = 2;
+                }
+                else if (command.Equals("3"))
+                {
+                    tempProductRating = 3;
+                }
+                else if (command.Equals("4"))
+                {
+                    tempProductRating = 4;
+                }
+                else if (command.Equals("5"))
+                {
+                    tempProductRating = 5;
+                }
+
                 // calculate the new ProductRating
                 if (productFromDb.NumberOfProductRates == 0)
                 {
-                    productFromDb.ProductRating = ProductsViewModel.Products.ProductRating;
+                    productFromDb.ProductRating = tempProductRating;
                 }
                 else
                 {
-                    productFromDb.ProductRating = (productFromDb.ProductRating * productFromDb.NumberOfProductRates + ProductsViewModel.Products.ProductRating) / (productFromDb.NumberOfProductRates + 1);
+                    productFromDb.ProductRating = (productFromDb.ProductRating * productFromDb.NumberOfProductRates + tempProductRating) / (productFromDb.NumberOfProductRates + 1);
                 }
 
                 // increment the Number of Product Rates of the Product
