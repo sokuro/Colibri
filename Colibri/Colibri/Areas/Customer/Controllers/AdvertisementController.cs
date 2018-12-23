@@ -407,7 +407,7 @@ namespace Colibri.Areas.Customer.Controllers
                 }
                 else
                 {
-                    productFromDb.ProductRating = (productFromDb.ProductRating * productFromDb.NumberOfProductRates + ProductsViewModel.Products.ProductRating) / productFromDb.NumberOfProductRates + 1;
+                    productFromDb.ProductRating = (productFromDb.ProductRating * productFromDb.NumberOfProductRates + ProductsViewModel.Products.ProductRating) / (productFromDb.NumberOfProductRates + 1);
                 }
 
                 // increment the Number of Product Rates of the Product
