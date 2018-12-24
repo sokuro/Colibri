@@ -114,11 +114,11 @@ namespace Colibri.Areas.Admin.Controllers
                             
 
                             // Publish the Created Category Type
-                            using (var bus = RabbitHutch.CreateBus("host=localhost"))
-                            {
-                                //bus.Publish(categoryTypes, "create_category_types");
-                                await bus.SendAsync("create_category_types", model.CategoryTypes);
-                            }
+                            //using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                            //{
+                            //    //bus.Publish(categoryTypes, "create_category_types");
+                            //    await bus.SendAsync("create_category_types", model.CategoryTypes);
+                            //}
 
                             return RedirectToAction(nameof(Index));
                         }
@@ -215,11 +215,11 @@ namespace Colibri.Areas.Admin.Controllers
                         await _colibriDbContext.SaveChangesAsync();
 
                         // Publish the Created Category Type
-                        using (var bus = RabbitHutch.CreateBus("host=localhost"))
-                        {
-                            //bus.Publish(categoryTypes, "create_category_types");
-                            await bus.SendAsync("create_category_types", model.CategoryTypes);
-                        }
+                        //using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                        //{
+                        //    //bus.Publish(categoryTypes, "create_category_types");
+                        //    await bus.SendAsync("create_category_types", model.CategoryTypes);
+                        //}
 
                         return RedirectToAction(nameof(Index));
                     }

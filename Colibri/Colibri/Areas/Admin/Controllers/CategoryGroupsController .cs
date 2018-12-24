@@ -79,19 +79,19 @@ namespace Colibri.Areas.Admin.Controllers
                 await _colibriDbContext.SaveChangesAsync();
 
                 // Publish the Created Category
-                using (var bus = RabbitHutch.CreateBus("host=localhost"))
-                {
-                    //bus.Publish(categoryGroups, "create_category_groups");
-                    //await bus.PublishAsync("create_category_groups").ContinueWith(task =>
-                    // {
-                    //     if (task.IsCompleted && !task.IsFaulted)
-                    //     {
-                    //         Console.WriteLine("Task Completed");
-                    //         Console.ReadLine();
-                    //     }
-                    // });
-                    await bus.SendAsync("create_category_groups", categoryGroups);
-                }
+                //using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                //{
+                //    //bus.Publish(categoryGroups, "create_category_groups");
+                //    //await bus.PublishAsync("create_category_groups").ContinueWith(task =>
+                //    // {
+                //    //     if (task.IsCompleted && !task.IsFaulted)
+                //    //     {
+                //    //         Console.WriteLine("Task Completed");
+                //    //         Console.ReadLine();
+                //    //     }
+                //    // });
+                //    await bus.SendAsync("create_category_groups", categoryGroups);
+                //}
 
 
                 // avoid Refreshing the POST Operation -> Redirect
@@ -233,10 +233,10 @@ namespace Colibri.Areas.Admin.Controllers
             await _colibriDbContext.SaveChangesAsync();
 
             // Publish the Removed Category
-            using (var bus = RabbitHutch.CreateBus("host=localhost"))
-            {
-                bus.Publish(categoryGroup, "remove_category_groups");
-            }
+            //using (var bus = RabbitHutch.CreateBus("host=localhost"))
+            //{
+            //    bus.Publish(categoryGroup, "remove_category_groups");
+            //}
 
             // avoid Refreshing the POST Operation -> Redirect
             //return View("Details", newCategory);

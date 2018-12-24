@@ -251,16 +251,16 @@ namespace Colibri.Areas.Customer.Controllers
                 await _colibriDbContext.SaveChangesAsync();
 
                 // Publish the Created Advertisement's Product
-                using (var bus = RabbitHutch.CreateBus("host=localhost"))
-                {
-                    Console.WriteLine("Publishing an User Service Message.");
-                    Console.WriteLine();
+                //using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                //{
+                //    Console.WriteLine("Publishing an User Service Message.");
+                //    Console.WriteLine();
 
-                    //bus.Publish<AdvertisementViewModel>(AdvertisementViewModel, "my_subscription_id");
-                    //bus.Publish(productsFromDb, "my_subscription_id");
+                //    //bus.Publish<AdvertisementViewModel>(AdvertisementViewModel, "my_subscription_id");
+                //    //bus.Publish(productsFromDb, "my_subscription_id");
 
-                    await bus.SendAsync("create_user_service", userServicesFromDb);
-                }
+                //    await bus.SendAsync("create_user_service", userServicesFromDb);
+                //}
 
                 // TODO
                 // Convert to JSON

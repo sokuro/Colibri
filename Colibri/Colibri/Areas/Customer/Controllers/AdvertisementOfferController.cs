@@ -197,16 +197,16 @@ namespace Colibri.Areas.Customer.Controllers
             await _colibriDbContext.SaveChangesAsync();
 
             // Publish the Created Advertisement's Product
-            using (var bus = RabbitHutch.CreateBus("host=localhost"))
-            {
-                Console.WriteLine("Publishing an Advertisement Message.");
-                Console.WriteLine();
+            //using (var bus = RabbitHutch.CreateBus("host=localhost"))
+            //{
+            //    Console.WriteLine("Publishing an Advertisement Message.");
+            //    Console.WriteLine();
 
-                //bus.Publish<AdvertisementViewModel>(AdvertisementViewModel, "my_subscription_id");
-                //bus.Publish(productsFromDb, "my_subscription_id");
+            //    //bus.Publish<AdvertisementViewModel>(AdvertisementViewModel, "my_subscription_id");
+            //    //bus.Publish(productsFromDb, "my_subscription_id");
 
-                await bus.SendAsync("create_advertisement", productsFromDb);
-            }
+            //    await bus.SendAsync("create_advertisement", productsFromDb);
+            //}
 
             // Eintrag für ArchiveEntry erstellen
             ArchiveEntry archiveEntry = new ArchiveEntry()
@@ -329,16 +329,16 @@ namespace Colibri.Areas.Customer.Controllers
             await _colibriDbContext.SaveChangesAsync();
 
             // Publish the Created Advertisement's Product
-            using (var bus = RabbitHutch.CreateBus("host=localhost"))
-            {
-                Console.WriteLine("Publishing an Advertisement Message.");
-                Console.WriteLine();
+            //using (var bus = RabbitHutch.CreateBus("host=localhost"))
+            //{
+            //    Console.WriteLine("Publishing an Advertisement Message.");
+            //    Console.WriteLine();
 
-                //bus.Publish<AdvertisementViewModel>(AdvertisementViewModel, "my_subscription_id");
-                //bus.Publish(productsFromDb, "my_subscription_id");
+            //    //bus.Publish<AdvertisementViewModel>(AdvertisementViewModel, "my_subscription_id");
+            //    //bus.Publish(productsFromDb, "my_subscription_id");
 
-                await bus.SendAsync("create_advertisement", servicesFromDb);
-            }
+            //    await bus.SendAsync("create_advertisement", servicesFromDb);
+            //}
 
             // Eintrag für ArchiveEntry erstellen
             ArchiveEntry archiveEntry = new ArchiveEntry()

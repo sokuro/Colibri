@@ -279,16 +279,16 @@ namespace Colibri.Areas.Customer.Controllers
                 await _colibriDbContext.SaveChangesAsync();
 
                 // Publish the Created Advertisement's Product
-                using (var bus = RabbitHutch.CreateBus("host=localhost"))
-                {
-                    Console.WriteLine("Publishing an Advertisement Message.");
-                    Console.WriteLine();
+                //using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                //{
+                //    Console.WriteLine("Publishing an Advertisement Message.");
+                //    Console.WriteLine();
 
-                    //bus.Publish<AdvertisementViewModel>(AdvertisementViewModel, "my_subscription_id");
-                    //bus.Publish(productsFromDb, "my_subscription_id");
+                //    //bus.Publish<AdvertisementViewModel>(AdvertisementViewModel, "my_subscription_id");
+                //    //bus.Publish(productsFromDb, "my_subscription_id");
 
-                    await bus.SendAsync("create_advertisement", productsFromDb);
-                }
+                //    await bus.SendAsync("create_advertisement", productsFromDb);
+                //}
 
                 // TODO
                 // Convert to JSON
@@ -670,13 +670,13 @@ namespace Colibri.Areas.Customer.Controllers
 
                 // TODO
                 // Publish the Created Advertisement's Product
-                using (var bus = RabbitHutch.CreateBus("host=localhost"))
-                {
-                    Console.WriteLine("Publishing messages with publish and subscribe.");
-                    Console.WriteLine();
+                //using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                //{
+                //    Console.WriteLine("Publishing messages with publish and subscribe.");
+                //    Console.WriteLine();
 
-                    bus.Publish(products, "removed_products_by_admin");
-                }
+                //    bus.Publish(products, "removed_products_by_admin");
+                //}
 
 
                 // avoid Refreshing the POST Operation -> Redirect

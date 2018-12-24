@@ -175,10 +175,11 @@ namespace Colibri.Areas.Admin.Controllers
                 //    });
                 //}
 
-                using (var bus = RabbitHutch.CreateBus("host=localhost"))
-                {
-                    await bus.SendAsync("create_product_by_admin", productsFromDb);
-                }
+                // TODO: Deactivate on Azure
+                //using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                //{
+                //    await bus.SendAsync("create_product_by_admin", productsFromDb);
+                //}
 
 
                 // avoid Refreshing the POST Operation -> Redirect
@@ -418,13 +419,13 @@ namespace Colibri.Areas.Admin.Controllers
 
                 // TODO
                 // Publish the Created Advertisement's Product
-                using (var bus = RabbitHutch.CreateBus("host=localhost"))
-                {
-                    Console.WriteLine("Publishing messages with publish and subscribe.");
-                    Console.WriteLine();
+                //using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                //{
+                //    Console.WriteLine("Publishing messages with publish and subscribe.");
+                //    Console.WriteLine();
 
-                    bus.Publish(products, "removed_products_by_admin");
-                }
+                //    bus.Publish(products, "removed_products_by_admin");
+                //}
 
 
                 // avoid Refreshing the POST Operation -> Redirect
