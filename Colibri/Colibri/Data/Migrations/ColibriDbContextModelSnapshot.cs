@@ -131,6 +131,8 @@ namespace Colibri.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<string>("NameCombined");
+
                     b.Property<string>("PLZ");
 
                     b.Property<bool>("isActive");
