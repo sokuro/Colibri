@@ -59,7 +59,6 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 CategoryGroups = _colibriDbContext.CategoryGroups.ToList(),
                 CategoryTypes = _colibriDbContext.CategoryTypes.ToList(),
-                SpecialTags = _colibriDbContext.SpecialTags.ToList(),
                 UserServices = new List<UserServices>(),
                 Users = new List<ApplicationUser>()
             };
@@ -69,7 +68,6 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 CategoryGroups = _colibriDbContext.CategoryGroups.ToList(),
                 CategoryTypes = _colibriDbContext.CategoryTypes.ToList(),
-                SpecialTags = _colibriDbContext.SpecialTags.ToList(),
                 UserServices = new Models.UserServices()
             };
         }

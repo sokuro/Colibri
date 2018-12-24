@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Colibri.Models.ApplicationUser>
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+<div class="row">
+    <div class="col-6 text-center">
+        <h2 class="text-info">@ViewData["CustomerUser"]</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-area="Identity" asp-page="/Account/RegisterAdmin" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewCustomerUser"]</a>
+    </div>
+</div>
+<div>
+    <table class="table table-striped border">
+        <tr class="text-info">
+            <th>
+                @ViewData["FirstName"]
+            </th>
+            <th>
+                @ViewData["LastName"]
+            </th>
+            <th>
+                @ViewData["Email"]
+            </th>
+            <th>
+                @ViewData["PhoneNumber"]
+            </th>
+            <th>
+                @ViewData["Disabled"]
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.PhoneNumber)
+                </td>
+                <td>
+                    <!-- Condition 'Lockout': if the Date ends, lock the User out -->
+                    @if (item.LockoutEnd != null || item.LockoutEnd > DateTime.Now)
+                    {
+                        <label>Disabled</label>
+                    }
+                </td>
+                <td>
+                    <!-- Condition 'Lockout': if the Date does NOT end, allow Redirection -->
+                    @if (item.LockoutEnd == null || item.LockoutEnd < DateTime.Now)
+                    {
+                        <a type="button" class="btn btn-primary" href="@Url.Action("Edit","CustomerUsers", new { item.Id })">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a type="button" class="btn btn-danger" href="@Url.Action("Delete","CustomerUsers", new { item.Id })">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>

@@ -79,6 +79,11 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["LastName"] = _localizer["LastNameText"];
             ViewData["Email"] = _localizer["EmailText"];
             ViewData["PhoneNumber"] = _localizer["PhoneNumberText"];
+            ViewData["Street"] = _localizer["StreetText"];
+            ViewData["CareOf"] = _localizer["CareOfText"];
+            ViewData["City"] = _localizer["CityText"];
+            ViewData["Zip"] = _localizer["ZipText"];
+            ViewData["Country"] = _localizer["CountryText"];
             ViewData["Update"] = _localizer["UpdateText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
 
@@ -105,7 +110,15 @@ namespace Colibri.Areas.Admin.Controllers
                 // Properties or the User
                 userFromDb.FirstName = applicationUser.FirstName;
                 userFromDb.LastName = applicationUser.LastName;
+                // TODO: User can edit Email?!
+                userFromDb.Email = applicationUser.Email;
                 userFromDb.PhoneNumber = applicationUser.PhoneNumber;
+                userFromDb.Street = applicationUser.Street;
+                userFromDb.CareOf = applicationUser.CareOf;
+                userFromDb.City = applicationUser.City;
+                userFromDb.Zip = applicationUser.Zip;
+                userFromDb.Country = applicationUser.Country;
+                userFromDb.Modified = DateTime.Now;
 
                 // save Changes
                 _colibriDbContext.SaveChanges();

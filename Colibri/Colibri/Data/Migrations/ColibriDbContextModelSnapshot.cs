@@ -196,7 +196,11 @@ namespace Colibri.Migrations
 
                     b.Property<int>("NumberOfClicks");
 
+                    b.Property<int>("NumberOfProductRates");
+
                     b.Property<double>("Price");
+
+                    b.Property<double>("ProductRating");
 
                     b.Property<bool>("isOffer");
 
@@ -273,7 +277,11 @@ namespace Colibri.Migrations
 
                     b.Property<int>("NumberOfClicks");
 
+                    b.Property<int>("NumberOfServiceRates");
+
                     b.Property<double>("Price");
+
+                    b.Property<double>("ServiceRating");
 
                     b.Property<bool>("isOffer");
 
@@ -458,13 +466,31 @@ namespace Colibri.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
+                    b.Property<string>("CareOf");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Country");
+
+                    b.Property<DateTime>("Created");
+
                     b.Property<string>("FirstName");
+
+                    b.Property<string>("Image");
 
                     b.Property<bool>("IsSuperAdmin");
 
                     b.Property<string>("LastName");
 
+                    b.Property<DateTime>("Modified");
+
                     b.Property<string>("Password");
+
+                    b.Property<string>("Street");
+
+                    b.Property<double>("UserRating");
+
+                    b.Property<int>("Zip");
 
                     b.ToTable("ApplicationUser");
 

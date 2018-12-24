@@ -184,3 +184,9 @@ body.sidebar-toggled footer.sticky-footer {
         width: calc(100%);
     }
 }
+
+/* Rating */
+.rating-header {
+    margin-top: -10px;
+    margin-bottom: 10px;
+}

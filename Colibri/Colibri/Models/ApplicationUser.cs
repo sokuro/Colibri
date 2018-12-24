@@ -20,20 +20,22 @@ namespace Colibri.Models
         public string FirstName { get; set; }
         //public string MiddleName { get; set; }
         public string LastName { get; set; }
-        //public string Street { get; set; }
-        //public string CareOf { get; set; }
-        //public int HouseNumber { get; set; }
-        //public string City { get; set; }
-        //public int Zip { get; set; }
-        //public string State { get; set; }
-        //public string Country { get; set; }
+        public string Street { get; set; }
+        public string CareOf { get; set; }
+        public string City { get; set; }
+        public int Zip { get; set; }
+        public string Country { get; set; }
         public string Password { get; set; }
+        public string Image { get; set; }
 
-        // mapped Property! unmapped can NOT be filtered in the Linq Query!
+        // Admin Area
         public bool IsSuperAdmin { get; set; }
 
+        // Rating
+        public double UserRating { get; set; }
+
         // Logging
-        //public DateTime Created { get; set; }
-        //public DateTime Modified { get; set; }
+        public DateTime Created { get; set; }
+        public DateTime Modified { get; set; }
     }
 }
