@@ -351,6 +351,7 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["ProductRating"] = _localizer["ProductRatingText"];
             ViewData["RateProduct"] = _localizer["RateProductText"];
+            ViewData["NumberOfProductRates"] = _localizer["NumberOfProductRatesText"];
 
             return View(product);
         }
@@ -388,19 +389,52 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/Advertisement/RateAdvertisement/{id}")]
         [HttpPost, ActionName("RateAdvertisement")]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> RateAdvertisementPost(int id)
+        public async Task<IActionResult> RateAdvertisementPost(int id, string command)
         {
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
                 // to overwrite a Rating, first get the old One
                 // get the Product from the DB
-
                 var productFromDb = await _colibriDbContext.Products
                                         .Where(m => m.Id == id)
                                         .FirstOrDefaultAsync();
 
-                productFromDb.ProductRating = ProductsViewModel.Products.ProductRating;
+                int tempProductRating = 0;
+
+                if (command.Equals("1"))
+                {
+                    tempProductRating = 1;
+                }
+                else if (command.Equals("2"))
+                {
+                    tempProductRating = 2;
+                }
+                else if (command.Equals("3"))
+                {
+                    tempProductRating = 3;
+                }
+                else if (command.Equals("4"))
+                {
+                    tempProductRating = 4;
+                }
+                else if (command.Equals("5"))
+                {
+                    tempProductRating = 5;
+                }
+
+                // calculate the new ProductRating
+                if (productFromDb.NumberOfProductRates == 0)
+                {
+                    productFromDb.ProductRating = tempProductRating;
+                }
+                else
+                {
+                    productFromDb.ProductRating = Math.Round((productFromDb.ProductRating * productFromDb.NumberOfProductRates + tempProductRating) / (productFromDb.NumberOfProductRates + 1), 2);
+                }
+
+                // increment the Number of Product Rates of the Product
+                productFromDb.NumberOfProductRates += 1;
 
                 // save the Changes in DB
                 await _colibriDbContext.SaveChangesAsync();

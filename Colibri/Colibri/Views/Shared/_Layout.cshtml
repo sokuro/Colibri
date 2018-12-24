@@ -106,6 +106,7 @@
                                 <a class="dropdown-item" asp-route-area="Customer" asp-controller="UserServices" asp-action="Index">User Services</a>
                                 <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementOffer" asp-action="Index">Angebot Erstellen</a>
                                 <a class="dropdown-item" asp-route-area="Customer" asp-controller="Appointments" asp-action="Index">Appointments</a>
+                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementRequest" asp-action="Index">Nachfrage Erstellen</a>
                             </div>
                         </li>
                     }
@@ -207,7 +208,7 @@
                 </form>
             </article>*@
             <article>
-                <h2 class="text-center">@ViewBag.Title</h2>
+                @*<h2 class="text-center">@ViewBag.Title</h2>*@
                 @RenderBody()
             </article>
         </section>
