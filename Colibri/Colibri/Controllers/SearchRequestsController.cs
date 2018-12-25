@@ -1,28 +1,23 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Colibri.Areas.Customer.Controllers;
 using Colibri.Data;
-using Colibri.Models;
-using Colibri.Utility;
 using Colibri.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
-namespace Colibri.Areas.Customer.Controllers
+namespace Colibri.Controllers
 {
     /*
 * Controller for the Advertisement View
 * 
 * authorize only the AdminEndUser (registered User)
 */
-    //[Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
-    //[Area("Customer")]
-    public class SearchOffersController : Controller
+    public class SearchRequestsController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
         private readonly HostingEnvironment _hostingEnvironment;
@@ -35,7 +30,7 @@ namespace Colibri.Areas.Customer.Controllers
         public SearchViewModel SearchViewModel { get; set; }
 
         // Constructor
-        public SearchOffersController(ColibriDbContext colibriDbContext,
+        public SearchRequestsController(ColibriDbContext colibriDbContext,
             HostingEnvironment hostingEnvironment,
             IStringLocalizer<SearchOffersController> localizer)
         {
@@ -49,11 +44,9 @@ namespace Colibri.Areas.Customer.Controllers
                 Products = new Models.Products(),
                 UserServices = new Models.UserServices()
             };
-
         }
 
         // GET : Action for Index
-        //[Route("SearchOffers/Index")]
         public async Task<IActionResult> Index()
         {
             // Products
@@ -66,9 +59,9 @@ namespace Colibri.Areas.Customer.Controllers
 
             SearchViewModel.CategoryGroupsList = await _colibriDbContext.CategoryGroups.ToListAsync();
 
-            // Filter auf Angebote
-            SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.isOffer == true);
-            SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.isOffer == true);
+            // Filter auf Nachfragen
+            SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.isOffer == false);
+            SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.isOffer == false);
 
             return View(SearchViewModel);
         }
@@ -97,7 +90,7 @@ namespace Colibri.Areas.Customer.Controllers
             }
 
             // Prüfen, ob Suchbegriff für Rubrik-Gruppe existiert
-            if(!string.IsNullOrEmpty(model.SearchCategoryGroup))
+            if (!string.IsNullOrEmpty(model.SearchCategoryGroup))
             {
                 SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.CategoryGroups.Name.Contains(model.SearchCategoryGroup));
                 SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.CategoryGroups.Name.Contains(model.SearchCategoryGroup));
@@ -118,11 +111,11 @@ namespace Colibri.Areas.Customer.Controllers
             return View(SearchViewModel);
         }
 
-        // GET : Action for SearchOffer
-        public async Task<IActionResult> SearchOffer(HomeIndexViewModel model)
+        // GET : Action for SearchRequest
+        public async Task<IActionResult> SearchRequest(HomeIndexViewModel model)
         {
             // i18n
-            ViewData["SearchOffers"] = _localizer["SearchOffersText"];
+            ViewData["SearchRequests"] = _localizer["SearchRequestsText"];
             ViewData["SearchString"] = _localizer["SearchStringText"];
             ViewData["Details"] = _localizer["DetailsText"];
             ViewData["Sorry1"] = _localizer["Sorry1Text"];
@@ -135,11 +128,11 @@ namespace Colibri.Areas.Customer.Controllers
             SearchViewModel.SearchAdvertisement = model.SearchAdvertisement;
 
             // Prüfen, ob es ein aktuelles PRODUKTE-Angebot in der Datenbank gibt
-            SearchViewModel.ProductsList = await _colibriDbContext.Products.Where(m => m.Name.Contains(SearchViewModel.SearchAdvertisement)).Where(m => m.isOffer == true).ToListAsync();
+            SearchViewModel.ProductsList = await _colibriDbContext.Products.Where(m => m.Name.Contains(SearchViewModel.SearchAdvertisement)).Where(m => m.isOffer == false).ToListAsync();
             SearchViewModel.ProductsCounter = SearchViewModel.ProductsList.Count();
 
             // Prüfen, ob es ein aktuelles DIENSTLEISTUNGS-Angebot in der Datenbank gibt
-            SearchViewModel.UserServicesList = await _colibriDbContext.UserServices.Where(m => m.Name.Contains(SearchViewModel.SearchAdvertisement)).Where(m => m.isOffer == true).ToListAsync();
+            SearchViewModel.UserServicesList = await _colibriDbContext.UserServices.Where(m => m.Name.Contains(SearchViewModel.SearchAdvertisement)).Where(m => m.isOffer == false).ToListAsync();
             SearchViewModel.UserServicesCounter = SearchViewModel.UserServicesList.Count();
 
             // Gesamte Anzahl Resultate
@@ -149,7 +142,7 @@ namespace Colibri.Areas.Customer.Controllers
             if (SearchViewModel.ResultsCounter < 1)
             {
                 // Ergebnisse werden absteigend sortiert und die Top 3 Werte werden zurückgegeben
-                SearchViewModel.ArchiveEntryList = await _colibriDbContext.ArchiveEntry.Where(m => m.Name.Contains(SearchViewModel.SearchAdvertisement)).Where(m => m.isOffer == true).Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).OrderByDescending(p => p.CreatedOn).Take(3).ToListAsync();
+                SearchViewModel.ArchiveEntryList = await _colibriDbContext.ArchiveEntry.Where(m => m.Name.Contains(SearchViewModel.SearchAdvertisement)).Where(m => m.isOffer == false).Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).OrderByDescending(p => p.CreatedOn).Take(3).ToListAsync();
                 SearchViewModel.ResultsCounterArchive = SearchViewModel.ArchiveEntryList.Count();
             }
 
