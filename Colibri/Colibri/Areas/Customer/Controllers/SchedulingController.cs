@@ -161,7 +161,11 @@ namespace Colibri.Areas.Customer.Controllers
             // TODO
             // send Email: to the Customer and the Owner
             // build a Template mit Customers Details
-            _emailSender.SendEmailAsync(SchedulingViewModel.Appointments.CustomerEmail, "Your Order at Colibri", $"We are happy to inform you about your Order");
+            //_emailSender.SendEmailAsync(
+            //    SchedulingViewModel.Appointments.CustomerEmail, 
+            //    "Your Order at Colibri", 
+            //    $"We are happy to inform you about your Order:" +
+            //    $"OrderNo.: " + SchedulingViewModel.Products.FirstOrDefault().Id);
 
             // redirect to Action:
             // ActionMethod: AppointmentConfirmation
@@ -196,6 +200,29 @@ namespace Colibri.Areas.Customer.Controllers
                                                     .Where(p => p.Id == prodObj.ProductId)
                                                     .FirstOrDefault());
             }
+
+            // send Email: to the Customer and the Owner
+            // build a Template mit Customers Details
+            //_emailSender.SendEmailAsync(
+            //    SchedulingViewModel.Appointments.CustomerEmail,
+            //    "Your Reservation at Colibri",
+            //    $"We are happy to inform you about your Reservation of the Product:" +
+            //    $"Name: " + SchedulingViewModel.Products.FirstOrDefault().Name +
+            //    $"on " + SchedulingViewModel.Appointments.AppointmentDate +
+            //    $"at " + SchedulingViewModel.Appointments.AppointmentTime +
+            //    $"Thank you" +
+            //    $"Your Colibri Team");
+
+            // TODO: html Version
+            _emailSender.SendEmailAsync(
+                SchedulingViewModel.Appointments.CustomerEmail,
+                "Your Reservation at Colibri",
+                $"We are happy to inform you about your Reservation of the Product:" +
+                $"Name: " + SchedulingViewModel.Products.FirstOrDefault().Name +
+                $"on " + SchedulingViewModel.Appointments.AppointmentDate +
+                $"at " + SchedulingViewModel.Appointments.AppointmentTime +
+                $"Thank you" +
+                $"Your Colibri Team");
 
             // pass the Scheduling View Model as Object
             return View(SchedulingViewModel);
