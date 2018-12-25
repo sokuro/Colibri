@@ -53,9 +53,14 @@ namespace Colibri.Areas.Admin.Controllers
         {
             // i18n
             ViewData["CreateCategoryType"] = _localizer["CreateCategoryTypeText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
             ViewData["Create"] = _localizer["CreateText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["Name"] = _localizer["NameText"];
+            ViewData["PLZ"] = _localizer["PLZText"];
+            ViewData["IsNew"] = _localizer["IsNewText"];
+            ViewData["ExistingCategories"] = _localizer["ExistingCategoriesText"];
+
 
             CategoryTypesAndCategoryGroupsViewModel model = new CategoryTypesAndCategoryGroupsViewModel()
             {
@@ -108,7 +113,25 @@ namespace Colibri.Areas.Admin.Controllers
                         }
                         else
                         {
-                            // Wenn keine Fehler, Eintrag in DB hinzufügen
+                            if(model.CategoryTypes.PLZ == null)
+                            {
+                                model.CategoryTypes.isGlobal = true;
+                            }
+
+                            // Wenn keine Fehler, kombinierten Name ergänzen
+                            // Product / UserService
+                            model.CategoryTypes.CategoryGroups = await _colibriDbContext.CategoryGroups.Where(m => m.Id == model.CategoryTypes.CategoryGroupId).FirstOrDefaultAsync();
+
+                            if(model.CategoryTypes.CategoryGroups.TypeOfCategoryGroup.Equals("Product"))
+                            {
+                                model.CategoryTypes.NameCombined = "Product - " + model.CategoryTypes.CategoryGroups.Name + " - " + model.CategoryTypes.Name;
+                            }
+                            else
+                            {
+                                model.CategoryTypes.NameCombined = "Service - " + model.CategoryTypes.CategoryGroups.Name + " - " + model.CategoryTypes.Name;
+                            }
+                            
+                            // Eintrag in DB schreiben
                             _colibriDbContext.Add(model.CategoryTypes);
                             await _colibriDbContext.SaveChangesAsync();
                             
@@ -169,6 +192,12 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["Name"] = _localizer["NameText"];
             ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["CreateCategoryType"] = _localizer["CreateCategoryTypeText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["Create"] = _localizer["CreateText"];
+            ViewData["PLZ"] = _localizer["PLZText"];
+            ViewData["IsNew"] = _localizer["IsNewText"];
+            ViewData["ExistingCategories"] = _localizer["ExistingCategoriesText"];
 
             return View(model);
         }
@@ -207,6 +236,15 @@ namespace Colibri.Areas.Admin.Controllers
                     }
                     else
                     {
+                        if (model.CategoryTypes.PLZ == null)
+                        {
+                            model.CategoryTypes.isGlobal = true;
+                        }
+                        else
+                        {
+                            model.CategoryTypes.isGlobal = false;
+                        }
+
                         // Wenn keine Fehler, Eintrag in DB hinzufügen
                         var catTypeFromDb = _colibriDbContext.CategoryTypes.Find(id);
                         catTypeFromDb.Name = model.CategoryTypes.Name;
@@ -260,6 +298,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["Name"] = _localizer["NameText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["PLZ"] = _localizer["PLZText"];
 
             return View(categoryType);
         }

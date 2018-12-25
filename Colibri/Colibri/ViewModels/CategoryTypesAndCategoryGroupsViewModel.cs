@@ -15,6 +15,9 @@ namespace Colibri.ViewModels
         // Liste mit allen verfügbaren Rubrik-Gruppen
         public IEnumerable<CategoryGroups> CategoryGroupsList { get; set; }
 
+        // Rubrik-Gruppe
+        public CategoryGroups CategoryGroups { get; set; }
+
         // Liste mit allen Rubrik
         public List<string> CategoryTypesList { get; set; }
 

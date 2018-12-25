@@ -3,14 +3,17 @@
 
 @inject IViewLocalizer Localizer
 
+<br />
 <div class="row">
-    <div class="col-6 text-center">
+    <div class="col-6">
         <h2 class="text-info">@ViewData["CategoryType"]</h2>
     </div>
     <div class="col-6 text-right">
         <a asp-action="Create" asp-controller="CategoryTypes" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewCategoryType"]</a>
     </div>
 </div>
+<br />
+<hr />
 <div>
     <table class="table table-striped border">
         <tr class="text-info">

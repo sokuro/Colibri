@@ -1,8 +1,12 @@
 ﻿@model Colibri.ViewModels.CategoryTypesAndCategoryGroupsViewModel
 @using Colibri.Extensions
 
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">@ViewData["EditCategoryType"]</h2>
+    </div>
+</div>
 
-<h2 class="text-info">@ViewData["EditCategoryType"]</h2>
 <br />
 @Html.Partial("_StatusMessage", Model.StatusMessage)
 <hr />
@@ -14,7 +18,7 @@
 
             <div class="form-group row">
                 <div class="col-3">
-                    <label asp-for="CategoryTypes.Name" class="custom-label"></label>
+                    <label asp-for="CategoryTypes.Name" class="custom-label">@ViewData["Name"]</label>
                 </div>
                 <div class="col-5">
                     <input asp-for="CategoryTypes.Name" class="form-control" />
@@ -24,7 +28,7 @@
 
             <div class="form-group row">
                 <div class="col-3">
-                    <label asp-for="CategoryTypes.CategoryGroupId" class="custom-label"></label>
+                    <label asp-for="CategoryTypes.CategoryGroupId" class="custom-label">@ViewData["CategoryGroup"]</label>
                 </div>
                 <div class="col-5">
                     <select asp-for="CategoryTypes.CategoryGroupId" asp-items="Model.CategoryGroupsList.ToSelectListItem(Model.CategoryTypes.CategoryGroupId)" class="form-control"></select>
@@ -32,10 +36,20 @@
             </div>
 
             <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="CategoryTypes.PLZ" class="custom-label">@ViewData["PLZ"]</label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="CategoryTypes.PLZ" class="form-control" />
+                </div>
+                <span asp-validation-for="CategoryTypes.PLZ" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
                 <div class="col-3"></div>
                 <div class="col-5">
-                    <input type="submit" value="Aktualisieren" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-success">Zurück zur Liste</a>
+                    <input type="submit" value="@ViewData["Update"]" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
                 </div>
             </div>
 
@@ -46,7 +60,7 @@
     <div class="col-4">
         @if (Model.CategoryTypesList.Count() > 0)
         {
-            <p>Vorhandene Rubriken</p>
+        <p>@ViewData["ExistingCategories"]</p>
             <ul class="list-group">
                 @foreach (var item in Model.CategoryTypesList)
                 {

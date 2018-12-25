@@ -3,23 +3,24 @@
 
 @inject IViewLocalizer Localizer
 
+<br />
 <div class="row">
-    <div class="col-6 text-center">
+    <div class="col-6">
         <h2 class="text-info">@ViewData["CategoryGroup"]</h2>
     </div>
     <div class="col-6 text-right">
         <a asp-action="Create" asp-controller="CategoryGroups" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewCategoryGroup"]</a>
     </div>
 </div>
+<br />
+<hr />
 <div>
     <table class="table table-striped border">
         <tr class="text-info">
             <th>
-                @*@Html.DisplayNameFor(m => m.Name)*@
                 @ViewData["Name"]
             </th>
             <th>
-                @*@Html.DisplayNameFor(m => m.TypeOfCategoryGroup)*@
                 @ViewData["TypeOfCategoryGroup"]
             </th>
             <th></th>

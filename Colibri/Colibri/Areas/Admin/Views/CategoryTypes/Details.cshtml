@@ -1,10 +1,13 @@
 ﻿@model Colibri.Models.CategoryTypes
-@{
-    ViewData["Title"] = "Details";
-}
 
-<h2 class="text-info">@ViewData["DetailsCategoryType"]</h2>
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">@ViewData["DetailsCategoryType"]</h2>
+    </div>
+</div>
+
 <br />
+<hr />
 
 <div class="form-border">
     <fieldset disabled>
@@ -24,6 +27,15 @@
             </div>
             <div class="col-4">
                 <input asp-for="CategoryGroups.Name" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="PLZ" class="custom-label">@ViewData["PLZ"]</label>
+            </div>
+            <div class="col-4">
+                <input asp-for="PLZ" class="form-control" />
             </div>
         </div>
 
