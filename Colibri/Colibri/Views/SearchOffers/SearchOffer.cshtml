@@ -1,0 +1,179 @@
+﻿@model Colibri.ViewModels.SearchViewModel
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">@ViewData["SearchOffers"]</h2>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-8">
+        <div class="p-4 border rounded">
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label class="custom-label">@ViewData["SearchString"]:</label>
+                </div>
+                <div class="col-5">
+                    <form asp-controller="SearchOffers" asp-action="SearchOffer">
+                        <input asp-for="SearchAdvertisement" type="text" /> &nbsp;
+                        <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@if (Model.ResultsCounter > 0)
+{
+    <!--Resultate für Produkte anzeigen-->
+    if (Model.ProductsCounter > 0)
+    {
+        <div class="form-row">
+            <div class="col-8">
+                <div class="form-border">
+                    <div class="form-group row">
+                        @foreach (var product in Model.ProductsList)
+                        {
+                            <div class="col-4">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <h4 class="my-0 font-weight-normal">
+                                            <label style="font-size:23px;color:steelblue;">
+                                                @Html.DisplayFor(m => product.Name)
+                                            </label>
+                                        </h4>
+                                    </div>
+
+                                    <img class="card-img-top" style="height:100%;" src="@product.Image" alt="Card Image">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <label style="font-size:20px;color:#a51313">
+                                                    <b>$@product.Price</b>
+                                                </label>
+                                            </div>
+                                            <a asp-action="Details" asp-controller="SearchOffers" class="btn btn-success pull-right btn-outline-info" asp-route-id="@product.Id">@ViewData["Details"]</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+    <!--Resultate für Diensteleistungen anzeigen-->
+    if (Model.UserServicesCounter > 0)
+    {
+        <div class="form-row">
+            <div class="col-8">
+                <div class="form-border">
+                    <div class="form-group row">
+                        @foreach (var userService in Model.UserServicesList)
+                        {
+                            <div class="col-4">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <h4 class="my-0 font-weight-normal">
+                                            <label style="font-size:23px;color:steelblue;">
+                                                @Html.DisplayFor(m => userService.Name)
+                                            </label>
+                                        </h4>
+                                    </div>
+
+                                    <img class="card-img-top" style="height:100%;" src="@userService.Image" alt="Card Image">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <label style="font-size:20px;color:#a51313">
+                                                    <b>$@userService.Price</b>
+                                                </label>
+                                            </div>
+                                            <a asp-action="Details" asp-controller="SearchOffers" class="btn btn-success pull-right btn-outline-info" asp-route-id="@userService.Id">@ViewData["Details"]</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    if (Model.ResultsCounterArchive > 0)
+    {
+        <!--Hinwes, dass keine aktuellen Ergebnisse vorhanden sind-->
+        <div class="custom-label">
+            <div class="text-danger">
+                @ViewData["Sorry1"]
+            </div>
+        </div>
+
+        <div class="custom-label">
+            <div class="text-danger">
+                @ViewData["Sorry2"]
+            </div>
+        </div>
+
+        <!--Tabelle mit gefundenen Einträgen aus Archiv-DB-->
+        <div class="form-border">
+            <table class="table">
+                <tr>
+                    <th>
+                        @ViewData["Title"] 
+                    </th>
+                    <th>
+                        @ViewData["CategoryType"] 
+                    </th>
+                    <th>
+                        @ViewData["CategoryGroup"] 
+                    </th>
+                    <th>
+                        @ViewData["CreatedOn"] 
+                    </th>
+                </tr>
+                @foreach (var entry in Model.ArchiveEntryList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => entry.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => entry.CategoryTypeId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => entry.CategoryGroups.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => entry.CreatedOn)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+    else
+    {
+        <!--Keine Ergebnisse gefunden-->
+        <!--Hinwes, dass keine aktuellen Ergebnisse vorhanden sind-->
+        <div class="custom-label">
+            <div class="text-danger">
+                @ViewData["Sorry1"]
+            </div>
+        </div>
+    }
+
+}

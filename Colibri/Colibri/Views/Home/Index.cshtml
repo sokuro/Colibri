@@ -16,25 +16,32 @@
                     </a>
                 </div>
                 <br />
-                <div class="col-md-8">
-                    <form asp-controller="Home" asp-action="AdvertisementResults">
-                        <!--<input asp-for="SearchAdvertisement" class="form-control" />-->
-                        <input class="form-control" />
+                <div class="col-md-6">
+                    <form asp-controller="SearchOffers" asp-action="SearchOffer">
+                        <div class="row d-flex justify-content-center">
+                            <input asp-for="SearchAdvertisement" type="text" /> &nbsp;
+                            <button class="btn btn-primary custom-button"><i class="fas fa-search"></i></button>
+                        </div>
                     </form>
                 </div>
             </div>
             <!--Nachfragen suchen-->
             <div class="col-md-6">
                 <div>
-                    <a asp-action="Create" type="button" class="btn btn-primary custom-button">
+                    <a asp-controller="SearchRequests" asp-action="Index" type="button" class="btn btn-primary custom-button">
                         Nachfrage Suchen &nbsp;
                         <i class="fas fa-search-plus"></i>
                     </a>
                 </div>
                 <br />
-                <div class="col-md-8">
-                    <!--<input asp-for="SearchAdvertisementRequest" class="form-control" />-->
-                    <input class="form-control" />
+                <div class="col-md-6">
+                    <form asp-controller="SearchRequests" asp-action="SearchRequest">
+                        <div class="row d-flex justify-content-center">
+                            <input asp-for="SearchAdvertisement" type="text" /> &nbsp;
+                            <button class="btn btn-primary custom-button"><i class="fas fa-search"></i></button>
+                        </div>
+
+                    </form>
                 </div>
             </div>
         </div>
