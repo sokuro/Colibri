@@ -124,7 +124,7 @@
     <value>Category Groups</value>
   </data>
   <data name="CreateCategoryGroupText" xml:space="preserve">
-    <value>Create new Category Group</value>
+    <value>New Category Group</value>
   </data>
   <data name="CreateText" xml:space="preserve">
     <value>Create</value>

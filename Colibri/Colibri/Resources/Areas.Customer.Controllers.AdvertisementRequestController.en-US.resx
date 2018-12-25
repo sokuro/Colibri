@@ -117,52 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BackToListText" xml:space="preserve">
-    <value>Back</value>
+  <data name="OfferProductText" xml:space="preserve">
+    <value>Product offer</value>
   </data>
-  <data name="CategoryGroupText" xml:space="preserve">
-    <value>Category Group</value>
+  <data name="OffersText" xml:space="preserve">
+    <value>Own Offers</value>
   </data>
-  <data name="CategoryTypeText" xml:space="preserve">
-    <value>Categories</value>
-  </data>
-  <data name="CreateCategoryTypeText" xml:space="preserve">
-    <value>Create new Category</value>
-  </data>
-  <data name="CreateText" xml:space="preserve">
-    <value>Create</value>
-  </data>
-  <data name="DeleteCategoryTypeText" xml:space="preserve">
-    <value>Delete Category</value>
-  </data>
-  <data name="DeleteText" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="DetailsCategoryTypeText" xml:space="preserve">
-    <value>Category Details</value>
-  </data>
-  <data name="EditCategoryTypeText" xml:space="preserve">
-    <value>Edit Category</value>
-  </data>
-  <data name="EditText" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="ExistingCategoriesText" xml:space="preserve">
-    <value>Existing Categories</value>
-  </data>
-  <data name="IsNewText" xml:space="preserve">
-    <value>New Category</value>
-  </data>
-  <data name="NameText" xml:space="preserve">
-    <value>Category Name</value>
-  </data>
-  <data name="NewCategoryTypeText" xml:space="preserve">
-    <value>New Category</value>
-  </data>
-  <data name="PLZText" xml:space="preserve">
-    <value>PLZ</value>
-  </data>
-  <data name="UpdateText" xml:space="preserve">
-    <value>Update</value>
+  <data name="OfferUserServiceText" xml:space="preserve">
+    <value>Userservice offer</value>
   </data>
 </root>

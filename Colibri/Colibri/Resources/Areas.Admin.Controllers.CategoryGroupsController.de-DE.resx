@@ -124,16 +124,16 @@
     <value>Rubrik-Gruppen</value>
   </data>
   <data name="CreateCategoryGroupText" xml:space="preserve">
-    <value>Erstelle neue Rubrik-Gruppe</value>
+    <value>Neue Rubrik-Gruppe</value>
   </data>
   <data name="CreateText" xml:space="preserve">
-    <value>Erstelle</value>
+    <value>Erstellen</value>
   </data>
   <data name="DeleteCategoryGroupText" xml:space="preserve">
-    <value>Lösche Rubrik-Gruppe</value>
+    <value>Rubrik-Gruppe löschen</value>
   </data>
   <data name="DeleteText" xml:space="preserve">
-    <value>Lösche</value>
+    <value>Löschen</value>
   </data>
   <data name="DetailsCategoryGroupText" xml:space="preserve">
     <value>Rubrik-Gruppe Details</value>
@@ -142,18 +142,18 @@
     <value>Editiere Rubrik-Gruppe</value>
   </data>
   <data name="EditText" xml:space="preserve">
-    <value>Editiere</value>
+    <value>Editieren</value>
   </data>
   <data name="NameText" xml:space="preserve">
-    <value>Name</value>
+    <value>Rubrik-Gruppe Name</value>
   </data>
   <data name="NewCategoryGroupText" xml:space="preserve">
-    <value>Neue Rubrik</value>
+    <value>Neue Rubrik-Gruppe</value>
   </data>
   <data name="TypeOfCategoryGroupText" xml:space="preserve">
-    <value>Rubriken Gruppen-Typ</value>
+    <value>Rubrik-Gruppe Typ</value>
   </data>
   <data name="UpdateText" xml:space="preserve">
-    <value>Aktualisiere</value>
+    <value>Aktualisieren</value>
   </data>
 </root>

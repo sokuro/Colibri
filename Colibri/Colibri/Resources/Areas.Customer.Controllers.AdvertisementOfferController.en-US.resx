@@ -117,52 +117,88 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BackToListText" xml:space="preserve">
-    <value>Back</value>
+  <data name="OfferProductText" xml:space="preserve">
+    <value>Product offer</value>
+  </data>
+  <data name="OffersText" xml:space="preserve">
+    <value>Own Offers</value>
+  </data>
+  <data name="OfferUserServiceText" xml:space="preserve">
+    <value>Userservice offer</value>
+  </data>
+  <data name="AvailableText" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="BackText" xml:space="preserve">
+    <value>Back to list</value>
   </data>
   <data name="CategoryGroupText" xml:space="preserve">
     <value>Category Group</value>
   </data>
   <data name="CategoryTypeText" xml:space="preserve">
-    <value>Categories</value>
+    <value>Category</value>
   </data>
-  <data name="CreateCategoryTypeText" xml:space="preserve">
-    <value>Create new Category</value>
+  <data name="CreateOfferText" xml:space="preserve">
+    <value>Create offer</value>
+  </data>
+  <data name="CreateProductOfferText" xml:space="preserve">
+    <value>Create product offer</value>
   </data>
   <data name="CreateText" xml:space="preserve">
     <value>Create</value>
   </data>
-  <data name="DeleteCategoryTypeText" xml:space="preserve">
-    <value>Delete Category</value>
+  <data name="CreateUserServiceOfferText" xml:space="preserve">
+    <value>Create userservice offer</value>
+  </data>
+  <data name="DateFromText" xml:space="preserve">
+    <value>Value from</value>
+  </data>
+  <data name="DateToText" xml:space="preserve">
+    <value>Value to</value>
+  </data>
+  <data name="DeleteProductText" xml:space="preserve">
+    <value>Delete product offer</value>
   </data>
   <data name="DeleteText" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="DetailsCategoryTypeText" xml:space="preserve">
-    <value>Category Details</value>
+  <data name="DeleteUserServiceText" xml:space="preserve">
+    <value>Delete userservice offer</value>
   </data>
-  <data name="EditCategoryTypeText" xml:space="preserve">
-    <value>Edit Category</value>
+  <data name="DescriptionText" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DetailsProductText" xml:space="preserve">
+    <value>Product offer details</value>
+  </data>
+  <data name="DetailsUserServiceText" xml:space="preserve">
+    <value>Userservice offer details</value>
+  </data>
+  <data name="EditProductText" xml:space="preserve">
+    <value>Edit product offer</value>
   </data>
   <data name="EditText" xml:space="preserve">
     <value>Edit</value>
   </data>
-  <data name="ExistingCategoriesText" xml:space="preserve">
-    <value>Existing Categories</value>
+  <data name="EditUserServiceText" xml:space="preserve">
+    <value>Edit userservice offer</value>
   </data>
-  <data name="IsNewText" xml:space="preserve">
-    <value>New Category</value>
+  <data name="ImageText" xml:space="preserve">
+    <value>Image</value>
   </data>
-  <data name="NameText" xml:space="preserve">
-    <value>Category Name</value>
+  <data name="PriceText" xml:space="preserve">
+    <value>Price</value>
   </data>
-  <data name="NewCategoryTypeText" xml:space="preserve">
-    <value>New Category</value>
+  <data name="ProductsText" xml:space="preserve">
+    <value>Products</value>
   </data>
-  <data name="PLZText" xml:space="preserve">
-    <value>PLZ</value>
+  <data name="TitleText" xml:space="preserve">
+    <value>Title</value>
   </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Update</value>
+  </data>
+  <data name="UserServicesText" xml:space="preserve">
+    <value>Services</value>
   </data>
 </root>

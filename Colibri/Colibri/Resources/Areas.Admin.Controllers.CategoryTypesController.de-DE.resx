@@ -121,7 +121,7 @@
     <value>Zurück</value>
   </data>
   <data name="CategoryGroupText" xml:space="preserve">
-    <value>Rubrik Gruppe</value>
+    <value>Rubrik-Gruppe</value>
   </data>
   <data name="CategoryTypeText" xml:space="preserve">
     <value>Rubriken</value>
@@ -136,7 +136,7 @@
     <value>Rubrik Löschen</value>
   </data>
   <data name="DeleteText" xml:space="preserve">
-    <value>Lösche</value>
+    <value>Löschen</value>
   </data>
   <data name="DetailsCategoryTypeText" xml:space="preserve">
     <value>Rubrik Details</value>
@@ -147,13 +147,22 @@
   <data name="EditText" xml:space="preserve">
     <value>Editiere</value>
   </data>
+  <data name="ExistingCategoriesText" xml:space="preserve">
+    <value>Vorhandene Rubriken</value>
+  </data>
+  <data name="IsNewText" xml:space="preserve">
+    <value>Neue Rubrik</value>
+  </data>
   <data name="NameText" xml:space="preserve">
-    <value>Name</value>
+    <value>Rubrik Name</value>
   </data>
   <data name="NewCategoryTypeText" xml:space="preserve">
     <value>Neue Rubrik</value>
   </data>
+  <data name="PLZText" xml:space="preserve">
+    <value>PLZ</value>
+  </data>
   <data name="UpdateText" xml:space="preserve">
-    <value>Aktualisiere</value>
+    <value>Aktualisieren</value>
   </data>
 </root>

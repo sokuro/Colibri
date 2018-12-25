@@ -117,52 +117,88 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BackToListText" xml:space="preserve">
-    <value>Back</value>
+  <data name="OfferProductText" xml:space="preserve">
+    <value>Produkt-Angebot</value>
+  </data>
+  <data name="OffersText" xml:space="preserve">
+    <value>Eigene Angebote</value>
+  </data>
+  <data name="OfferUserServiceText" xml:space="preserve">
+    <value>Diensleistung-Angebot</value>
+  </data>
+  <data name="BackText" xml:space="preserve">
+    <value>Zurück zur Liste</value>
   </data>
   <data name="CategoryGroupText" xml:space="preserve">
-    <value>Category Group</value>
+    <value>Rubrik-Gruppe</value>
   </data>
   <data name="CategoryTypeText" xml:space="preserve">
-    <value>Categories</value>
+    <value>Rubrik</value>
   </data>
-  <data name="CreateCategoryTypeText" xml:space="preserve">
-    <value>Create new Category</value>
+  <data name="CreateOfferText" xml:space="preserve">
+    <value>Angebot erfassen</value>
+  </data>
+  <data name="CreateProductOfferText" xml:space="preserve">
+    <value>Produkteangebot erfassen</value>
   </data>
   <data name="CreateText" xml:space="preserve">
-    <value>Create</value>
+    <value>Erstellen</value>
   </data>
-  <data name="DeleteCategoryTypeText" xml:space="preserve">
-    <value>Delete Category</value>
+  <data name="CreateUserServiceOfferText" xml:space="preserve">
+    <value>Dienstleistungsangebot erfassen</value>
+  </data>
+  <data name="DateFromText" xml:space="preserve">
+    <value>Gültig ab</value>
+  </data>
+  <data name="DateToText" xml:space="preserve">
+    <value>Gültig bis</value>
+  </data>
+  <data name="DescriptionText" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
+  <data name="ImageText" xml:space="preserve">
+    <value>Bild</value>
+  </data>
+  <data name="PriceText" xml:space="preserve">
+    <value>Preis</value>
+  </data>
+  <data name="ProductsText" xml:space="preserve">
+    <value>Produkte</value>
+  </data>
+  <data name="TitleText" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="UserServicesText" xml:space="preserve">
+    <value>Dienstleistungen</value>
+  </data>
+  <data name="AvailableText" xml:space="preserve">
+    <value>Verfügbar</value>
+  </data>
+  <data name="DeleteProductText" xml:space="preserve">
+    <value>Produktangebot löschen</value>
   </data>
   <data name="DeleteText" xml:space="preserve">
-    <value>Delete</value>
+    <value>Löschen</value>
   </data>
-  <data name="DetailsCategoryTypeText" xml:space="preserve">
-    <value>Category Details</value>
+  <data name="DeleteUserServiceText" xml:space="preserve">
+    <value>Dienstleistungsangebot löschen</value>
   </data>
-  <data name="EditCategoryTypeText" xml:space="preserve">
-    <value>Edit Category</value>
+  <data name="DetailsProductText" xml:space="preserve">
+    <value>Produktangebot Details</value>
+  </data>
+  <data name="DetailsUserServiceText" xml:space="preserve">
+    <value>Dienstleistungsangebot Details</value>
+  </data>
+  <data name="EditProductText" xml:space="preserve">
+    <value>Produktangebot bearbeiten</value>
   </data>
   <data name="EditText" xml:space="preserve">
-    <value>Edit</value>
+    <value>Bearbeiten</value>
   </data>
-  <data name="ExistingCategoriesText" xml:space="preserve">
-    <value>Existing Categories</value>
-  </data>
-  <data name="IsNewText" xml:space="preserve">
-    <value>New Category</value>
-  </data>
-  <data name="NameText" xml:space="preserve">
-    <value>Category Name</value>
-  </data>
-  <data name="NewCategoryTypeText" xml:space="preserve">
-    <value>New Category</value>
-  </data>
-  <data name="PLZText" xml:space="preserve">
-    <value>PLZ</value>
+  <data name="EditUserServiceText" xml:space="preserve">
+    <value>Dienstleistungsangebot bearbeiten</value>
   </data>
   <data name="UpdateText" xml:space="preserve">
-    <value>Update</value>
+    <value>Aktualisieren</value>
   </data>
 </root>

@@ -117,52 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BackToListText" xml:space="preserve">
-    <value>Back</value>
-  </data>
   <data name="CategoryGroupText" xml:space="preserve">
-    <value>Category Group</value>
+    <value>Rubrik-Gruppe</value>
   </data>
   <data name="CategoryTypeText" xml:space="preserve">
-    <value>Categories</value>
+    <value>Rubrik</value>
   </data>
-  <data name="CreateCategoryTypeText" xml:space="preserve">
-    <value>Create new Category</value>
+  <data name="CreatedOnText" xml:space="preserve">
+    <value>Erstellt am</value>
   </data>
-  <data name="CreateText" xml:space="preserve">
-    <value>Create</value>
+  <data name="DetailsText" xml:space="preserve">
+    <value>Details</value>
   </data>
-  <data name="DeleteCategoryTypeText" xml:space="preserve">
-    <value>Delete Category</value>
+  <data name="SearchOffersText" xml:space="preserve">
+    <value>Angebote suchen</value>
   </data>
-  <data name="DeleteText" xml:space="preserve">
-    <value>Delete</value>
+  <data name="SearchRequestsText" xml:space="preserve">
+    <value>Nachfragen suchen</value>
   </data>
-  <data name="DetailsCategoryTypeText" xml:space="preserve">
-    <value>Category Details</value>
+  <data name="SearchStringText" xml:space="preserve">
+    <value>Suchbegriff</value>
   </data>
-  <data name="EditCategoryTypeText" xml:space="preserve">
-    <value>Edit Category</value>
+  <data name="Sorry1Text" xml:space="preserve">
+    <value>Leider wurden keine aktuellen Inserate zu Ihrer Anfrage gefunden.</value>
   </data>
-  <data name="EditText" xml:space="preserve">
-    <value>Edit</value>
+  <data name="Sorry2Text" xml:space="preserve">
+    <value>Nachfolgend eine Übersicht von vergangenen Inseraten.</value>
   </data>
-  <data name="ExistingCategoriesText" xml:space="preserve">
-    <value>Existing Categories</value>
-  </data>
-  <data name="IsNewText" xml:space="preserve">
-    <value>New Category</value>
-  </data>
-  <data name="NameText" xml:space="preserve">
-    <value>Category Name</value>
-  </data>
-  <data name="NewCategoryTypeText" xml:space="preserve">
-    <value>New Category</value>
-  </data>
-  <data name="PLZText" xml:space="preserve">
-    <value>PLZ</value>
-  </data>
-  <data name="UpdateText" xml:space="preserve">
-    <value>Update</value>
+  <data name="TitleText" xml:space="preserve">
+    <value>Titel</value>
   </data>
 </root>
