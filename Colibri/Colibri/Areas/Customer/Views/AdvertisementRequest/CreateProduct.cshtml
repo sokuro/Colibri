@@ -1,14 +1,13 @@
 ﻿@model Colibri.ViewModels.AdvertisementViewModel
 @using Colibri.Extensions
 
-
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        getCategoryTypes(); 
+        getCategoryTypes();
         $("#CategoryGroup").change(function () {
             getCategoryTypes();
         });
@@ -16,24 +15,24 @@
 
     function getCategoryTypes() {
         console.log("Begin of getCategoryTypes");
-        var url = '@Url.Content("~/")' + "Customer/AdvertisementOffer/CreateProduct/GetCategory";
+        var url = '@Url.Content("~/")' + "Customer/AdvertisementRequest/CreateProduct/GetCategory";
         console.log("Url: " + url);
         var ddlsource = '#CategoryGroup';
 
         $.getJSON(url, { CategoryGroupID: $(ddlsource).val() }, function (data) {
 
             var items = '';
-            $("#CategoryTypeId").empty();
+            $("#CategoryTypeId2").empty();
             $.each(data, function (i, categoryType) {
                 items += "<option value ='" + categoryType.value + "'>" + categoryType.text + "</option>";
             });
 
-            $("#CategoryTypeId").html(items);
+            $("#CategoryTypeId2").html(items);
         });
     }
 </script>
 
-<h2>@ViewData["CreateOffer"]</h2>
+<h2>@ViewData["CreateRequest"]</h2>
 
 <form method="post" enctype="multipart/form-data">
     <div class="form-border">
@@ -56,6 +55,7 @@
             <div class="col-5">
                 <input asp-for="Product.Description" class="form-control" />
             </div>
+            <span asp-validation-for="Product.Description" class="text-danger"></span>
         </div>
 
         <div class="form-group row">
@@ -65,6 +65,7 @@
             <div class="col-5">
                 <select asp-for="@Model.Product.CategoryGroupId" asp-items="Model.CategoryGroups.ToSelectListItem(Model.Product.CategoryGroupId)" id="CategoryGroup" class="form-control"></select>
             </div>
+            <span asp-validation-for="Product.CategoryGroupId" class="text-danger"></span>
         </div>
 
         <div class="form-group row">
@@ -72,8 +73,9 @@
                 <label asp-for="Product.CategoryTypeId" class="custom-label">@ViewData["CategoryType"]</label>
             </div>
             <div class="col-5">
-                <select asp-for="Product.CategoryTypeId" name="CategoryTypeId" id="CategoryTypeId" asp-items="@(new SelectList(string.Empty, "Id", "Name"))" class="form-control"></select>
+                <select asp-for="Product.CategoryTypeId" name="CategoryTypeId" id="CategoryTypeId2" asp-items="@(new SelectList(string.Empty, "Id", "Name"))" class="form-control"></select>
             </div>
+            <span asp-validation-for="Product.CategoryTypeId" class="text-danger"></span>
         </div>
 
         <div class="form-group row">
@@ -83,6 +85,7 @@
             <div class="col-5">
                 <input type="file" name="files" multiple class="form-control">
             </div>
+            <span asp-validation-for="Product.Image" class="text-danger"></span>
         </div>
 
         <div class="form-group row">
@@ -92,6 +95,7 @@
             <div class="col-5">
                 <input asp-for="Product.Price" class="form-control" />
             </div>
+            <span asp-validation-for="Product.Price" class="text-danger"></span>
         </div>
 
         <div class="form-group row">
@@ -99,8 +103,10 @@
                 <label asp-for="Product.DueDateFrom" class="custom-label">@ViewData["DateFrom"]</label>
             </div>
             <div class="col-5">
-                <input asp-for="Product.DueDateFrom" class="form-control" />
+                @*<input asp-for="Product.DueDateFrom" value="" type="text" id="datepicker" class="form-control" />*@
+                <input asp-for="Product.DueDateFrom" id="datepicker" class="form-control" />
             </div>
+            <span asp-validation-for="Product.DueDateFrom" class="text-danger"></span>
         </div>
 
         <div class="form-group row">
@@ -108,8 +114,10 @@
                 <label asp-for="Product.DueDateTo" class="custom-label">@ViewData["DateTo"]</label>
             </div>
             <div class="col-5">
-                <input asp-for="Product.DueDateTo" class="form-control" />
+                @*<input asp-for="Product.DueDateTo" value="" type="text" id="datepicker2" class="form-control" />*@
+                <input asp-for="Product.DueDateTo" id="datepicker2" class="form-control" />
             </div>
+            <span asp-validation-for="Product.DueDateTo" class="text-danger"></span>
         </div>
 
         <div class="form-group">
@@ -120,7 +128,37 @@
     </div>
 </form>
 
-@section Scripts {
+@*@section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
 
+    <script>
+        // Time-Picker
+        $('.timepicker').timepicker({
+            timeFormat: 'h:mm p',
+            interval: 60,
+            minTime: '10',
+            maxTime: '20:00pm',
+            //defaultTime: '11',
+            startTime: '06:00',
+            dynamic: true,
+            dropdown: true,
+            scrollbar: true
+        });
+
+        // Date-Picker
+        $(function () {
+            $("#datepicker").datepicker({
+                minDate: +1,
+                maxDate: "+3M"
+            });
+        });
+
+        // Date-Picker 2
+        $(function () {
+            $("#datepicker2").datepicker({
+                minDate: +1,
+                maxDate: "+3M"
+            });
+        });
+    </script>
+}*@

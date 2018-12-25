@@ -16,7 +16,7 @@
 
     function getCategoryTypes() {
         console.log("Begin of getCategoryTypes");
-        var url = '@Url.Content("~/")' + "Customer/AdvertisementOffer/CreateProduct/GetCategory";
+        var url = '@Url.Content("~/")' + "Customer/AdvertisementRequest/CreateProduct/GetCategory";
         console.log("Url: " + url);
         var ddlsource = '#CategoryGroup';
 
@@ -33,7 +33,7 @@
     }
 </script>
 
-<h2>@ViewData["CreateUserServiceOffer"]</h2>
+<h2>@ViewData["CreateUserServiceRequest"]</h2>
 
 <form method="post" enctype="multipart/form-data">
     <div class="form-border">

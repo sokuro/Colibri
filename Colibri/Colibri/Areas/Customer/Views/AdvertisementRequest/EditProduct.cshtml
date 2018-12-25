@@ -16,7 +16,7 @@
 
     function getCategoryTypes() {
         console.log("Begin of getCategoryTypes");
-        var url = '@Url.Content("~/")' + "Customer/AdvertisementOffer/CreateProduct/GetCategory";
+        var url = '@Url.Content("~/")' + "Customer/AdvertisementRequest/CreateProduct/GetCategory";
         console.log("Url: " + url);
         var ddlsource = '#CategoryGroup';
 
@@ -33,54 +33,54 @@
     }
 </script>
 
-<h2>@ViewData["EditUserService"]</h2>
+<h2>EditProduct</h2>
 
 <form method="post" enctype="multipart/form-data">
     <div class="form-border row">
-        <input type="hidden" asp-for="UserService.Id" />
+        <input type="hidden" asp-for="Product.Id" />
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="col-8">
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="UserService.Name" class="custom-label">@ViewData["Title"]</label>
+                    <label asp-for="Product.Name" class="custom-label"></label>
                 </div>
                 <div class="col-5">
-                    <input asp-for="UserService.Name" class="form-control" />
+                    <input asp-for="Product.Name" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="UserService.Description" class="custom-label">@ViewData["Description"]</label>
+                    <label asp-for="Product.Description" class="custom-label"></label>
                 </div>
                 <div class="col-5">
-                    <input asp-for="UserService.Description" class="form-control" />
+                    <input asp-for="Product.Description" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="UserService.CategoryGroupId" class="custom-label">@ViewData["CategoryGroup"]</label>
+                    <label asp-for="Product.CategoryGroupId" class="custom-label"></label>
                 </div>
                 <div class="col-5">
-                    <select asp-for="@Model.UserService.CategoryGroupId" asp-items="Model.CategoryGroups.ToSelectListItem(Model.UserService.CategoryGroupId)" id="CategoryGroup" class="form-control"></select>
+                    <select asp-for="@Model.Product.CategoryGroupId" asp-items="Model.CategoryGroups.ToSelectListItem(Model.Product.CategoryGroupId)" id="CategoryGroup" class="form-control"></select>
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="UserService.CategoryTypeId" class="custom-label">@ViewData["CategoryType"]</label>
+                    <label asp-for="Product.CategoryTypeId" class="custom-label"></label>
                 </div>
                 <div class="col-5">
-                    <select asp-for="UserService.CategoryTypeId" name="CategoryTypeId" id="CategoryTypeId" asp-items="@(new SelectList(string.Empty, "Id", "Name"))" class="form-control"></select>
+                    <select asp-for="Product.CategoryTypeId" name="CategoryTypeId" id="CategoryTypeId" asp-items="@(new SelectList(string.Empty, "Id", "Name"))" class="form-control"></select>
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="UserService.Image" class="custom-label">@ViewData["Image"]</label>
+                    <label asp-for="Product.Image" class="custom-label"></label>
                 </div>
                 <div class="col-5">
                     <input type="file" name="files" multiple class="form-control">
@@ -89,47 +89,47 @@
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="UserService.Price" class="custom-label">@ViewData["Price"]</label>
+                    <label asp-for="Product.Price" class="custom-label"></label>
                 </div>
                 <div class="col-5">
-                    <input asp-for="UserService.Price" class="form-control" />
+                    <input asp-for="Product.Price" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="UserService.DueDateFrom" class="custom-label">@ViewData["DateFrom"]</label>
+                    <label asp-for="Product.DueDateFrom" class="custom-label"></label>
                 </div>
                 <div class="col-5">
-                    <input asp-for="UserService.DueDateFrom" class="form-control" />
+                    <input asp-for="Product.DueDateFrom" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="UserService.DueDateTo" class="custom-label">@ViewData["DateTo"]</label>
+                    <label asp-for="Product.DueDateTo" class="custom-label"></label>
                 </div>
                 <div class="col-5">
-                    <input asp-for="UserService.DueDateTo" class="form-control" />
+                    <input asp-for="Product.DueDateTo" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="UserService.Available" class="custom-label">@ViewData["Available"]</label>
+                    <label asp-for="Product.Available" class="custom-label"></label>
                 </div>
                 <div class="col-5">
-                    <input asp-for="UserService.Available" class="form-control" />
+                    <input asp-for="Product.Available" class="form-control" />
                 </div>
             </div>
 
             <div class="form-group">
-                <input type="submit" value="@ViewData["Update"]" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-success">@ViewData["Back"]</a>
+                <input type="submit" value="Update" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-success">Zurück zur Liste</a>
             </div>
         </div>
         <div class="col-3">
-            <img src="@Model.UserService.Image" width="100%" style="border-radius:5px;border:1px solid #bbb9b9" />
+            <img src="@Model.Product.Image" width="100%" style="border-radius:5px;border:1px solid #bbb9b9" />
         </div>
     </div>
 </form>

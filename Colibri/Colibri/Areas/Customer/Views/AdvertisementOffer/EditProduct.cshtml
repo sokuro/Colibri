@@ -33,7 +33,7 @@
     }
 </script>
 
-<h2>EditProduct</h2>
+<h2>@ViewData["EditProduct"]</h2>
 
 <form method="post" enctype="multipart/form-data">
     <div class="form-border row">
@@ -44,7 +44,7 @@
         <div class="col-8">
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="Product.Name" class="custom-label"></label>
+                    <label asp-for="Product.Name" class="custom-label">@ViewData["Title"]</label>
                 </div>
                 <div class="col-5">
                     <input asp-for="Product.Name" class="form-control" />
@@ -53,7 +53,7 @@
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="Product.Description" class="custom-label"></label>
+                    <label asp-for="Product.Description" class="custom-label">@ViewData["Description"]</label>
                 </div>
                 <div class="col-5">
                     <input asp-for="Product.Description" class="form-control" />
@@ -62,7 +62,7 @@
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="Product.CategoryGroupId" class="custom-label"></label>
+                    <label asp-for="Product.CategoryGroupId" class="custom-label">@ViewData["CategoryGroup"]</label>
                 </div>
                 <div class="col-5">
                     <select asp-for="@Model.Product.CategoryGroupId" asp-items="Model.CategoryGroups.ToSelectListItem(Model.Product.CategoryGroupId)" id="CategoryGroup" class="form-control"></select>
@@ -71,7 +71,7 @@
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="Product.CategoryTypeId" class="custom-label"></label>
+                    <label asp-for="Product.CategoryTypeId" class="custom-label">@ViewData["CategoryType"]</label>
                 </div>
                 <div class="col-5">
                     <select asp-for="Product.CategoryTypeId" name="CategoryTypeId" id="CategoryTypeId" asp-items="@(new SelectList(string.Empty, "Id", "Name"))" class="form-control"></select>
@@ -80,7 +80,7 @@
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="Product.Image" class="custom-label"></label>
+                    <label asp-for="Product.Image" class="custom-label">@ViewData["Image"]</label>
                 </div>
                 <div class="col-5">
                     <input type="file" name="files" multiple class="form-control">
@@ -89,7 +89,7 @@
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="Product.Price" class="custom-label"></label>
+                    <label asp-for="Product.Price" class="custom-label">@ViewData["Price"]</label>
                 </div>
                 <div class="col-5">
                     <input asp-for="Product.Price" class="form-control" />
@@ -98,7 +98,7 @@
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="Product.DueDateFrom" class="custom-label"></label>
+                    <label asp-for="Product.DueDateFrom" class="custom-label">@ViewData["DateFrom"]</label>
                 </div>
                 <div class="col-5">
                     <input asp-for="Product.DueDateFrom" class="form-control" />
@@ -107,7 +107,7 @@
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="Product.DueDateTo" class="custom-label"></label>
+                    <label asp-for="Product.DueDateTo" class="custom-label">@ViewData["DateTo"]</label>
                 </div>
                 <div class="col-5">
                     <input asp-for="Product.DueDateTo" class="form-control" />
@@ -116,7 +116,7 @@
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="Product.Available" class="custom-label"></label>
+                    <label asp-for="Product.Available" class="custom-label">@ViewData["Available"]</label>
                 </div>
                 <div class="col-5">
                     <input asp-for="Product.Available" class="form-control" />
@@ -124,8 +124,8 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-success">Zurück zur Liste</a>
+                <input type="submit" value="@ViewData["Update"]" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-success">@ViewData["Back"]</a>
             </div>
         </div>
         <div class="col-3">

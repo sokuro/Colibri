@@ -19,17 +19,17 @@ using Microsoft.Extensions.Localization;
 namespace Colibri.Areas.Customer.Controllers
 {
     /*
- * Controller for the Advertisement View
- * 
- * authorize only the AdminEndUser (registered User)
- */
+* Controller for the Advertisement View
+* 
+* authorize only the AdminEndUser (registered User)
+*/
     [Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
     [Area("Customer")]
-    public class AdvertisementOfferController : Controller
+    public class AdvertisementRequestController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
         private readonly HostingEnvironment _hostingEnvironment;
-        private readonly IStringLocalizer<AdvertisementOfferController> _localizer;
+        private readonly IStringLocalizer<AdvertisementRequestController> _localizer;
 
         // PageSize (for the Pagination: 5 Appointments/Page)
         private int PageSize = 4;
@@ -41,9 +41,9 @@ namespace Colibri.Areas.Customer.Controllers
         public AdvertisementViewModel AdvertisementViewModel { get; set; }
 
         // Constructor
-        public AdvertisementOfferController(ColibriDbContext colibriDbContext,
+        public AdvertisementRequestController(ColibriDbContext colibriDbContext,
             HostingEnvironment hostingEnvironment,
-            IStringLocalizer<AdvertisementOfferController> localizer)
+            IStringLocalizer<AdvertisementRequestController> localizer)
         {
             _colibriDbContext = colibriDbContext;
             _hostingEnvironment = hostingEnvironment;
@@ -59,15 +59,15 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // GET : Action for Index
-        [Route("Customer/AdvertisementOffer/Index")]
+        [Route("Customer/AdvertisementRequest/Index")]
         public async Task<IActionResult> Index(int productPage = 1, string searchUserName = null,
             string searchProductName = null, string filterMine = null)
         {
             // i18n
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
-            ViewData["Offers"] = _localizer["OffersText"];
-            ViewData["OfferProduct"] = _localizer["OfferProductText"];
-            ViewData["OfferUserService"] = _localizer["OfferUserServiceText"];
+            ViewData["Requests"] = _localizer["RequestsText"];
+            ViewData["RequestProduct"] = _localizer["RequestProductText"];
+            ViewData["RequestUserService"] = _localizer["RequestUserServiceText"];
             ViewData["Products"] = _localizer["ProductsText"];
             ViewData["UserServices"] = _localizer["UserServicesText"];
             ViewData["Title"] = _localizer["TitleText"];
@@ -88,14 +88,14 @@ namespace Colibri.Areas.Customer.Controllers
             // populate Lists in AdvertisementViewModel for specific User
             // Products (Güter)
             AdvertisementViewModel.Products = await _colibriDbContext.Products.Where(s => s.ApplicationUserId.Equals(AdvertisementViewModel.CurrentUserId))
-                .Where(m => m.isOffer == true)
+                .Where(m => m.isOffer == false)
                 .Include(m => m.CategoryGroups)
                 .Include(m => m.CategoryTypes)
                 .ToListAsync();
 
             // UserServices (Dienstleistungen)
             AdvertisementViewModel.UserServices = await _colibriDbContext.UserServices.Where(s => s.ApplicationUserId.Equals(AdvertisementViewModel.CurrentUserId))
-                .Where(m => m.isOffer == true)
+                .Where(m => m.isOffer == false)
                 .Include(m => m.CategoryGroups)
                 .Include(m => m.CategoryTypes)
                 .ToListAsync();
@@ -104,7 +104,7 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // GET : Action for CreateProduct
-        [Route("Customer/AdvertisementOffer/CreateProduct")]
+        [Route("Customer/AdvertisementRequest/CreateProduct")]
         public async Task<IActionResult> CreateProduct()
         {
             // i18n
@@ -125,7 +125,7 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // POST : Action for CreateProduct
-        [Route("Customer/AdvertisementOffer/CreateProduct")]
+        [Route("Customer/AdvertisementRequest/CreateProduct")]
         [HttpPost, ActionName("CreateProduct")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProductPOST()
@@ -155,8 +155,8 @@ namespace Colibri.Areas.Customer.Controllers
             // set "available" to TRUE
             AdvertisementViewModel.Product.Available = true;
 
-            // set "isOffer" to TRUE
-            AdvertisementViewModel.Product.isOffer = true;
+            // set "isOffer" to FALSE
+            AdvertisementViewModel.Product.isOffer = false;
 
             // If ModelState is valid, save changes to DB
             _colibriDbContext.Products.Add(AdvertisementViewModel.Product);
@@ -232,7 +232,7 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 Name = AdvertisementViewModel.Product.Name,
                 Description = AdvertisementViewModel.Product.Description,
-                isOffer = true,
+                isOffer = false,
                 CategoryTypeId = AdvertisementViewModel.Product.CategoryTypeId,
                 CategoryGroupId = AdvertisementViewModel.Product.CategoryGroupId,
                 TypeOfCategoryGroup = "Product",
@@ -248,7 +248,7 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // GET : Action for CreateUserService
-        [Route("Customer/AdvertisementOffer/CreateUserService")]
+        [Route("Customer/AdvertisementRequest/CreateUserService")]
         public async Task<IActionResult> CreateUserService()
         {
             // i18n
@@ -263,15 +263,13 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Create"] = _localizer["CreateText"];
             ViewData["Back"] = _localizer["BackText"];
             ViewData["Price"] = _localizer["PriceText"];
-            ViewData["CreateProductOffer"] = _localizer["CreateProductOfferText"];
-            ViewData["CreateUserServiceOffer"] = _localizer["CreateUserServiceOfferText"];
 
             AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.Where(m => m.TypeOfCategoryGroup == "Service").ToListAsync();
             return View(AdvertisementViewModel);
         }
 
         // POST : Action for CreateUserService
-        [Route("Customer/AdvertisementOffer/CreateUserService")]
+        [Route("Customer/AdvertisementRequest/CreateUserService")]
         [HttpPost, ActionName("CreateUserService")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateUserServicePOST()
@@ -284,7 +282,6 @@ namespace Colibri.Areas.Customer.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // Convert
-            //AdvertisementViewModel.UserService.CategoryGroupId = Convert.ToInt32(Request.Form["CategoryGroup"].ToString());
             AdvertisementViewModel.UserService.CategoryTypeId = Convert.ToInt32(Request.Form["CategoryTypeId"].ToString());
 
             // If ModelState is not valid, return View
@@ -302,8 +299,8 @@ namespace Colibri.Areas.Customer.Controllers
             // set "available" to TRUE
             AdvertisementViewModel.UserService.Available = true;
 
-            // set "isOffer" to TRUE
-            AdvertisementViewModel.UserService.isOffer = true;
+            // set "isOffer" to FALSE
+            AdvertisementViewModel.UserService.isOffer = false;
 
             // If ModelState is valid, save changes to DB
             _colibriDbContext.UserServices.Add(AdvertisementViewModel.UserService);
@@ -379,7 +376,7 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 Name = AdvertisementViewModel.UserService.Name,
                 Description = AdvertisementViewModel.UserService.Description,
-                isOffer = true,
+                isOffer = false,
                 CategoryTypeId = AdvertisementViewModel.UserService.CategoryTypeId,
                 CategoryGroupId = AdvertisementViewModel.UserService.CategoryGroupId,
                 TypeOfCategoryGroup = "Service",
@@ -395,24 +392,16 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // GET : Action for DeleteProduct
-        [Route("Customer/AdvertisementOffer/DeleteProduct")]
+        [Route("Customer/AdvertisementRequest/DeleteProduct")]
         public async Task<IActionResult> DeleteProduct(int? id)
         {
-            // i18n
-            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
-            ViewData["DeleteProduct"] = _localizer["DeleteProductText"];
-            ViewData["Title"] = _localizer["TitleText"];
-            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
-            ViewData["Delete"] = _localizer["DeleteText"];
-            ViewData["Back"] = _localizer["BackText"];
-
-            if (id == null)
+            if(id == null)
             {
                 return NotFound();
             }
 
             var product = await _colibriDbContext.Products.Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).SingleOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if(product == null)
             {
                 return NotFound();
             }
@@ -420,7 +409,7 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // POST : Action for DeleteProduct
-        [Route("Customer/AdvertisementOffer/DeleteProduct")]
+        [Route("Customer/AdvertisementRequest/DeleteProduct")]
         [HttpPost, ActionName("DeleteProduct")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteProductPOST(int id)
@@ -436,7 +425,7 @@ namespace Colibri.Areas.Customer.Controllers
             // delete Image
             try
             {
-                    System.IO.File.Delete(Path.Combine(uploads, AdvertisementViewModel.Product.Id + extension_Old));
+                System.IO.File.Delete(Path.Combine(uploads, AdvertisementViewModel.Product.Id + extension_Old));
             }
             catch (Exception ex)
             {
@@ -452,18 +441,9 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // GET : Action for DeleteUserService
-        [Route("Customer/AdvertisementOffer/DeleteUserService")]
+        [Route("Customer/AdvertisementRequest/DeleteUserService")]
         public async Task<IActionResult> DeleteUserService(int? id)
         {
-            // i18n
-            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
-            ViewData["DeleteProduct"] = _localizer["DeleteProductText"];
-            ViewData["DeleteUserService"] = _localizer["DeleteUserServiceText"];
-            ViewData["Title"] = _localizer["TitleText"];
-            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
-            ViewData["Delete"] = _localizer["DeleteText"];
-            ViewData["Back"] = _localizer["BackText"];
-
             if (id == null)
             {
                 return NotFound();
@@ -478,7 +458,7 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // POST : Action for DeleteUserService
-        [Route("Customer/AdvertisementOffer/DeleteUserService")]
+        [Route("Customer/AdvertisementRequest/DeleteUserService")]
         [HttpPost, ActionName("DeleteUserService")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteUserServicePOST(int id)
@@ -510,27 +490,9 @@ namespace Colibri.Areas.Customer.Controllers
 
 
         // GET : Action for EditProduct
-        [Route("Customer/AdvertisementOffer/EditProduct")]
+        [Route("Customer/AdvertisementRequest/EditProduct")]
         public async Task<IActionResult> EditProduct(int? id)
         {
-            // i18n
-            ViewData["CreateOffer"] = _localizer["CreateOfferText"];
-            ViewData["Title"] = _localizer["TitleText"];
-            ViewData["Description"] = _localizer["DescriptionText"];
-            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
-            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
-            ViewData["Image"] = _localizer["ImageText"];
-            ViewData["DateFrom"] = _localizer["DateFromText"];
-            ViewData["DateTo"] = _localizer["DateToText"];
-            ViewData["Create"] = _localizer["CreateText"];
-            ViewData["Back"] = _localizer["BackText"];
-            ViewData["Price"] = _localizer["PriceText"];
-            ViewData["EditProduct"] = _localizer["EditProductText"];
-            ViewData["EditUserService"] = _localizer["EditUserServiceText"];
-            ViewData["Update"] = _localizer["UpdateText"];
-            ViewData["Available"] = _localizer["AvailableText"];
-
-
             AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.ToListAsync();
 
             if (id == null)
@@ -548,7 +510,7 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // POST : Action for EditProduct
-        [Route("Customer/AdvertisementOffer/EditProduct")]
+        [Route("Customer/AdvertisementRequest/EditProduct")]
         [HttpPost, ActionName("EditProduct")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProductPOST(int id)
@@ -619,26 +581,9 @@ namespace Colibri.Areas.Customer.Controllers
 
 
         // GET : Action for EditUserService
-        [Route("Customer/AdvertisementOffer/EditUserService")]
+        [Route("Customer/AdvertisementRequest/EditUserService")]
         public async Task<IActionResult> EditUserService(int? id)
         {
-            // i18n
-            ViewData["CreateOffer"] = _localizer["CreateOfferText"];
-            ViewData["Title"] = _localizer["TitleText"];
-            ViewData["Description"] = _localizer["DescriptionText"];
-            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
-            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
-            ViewData["Image"] = _localizer["ImageText"];
-            ViewData["DateFrom"] = _localizer["DateFromText"];
-            ViewData["DateTo"] = _localizer["DateToText"];
-            ViewData["Create"] = _localizer["CreateText"];
-            ViewData["Back"] = _localizer["BackText"];
-            ViewData["Price"] = _localizer["PriceText"];
-            ViewData["EditProduct"] = _localizer["EditProductText"];
-            ViewData["EditUserService"] = _localizer["EditUserServiceText"];
-            ViewData["Update"] = _localizer["UpdateText"];
-            ViewData["Available"] = _localizer["AvailableText"];
-
             AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.ToListAsync();
 
             if (id == null)
@@ -657,7 +602,7 @@ namespace Colibri.Areas.Customer.Controllers
 
 
         // POST : Action for EditUserService
-        [Route("Customer/AdvertisementOffer/EditUserService")]
+        [Route("Customer/AdvertisementRequest/EditUserService")]
         [HttpPost, ActionName("EditProduct")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUserServicePOST(int id)
@@ -728,27 +673,9 @@ namespace Colibri.Areas.Customer.Controllers
 
 
         // GET : Action for DetailsProduct
-        [Route("Customer/AdvertisementOffer/DetailsProduct")]
+        [Route("Customer/AdvertisementRequest/DetailsProduct")]
         public async Task<IActionResult> DetailsProduct(int? id)
         {
-            // i18n
-            ViewData["CreateOffer"] = _localizer["CreateOfferText"];
-            ViewData["Title"] = _localizer["TitleText"];
-            ViewData["Description"] = _localizer["DescriptionText"];
-            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
-            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
-            ViewData["Image"] = _localizer["ImageText"];
-            ViewData["DateFrom"] = _localizer["DateFromText"];
-            ViewData["DateTo"] = _localizer["DateToText"];
-            ViewData["Create"] = _localizer["CreateText"];
-            ViewData["Back"] = _localizer["BackText"];
-            ViewData["Price"] = _localizer["PriceText"];
-            ViewData["EditProduct"] = _localizer["EditProductText"];
-            ViewData["EditUserService"] = _localizer["EditUserServiceText"];
-            ViewData["Update"] = _localizer["UpdateText"];
-            ViewData["Available"] = _localizer["AvailableText"];
-            ViewData["Edit"] = _localizer["EditText"];
-
             if (id == null)
             {
                 return NotFound();
@@ -767,29 +694,9 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         // GET : Action for DetailsUserService
-        [Route("Customer/AdvertisementOffer/DetailsUserService")]
+        [Route("Customer/AdvertisementRequest/DetailsUserService")]
         public async Task<IActionResult> DetailsUserService(int? id)
         {
-            // i18n
-            ViewData["CreateOffer"] = _localizer["CreateOfferText"];
-            ViewData["Title"] = _localizer["TitleText"];
-            ViewData["Description"] = _localizer["DescriptionText"];
-            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
-            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
-            ViewData["Image"] = _localizer["ImageText"];
-            ViewData["DateFrom"] = _localizer["DateFromText"];
-            ViewData["DateTo"] = _localizer["DateToText"];
-            ViewData["Create"] = _localizer["CreateText"];
-            ViewData["Back"] = _localizer["BackText"];
-            ViewData["Price"] = _localizer["PriceText"];
-            ViewData["EditProduct"] = _localizer["EditProductText"];
-            ViewData["EditUserService"] = _localizer["EditUserServiceText"];
-            ViewData["Update"] = _localizer["UpdateText"];
-            ViewData["Available"] = _localizer["AvailableText"];
-            ViewData["Edit"] = _localizer["EditText"];
-            ViewData["DetailsProduct"] = _localizer["DetailsProductText"];
-            ViewData["DetailsUserService"] = _localizer["DetailsUserServiceText"];
-
             if (id == null)
             {
                 return NotFound();
@@ -807,8 +714,7 @@ namespace Colibri.Areas.Customer.Controllers
             return View(userService);
         }
 
-
-        [Route("Customer/AdvertisementOffer/CreateProduct/GetCategory")]
+        [Route("Customer/AdvertisementRequest/CreateProduct/GetCategory")]
         public JsonResult GetCategory(int CategoryGroupID)
         {
             List<CategoryTypes> categoryTypesList = new List<CategoryTypes>();
@@ -819,6 +725,5 @@ namespace Colibri.Areas.Customer.Controllers
 
             return Json(new SelectList(categoryTypesList, "Id", "Name"));
         }
-
     }
 }
