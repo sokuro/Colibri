@@ -43,7 +43,8 @@ namespace Colibri.Areas.Customer.Controllers
             // initialize the SchedulingViewModel
             SchedulingViewModel = new SchedulingViewModel()
             {
-                Products = new List<Models.Products>()
+                Products = new List<Models.Products>(),
+                UserServices = new List<Models.UserServices>()
             };
         }
 
@@ -68,8 +69,16 @@ namespace Colibri.Areas.Customer.Controllers
                         .Where(p => p.Id == cartItem)
                         .FirstOrDefaultAsync();
 
+                    // get the Services from the DB
+                    UserServices userServices = await _colibriDbContext.UserServices
+                        .Include(p => p.CategoryGroups)
+                        .Include(p => p.CategoryTypes)
+                        .Where(p => p.Id == cartItem)
+                        .FirstOrDefaultAsync();
+
                     // add the Products to the Scheduling
                     SchedulingViewModel.Products.Add(products);
+                    SchedulingViewModel.UserServices.Add(userServices);
                 }
             }
 
@@ -153,6 +162,26 @@ namespace Colibri.Areas.Customer.Controllers
                 // add to the DB ProductsSelectedForAppointment
                 _colibriDbContext.ProductsSelectedForAppointment.Add(productsSelectedForAppointment);
             }
+
+            // this created Id can be used to insert Records inside the selected Services
+            foreach (int userServiceId in lstCartItems)
+            {
+                // add the Product's Owner
+                SchedulingViewModel.Appointments.AppPersonId = _colibriDbContext.UserServices
+                    .FirstOrDefault(p => p.Id == userServiceId).ApplicationUserId;
+
+
+                // everytime a new Object will be created
+                UserServicesSelectedForAppointment userServicesSelectedForAppointment = new UserServicesSelectedForAppointment()
+                {
+                    AppointmentId = appointmentId,
+                    UserServiceId = userServiceId
+                };
+
+                // add to the DB ProductsSelectedForAppointment
+                _colibriDbContext.UserServicesSelectedForAppointment.Add(userServicesSelectedForAppointment);
+            }
+
             // save the Changes all together after the Iteration
             _colibriDbContext.SaveChanges();
 
@@ -189,67 +218,135 @@ namespace Colibri.Areas.Customer.Controllers
             // based on the Id, retrieve the complete List of Appointments
             List<ProductsSelectedForAppointment> elemProdList = _colibriDbContext.ProductsSelectedForAppointment
                 .Where(p => p.AppointmentId == id).ToList();
+            List<UserServicesSelectedForAppointment> elemServList = _colibriDbContext.UserServicesSelectedForAppointment
+                .Where(p => p.AppointmentId == id).ToList();
 
-
-            // iterate the List
-            foreach (ProductsSelectedForAppointment prodObj in elemProdList)
+            // Separation of Products and Services
+            if (elemProdList.Count != 0)
             {
-                // add Products inside the Scheduling Model
-                SchedulingViewModel.Products.Add(_colibriDbContext.Products
-                                                    .Include(p => p.CategoryGroups)
-                                                    .Include(p => p.CategoryTypes)
-                                                    .Include(p => p.ApplicationUser)
-                                                    .Where(p => p.Id == prodObj.ProductId)
-                                                    .FirstOrDefault());
+                // iterate the List
+                foreach (ProductsSelectedForAppointment prodObj in elemProdList)
+                {
+                    // add Products inside the Scheduling Model
+                    SchedulingViewModel.Products.Add(_colibriDbContext.Products
+                                                        .Include(p => p.CategoryGroups)
+                                                        .Include(p => p.CategoryTypes)
+                                                        .Include(p => p.ApplicationUser)
+                                                        .Where(p => p.Id == prodObj.ProductId)
+                                                        .FirstOrDefault());
 
-                // get the CustomerData for the Product's Owner Data
-                SchedulingViewModel.Appointments.Customer = _colibriDbContext.ApplicationUsers
-                .FirstOrDefault(u => u.Id == SchedulingViewModel.Appointments.CustomerId);
-            }
+                    // get the CustomerData for the Product's Owner Data
+                    SchedulingViewModel.Appointments.Customer = _colibriDbContext.ApplicationUsers
+                    .FirstOrDefault(u => u.Id == SchedulingViewModel.Appointments.CustomerId);
+                }
 
-            // TODO
-            // handle Image
-            string colibriAppIcon = "~\\img\\SystemImages\\colibri.png";
-            string imageSource = System.Text.Encoding.UTF8.EncodeBase64(colibriAppIcon);
-
-
-            // send Email: to the Customer and the Owner
-            // build a Template mit Customers Details
-            // <html> Version
-            _emailSender.SendEmailAsync(
-                SchedulingViewModel.Appointments.CustomerEmail,
-                "Your Reservation at Colibri",
-
-                //$"<p><img src='~\\img\\SystemImages\\colibri.png' /></p>" +
-                $"<p><img src='" + imageSource + "' /></p>" +
+                // TODO
+                // handle Image
+                string colibriAppIcon = "~\\img\\SystemImages\\colibri.png";
+                string imageSource = System.Text.Encoding.UTF8.EncodeBase64(colibriAppIcon);
 
 
-                $"<p>Hello " + SchedulingViewModel.Appointments.Customer.UserName + "</p></br>" +
-                $"<p>We are happy to inform you about your Reservation of the following Product:" + "</p>" +
-                $"<p><img src='~" + SchedulingViewModel.Products.FirstOrDefault().Image + "' /></p>" +
-                $"<p>Item: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
-                $"<p>Owner: " + SchedulingViewModel.Appointments.AppPerson.UserName +"</p>" +
-                $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
-                $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
-                $"<p>Thank you, " + "</p>" +
-                $"<p>Your Colibri Team</p>");
-
-            // send Mail to the Owner (if exists and is not internal SuperAdmin)
-            if (SchedulingViewModel.Products.FirstOrDefault().ApplicationUserId != null)
-            {
+                // send Email: to the Customer and the Owner
+                // build a Template mit Customers Details
+                // <html> Version
                 _emailSender.SendEmailAsync(
-                    SchedulingViewModel.Appointments.AppPerson.Email,
-                    "You have a Reservation of your Product",
+                    SchedulingViewModel.Appointments.CustomerEmail,
+                    "Your Reservation at Colibri",
+
+                    //$"<p><img src='~\\img\\SystemImages\\colibri.png' /></p>" +
                     $"<p><img src='" + imageSource + "' /></p>" +
-                    $"<p>Hello " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p></br>" +
-                    $"<p>We are happy to inform you about a Reservation of the following Product:" + "</p>" +
+
+
+                    $"<p>Hello " + SchedulingViewModel.Appointments.Customer.UserName + "</p></br>" +
+                    $"<p>We are happy to inform you about your Reservation of the following Product:" + "</p>" +
                     $"<p><img src='~" + SchedulingViewModel.Products.FirstOrDefault().Image + "' /></p>" +
                     $"<p>Item: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
-                    $"<p>User " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
+                    $"<p>Owner: " + SchedulingViewModel.Appointments.AppPerson.UserName +"</p>" +
                     $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
                     $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
                     $"<p>Thank you, " + "</p>" +
                     $"<p>Your Colibri Team</p>");
+
+                // send Mail to the Owner (if exists and is not internal SuperAdmin)
+                if (SchedulingViewModel.Products.FirstOrDefault().ApplicationUserId != null)
+                {
+                    _emailSender.SendEmailAsync(
+                        SchedulingViewModel.Appointments.AppPerson.Email,
+                        "You have a Reservation of your Product",
+                        $"<p><img src='" + imageSource + "' /></p>" +
+                        $"<p>Hello " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p></br>" +
+                        $"<p>We are happy to inform you about a Reservation of the following Product:" + "</p>" +
+                        $"<p><img src='~" + SchedulingViewModel.Products.FirstOrDefault().Image + "' /></p>" +
+                        $"<p>Item: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
+                        $"<p>User " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
+                        $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
+                        $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                        $"<p>Thank you, " + "</p>" +
+                        $"<p>Your Colibri Team</p>");
+                }
+            }
+            else if (elemServList.Count != 0)
+            {
+                // iterate the List
+                foreach (UserServicesSelectedForAppointment servObj in elemServList)
+                {
+                    // add Products inside the Scheduling Model
+                    SchedulingViewModel.UserServices.Add(_colibriDbContext.UserServices
+                                                        .Include(p => p.CategoryGroups)
+                                                        .Include(p => p.CategoryTypes)
+                                                        .Include(p => p.ApplicationUser)
+                                                        .Where(p => p.Id == servObj.UserServiceId)
+                                                        .FirstOrDefault());
+
+                    // get the CustomerData for the Product's Owner Data
+                    SchedulingViewModel.Appointments.Customer = _colibriDbContext.ApplicationUsers
+                    .FirstOrDefault(u => u.Id == SchedulingViewModel.Appointments.CustomerId);
+                }
+
+                // TODO
+                // handle Image
+                string colibriAppIcon = "~\\img\\SystemImages\\colibri.png";
+                string imageSource = System.Text.Encoding.UTF8.EncodeBase64(colibriAppIcon);
+
+
+                // send Email: to the Customer and the Owner
+                // build a Template mit Customers Details
+                // <html> Version
+                _emailSender.SendEmailAsync(
+                    SchedulingViewModel.Appointments.CustomerEmail,
+                    "Your Reservation at Colibri",
+
+                    //$"<p><img src='~\\img\\SystemImages\\colibri.png' /></p>" +
+                    $"<p><img src='" + imageSource + "' /></p>" +
+
+
+                    $"<p>Hello " + SchedulingViewModel.Appointments.Customer.UserName + "</p></br>" +
+                    $"<p>We are happy to inform you about your Reservation of the following Service:" + "</p>" +
+                    $"<p><img src='~" + SchedulingViewModel.UserServices.FirstOrDefault().Image + "' /></p>" +
+                    $"<p>Item: " + SchedulingViewModel.UserServices.FirstOrDefault().Name + "</p>" +
+                    $"<p>Owner: " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p>" +
+                    $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
+                    $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                    $"<p>Thank you, " + "</p>" +
+                    $"<p>Your Colibri Team</p>");
+
+                // send Mail to the Owner (if exists and is not internal SuperAdmin)
+                if (SchedulingViewModel.UserServices.FirstOrDefault().ApplicationUserId != null)
+                {
+                    _emailSender.SendEmailAsync(
+                        SchedulingViewModel.Appointments.AppPerson.Email,
+                        "You have a Reservation of your UserServices",
+                        $"<p><img src='" + imageSource + "' /></p>" +
+                        $"<p>Hello " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p></br>" +
+                        $"<p>We are happy to inform you about a Reservation of the following UserService:" + "</p>" +
+                        $"<p><img src='~" + SchedulingViewModel.UserServices.FirstOrDefault().Image + "' /></p>" +
+                        $"<p>Item: " + SchedulingViewModel.UserServices.FirstOrDefault().Name + "</p>" +
+                        $"<p>User " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
+                        $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
+                        $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                        $"<p>Thank you, " + "</p>" +
+                        $"<p>Your Colibri Team</p>");
+                }
             }
 
             // pass the Scheduling View Model as Object

@@ -175,6 +175,12 @@ namespace Colibri.Areas.Admin.Controllers
                                                       where a.AppointmentId == id
                                                       select p).Include("CategoryTypes");
 
+            var userServicesList = (IEnumerable<UserServices>)(from s in _colibriDbContext.UserServices
+                                                join a in _colibriDbContext.UserServicesSelectedForAppointment
+                                                on s.Id equals a.UserServiceId
+                                                where a.AppointmentId == id
+                                                select s).Include("CategoryTypes");
+
             // use the ViewModel
             AppointmentDetailsViewModel objAppointmentVM = new AppointmentDetailsViewModel()
             {
@@ -183,7 +189,9 @@ namespace Colibri.Areas.Admin.Controllers
                 // get the Application User List
                 AppPerson = _colibriDbContext.ApplicationUsers.ToList(),
                 // get the List of all Products
-                Products = productList.ToList()
+                Products = productList.ToList(),
+                // get the List of all Services
+                UserServices = userServicesList.ToList()
             };
 
             // i18n
@@ -262,6 +270,12 @@ namespace Colibri.Areas.Admin.Controllers
                                                       where a.AppointmentId == id
                                                       select p).Include("CategoryTypes");
 
+            var userServicesList = (IEnumerable<UserServices>)(from s in _colibriDbContext.UserServices
+                                                    join a in _colibriDbContext.UserServicesSelectedForAppointment
+                                                    on s.Id equals a.UserServiceId
+                                                    where a.AppointmentId == id
+                                                    select s).Include("CategoryTypes");
+
             // use the ViewModel
             AppointmentDetailsViewModel appointmentViewModel = new AppointmentDetailsViewModel()
             {
@@ -273,7 +287,9 @@ namespace Colibri.Areas.Admin.Controllers
                 // get the Application User List
                 AppPerson = _colibriDbContext.ApplicationUsers.ToList(),
                 // get the List of all Products
-                Products = productList.ToList()
+                Products = productList.ToList(),
+                // get the List of all Services
+                UserServices = userServicesList.ToList()
             };
 
             // i18n
@@ -310,6 +326,12 @@ namespace Colibri.Areas.Admin.Controllers
                                                       where a.AppointmentId == id
                                                       select p).Include("CategoryTypes");
 
+            var userServicesList = (IEnumerable<UserServices>)(from s in _colibriDbContext.UserServices
+                                                            join a in _colibriDbContext.UserServicesSelectedForAppointment
+                                                            on s.Id equals a.UserServiceId
+                                                            where a.AppointmentId == id
+                                                            select s).Include("CategoryTypes");
+
             // use the ViewModel
             AppointmentDetailsViewModel appointmentViewModel = new AppointmentDetailsViewModel()
             {
@@ -321,7 +343,9 @@ namespace Colibri.Areas.Admin.Controllers
                 // get the Application User List
                 AppPerson = _colibriDbContext.ApplicationUsers.ToList(),
                 // get the List of all Products
-                Products = productList.ToList()
+                Products = productList.ToList(),
+                // get the List of all Services
+                UserServices = userServicesList.ToList()
             };
 
             // i18n

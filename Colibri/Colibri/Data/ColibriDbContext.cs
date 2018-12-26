@@ -28,6 +28,7 @@ namespace Colibri.Data
         public DbSet<UserServices> UserServices { get; set; }
         public DbSet<Appointments> Appointments { get; set; }
         public DbSet<ProductsSelectedForAppointment> ProductsSelectedForAppointment { get; set; }
+        public DbSet<UserServicesSelectedForAppointment> UserServicesSelectedForAppointment { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Notifications> Notifications { get; set; }
         public DbSet<ArchiveEntry> ArchiveEntry { get; set; }

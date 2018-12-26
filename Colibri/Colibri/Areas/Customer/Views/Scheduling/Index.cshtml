@@ -66,6 +66,35 @@
                                 </td>
                             </tr>
                         }
+
+                        @foreach (var item in Model.UserServices)
+                        {
+                            <!-- Images clickable: redirect to Details Page -->
+                            <tr class="table-content">
+                                <td id="imageContent">
+                                    <a asp-area="Customer" asp-controller="UserServicesHome" asp-action="Details" asp-route-id="@item.Id">
+                                        <img src="@item.Image" />
+                                    </a>
+                                </td>
+                                <td class="tableContentColumn">
+                                    @Html.DisplayFor(p => item.Name)
+                                </td>
+                                <td class="tableContentColumn">
+                                    @Html.DisplayFor(p => item.Price)
+                                </td>
+                                <td class="tableContentColumn">
+                                    @Html.DisplayFor(p => item.CategoryTypes.Name)
+                                </td>
+                                <td class="tableContentColumn">
+                                    @Html.DisplayFor(p => item.Description)
+                                </td>
+
+                                <!-- delete the Items from the Cart -->
+                                <td class="tableContentColumn">
+                                    <button type="submit" class="btn btn-danger" asp-action="remove" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                        }
                     </table>
                 </div>
 

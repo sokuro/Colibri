@@ -4,14 +4,16 @@ using Colibri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Colibri.Migrations
 {
     [DbContext(typeof(ColibriDbContext))]
-    partial class ColibriDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181226160051_addServicesSelectedForAppointment")]
+    partial class addServicesSelectedForAppointment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,6 +234,25 @@ namespace Colibri.Migrations
                     b.ToTable("ProductsSelectedForAppointment");
                 });
 
+            modelBuilder.Entity("Colibri.Models.ServicesSelectedForAppointment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AppointmentId");
+
+                    b.Property<int>("UserServiceId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("UserServiceId");
+
+                    b.ToTable("ServicesSelectedForAppointment");
+                });
+
             modelBuilder.Entity("Colibri.Models.SpecialTags", b =>
                 {
                     b.Property<int>("Id")
@@ -294,25 +315,6 @@ namespace Colibri.Migrations
                     b.HasIndex("CategoryTypeId");
 
                     b.ToTable("UserServices");
-                });
-
-            modelBuilder.Entity("Colibri.Models.UserServicesSelectedForAppointment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AppointmentId");
-
-                    b.Property<int>("UserServiceId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppointmentId");
-
-                    b.HasIndex("UserServiceId");
-
-                    b.ToTable("UserServicesSelectedForAppointment");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -598,6 +600,19 @@ namespace Colibri.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Colibri.Models.ServicesSelectedForAppointment", b =>
+                {
+                    b.HasOne("Colibri.Models.Appointments", "Appointments")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Colibri.Models.UserServices", "UserServices")
+                        .WithMany()
+                        .HasForeignKey("UserServiceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Colibri.Models.UserServices", b =>
                 {
                     b.HasOne("Colibri.Models.ApplicationUser", "ApplicationUser")
@@ -612,19 +627,6 @@ namespace Colibri.Migrations
                     b.HasOne("Colibri.Models.CategoryTypes", "CategoryTypes")
                         .WithMany()
                         .HasForeignKey("CategoryTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Colibri.Models.UserServicesSelectedForAppointment", b =>
-                {
-                    b.HasOne("Colibri.Models.Appointments", "Appointments")
-                        .WithMany()
-                        .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Colibri.Models.UserServices", "UserServices")
-                        .WithMany()
-                        .HasForeignKey("UserServiceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
