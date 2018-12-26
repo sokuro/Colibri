@@ -69,5 +69,8 @@ namespace Colibri.Models
         // 1 Product = 1 User
         [ForeignKey("ApplicationUserId")]
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        // #5 UserName
+        public string ApplicationUserName { get; set; }
     }
 }
