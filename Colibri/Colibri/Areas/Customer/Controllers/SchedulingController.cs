@@ -227,11 +227,30 @@ namespace Colibri.Areas.Customer.Controllers
                 $"<p>Hello " + SchedulingViewModel.Appointments.Customer.UserName + "</p></br>" +
                 $"<p>We are happy to inform you about your Reservation of the following Product:" + "</p>" +
                 $"<p><img src='~" + SchedulingViewModel.Products.FirstOrDefault().Image + "' /></p>" +
-                $"<p>Name: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
+                $"<p>Item: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
+                $"<p>Owner: " + SchedulingViewModel.Appointments.AppPerson.UserName +"</p>" +
                 $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
                 $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
                 $"<p>Thank you, " + "</p>" +
                 $"<p>Your Colibri Team</p>");
+
+            // send Mail to the Owner (if exists and is not internal SuperAdmin)
+            if (SchedulingViewModel.Products.FirstOrDefault().ApplicationUserId != null)
+            {
+                _emailSender.SendEmailAsync(
+                    SchedulingViewModel.Appointments.AppPerson.Email,
+                    "You have a Reservation of your Product",
+                    $"<p><img src='" + imageSource + "' /></p>" +
+                    $"<p>Hello " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p></br>" +
+                    $"<p>We are happy to inform you about a Reservation of the following Product:" + "</p>" +
+                    $"<p><img src='~" + SchedulingViewModel.Products.FirstOrDefault().Image + "' /></p>" +
+                    $"<p>Item: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
+                    $"<p>User " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
+                    $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
+                    $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                    $"<p>Thank you, " + "</p>" +
+                    $"<p>Your Colibri Team</p>");
+            }
 
             // pass the Scheduling View Model as Object
             return View(SchedulingViewModel);
