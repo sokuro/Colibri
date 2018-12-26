@@ -9,6 +9,9 @@ namespace Colibri.Utility
     // static Paths
     public class StaticDetails
     {
+        // Image Folder for the Application
+        public const string ApplicationImageFolder = @"img";
+
         // Image Folder for the Products
         public const string DefaultProductImage = "default_product.jpg";
         public const string ImageFolderProduct = @"img\ProductImage";
