@@ -116,6 +116,9 @@
                         <a class="nav-link" asp-route-area="Customer" asp-controller="ProductsHome" asp-action="Index">Products List</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" asp-route-area="Customer" asp-controller="UserServicesHome" asp-action="Index">Services List</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" asp-route-area="" asp-controller="Home" asp-action="Contact">Contact</a>
                     </li>
                     <li class="nav-item">
@@ -131,6 +134,19 @@
                                 <!-- # Items in the Scheduling -->
                                 @{
                                     var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssScheduling").Count;
+                                }
+                                (@count)
+                            </a>
+                        </li>
+                    }
+                    else if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("userServicesScheduling") != null)
+                    {
+                        <li style="color:white">
+                            <a asp-route-area="Customer" asp-controller="Scheduling" asp-action="Index" class="nav-link">
+                                <i class="fa fa-list-ol"></i> &nbsp;
+                                <!-- # Items in the Scheduling -->
+                                @{
+                                    var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("userServicesScheduling").Count;
                                 }
                                 (@count)
                             </a>

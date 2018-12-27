@@ -11,6 +11,7 @@ namespace Colibri.Models
     public class UserServices
     {
         [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
@@ -69,5 +70,8 @@ namespace Colibri.Models
         // 1 Product = 1 User
         [ForeignKey("ApplicationUserId")]
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        // #5 UserName
+        public string ApplicationUserName { get; set; }
     }
 }

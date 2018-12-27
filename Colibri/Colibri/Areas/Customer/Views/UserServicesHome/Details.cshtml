@@ -28,7 +28,7 @@
         <div class="col-8">
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Name">@ViewData["UserServiceName"]</label>
+                    <label asp-for="Name">@ViewData["Name"]</label>
                 </div>
                 <div class="col-8">
                     <input asp-for="Name" class="form-control" readonly />
@@ -59,51 +59,17 @@
                 </div>
             </div>
             @*@if (!Model.SpecialTags.Name.Equals("--None--"))
-            {
-                <div class="form-group row">
-                    <div class="col-4">
-                        <label asp-for="SpecialTags">@ViewData["SpecialTag"]</label>
+                {
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <label asp-for="SpecialTags">@ViewData["SpecialTag"]</label>
+                        </div>
+                        <div class="col-8">
+                            <input asp-for="SpecialTags.Name" class="form-control" readonly />
+                        </div>
                     </div>
-                    <div class="col-8">
-                        <input asp-for="SpecialTags.Name" class="form-control" readonly />
-                    </div>
-                </div>
-            }*@
-            <div class="form-group row">
-                <div class="col-4">
-                    <label asp-for="Description">@ViewData["Description"]</label>
-                </div>
-                <div class="col-8">
-                    <input asp-for="Description" class="form-control" readonly />
-                </div>
-            </div>
-            <!-- Number of Clicks -->
-            <div class="form-group row">
-                <div class="col-4">
-                    <label asp-for="NumberOfClicks">@ViewData["NumberOfClicks"]</label>
-                </div>
-                <div class="col-8">
-                    <input asp-for="NumberOfClicks" class="form-control" readonly />
-                </div>
-            </div>
-            <!-- Application User: Advertisement's Owner -->
-            <div class="form-group row">
-                <div class="col-4">
-                    <label asp-for="ApplicationUser">@ViewData["UserName"]</label>
-                </div>
-                <div class="col-8">
-                    <input asp-for="@Model.ApplicationUser.UserName" class="form-control" readonly />
-                </div>
-            </div>
-            <!-- Application User: Advertisement's Owner => Contact -->
-            <div class="form-group row">
-                <div class="col-4">
-                </div>
-                <div class="col-8">
-                    <a asp-action="ContactUser" asp-controller="ApplicationUser" class="btn btn-outline-primary form-control" asp-route-id="@Model.ApplicationUserId">@ViewData["ContactOwner"]</a>
-                </div>
-            </div>
-            <!-- Order -->
+                }*@
+
             <div class="form-group row">
                 <div class="col-4">
                 </div>
@@ -128,9 +94,19 @@
                     }
                     else
                     {
-                        <button type="submit" value="Order" asp-route-id="@Model.Id" class="btn btn-outline-success form-control">@ViewData["Order"]</button>
+                        <button type="submit" value="Order" asp-route-id="@Model.Id" class="btn btn-primary form-control">@ViewData["Order"]</button>
                     }
                 </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Description">@ViewData["Description"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Description" class="form-control" readonly />
+                </div>
+
             </div>
         </div>
         <div class="form-group">

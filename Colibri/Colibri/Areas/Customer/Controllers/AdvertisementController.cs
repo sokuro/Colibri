@@ -690,7 +690,7 @@ namespace Colibri.Areas.Customer.Controllers
         {
             List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
 
-            if (lstCartItems.Count > 0)
+            if (lstCartItems != null && lstCartItems.Any())
             {
                 if (lstCartItems.Contains(id))
                 {

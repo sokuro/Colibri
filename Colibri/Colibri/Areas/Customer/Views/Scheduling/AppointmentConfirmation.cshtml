@@ -19,7 +19,18 @@
     <div class="appointment-confirmation-content">
         <partial name="~/Views/Shared/_AppointmentCustomerDetails.cshtml" model="Model.Appointments" />
 
-        <partial name="~/Views/Shared/_AppointmentProductDetails.cshtml" model="Model.Products" />
+        @if (Model.Products.Count > 0)
+        {
+            <partial name="~/Views/Shared/_AppointmentProductDetails.cshtml" model="Model.Products" />
+        }
+        else if (Model.UserServices.Count > 0)
+        {
+            <partial name="~/Views/Shared/_AppointmentServicesDetails.cshtml" model="Model.UserServices" />
+        }
+        else
+        {
+            <div>No Items added!</div>
+        }
 
         <a asp-area="Customer" asp-controller="Scheduling" asp-action="Index" class="btn btn-success">Back to Scheduling</a>
     </div>
