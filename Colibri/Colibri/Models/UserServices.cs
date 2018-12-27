@@ -11,6 +11,7 @@ namespace Colibri.Models
     public class UserServices
     {
         [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
