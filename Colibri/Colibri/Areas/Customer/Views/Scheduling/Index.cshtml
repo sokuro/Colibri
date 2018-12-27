@@ -10,8 +10,8 @@
 
 <form method="post">
     <h2 class="text-info">@ViewData["SchedulingTitle"]</h2>
-    @if (Model.Products.Count > 0)
-    {
+    @*@if (Model.Products.Count > 0)
+    {*@
         <div class="container border border-secondary rounded">
             <div class="row">
                 <!-- Scheduling Part: Products -->
@@ -38,62 +38,71 @@
                         </tr>
 
                         <!-- Table Content -->
-                        @foreach (var item in Model.Products)
+                        @if (Model.Products.Count > 0)
                         {
-                            <!-- Images clickable: redirect to Details Page -->
-                            <tr class="table-content">
-                                <td id="imageContent">
-                                    <a asp-area="Customer" asp-controller="ProductsHome" asp-action="Details" asp-route-id="@item.Id">
-                                        <img src="@item.Image" />
-                                    </a>
-                                </td>
-                                <td class="tableContentColumn">
-                                    @Html.DisplayFor(p => item.Name)
-                                </td>
-                                <td class="tableContentColumn">
-                                    @Html.DisplayFor(p => item.Price)
-                                </td>
-                                <td class="tableContentColumn">
-                                    @Html.DisplayFor(p => item.CategoryTypes.Name)
-                                </td>
-                                <td class="tableContentColumn">
-                                    @Html.DisplayFor(p => item.Description)
-                                </td>
+                            foreach (var item in Model.Products)
+                            {
+                                <!-- Images clickable: redirect to Details Page -->
+                                <tr class="table-content">
+                                    <td id="imageContent">
+                                        <a asp-area="Customer" asp-controller="ProductsHome" asp-action="Details" asp-route-id="@item.Id">
+                                            <img src="@item.Image" />
+                                        </a>
+                                    </td>
+                                    <td class="tableContentColumn">
+                                        @Html.DisplayFor(p => item.Name)
+                                    </td>
+                                    <td class="tableContentColumn">
+                                        @Html.DisplayFor(p => item.Price)
+                                    </td>
+                                    <td class="tableContentColumn">
+                                        @Html.DisplayFor(p => item.CategoryTypes.Name)
+                                    </td>
+                                    <td class="tableContentColumn">
+                                        @Html.DisplayFor(p => item.Description)
+                                    </td>
 
-                                <!-- delete the Items from the Cart -->
-                                <td class="tableContentColumn">
-                                    <button type="submit" class="btn btn-danger" asp-action="remove" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></button>
-                                </td>
-                            </tr>
+                                    <!-- delete the Items from the Cart -->
+                                    <td class="tableContentColumn">
+                                        <button type="submit" class="btn btn-danger" asp-action="remove" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                            }
                         }
-
-                        @foreach (var item in Model.UserServices)
+                        else if (Model.UserServices.Count > 0)
                         {
-                            <!-- Images clickable: redirect to Details Page -->
-                            <tr class="table-content">
-                                <td id="imageContent">
-                                    <a asp-area="Customer" asp-controller="UserServicesHome" asp-action="Details" asp-route-id="@item.Id">
-                                        <img src="@item.Image" />
-                                    </a>
-                                </td>
-                                <td class="tableContentColumn">
-                                    @Html.DisplayFor(p => item.Name)
-                                </td>
-                                <td class="tableContentColumn">
-                                    @Html.DisplayFor(p => item.Price)
-                                </td>
-                                <td class="tableContentColumn">
-                                    @Html.DisplayFor(p => item.CategoryTypes.Name)
-                                </td>
-                                <td class="tableContentColumn">
-                                    @Html.DisplayFor(p => item.Description)
-                                </td>
+                            foreach (var item in Model.UserServices)
+                            {
+                                <!-- Images clickable: redirect to Details Page -->
+                                <tr class="table-content">
+                                    <td id="imageContent">
+                                        <a asp-area="Customer" asp-controller="UserServicesHome" asp-action="Details" asp-route-id="@item.Id">
+                                            <img src="@item.Image" />
+                                        </a>
+                                    </td>
+                                    <td class="tableContentColumn">
+                                        @Html.DisplayFor(p => item.Name)
+                                    </td>
+                                    <td class="tableContentColumn">
+                                        @Html.DisplayFor(p => item.Price)
+                                    </td>
+                                    <td class="tableContentColumn">
+                                        @Html.DisplayFor(p => item.CategoryTypes.Name)
+                                    </td>
+                                    <td class="tableContentColumn">
+                                        @Html.DisplayFor(p => item.Description)
+                                    </td>
 
-                                <!-- delete the Items from the Cart -->
-                                <td class="tableContentColumn">
-                                    <button type="submit" class="btn btn-danger" asp-action="remove" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></button>
-                                </td>
-                            </tr>
+                                    <!-- delete the Items from the Cart -->
+                                    <td class="tableContentColumn">
+                                        <button type="submit" class="btn btn-danger" asp-action="remove" asp-route-id="@item.Id"><i class="fas fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <div>@ViewData["NoItemsAdded"]</div>
                         }
                     </table>
                 </div>
@@ -140,11 +149,7 @@
                 </div>
             </div>
         </div>
-    }
-    else
-    {
-        <div>@ViewData["NoItemsAdded"]</div>
-    }
+    @*}*@
 </form>
 
 <!-- adding Scripts -->

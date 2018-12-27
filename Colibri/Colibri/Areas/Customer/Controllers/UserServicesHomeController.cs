@@ -88,19 +88,19 @@ namespace Colibri.Areas.Customer.Controllers
         {
             // check first, if anything exists in the Session
             // Session Name : "ssScheduling"
-            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
+            List<int> lstCartServices = HttpContext.Session.Get<List<int>>("userServicesScheduling");
 
             // check if null -> create new
-            if (lstCartItems == null)
+            if (lstCartServices == null)
             {
-                lstCartItems = new List<int>();
+                lstCartServices = new List<int>();
             }
 
             // add the retrieved Item (id)
-            lstCartItems.Add(id);
+            lstCartServices.Add(id);
             // set the Session:
             // Session Name, Value
-            HttpContext.Session.Set("ssScheduling", lstCartItems);
+            HttpContext.Session.Set("userServicesScheduling", lstCartServices);
 
             // redirect to Action
             return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
@@ -110,18 +110,18 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/UserServicesHome/Remove/{id}")]
         public IActionResult Remove(int id)
         {
-            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
+            List<int> lstCartServices = HttpContext.Session.Get<List<int>>("userServicesScheduling");
 
-            if (lstCartItems.Count > 0)
+            if (lstCartServices != null && lstCartServices.Any())
             {
-                if (lstCartItems.Contains(id))
+                if (lstCartServices.Contains(id))
                 {
                     // remove the Item (id)
-                    lstCartItems.Remove(id);
+                    lstCartServices.Remove(id);
                 }
             }
             // set the Session: Name, Value
-            HttpContext.Session.Set("ssScheduling", lstCartItems);
+            HttpContext.Session.Set("userServicesScheduling", lstCartServices);
 
             // redirect to Action
             return RedirectToAction(nameof(Index));

@@ -139,6 +139,19 @@
                             </a>
                         </li>
                     }
+                    else if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("userServicesScheduling") != null)
+                    {
+                        <li style="color:white">
+                            <a asp-route-area="Customer" asp-controller="Scheduling" asp-action="Index" class="nav-link">
+                                <i class="fa fa-list-ol"></i> &nbsp;
+                                <!-- # Items in the Scheduling -->
+                                @{
+                                    var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("userServicesScheduling").Count;
+                                }
+                                (@count)
+                            </a>
+                        </li>
+                    }
                     else
                     {
                         <li style="color:white">
