@@ -79,7 +79,7 @@
                         // Flag if the Item is already in the Bag
                         bool isInBag = false;
                         // Scheduling
-                        List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssScheduling");
+                        List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("userServicesScheduling");
 
                         // check if the List already contains the ID of the Page
                         if (lstCart != null && lstCart.Contains(Model.Id))

@@ -337,19 +337,19 @@ namespace Colibri.Areas.Customer.Controllers
         {
             // check first, if anything exists in the Session
             // Session Name : "ssScheduling"
-            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
+            List<int> lstCartServices = HttpContext.Session.Get<List<int>>("userServicesScheduling");
 
             // check if null -> create new
-            if (lstCartItems == null)
+            if (lstCartServices == null)
             {
-                lstCartItems = new List<int>();
+                lstCartServices = new List<int>();
             }
 
             // add the retrieved Item (id)
-            lstCartItems.Add(id);
+            lstCartServices.Add(id);
             // set the Session:
             // Session Name, Value
-            HttpContext.Session.Set("ssScheduling", lstCartItems);
+            HttpContext.Session.Set("userServicesScheduling", lstCartServices);
 
             // redirect to Action
             return RedirectToAction("Index", "UserServices", new { area = "Customer" });
