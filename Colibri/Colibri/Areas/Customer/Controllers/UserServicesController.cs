@@ -24,7 +24,7 @@ namespace Colibri.Areas.Customer.Controllers
      *
      * authorize only the AdminEndUser (registered User)
      */
-    //[Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
+    [Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
     [Area("Customer")]
     public class UserServicesController : Controller
     {
@@ -79,6 +79,16 @@ namespace Colibri.Areas.Customer.Controllers
             string searchUserName = null,
             string searchServiceName = null)
         {
+            // Security Claims
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+            // Claims Identity
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            // add the current User as the Creator of the Advertisement
+            UserServicesViewModel.CurrentUserId = claim.Value;
+
             // Filter the Search Criteria
             StringBuilder param = new StringBuilder();
 
@@ -245,6 +255,7 @@ namespace Colibri.Areas.Customer.Controllers
 
                 // add the current User as the Creator of the Advertisement
                 userServicesFromDb.ApplicationUserId = claim.Value;
+                userServicesFromDb.ApplicationUserName = claim.Subject.Name;
 
                 // save the Changes asynchronously
                 // update the Image Part inside of the DB
@@ -303,7 +314,7 @@ namespace Colibri.Areas.Customer.Controllers
                                                       select u);
 
             // add the user as the ApplicationUser to the User Service
-            userService.ApplicationUser = user.FirstOrDefault();
+            //userService.ApplicationUser = user.FirstOrDefault();
 
             // count the Number of Clicks on the User Service
             userService.NumberOfClicks += 1;
@@ -325,6 +336,9 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["RemoveFromBag"] = _localizer["RemoveFromBagText"];
             ViewData["Order"] = _localizer["OrderText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["UserServiceRating"] = _localizer["UserServiceRatingText"];
+            ViewData["RateUserService"] = _localizer["RateUserServiceText"];
+            ViewData["NumberOfUserServiceRates"] = _localizer["NumberOfUserServiceRatesText"];
 
             return View(userService);
         }
@@ -353,6 +367,98 @@ namespace Colibri.Areas.Customer.Controllers
 
             // redirect to Action
             return RedirectToAction("Index", "UserServices", new { area = "Customer" });
+        }
+
+        // Handle Ratings: GET
+        [Route("Customer/UserServices/RateUserService/{id}")]
+        public async Task<IActionResult> RateUserService(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // get the individual Product
+            UserServicesAddToEntityViewModel.UserServices = await _colibriDbContext.UserServices
+                .Include(p => p.CategoryGroups)
+                .Include(p => p.CategoryTypes)
+                .Where(p => p.Id == id)
+                .FirstOrDefaultAsync();
+
+            // save the Changes in DB
+            await _colibriDbContext.SaveChangesAsync();
+
+            // i18n
+            ViewData["RateQuestion"] = _localizer["RateQuestionText"];
+            ViewData["Save"] = _localizer["SaveText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["UserServiceRating"] = _localizer["UserServiceRatingText"];
+            ViewData["RateUserService"] = _localizer["RateUserServiceText"];
+
+            return View(UserServicesAddToEntityViewModel);
+        }
+
+        [Route("Customer/UserServices/RateUserService/{id}")]
+        [HttpPost, ActionName("RateUserService")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> RateUserServicePost(int id, string command)
+        {
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                // to overwrite a Rating, first get the old One
+                // get the Product from the DB
+                var userServiceFromDb = await _colibriDbContext.UserServices
+                                        .Where(m => m.Id == id)
+                                        .FirstOrDefaultAsync();
+
+                int tempUserServiceRating = 0;
+
+                if (command.Equals("1"))
+                {
+                    tempUserServiceRating = 1;
+                }
+                else if (command.Equals("2"))
+                {
+                    tempUserServiceRating = 2;
+                }
+                else if (command.Equals("3"))
+                {
+                    tempUserServiceRating = 3;
+                }
+                else if (command.Equals("4"))
+                {
+                    tempUserServiceRating = 4;
+                }
+                else if (command.Equals("5"))
+                {
+                    tempUserServiceRating = 5;
+                }
+
+                // calculate the new ProductRating
+                if (userServiceFromDb.NumberOfServiceRates == 0)
+                {
+                    userServiceFromDb.ServiceRating = tempUserServiceRating;
+                }
+                else
+                {
+                    userServiceFromDb.ServiceRating = Math.Round((userServiceFromDb.ServiceRating * userServiceFromDb.NumberOfServiceRates + tempUserServiceRating) / (userServiceFromDb.NumberOfServiceRates + 1), 2);
+                }
+
+                // increment the Number of Product Rates of the Product
+                userServiceFromDb.NumberOfServiceRates += 1;
+
+                // save the Changes in DB
+                await _colibriDbContext.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Details));
+                //return View();
+            }
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(UserServicesAddToEntityViewModel);
+            }
         }
     }
 }

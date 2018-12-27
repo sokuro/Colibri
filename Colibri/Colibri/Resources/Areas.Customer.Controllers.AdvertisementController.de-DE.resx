@@ -193,7 +193,7 @@
     <value>Bewerte</value>
   </data>
   <data name="RateQuestionText" xml:space="preserve">
-    <value>Wie würdest Du das Inserat bewerten!</value>
+    <value>Wie würdest Du das Inserat bewerten?</value>
   </data>
   <data name="RemoveFromBagText" xml:space="preserve">
     <value>Storniere Bestellung</value>

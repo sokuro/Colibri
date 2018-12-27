@@ -122,9 +122,15 @@
                         @Html.DisplayFor(m => item.NumberOfClicks)
                     </td>
                     <td>
-                        @Html.DisplayFor(m => m.Users.FirstOrDefault().UserName)
+                        @Html.DisplayFor(m => item.ApplicationUserName)
                     </td>
-                    @if (User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated && Model.CurrentUserId == item.ApplicationUserId)
+                    {
+                        <td>
+                            <partial name="_TableButtonPartialCustomerServiceAuthorized" model="item.Id" />
+                        </td>
+                    }
+                    else
                     {
                         <td>
                             <partial name="_TableButtonPartialCustomerService" model="item.Id" />

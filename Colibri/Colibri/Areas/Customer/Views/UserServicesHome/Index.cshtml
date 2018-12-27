@@ -26,7 +26,8 @@
                                 <b>$@userService.Price</b>
                             </label>
                         </div>
-                        <a asp-action="Details" asp-controller="UserServicesHome" class="btn btn-success pull-right btn-outline-info" asp-route-id="@userService.Id">@ViewData["ViewDetails"]</a>
+                        @*<a asp-action="Details" asp-controller="UserServicesHome" class="btn btn-success pull-right btn-outline-info" asp-route-id="@userService.Id">@ViewData["ViewDetails"]</a>*@
+                        <a asp-action="Details" asp-controller="UserServices" class="btn btn-success pull-right btn-outline-info" asp-route-id="@userService.Id">@ViewData["ViewDetails"]</a>
                     </div>
                 </div>
             </div>
