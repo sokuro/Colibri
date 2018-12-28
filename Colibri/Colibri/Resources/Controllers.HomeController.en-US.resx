@@ -117,10 +117,88 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutText" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="AdminUsersText" xml:space="preserve">
+    <value>Administrators</value>
+  </data>
+  <data name="AdvertisementsText" xml:space="preserve">
+    <value>Advertisements</value>
+  </data>
+  <data name="ApplicationUsersText" xml:space="preserve">
+    <value>App Users</value>
+  </data>
+  <data name="AppointmentsText" xml:space="preserve">
+    <value>Appointments</value>
+  </data>
+  <data name="CategoriesAndTypesText" xml:space="preserve">
+    <value>Categories &amp; Types</value>
+  </data>
+  <data name="CategoryGroupsText" xml:space="preserve">
+    <value>Category Groups</value>
+  </data>
+  <data name="CategoryTypesText" xml:space="preserve">
+    <value>Category Types</value>
+  </data>
+  <data name="ContactText" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="CreateOfferText" xml:space="preserve">
+    <value>Create Offer</value>
+  </data>
+  <data name="CreateOrderText" xml:space="preserve">
+    <value>Create Order</value>
+  </data>
+  <data name="CustomerUsersText" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+  <data name="DashboardText" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="HomeText" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="ItemsText" xml:space="preserve">
+    <value>Items</value>
+  </data>
   <data name="LanguageText" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="ProductsListText" xml:space="preserve">
+    <value>List of Products</value>
+  </data>
+  <data name="ProductsText" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="ProductsUserServicesText" xml:space="preserve">
+    <value>Products &amp; Services</value>
+  </data>
+  <data name="RegisteredUsersText" xml:space="preserve">
+    <value>Users</value>
+  </data>
   <data name="SaveText" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="SendReceiveText" xml:space="preserve">
+    <value>Send &amp; Receive</value>
+  </data>
+  <data name="ShowAllNotificationsText" xml:space="preserve">
+    <value>All Notifications</value>
+  </data>
+  <data name="ShowMyNotificationsText" xml:space="preserve">
+    <value>My Notifications</value>
+  </data>
+  <data name="SubscriberText" xml:space="preserve">
+    <value>Subscriber</value>
+  </data>
+  <data name="UserServicesListText" xml:space="preserve">
+    <value>List of Services</value>
+  </data>
+  <data name="UserServicesText" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="UsersText" xml:space="preserve">
+    <value>Users</value>
   </data>
 </root>

@@ -117,10 +117,88 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutText" xml:space="preserve">
+    <value>Über uns</value>
+  </data>
+  <data name="AdminUsersText" xml:space="preserve">
+    <value>Administratoren</value>
+  </data>
+  <data name="AdvertisementsText" xml:space="preserve">
+    <value>Inserate</value>
+  </data>
+  <data name="ApplicationUsersText" xml:space="preserve">
+    <value>App User</value>
+  </data>
+  <data name="AppointmentsText" xml:space="preserve">
+    <value>Termine</value>
+  </data>
+  <data name="CategoriesAndTypesText" xml:space="preserve">
+    <value>Rubriken &amp; -Typen</value>
+  </data>
+  <data name="CategoryGroupsText" xml:space="preserve">
+    <value>Rubrik-Gruppen</value>
+  </data>
+  <data name="CategoryTypesText" xml:space="preserve">
+    <value>Rubriken</value>
+  </data>
+  <data name="ContactText" xml:space="preserve">
+    <value>Kontakt</value>
+  </data>
+  <data name="CreateOfferText" xml:space="preserve">
+    <value>Angebot erstellen</value>
+  </data>
+  <data name="CreateOrderText" xml:space="preserve">
+    <value>Nachfrage erstellen</value>
+  </data>
+  <data name="CustomerUsersText" xml:space="preserve">
+    <value>Kunden</value>
+  </data>
+  <data name="DashboardText" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="HomeText" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="ItemsText" xml:space="preserve">
+    <value>Artikel</value>
+  </data>
   <data name="LanguageText" xml:space="preserve">
     <value>Sprache</value>
   </data>
+  <data name="ProductsListText" xml:space="preserve">
+    <value>Liste der Produkte</value>
+  </data>
+  <data name="ProductsText" xml:space="preserve">
+    <value>Produkte</value>
+  </data>
+  <data name="ProductsUserServicesText" xml:space="preserve">
+    <value>Produkte &amp; Dienstleistungen</value>
+  </data>
+  <data name="RegisteredUsersText" xml:space="preserve">
+    <value>Reg. User</value>
+  </data>
   <data name="SaveText" xml:space="preserve">
     <value>Speichere</value>
+  </data>
+  <data name="SendReceiveText" xml:space="preserve">
+    <value>Sende &amp; erhalte</value>
+  </data>
+  <data name="ShowAllNotificationsText" xml:space="preserve">
+    <value>Zeige alle Benachrichtigungen</value>
+  </data>
+  <data name="ShowMyNotificationsText" xml:space="preserve">
+    <value>Zeige meine Benachrichtigungen</value>
+  </data>
+  <data name="SubscriberText" xml:space="preserve">
+    <value>Abonniere</value>
+  </data>
+  <data name="UserServicesListText" xml:space="preserve">
+    <value>Liste der Dienstleistungen</value>
+  </data>
+  <data name="UserServicesText" xml:space="preserve">
+    <value>Dienstleistungen</value>
+  </data>
+  <data name="UsersText" xml:space="preserve">
+    <value>User</value>
   </data>
 </root>

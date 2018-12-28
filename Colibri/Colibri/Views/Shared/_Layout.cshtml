@@ -1,8 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Http
 @using Colibri.Extensions
 @using Colibri.Utility
+@using Microsoft.AspNetCore.Mvc.Localization
 @using RawRabbit.Operations
 
+@inject IViewLocalizer Localizer
 @inject IHttpContextAccessor HttpContextAccessor
 
 
@@ -52,7 +54,7 @@
     <header class="container">
         <nav class="navbar navbar-dark bg-dark navbar-expand-md">
             <h1 class="navbar-brand">
-                <span><img src="~/img/SystemImages/colibri.png" alt="Colibri Logo" height="50" width="50"/></span>
+                <span><img src="~/img/SystemImages/colibri.png" alt="Colibri Logo" height="50" width="50" /></span>
                 Colibri
             </h1>
             <button class="navbar-toggler" data-toggle="collapse" data-target="#theMenu">
@@ -61,7 +63,7 @@
             <div id="theMenu" class="navbar-collapse collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" asp-route-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        <a class="nav-link" asp-route-area="" asp-controller="Home" asp-action="Index">@ViewData["Home"]</a>
                     </li>
 
                     <!-- hide if not authorized -->
@@ -74,20 +76,20 @@
                                 <span>Admin</span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="adminPagesDropdown">
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="AdminDashboard" asp-action="Index">Dashboard</a>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="AdminDashboard" asp-action="Index">@ViewData["Dashboard"]</a>
                                 <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Categories & Types:</h6>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryGroups" asp-action="Index">Category Groups</a>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryTypes" asp-action="Index">Category Types</a>
+                                <h6 class="dropdown-header">@ViewData["CategoriesAndTypes"]:</h6>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryGroups" asp-action="Index">@ViewData["CategoryGroups"]</a>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryTypes" asp-action="Index">@ViewData["CategoryTypes"]</a>
                                 <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Users:</h6>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="AdminUsers" asp-action="Index">Admin Users</a>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="CustomerUsers" asp-action="Index">Customer Users</a>
+                                <h6 class="dropdown-header">@ViewData["Users"]:</h6>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="AdminUsers" asp-action="Index">@ViewData["AdminUsers"]</a>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="CustomerUsers" asp-action="Index">@ViewData["CustomerUsers"]</a>
                                 <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Items:</h6>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="Products" asp-action="Index">Products</a>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="Services" asp-action="Index">Services</a>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="Appointments" asp-action="Index">Appointments</a>
+                                <h6 class="dropdown-header">@ViewData["Items"]:</h6>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="Products" asp-action="Index">@ViewData["Products"]</a>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="Services" asp-action="Index">@ViewData["UserServices"]</a>
+                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="Appointments" asp-action="Index">@ViewData["Appointments"]</a>
                             </div>
                         </li>
                     }
@@ -98,38 +100,38 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="registeredUserPagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-fw fa-folder"></i>
-                                <span>Reg. Users</span>
+                                <span>@ViewData["RegisteredUsers"]</span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="registeredUserPagesDropdown">
                                 <h6 class="dropdown-header">Users:</h6>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="ApplicationUser" asp-action="Index">Application Users</a>
+                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="ApplicationUser" asp-action="Index">@ViewData["ApplicationUsers"]</a>
                                 <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Products & Services:</h6>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="Advertisement" asp-action="Index">Advertisements</a>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="UserServices" asp-action="Index">User Services</a>
+                                <h6 class="dropdown-header">@ViewData["ProductsUserServices"]:</h6>
+                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="Advertisement" asp-action="Index">@ViewData["Advertisements"]</a>
+                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="UserServices" asp-action="Index">@ViewData["UserServices"]</a>
                                 <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Advertisements:</h6>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementOffer" asp-action="Index">Angebot Erstellen</a>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementRequest" asp-action="Index">Nachfrage Erstellen</a>
+                                <h6 class="dropdown-header">@ViewData["Advertisements"]:</h6>
+                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementOffer" asp-action="Index">@ViewData["CreateOffer"]</a>
+                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementRequest" asp-action="Index">@ViewData["CreateOrder"]</a>
                                 <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Appointments:</h6>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="Appointments" asp-action="Index">Appointments</a>
+                                <h6 class="dropdown-header">@ViewData["Appointments"]:</h6>
+                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="Appointments" asp-action="Index">@ViewData["Appointments"]</a>
                             </div>
                         </li>
                     }
 
                     <!-- Anonymous Users -->
                     <li class="nav-item">
-                        <a class="nav-link" asp-route-area="Customer" asp-controller="ProductsHome" asp-action="Index">Products List</a>
+                        <a class="nav-link" asp-route-area="Customer" asp-controller="ProductsHome" asp-action="Index">@ViewData["ProductsList"]</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-route-area="Customer" asp-controller="UserServicesHome" asp-action="Index">Services List</a>
+                        <a class="nav-link" asp-route-area="Customer" asp-controller="UserServicesHome" asp-action="Index">@ViewData["UserServicesList"]</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-route-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+                        <a class="nav-link" asp-route-area="" asp-controller="Home" asp-action="Contact">@ViewData["Contact"]</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" asp-route-area="" asp-controller="About" asp-action="">About</a>
+                        <a class="nav-link" asp-route-area="" asp-controller="About" asp-action="">@ViewData["About"]</a>
                     </li>
 
                     <!-- handle Session: Values in the Session -->
@@ -193,11 +195,11 @@
                             <span class="badge badge-danger"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                            <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="Index">Subscriber</a>
-                            <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="SendReceive">SendReceive</a>
+                            <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="Index">@ViewData["Subscriber"]</a>
+                            <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="SendReceive">@ViewData["SendReceive"]</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="ShowAllNotifications">ShowAllNotifications</a>
-                            <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="ShowMyNotifications">ShowMyNotifications</a>
+                            <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="ShowAllNotifications">@ViewData["ShowAllNotifications"]</a>
+                            <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="ShowMyNotifications">@ViewData["ShowMyNotifications"]</a>
                         </div>
                     </li>
                 </ul>
@@ -207,29 +209,28 @@
 
     <!-- Main Class -->
     <main class="container">
-        <aside>
-        </aside>
+        <aside></aside>
         <section>
             @*<article>
-                <!-- Breadcrumbs-->
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="index.html">Dashboard</a>
-                    </li>
-                    <li class="breadcrumb-item active">Blank Page</li>
-                </ol>
-                <!-- Navbar Search -->
-                <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search"></i>
-                            </button>
+                    <!-- Breadcrumbs-->
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="index.html">Dashboard</a>
+                        </li>
+                        <li class="breadcrumb-item active">Blank Page</li>
+                    </ol>
+                    <!-- Navbar Search -->
+                    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </article>*@
+                    </form>
+                </article>*@
             <article>
                 @*<h2 class="text-center">@ViewBag.Title</h2>*@
                 @RenderBody()
@@ -240,7 +241,7 @@
     <footer class="sticky-footer">
         <div class="container my-auto">
             <div class="copyright text-center my-auto">
-         @*   <div class="copyright col-6">*@
+                @*   <div class="copyright col-6">*@
                 <span>Colibri © @DateTime.Now.Year</span>
                 <span>@await Html.PartialAsync("_SelectLanguagePartial")</span>
             </div>

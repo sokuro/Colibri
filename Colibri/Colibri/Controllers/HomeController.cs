@@ -82,6 +82,32 @@ namespace Colibri.Controllers
             // i18n
             ViewData["Language"] = _localizer["LanguageText"];
             ViewData["Save"] = _localizer["SaveText"];
+            ViewData["Home"] = _localizer["HomeText"];
+            ViewData["Dashboard"] = _localizer["DashboardText"];
+            ViewData["CategoriesAndTypes"] = _localizer["CategoriesAndTypesText"];
+            ViewData["CategoryGroups"] = _localizer["CategoryGroupsText"];
+            ViewData["CategoryTypes"] = _localizer["CategoryTypesText"];
+            ViewData["Users"] = _localizer["UsersText"];
+            ViewData["AdminUsers"] = _localizer["AdminUsersText"];
+            ViewData["CustomerUsers"] = _localizer["CustomerUsersText"];
+            ViewData["Items"] = _localizer["ItemsText"];
+            ViewData["Products"] = _localizer["ProductsText"];
+            ViewData["ProductsUserServices"] = _localizer["ProductsUserServicesText"];
+            ViewData["UserServices"] = _localizer["UserServicesText"];
+            ViewData["Appointments"] = _localizer["AppointmentsText"];
+            ViewData["RegisteredUsers"] = _localizer["RegisteredUsersText"];
+            ViewData["ApplicationUsers"] = _localizer["ApplicationUsersText"];
+            ViewData["Advertisements"] = _localizer["AdvertisementsText"];
+            ViewData["CreateOffer"] = _localizer["CreateOfferText"];
+            ViewData["CreateOrder"] = _localizer["CreateOrderText"];
+            ViewData["ProductsList"] = _localizer["ProductsListText"];
+            ViewData["UserServicesList"] = _localizer["UserServicesListText"];
+            ViewData["Contact"] = _localizer["ContactText"];
+            ViewData["About"] = _localizer["AboutText"];
+            ViewData["Subscriber"] = _localizer["SubscriberText"];
+            ViewData["SendReceive"] = _localizer["SendReceiveText"];
+            ViewData["ShowAllNotifications"] = _localizer["ShowAllNotificationsText"];
+            ViewData["ShowMyNotifications"] = _localizer["ShowMyNotificationsText"];
 
             return View(HomeIndexViewModel);
         }
