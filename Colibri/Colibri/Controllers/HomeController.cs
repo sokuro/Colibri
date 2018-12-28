@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Colibri.Areas.Customer.Controllers;
@@ -10,7 +11,9 @@ using Colibri.Services;
 using Colibri.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
@@ -29,7 +32,7 @@ namespace Colibri.Controllers
         //private ICategoryTypesData _categoryData;
         private readonly ColibriDbContext _colibriDbContext;
         private readonly HostingEnvironment _hostingEnvironment;
-        private readonly IStringLocalizer<AdvertisementController> _localizer;
+        private readonly IStringLocalizer<HomeController> _localizer;
         private readonly IEmailSender _emailSender;
 
         // bind the ViewModel
@@ -43,7 +46,7 @@ namespace Colibri.Controllers
         //public HomeController(ICategoryTypesData categoryData, IEmailSender emailSender)
         public HomeController(ColibriDbContext colibriDbContext,
             HostingEnvironment hostingEnvironment,
-            IStringLocalizer<AdvertisementController> localizer, 
+            IStringLocalizer<HomeController> localizer, 
             IEmailSender emailSender)
         {
             // incoming Category Object will be saved into the private Field
@@ -76,6 +79,10 @@ namespace Colibri.Controllers
         //[Route("Admin/AdminDashboard/Index")]
         public IActionResult Index()
         {
+            // i18n
+            ViewData["Language"] = _localizer["LanguageText"];
+            ViewData["Save"] = _localizer["SaveText"];
+
             return View(HomeIndexViewModel);
         }
 
@@ -132,5 +139,25 @@ namespace Colibri.Controllers
 
             return View(searchVM);
         }
+
+        // Handle Layout
+        public async Task<IActionResult> LayoutTwo()
+        {
+            return View();
+        }
+
+        // Handle Translation Culture
+        [HttpPost]
+        public IActionResult SetLanguage(string culture, string returnUrl)
+        {
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+            );
+
+            return LocalRedirect(returnUrl);
+        }
+
     }
 }
