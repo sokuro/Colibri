@@ -10,9 +10,9 @@
 }
 
 <div class="appointment-confirmation">
-    <h2 class="text-info">AppointmentConfirmation</h2>
+    <h2 class="text-info">@ViewData["AppointmentConfirmation"]</h2>
     <div class="form-text">
-        Your Appointment has been submitted.
+        @ViewData["AppointmentsConfirmationSentence"]
     </div>
 
     <!-- consume the Partial Views -->
@@ -29,10 +29,10 @@
         }
         else
         {
-            <div>No Items added!</div>
+            <div>@ViewData["NoItemsAdded"]!</div>
         }
 
-        <a asp-area="Customer" asp-controller="Scheduling" asp-action="Index" class="btn btn-success">Back to Scheduling</a>
+        <a asp-area="Customer" asp-controller="Scheduling" asp-action="Index" class="btn btn-success">@ViewData["BackToScheduling"]</a>
     </div>
 </div>
 

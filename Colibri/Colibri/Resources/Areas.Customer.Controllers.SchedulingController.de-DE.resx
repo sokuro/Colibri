@@ -120,11 +120,23 @@
   <data name="AppointmentDateText" xml:space="preserve">
     <value>Datum Termin</value>
   </data>
+  <data name="AppointmentsConfirmationSentenceText" xml:space="preserve">
+    <value>Ihr Termin wurde bestätigt.</value>
+  </data>
+  <data name="AppointmentsConfirmationText" xml:space="preserve">
+    <value>Bestätigung des Termins</value>
+  </data>
+  <data name="AppointmentsDetailsText" xml:space="preserve">
+    <value>Detail über den Termin</value>
+  </data>
   <data name="AppointmentTimeText" xml:space="preserve">
     <value>Zeit Termin</value>
   </data>
   <data name="BackToListText" xml:space="preserve">
     <value>Zurück</value>
+  </data>
+  <data name="BackToSchedulingText" xml:space="preserve">
+    <value>Zurück zu den Terminen</value>
   </data>
   <data name="CategoryGroupText" xml:space="preserve">
     <value>Rubrik-Gruppe</value>
@@ -138,8 +150,14 @@
   <data name="ContactOwnerText" xml:space="preserve">
     <value>Kontaktiere Inhaber</value>
   </data>
+  <data name="CustomerEmailText" xml:space="preserve">
+    <value>Email</value>
+  </data>
   <data name="CustomerNameText" xml:space="preserve">
     <value>Kundenname</value>
+  </data>
+  <data name="CustomerPhoneNumberText" xml:space="preserve">
+    <value>Telefonnummer</value>
   </data>
   <data name="DeleteItemText" xml:space="preserve">
     <value>Lösche Item</value>

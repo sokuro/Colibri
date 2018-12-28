@@ -394,6 +394,25 @@ namespace Colibri.Areas.Customer.Controllers
                 }
             }
 
+            // i18n
+            ViewData["AppointmentsConfirmation"] = _localizer["AppointmentsConfirmationText"];
+            ViewData["AppointmentsConfirmationSentence"] = _localizer["AppointmentsConfirmationSentenceText"];
+            ViewData["AppointmentsDetails"] = _localizer["AppointmentsDetailsText"];
+            ViewData["CustomerName"] = _localizer["CustomerNameText"];
+            ViewData["CustomerEmail"] = _localizer["CustomerEmailText"];
+            ViewData["CustomerPhoneNumber"] = _localizer["CustomerPhoneNumberText"];
+            ViewData["AppointmentDate"] = _localizer["AppointmentDateText"];
+            ViewData["AppointmentTime"] = _localizer["AppointmentTimeText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["BackToScheduling"] = _localizer["BackToSchedulingText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["NoItemsAdded"] = _localizer["NoItemsAddedText"];
+
             // pass the Scheduling View Model as Object
             return View(SchedulingViewModel);
         }

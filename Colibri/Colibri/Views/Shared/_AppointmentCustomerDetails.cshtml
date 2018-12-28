@@ -1,5 +1,6 @@
-﻿@model Colibri.Models.Appointments
-
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Colibri.Models.Appointments
+@inject IViewLocalizer Localizer
 <!-- individual CSS -->
 @section scheduling {
     <link href="~/css/scheduling.css" rel="stylesheet" />
@@ -12,7 +13,7 @@
     <div class="col-12">
         <div class="row">
             <div class="col-2">
-                Full Name
+                @ViewData["UserName"]
             </div>
             <div class="col-3">
                 <input asp-for="@Model.Customer.UserName" readonly class="form-control" />
@@ -21,7 +22,7 @@
             <div class="col-2"></div>
 
             <div class="col-2">
-                Email
+                @ViewData["CustomerEmail"]
             </div>
             <div class="col-3">
                 <input asp-for="@Model.CustomerEmail" readonly class="form-control" />
@@ -33,7 +34,7 @@
     <div class="col-12">
         <div class="row">
             <div class="col-2">
-                Phone Number
+                @ViewData["CustomerPhoneNumber"]
             </div>
             <div class="col-3">
                 <input asp-for="@Model.CustomerPhoneNumber" readonly class="form-control" />
@@ -42,7 +43,7 @@
             <div class="col-2"></div>
 
             <div class="col-2">
-                Appointment Date
+                @ViewData["AppointmentDate"]
             </div>
             <div class="col-3">
                 <input asp-for="@Model.AppointmentDate" readonly class="form-control" />
