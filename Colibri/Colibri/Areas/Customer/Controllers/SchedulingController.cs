@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -251,6 +252,9 @@ namespace Colibri.Areas.Customer.Controllers
             List<UserServicesSelectedForAppointment> elemServList = _colibriDbContext.UserServicesSelectedForAppointment
                 .Where(p => p.AppointmentId == id).ToList();
 
+            // get the User's Culture
+            int userLangId = CultureInfo.CurrentCulture.LCID;
+
             // Separation of Products and Services
             if (elemProdList.Count > 0)
             {
@@ -275,46 +279,91 @@ namespace Colibri.Areas.Customer.Controllers
                 //string colibriAppIcon = "~\\img\\SystemImages\\colibri.png";
                 //string imageSource = System.Text.Encoding.UTF8.EncodeBase64(colibriAppIcon);
 
+                // get the UserLanguage
+                //var userLanguage = _localizer;
 
                 // send Email: to the Customer
                 // build a Template mit Customers Details
                 // <html> Version
                 if (SchedulingViewModel.Appointments.AppPerson != null)
                 {
-                    _emailSender.SendEmailAsync(
-                        SchedulingViewModel.Appointments.CustomerEmail,
-                        "Your Reservation at Colibri",
-
-                        //$"<p><img src='~\\img\\SystemImages\\colibri.png' /></p>" +
-                        //$"<p><img src='" + imageSource + "' /></p>" +
-
-
-                        $"<p>Hello " + SchedulingViewModel.Appointments.Customer.UserName + "</p></br>" +
-                        $"<p>We are happy to inform you about your Reservation of the following Product:" + "</p>" +
-                        $"<p><img src='~" + SchedulingViewModel.Products.FirstOrDefault().Image + "' /></p>" +
-                        $"<p>Item: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
-                        $"<p>Owner: " + SchedulingViewModel.Appointments.AppPerson.UserName +"</p>" +
-                        $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
-                        $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
-                        $"<p>Thank you, " + "</p>" +
-                        $"<p>Your Colibri Team</p>");
-
-                    // send Mail to the Owner (if exists and is not internal SuperAdmin)
-                    if (SchedulingViewModel.Products.FirstOrDefault().ApplicationUserId != null)
+                    // LCID(1033) = EN
+                    if (userLangId == 1033)
                     {
                         _emailSender.SendEmailAsync(
-                            SchedulingViewModel.Appointments.AppPerson.Email,
-                            "You have a Reservation of your Product",
+                            SchedulingViewModel.Appointments.CustomerEmail,
+                            "Your Reservation at Colibri",
+
+                            //$"<p><img src='~\\img\\SystemImages\\colibri.png' /></p>" +
                             //$"<p><img src='" + imageSource + "' /></p>" +
-                            $"<p>Hello " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p></br>" +
-                            $"<p>We are happy to inform you about a Reservation of the following Product:" + "</p>" +
+
+
+                            $"<p>Hello " + SchedulingViewModel.Appointments.Customer.UserName + "</p></br>" +
+                            $"<p>We are happy to inform you about your Reservation of the following Product:" + "</p>" +
                             $"<p><img src='~" + SchedulingViewModel.Products.FirstOrDefault().Image + "' /></p>" +
                             $"<p>Item: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
-                            $"<p>User " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
+                            $"<p>Owner: " + SchedulingViewModel.Appointments.AppPerson.UserName +"</p>" +
                             $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
                             $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
                             $"<p>Thank you, " + "</p>" +
                             $"<p>Your Colibri Team</p>");
+
+                        // send Mail to the Owner (if exists and is not internal SuperAdmin)
+                        if (SchedulingViewModel.Products.FirstOrDefault().ApplicationUserId != null)
+                        {
+                            _emailSender.SendEmailAsync(
+                                SchedulingViewModel.Appointments.AppPerson.Email,
+                                "You have a Reservation of your Product",
+                                //$"<p><img src='" + imageSource + "' /></p>" +
+                                $"<p>Hello " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p></br>" +
+                                $"<p>We are happy to inform you about a Reservation of the following Product:" + "</p>" +
+                                $"<p><img src='~" + SchedulingViewModel.Products.FirstOrDefault().Image + "' /></p>" +
+                                $"<p>Item: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
+                                $"<p>User " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
+                                $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
+                                $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                                $"<p>Thank you, " + "</p>" +
+                                $"<p>Your Colibri Team</p>");
+                        }
+                    }
+                    // LCID(1031) = DE
+                    else if (userLangId == 1031)
+                    {
+                        _emailSender.SendEmailAsync(
+                            SchedulingViewModel.Appointments.CustomerEmail,
+                            "Ihre Reservation bei Colibri",
+
+                            //$"<p><img src='~\\img\\SystemImages\\colibri.png' /></p>" +
+                            //$"<p><img src='" + imageSource + "' /></p>" +
+
+
+                            $"<p>Hallo " + SchedulingViewModel.Appointments.Customer.UserName + "</p></br>" +
+                            $"<p>Gerne informieren wir Sie über Ihre Reservierung folgendes Produkts:" + "</p>" +
+                            $"<p><img src='~" + SchedulingViewModel.Products.FirstOrDefault().Image + "' /></p>" +
+                            $"<p>Artikel: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
+                            $"<p>Besitzer: " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p>" +
+                            $"<p>am " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
+                            $"<p>um " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                            $"<p>Danke schön, " + "</p>" +
+                            $"<p>Ihr Colibri Team</p>");
+
+                        // send Mail to the Owner (if exists and is not internal SuperAdmin)
+                        if (SchedulingViewModel.Products.FirstOrDefault().ApplicationUserId != null)
+                        {
+                            _emailSender.SendEmailAsync(
+                                SchedulingViewModel.Appointments.AppPerson.Email,
+                                "Sie haben eine Reservation Ihres Produkts",
+                                //$"<p><img src='" + imageSource + "' /></p>" +
+                                $"<p>Hallo " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p></br>" +
+                                $"<p>Gerne informieren wir Sie über eine Reservierung Ihres Produkts:" + "</p>" +
+                                $"<p><img src='~" + SchedulingViewModel.Products.FirstOrDefault().Image + "' /></p>" +
+                                $"<p>Artikel: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
+                                $"<p>Kunde " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
+                                $"<p>am " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
+                                $"<p>um " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                                $"<p>Danke schön, " + "</p>" +
+                                $"<p>Ihr Colibri Team</p>");
+                        }
                     }
                 }
                 else
@@ -352,41 +401,83 @@ namespace Colibri.Areas.Customer.Controllers
                 // <html> Version
                 if (SchedulingViewModel.Appointments.AppPerson != null)
                 {
-                    _emailSender.SendEmailAsync(
-                        SchedulingViewModel.Appointments.CustomerEmail,
-                        "Your Reservation at Colibri",
-
-                        //$"<p><img src='~\\img\\SystemImages\\colibri.png' /></p>" +
-                        //$"<p><img src='" + imageSource + "' /></p>" +
-
-
-                        $"<p>Hello " + SchedulingViewModel.Appointments.Customer.UserName + "</p></br>" +
-                        $"<p>We are happy to inform you about your Reservation of the following Service:" + "</p>" +
-                        $"<p><img src='~" + SchedulingViewModel.UserServices.FirstOrDefault().Image + "' /></p>" +
-                        $"<p>Item: " + SchedulingViewModel.UserServices.FirstOrDefault().Name + "</p>" +
-                        $"<p>Owner: " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p>" +
-                        $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
-                        $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
-                        $"<p>Thank you, " + "</p>" +
-                        $"<p>Your Colibri Team</p>");
-
-                    // send Mail to the Owner (if exists and is not internal SuperAdmin)
-                    if (SchedulingViewModel.UserServices.FirstOrDefault().ApplicationUserId != null)
+                    if (userLangId == 1033)
                     {
                         _emailSender.SendEmailAsync(
-                            SchedulingViewModel.Appointments.AppPerson.Email,
-                            "You have a Reservation of your UserServices",
+                            SchedulingViewModel.Appointments.CustomerEmail,
+                            "Your Reservation at Colibri",
+
+                            //$"<p><img src='~\\img\\SystemImages\\colibri.png' /></p>" +
                             //$"<p><img src='" + imageSource + "' /></p>" +
-                            $"<p>Hello " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p></br>" +
-                            $"<p>We are happy to inform you about a Reservation of the following UserService:" + "</p>" +
+
+
+                            $"<p>Hello " + SchedulingViewModel.Appointments.Customer.UserName + "</p></br>" +
+                            $"<p>We are happy to inform you about your Reservation of the following Service:" + "</p>" +
                             $"<p><img src='~" + SchedulingViewModel.UserServices.FirstOrDefault().Image + "' /></p>" +
                             $"<p>Item: " + SchedulingViewModel.UserServices.FirstOrDefault().Name + "</p>" +
-                            $"<p>User " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
+                            $"<p>Owner: " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p>" +
                             $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
                             $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
                             $"<p>Thank you, " + "</p>" +
                             $"<p>Your Colibri Team</p>");
+
+                        // send Mail to the Owner (if exists and is not internal SuperAdmin)
+                        if (SchedulingViewModel.UserServices.FirstOrDefault().ApplicationUserId != null)
+                        {
+                            _emailSender.SendEmailAsync(
+                                SchedulingViewModel.Appointments.AppPerson.Email,
+                                "You have a Reservation of your UserServices",
+                                //$"<p><img src='" + imageSource + "' /></p>" +
+                                $"<p>Hello " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p></br>" +
+                                $"<p>We are happy to inform you about a Reservation of the following UserService:" + "</p>" +
+                                $"<p><img src='~" + SchedulingViewModel.UserServices.FirstOrDefault().Image + "' /></p>" +
+                                $"<p>Item: " + SchedulingViewModel.UserServices.FirstOrDefault().Name + "</p>" +
+                                $"<p>User " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
+                                $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
+                                $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                                $"<p>Thank you, " + "</p>" +
+                                $"<p>Your Colibri Team</p>");
+                        }
                     }
+                    else if (userLangId == 1031)
+                    {
+                        _emailSender.SendEmailAsync(
+                            SchedulingViewModel.Appointments.CustomerEmail,
+                            "Ihre Reservation bei Colibri",
+
+                            //$"<p><img src='~\\img\\SystemImages\\colibri.png' /></p>" +
+                            //$"<p><img src='" + imageSource + "' /></p>" +
+
+
+                            $"<p>Hallo " + SchedulingViewModel.Appointments.Customer.UserName + "</p></br>" +
+                            $"<p>Gerne informieren wir Sie über Ihre Reservierung folgender Dienstleistung:" + "</p>" +
+                            $"<p><img src='~" + SchedulingViewModel.UserServices.FirstOrDefault().Image + "' /></p>" +
+                            $"<p>Artikel: " + SchedulingViewModel.UserServices.FirstOrDefault().Name + "</p>" +
+                            $"<p>Besitzer: " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p>" +
+                            $"<p>am " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
+                            $"<p>um " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                            $"<p>Danke schön, " + "</p>" +
+                            $"<p>Ihr Colibri Team</p>");
+
+                        // send Mail to the Owner (if exists and is not internal SuperAdmin)
+                        if (SchedulingViewModel.UserServices.FirstOrDefault().ApplicationUserId != null)
+                        {
+                            _emailSender.SendEmailAsync(
+                                SchedulingViewModel.Appointments.AppPerson.Email,
+                                "Sie haben eine Reservation Ihrer Dienstleistung",
+                                //$"<p><img src='" + imageSource + "' /></p>" +
+                                $"<p>Hallo " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p></br>" +
+                                $"<p>Gerne informieren wir Sie über eine Reservierung Ihrer Dienstleistung:" + "</p>" +
+                                $"<p><img src='~" + SchedulingViewModel.UserServices.FirstOrDefault().Image + "' /></p>" +
+                                $"<p>Artikel: " + SchedulingViewModel.UserServices.FirstOrDefault().Name + "</p>" +
+                                $"<p>Kunde " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
+                                $"<p>am " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
+                                $"<p>um " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                                $"<p>Danke schön, " + "</p>" +
+                                $"<p>Ihr Colibri Team</p>");
+                        }
+                    }
+
                 }
                 else
                 {
