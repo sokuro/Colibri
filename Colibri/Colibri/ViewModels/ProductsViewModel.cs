@@ -11,6 +11,8 @@ namespace Colibri.ViewModels
     {
         public Products Products { get; set; }
 
+        public ProductsRatings ProductsRatings { get; set; }
+
         public IEnumerable<CategoryGroups> CategoryGroups { get; set; }
         public IEnumerable<CategoryTypes> CategoryTypes { get; set; }
     }

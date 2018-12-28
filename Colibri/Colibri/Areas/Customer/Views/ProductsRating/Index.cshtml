@@ -1,0 +1,45 @@
+﻿@model Colibri.ViewModels.ProductsRatingViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form method="get">
+    <div class="row">
+        <div class="col-6 text-center">
+            @*<h2 class="text-info">@ViewData["Advertisement"]</h2>*@
+            <h2 class="text-info">Details</h2>
+        </div>
+    </div>
+
+    <div>
+        <table class="table table-striped border">
+            <tr class="text-info">
+                <th>
+                    Product
+                </th>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Description
+                </th>
+            </tr>
+            
+            @foreach (var item in Model.Products)
+            {
+                <td>
+                    @Html.DisplayFor(p => item.ProductId)
+                </td>
+                <td>
+                    @Html.DisplayFor(u => item.ApplicationUserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(d => item.Description)
+                </td>
+            }
+        </table>
+    </div>
+</form>
