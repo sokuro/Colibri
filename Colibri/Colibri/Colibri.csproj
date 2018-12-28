@@ -20,6 +20,7 @@
     <Compile Remove="Data\Migrations\20181210221642_addUserCategoryTypesSubscribers.cs" />
     <Compile Remove="Data\Migrations\20181210222019_addApplicationUserToCategoryTypesSubscriber.cs" />
     <Compile Remove="Data\Migrations\20181226153150_addUsernameToServices.cs" />
+    <Compile Remove="Data\Migrations\20181228204358_addProductRatingEntity.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -33,6 +33,7 @@ namespace Colibri.Data
         public DbSet<Notifications> Notifications { get; set; }
         public DbSet<ArchiveEntry> ArchiveEntry { get; set; }
         public DbSet<ApplicationUserCategoryTypesSubscriber> ApplicationUserCategoryTypesSubscribers { get; set; }
+        public DbSet<ProductsRatings> ProductsRatings { get; set; }
 
 
         // override
