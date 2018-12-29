@@ -406,53 +406,161 @@ namespace Colibri.Areas.Customer.Controllers
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
+                // Security Claims
+                System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+                // Claims Identity
+                var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
                 // to overwrite a Rating, first get the old One
                 // get the Product from the DB
                 var userServiceFromDb = await _colibriDbContext.UserServices
                                         .Where(m => m.Id == id)
                                         .FirstOrDefaultAsync();
 
-                int tempUserServiceRating = 0;
+                // another Table ProductRatings for the Description
+                var userServiceRatingFromDb = await _colibriDbContext.UserServicesRatings
+                    .Where(p => p.UserServiceId == id)
+                    .FirstOrDefaultAsync();
 
-                if (command.Equals("1"))
-                {
-                    tempUserServiceRating = 1;
-                }
-                else if (command.Equals("2"))
-                {
-                    tempUserServiceRating = 2;
-                }
-                else if (command.Equals("3"))
-                {
-                    tempUserServiceRating = 3;
-                }
-                else if (command.Equals("4"))
-                {
-                    tempUserServiceRating = 4;
-                }
-                else if (command.Equals("5"))
-                {
-                    tempUserServiceRating = 5;
-                }
+                // current User
+                var currentUserId = claim.Value;
+                bool userAlreadyRated = false;
 
-                // calculate the new ProductRating
-                if (userServiceFromDb.NumberOfServiceRates == 0)
+                if (userServiceRatingFromDb != null)
                 {
-                    userServiceFromDb.ServiceRating = tempUserServiceRating;
+                    // check if already rated
+                    if (userServiceRatingFromDb.ApplicationUserId == currentUserId)
+                    {
+                        // already rated!
+                        userAlreadyRated = true;
+
+                        TempData["msg"] = "<script>alert('Already rated!');</script>";
+                        TempData["returnButton"] = "<div><p><b>Already rated!</b></p></div>";
+                        TempData["returnBackButton"] = "return";
+
+                        ViewData["BackToList"] = _localizer["BackToListText"];
+
+                        return View();
+                    }
+                    else if (userAlreadyRated)
+                    {
+                        int tempUserServiceRating = 0;
+
+                        if (command.Equals("1"))
+                        {
+                            tempUserServiceRating = 1;
+                        }
+                        else if (command.Equals("2"))
+                        {
+                            tempUserServiceRating = 2;
+                        }
+                        else if (command.Equals("3"))
+                        {
+                            tempUserServiceRating = 3;
+                        }
+                        else if (command.Equals("4"))
+                        {
+                            tempUserServiceRating = 4;
+                        }
+                        else if (command.Equals("5"))
+                        {
+                            tempUserServiceRating = 5;
+                        }
+
+                        // go to the User Service Table
+                        // calculate the new ProductRating
+                        if (userServiceFromDb.NumberOfServiceRates == 0)
+                        {
+                            userServiceFromDb.ServiceRating = tempUserServiceRating;
+                        }
+                        else
+                        {
+                            userServiceFromDb.ServiceRating = Math.Round((userServiceFromDb.ServiceRating * userServiceFromDb.NumberOfServiceRates + tempUserServiceRating) / (userServiceFromDb.NumberOfServiceRates + 1), 2);
+                        }
+
+                        // Rating Create
+                        UserServicesRatings userServicesRatings = new UserServicesRatings()
+                        {
+                            UserServiceId = userServiceFromDb.Id,
+                            // add the current User as the Creator of the Rating
+                            ApplicationUserId = claim.Value,
+                            ApplicationUserName = claim.Subject.Name,
+                            UserServiceRating = tempUserServiceRating,
+                            CreatedOn = System.DateTime.Now
+                        };
+
+                        // update the UserServicesRating Entity
+                        _colibriDbContext.UserServicesRatings.Add(userServicesRatings);
+
+                        // increment the Number of User Service Rates of the User Service
+                        userServiceFromDb.NumberOfServiceRates += 1;
+
+                        // save the Changes in DB
+                        await _colibriDbContext.SaveChangesAsync();
+                    }
+
+                    return View(UserServicesAddToEntityViewModel);
                 }
-                else
+                else if (userServiceFromDb == null && !userAlreadyRated)
                 {
-                    userServiceFromDb.ServiceRating = Math.Round((userServiceFromDb.ServiceRating * userServiceFromDb.NumberOfServiceRates + tempUserServiceRating) / (userServiceFromDb.NumberOfServiceRates + 1), 2);
+                    int tempUserServiceRating = 0;
+
+                    if (command.Equals("1"))
+                    {
+                        tempUserServiceRating = 1;
+                    }
+                    else if (command.Equals("2"))
+                    {
+                        tempUserServiceRating = 2;
+                    }
+                    else if (command.Equals("3"))
+                    {
+                        tempUserServiceRating = 3;
+                    }
+                    else if (command.Equals("4"))
+                    {
+                        tempUserServiceRating = 4;
+                    }
+                    else if (command.Equals("5"))
+                    {
+                        tempUserServiceRating = 5;
+                    }
+
+                    // go to the User Service Table
+                    // calculate the new ProductRating
+                    if (userServiceFromDb.NumberOfServiceRates == 0)
+                    {
+                        userServiceFromDb.ServiceRating = tempUserServiceRating;
+                    }
+                    else
+                    {
+                        userServiceFromDb.ServiceRating = Math.Round((userServiceFromDb.ServiceRating * userServiceFromDb.NumberOfServiceRates + tempUserServiceRating) / (userServiceFromDb.NumberOfServiceRates + 1), 2);
+                    }
+
+                    // Rating Create
+                    UserServicesRatings userServicesRatings = new UserServicesRatings()
+                    {
+                        UserServiceId = userServiceFromDb.Id,
+                        // add the current User as the Creator of the Rating
+                        ApplicationUserId = claim.Value,
+                        ApplicationUserName = claim.Subject.Name,
+                        UserServiceRating = tempUserServiceRating,
+                        CreatedOn = System.DateTime.Now
+                    };
+
+                    // update the UserServicesRating Entity
+                    _colibriDbContext.UserServicesRatings.Add(userServicesRatings);
+
+                    // increment the Number of User Service Rates of the User Service
+                    userServiceFromDb.NumberOfServiceRates += 1;
+
+                    // save the Changes in DB
+                    await _colibriDbContext.SaveChangesAsync();
                 }
-
-                // increment the Number of Product Rates of the Product
-                userServiceFromDb.NumberOfServiceRates += 1;
-
-                // save the Changes in DB
-                await _colibriDbContext.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Details));
-                //return View();
             }
             else
             {
