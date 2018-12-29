@@ -1,0 +1,66 @@
+﻿@model Colibri.ViewModels.ArchiveViewModel
+
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">@ViewData["ArchiveEntries"]</h2>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-3">
+        <a asp-action="Create" type="button" class="btn btn-primary">
+            <i class="fas fa-plus"></i>
+            &nbsp; @ViewData["NewEntry"]
+        </a>
+    </div>
+</div>
+<br />
+
+<div class="form-border">
+    <table class="table">
+        <tr>
+            <th>
+                @ViewData["Title"]
+            </th>
+            <th>
+                @ViewData["CategoryGroup"]
+            </th>
+            <th>
+                @ViewData["CategoryType"]
+            </th>
+            <th>
+                @ViewData["CreatedOn"]
+            </th>
+        </tr>
+        @foreach (var item in Model.ArchiveEntryList)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(m => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.CategoryGroups.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.CategoryTypes.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.CreatedOn)
+            </td>
+            <!--Buttons for Edit, Delete-->
+            <td style="width:150px;">
+                <div class="btn-group" role="group">
+                    <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-primary">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" type="button" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        }
+    </table>
+</div>
