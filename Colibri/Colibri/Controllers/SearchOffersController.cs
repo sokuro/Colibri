@@ -110,6 +110,13 @@ namespace Colibri.Areas.Customer.Controllers
                 SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.CategoryTypes.Name.Contains(model.SearchCategoryType));
             }
 
+            // Prüfen, ob Suchbegriff für PLZ existiert
+            if(!string.IsNullOrEmpty(model.PLZ))
+            {
+                SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.CategoryTypes.PLZ.Contains(model.PLZ));
+                SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.CategoryTypes.PLZ.Contains(model.PLZ));
+            }
+
             // Counter updaten
             SearchViewModel.ProductsCounter = SearchViewModel.ProductsList.Count();
             SearchViewModel.UserServicesCounter = SearchViewModel.UserServicesList.Count();
