@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -140,6 +141,9 @@ namespace Colibri.Areas.Identity.Pages.Account
 
                     _logger.LogInformation("User created a new account with password.");
 
+                    // get the User's Culture
+                    int userLangId = CultureInfo.CurrentCulture.LCID;
+
                     // Sending Confirmation EMail
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
@@ -148,8 +152,32 @@ namespace Colibri.Areas.Identity.Pages.Account
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    // LCID(1033) = EN
+                    if (userLangId == 1033)
+                    {
+                        await _emailSender.SendEmailAsync(
+                            Input.Email,
+                            "Confirm your email",
+                            $"<p>Hello " + user.UserName + "</p></br>" +
+                            $"<p>We are happy to inform you about your Registration on our Page.</p>" +
+                            $"<p>The Confirmation of the Registration helps to form a strong Bond with other registered Users.</p>" +
+                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>." +
+                            $"<p>Thank you, " + "</p>" +
+                            $"<p>Your Colibri Team</p>");
+                    }
+                    // LCID(1031) = DE
+                    else if (userLangId == 1031)
+                    {
+                        await _emailSender.SendEmailAsync(
+                            Input.Email,
+                            "Bestätigen Sie Ihre Mail",
+                            $"<p>Hallo " + user.UserName + "</p></br>" +
+                            $"<p>Gerne informieren wir Sie über Ihre Registration auf unserer Webseite.</p>" +
+                            $"<p>Die Bestätigung der Registrierung hilft Ihnen, eine starke Bindung mit anderen registrierten Benutzern bilden zu können.</p>" +
+                            $"Bitte bestätigen Sie Ihr Konto mit dem Klick auf <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'></a>." +
+                            $"<p>Thank you, " + "</p>" +
+                            $"<p>Your Colibri Team</p>");
+                    }
 
                     // prevent newly registered Users from being automatically logged on
                     await _signInManager.SignInAsync(user, isPersistent: false);
