@@ -429,6 +429,7 @@ namespace Colibri.Areas.Customer.Controllers
 
                 // current User
                 var currentUserId = claim.Value;
+                bool userAlreadyRated = false;
 
                 if (productRatingFromDb != null)
                 {
@@ -436,21 +437,69 @@ namespace Colibri.Areas.Customer.Controllers
                     if (productRatingFromDb.ApplicationUserId == currentUserId)
                     {
                         // already rated!
+                        userAlreadyRated = true;
                         return NoContent();
                     }
+                    else if (userAlreadyRated)
+                    {
+                        int tempProductRating = 0;
+
+                        if (command.Equals("1"))
+                        {
+                            tempProductRating = 1;
+                        }
+                        else if (command.Equals("2"))
+                        {
+                            tempProductRating = 2;
+                        }
+                        else if (command.Equals("3"))
+                        {
+                            tempProductRating = 3;
+                        }
+                        else if (command.Equals("4"))
+                        {
+                            tempProductRating = 4;
+                        }
+                        else if (command.Equals("5"))
+                        {
+                            tempProductRating = 5;
+                        }
+
+                        // go to the Product Table
+                        // calculate the new ProductRating
+                        if (productFromDb.NumberOfProductRates == 0)
+                        {
+                            productFromDb.ProductRating = tempProductRating;
+                        }
+                        else
+                        {
+                            productFromDb.ProductRating = Math.Round((productFromDb.ProductRating * productFromDb.NumberOfProductRates + tempProductRating) / (productFromDb.NumberOfProductRates + 1), 2);
+                        }
+
+
+                        // Rating Create
+                        ProductsRatings productsRatings = new ProductsRatings()
+                        {
+                            ProductId = productFromDb.Id,
+                            //ApplicationUserId = productFromDb.ApplicationUserId,
+                            // add the current User as the Creator of the Rating
+                            ApplicationUserId = claim.Value,
+                            ApplicationUserName = claim.Subject.Name,
+                            ProductRating = tempProductRating
+                        };
+
+                        // increment the Number of Product Rates of the Product
+                        productFromDb.NumberOfProductRates += 1;
+
+                        // save the Changes in DB
+                        await _colibriDbContext.SaveChangesAsync();
+                    }
+
                     return View(ProductsViewModel);
                 }
 
-                //else
-                //{
-                    // to update the Products from the DB: retrieve the Db Files
-                    // new Properties will be added to the specific Product -> Id needed!
-                    var productsNewRatingFromDb = _colibriDbContext.ProductsRatings.Find(ProductsRatingViewModel.Product.Id);
-
-                    // add the current User as the Creator of the Rating
-                    productsNewRatingFromDb.ApplicationUserId = claim.Value;
-                    productsNewRatingFromDb.ApplicationUserName = claim.Subject.Name;
-
+                else if (productRatingFromDb == null && !userAlreadyRated)
+                {
                     int tempProductRating = 0;
 
                     if (command.Equals("1"))
@@ -474,9 +523,6 @@ namespace Colibri.Areas.Customer.Controllers
                         tempProductRating = 5;
                     }
 
-                    // first, persist in the ProductRating Table
-                    productsNewRatingFromDb.ProductRating = tempProductRating;
-
                     // go to the Product Table
                     // calculate the new ProductRating
                     if (productFromDb.NumberOfProductRates == 0)
@@ -488,14 +534,29 @@ namespace Colibri.Areas.Customer.Controllers
                         productFromDb.ProductRating = Math.Round((productFromDb.ProductRating * productFromDb.NumberOfProductRates + tempProductRating) / (productFromDb.NumberOfProductRates + 1), 2);
                     }
 
+
+                    // Rating Create
+                    ProductsRatings productsRatings = new ProductsRatings()
+                    {
+                        ProductId = productFromDb.Id,
+                        //ApplicationUserId = productFromDb.ApplicationUserId,
+                        // add the current User as the Creator of the Rating
+                        ApplicationUserId = claim.Value,
+                        ApplicationUserName = claim.Subject.Name,
+                        ProductRating = tempProductRating
+                    };
+
+                    // update the ProductsRatings Entity
+                    _colibriDbContext.ProductsRatings.Add(productsRatings);
+
                     // increment the Number of Product Rates of the Product
                     productFromDb.NumberOfProductRates += 1;
 
                     // save the Changes in DB
                     await _colibriDbContext.SaveChangesAsync();
+                }
 
-                    return RedirectToAction(nameof(Details));
-                //}
+                return RedirectToAction(nameof(Details));
             }
             else
             {
