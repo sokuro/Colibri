@@ -138,6 +138,12 @@
   <data name="CreateUserServiceText" xml:space="preserve">
     <value>Erstelle eine Dienstleistung</value>
   </data>
+  <data name="DeleteText" xml:space="preserve">
+    <value>Lösche</value>
+  </data>
+  <data name="DeleteUserServiceText" xml:space="preserve">
+    <value>Lösche Dienstleistung</value>
+  </data>
   <data name="DescriptionText" xml:space="preserve">
     <value>Beschreibung</value>
   </data>
@@ -176,6 +182,9 @@
   </data>
   <data name="SpecialTagText" xml:space="preserve">
     <value>Spezial Tag</value>
+  </data>
+  <data name="UpdateText" xml:space="preserve">
+    <value>Aktualisiere</value>
   </data>
   <data name="UserNameText" xml:space="preserve">
     <value>User Name</value>
