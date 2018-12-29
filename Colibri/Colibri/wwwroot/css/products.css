@@ -7,3 +7,12 @@
 .availableIconImage {
     width: 50%;
 }
+
+.advertisementImage {
+    margin-left: auto;
+    margin-right: auto;
+    height: 140px;
+    max-height: 100%;
+    max-width: 100%;
+    width: inherit !important;
+}
