@@ -438,7 +438,14 @@ namespace Colibri.Areas.Customer.Controllers
                     {
                         // already rated!
                         userAlreadyRated = true;
-                        return NoContent();
+
+                        TempData["msg"] = "<script>alert('Already rated!');</script>";
+                        TempData["returnButton"] = "<div><p><b>Already rated!</b></p></div>";
+                        TempData["returnBackButton"] = "return";
+
+                        ViewData["BackToList"] = _localizer["BackToListText"];
+
+                        return View();
                     }
                     else if (userAlreadyRated)
                     {
