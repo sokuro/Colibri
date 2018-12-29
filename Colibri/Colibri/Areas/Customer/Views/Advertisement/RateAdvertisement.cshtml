@@ -1,5 +1,6 @@
 ﻿@model Colibri.ViewModels.ProductsViewModel
-
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
 <!-- Rating -->
 <form method="post" enctype="multipart/form-data" asp-action="RateAdvertisement">
     <div class="form-group" id="rating-ability-wrapper">
@@ -17,7 +18,7 @@
             <input type="submit" name="command" value="1" />
             <i class="fa fa-star" aria-hidden="true"></i>
         </button>
-        
+
         <button class="btnrating btn btn-outline-light btn-lg" data-attr="2" id="rating-star-2">
             <input type="submit" name="command" value="2" />
             <i class="fa fa-star" aria-hidden="true"></i>
@@ -37,16 +38,29 @@
             <input type="submit" name="command" value="5" />
             <i class="fa fa-star" aria-hidden="true"></i>
         </button>
-
+    </div>
+    <div>
+        @Html.Raw(TempData["msg"])
+    </div>
+    <div>
+        @Html.Raw(TempData["returnButton"])
+    </div>
+    <div>
+        @if (@Html.Raw(TempData["returnBackButton"]).ToString() != "")
+        {
+            <div>
+                <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
+            </div>
+        }
     </div>
 </form>
 
 @section Scripts
-{
+    {
     <script>
-        jQuery(document).ready(function($) {
+        jQuery(document).ready(function ($) {
             $(".btnrating").on('click',
-                (function(e) {
+                (function (e) {
                     var previous_value = $("#selected_rating").val();
 
                     var selected_value = $(this).attr("data-attr");

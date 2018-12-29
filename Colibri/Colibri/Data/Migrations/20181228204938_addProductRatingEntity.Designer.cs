@@ -4,14 +4,16 @@ using Colibri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Colibri.Migrations
 {
     [DbContext(typeof(ColibriDbContext))]
-    partial class ColibriDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181228204938_addProductRatingEntity")]
+    partial class addProductRatingEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -259,27 +261,6 @@ namespace Colibri.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductsSelectedForAppointment");
-                });
-
-            modelBuilder.Entity("Colibri.Models.SearchEntry", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("FullSuccess");
-
-                    b.Property<bool>("NoSuccess");
-
-                    b.Property<bool>("PartSuccess");
-
-                    b.Property<DateTime>("SearchDate");
-
-                    b.Property<string>("SearchText");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SearchEntry");
                 });
 
             modelBuilder.Entity("Colibri.Models.SpecialTags", b =>
