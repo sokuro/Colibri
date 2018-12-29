@@ -12,27 +12,37 @@
 
             <div class="row">
                 <div class="col-10">
-                    <label asp-for="SearchAdvertisement" class="custom-label"></label>
+                    <label asp-for="SearchAdvertisement" class="filter-label"></label>
                 </div>
                 <div class="col-10">
-                    <input asp-for="SearchAdvertisement" class="form-control" />
+                    <input asp-for="SearchAdvertisement" class="form-control filter-label" />
                 </div>
             </div>
             <br />
 
-            <div class="col-10">
-                <label asp-for="SearchCategoryGroup" class="custom-label"></label>
+            <div class="row">
+                <div class="col-10">
+                    <label asp-for="SearchCategoryGroup" class="custom-label"></label>
+                </div>
+                <div class="col-10">
+                    <input asp-for="SearchCategoryGroup" class="form-control" />
+                </div>
+                <br />
             </div>
-            <div class="col-10">
-                <input asp-for="SearchCategoryGroup" class="form-control" />
-            </div>
-            <br />
 
             <div class="col-10">
                 <label asp-for="SearchCategoryType" class="custom-label"></label>
             </div>
             <div class="col-10">
                 <input asp-for="SearchCategoryType" class="form-control" />
+            </div>
+            <br />
+
+            <div class="col-10">
+                <label asp-for="PLZ" class="custom-label"></label>
+            </div>
+            <div class="col-10">
+                <input asp-for="PLZ" class="form-control" />
             </div>
             <br />
 
@@ -58,7 +68,8 @@
                                 </h4>
                             </div>
 
-                            <img class="card-img-top" style="height:100%;" src="@product.Image" alt="Card Image">
+                            @*<img class="card-img-top" style="height:100%;" src="@product.Image" alt="Card Image">*@
+                            <img class="card-img-top advertisementImage" src="@product.Image" alt="Card Image">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
@@ -92,7 +103,8 @@
                                 </h4>
                             </div>
 
-                            <img class="card-img-top" style="height:100%;" src="@userService.Image" alt="Card Image">
+                            @*<img class="card-img-top" style="height:100%;" src="@userService.Image" alt="Card Image">*@
+                            <img class="card-img-top advertisementImage" src="@userService.Image" alt="Card Image">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
@@ -111,96 +123,102 @@
         </div>
     </div>
 
-    <!--Anzeigen der Resultate-->
-    <!--Products-->
-    @*
-        <div class="form-border">
-            @if (Model.ProductsCounter > 0)
-                {
-                <table class="table">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(m => m.Products.Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(m => m.Products.CategoryGroups)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(m => m.Products.CategoryTypes)
-                        </th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    @foreach (var item in Model.ProductsList)
-                    {
-                        //if (item.isActive == true)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(m => item.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => item.CategoryGroups.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => item.CategoryTypes.Name)
-                                </td>
-                                <td style="width:150px">
-                                    <div class="btn-group" role="group">
-                                        <a type="button" class="btn btn-success" href="@Url.Action("Details", new { id = Model})">
-                                            <i class="far fa-list-alt"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </table>
-            }
-
-            <!--UserServices-->
-            @if (Model.UserServicesCounter > 0)
-            {
-                <table class="table">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(m => m.UserServices.Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(m => m.UserServices.CategoryGroups)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(m => m.UserServices.CategoryTypes)
-                        </th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    @foreach (var item in Model.UserServicesList)
-                    {
-                        //if (item.isActive == true)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(m => item.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => item.CategoryGroups.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => item.CategoryTypes.Name)
-                                </td>
-                                <td style="width:150px">
-                                    <div class="btn-group" role="group">
-                                        <a type="button" class="btn btn-success" href="@Url.Action("Details", new { id = Model})">
-                                            <i class="far fa-list-alt"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    }
-                </table>
-            }
-        </div>
-    *@
 </div>
+
+
+
+
+
+
+<!--Anzeigen der Resultate-->
+<!--Products-->
+@*
+    <div class="form-border">
+        @if (Model.ProductsCounter > 0)
+            {
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Products.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Products.CategoryGroups)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Products.CategoryTypes)
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model.ProductsList)
+                {
+                    //if (item.isActive == true)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.CategoryGroups.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.CategoryTypes.Name)
+                            </td>
+                            <td style="width:150px">
+                                <div class="btn-group" role="group">
+                                    <a type="button" class="btn btn-success" href="@Url.Action("Details", new { id = Model})">
+                                        <i class="far fa-list-alt"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        }
+
+        <!--UserServices-->
+        @if (Model.UserServicesCounter > 0)
+        {
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(m => m.UserServices.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.UserServices.CategoryGroups)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => m.UserServices.CategoryTypes)
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                @foreach (var item in Model.UserServicesList)
+                {
+                    //if (item.isActive == true)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.CategoryGroups.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.CategoryTypes.Name)
+                            </td>
+                            <td style="width:150px">
+                                <div class="btn-group" role="group">
+                                    <a type="button" class="btn btn-success" href="@Url.Action("Details", new { id = Model})">
+                                        <i class="far fa-list-alt"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        }
+    </div>
+*@
