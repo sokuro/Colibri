@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Colibri.Migrations
 {
     [DbContext(typeof(ColibriDbContext))]
-    [Migration("20181224090420_addNameCombinedToCategoryTypes")]
-    partial class addNameCombinedToCategoryTypes
+    [Migration("20181229125726_addSearchEntryToDb")]
+    partial class addSearchEntryToDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -198,7 +198,11 @@ namespace Colibri.Migrations
 
                     b.Property<int>("NumberOfClicks");
 
+                    b.Property<int>("NumberOfProductRates");
+
                     b.Property<double>("Price");
+
+                    b.Property<double>("ProductRating");
 
                     b.Property<bool>("isOffer");
 
@@ -232,6 +236,27 @@ namespace Colibri.Migrations
                     b.ToTable("ProductsSelectedForAppointment");
                 });
 
+            modelBuilder.Entity("Colibri.Models.SearchEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("FullSuccess");
+
+                    b.Property<bool>("NoSuccess");
+
+                    b.Property<bool>("PartSuccess");
+
+                    b.Property<DateTime>("SearchDate");
+
+                    b.Property<string>("SearchText");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SearchEntry");
+                });
+
             modelBuilder.Entity("Colibri.Models.SpecialTags", b =>
                 {
                     b.Property<int>("Id")
@@ -254,6 +279,8 @@ namespace Colibri.Migrations
 
                     b.Property<string>("ApplicationUserId");
 
+                    b.Property<string>("ApplicationUserName");
+
                     b.Property<bool>("Available");
 
                     b.Property<int>("CategoryGroupId");
@@ -275,7 +302,11 @@ namespace Colibri.Migrations
 
                     b.Property<int>("NumberOfClicks");
 
+                    b.Property<int>("NumberOfServiceRates");
+
                     b.Property<double>("Price");
+
+                    b.Property<double>("ServiceRating");
 
                     b.Property<bool>("isOffer");
 
@@ -288,6 +319,25 @@ namespace Colibri.Migrations
                     b.HasIndex("CategoryTypeId");
 
                     b.ToTable("UserServices");
+                });
+
+            modelBuilder.Entity("Colibri.Models.UserServicesSelectedForAppointment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AppointmentId");
+
+                    b.Property<int>("UserServiceId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("UserServiceId");
+
+                    b.ToTable("UserServicesSelectedForAppointment");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -460,13 +510,31 @@ namespace Colibri.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
+                    b.Property<string>("CareOf");
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("Country");
+
+                    b.Property<DateTime>("Created");
+
                     b.Property<string>("FirstName");
+
+                    b.Property<string>("Image");
 
                     b.Property<bool>("IsSuperAdmin");
 
                     b.Property<string>("LastName");
 
+                    b.Property<DateTime>("Modified");
+
                     b.Property<string>("Password");
+
+                    b.Property<string>("Street");
+
+                    b.Property<double>("UserRating");
+
+                    b.Property<int>("Zip");
 
                     b.ToTable("ApplicationUser");
 
@@ -569,6 +637,19 @@ namespace Colibri.Migrations
                     b.HasOne("Colibri.Models.CategoryTypes", "CategoryTypes")
                         .WithMany()
                         .HasForeignKey("CategoryTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Colibri.Models.UserServicesSelectedForAppointment", b =>
+                {
+                    b.HasOne("Colibri.Models.Appointments", "Appointments")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Colibri.Models.UserServices", "UserServices")
+                        .WithMany()
+                        .HasForeignKey("UserServiceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

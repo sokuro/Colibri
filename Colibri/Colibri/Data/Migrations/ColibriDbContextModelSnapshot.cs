@@ -215,33 +215,6 @@ namespace Colibri.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Colibri.Models.ProductsRatings", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ApplicationUserId");
-
-                    b.Property<string>("ApplicationUserName");
-
-                    b.Property<DateTime>("CreatedOn");
-
-                    b.Property<string>("Description");
-
-                    b.Property<int>("ProductId");
-
-                    b.Property<int>("ProductRating");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductsRatings");
-                });
-
             modelBuilder.Entity("Colibri.Models.ProductsSelectedForAppointment", b =>
                 {
                     b.Property<int>("Id")
@@ -259,6 +232,27 @@ namespace Colibri.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductsSelectedForAppointment");
+                });
+
+            modelBuilder.Entity("Colibri.Models.SearchEntry", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("FullSuccess");
+
+                    b.Property<bool>("NoSuccess");
+
+                    b.Property<bool>("PartSuccess");
+
+                    b.Property<DateTime>("SearchDate");
+
+                    b.Property<string>("SearchText");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SearchEntry");
                 });
 
             modelBuilder.Entity("Colibri.Models.SpecialTags", b =>
@@ -611,18 +605,6 @@ namespace Colibri.Migrations
                     b.HasOne("Colibri.Models.CategoryTypes", "CategoryTypes")
                         .WithMany()
                         .HasForeignKey("CategoryTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Colibri.Models.ProductsRatings", b =>
-                {
-                    b.HasOne("Colibri.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("Colibri.Models.Products", "Products")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
