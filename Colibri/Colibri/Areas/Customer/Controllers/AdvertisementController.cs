@@ -431,10 +431,6 @@ namespace Colibri.Areas.Customer.Controllers
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
-                // add a Product first to retrieve it, so one can add Properties to it
-                //_colibriDbContext.Add(ProductsViewModel.ProductsRatings.Products);
-                //await _colibriDbContext.SaveChangesAsync();
-
                 // Security Claims
                 System.Security.Claims.ClaimsPrincipal currentUser = this.User;
 
@@ -509,7 +505,6 @@ namespace Colibri.Areas.Customer.Controllers
                             productFromDb.ProductRating = Math.Round((productFromDb.ProductRating * productFromDb.NumberOfProductRates + tempProductRating) / (productFromDb.NumberOfProductRates + 1), 2);
                         }
 
-
                         // Rating Create
                         ProductsRatings productsRatings = new ProductsRatings()
                         {
@@ -521,6 +516,9 @@ namespace Colibri.Areas.Customer.Controllers
                             ProductRating = tempProductRating,
                             CreatedOn = System.DateTime.Now
                         };
+
+                        // update the ProductsRatings Entity
+                        _colibriDbContext.ProductsRatings.Add(productsRatings);
 
                         // increment the Number of Product Rates of the Product
                         productFromDb.NumberOfProductRates += 1;
