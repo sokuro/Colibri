@@ -177,6 +177,9 @@
   <data name="SpecialTagText" xml:space="preserve">
     <value>Special Tag</value>
   </data>
+  <data name="UpdateText" xml:space="preserve">
+    <value>Update</value>
+  </data>
   <data name="UserNameText" xml:space="preserve">
     <value>User Name</value>
   </data>
