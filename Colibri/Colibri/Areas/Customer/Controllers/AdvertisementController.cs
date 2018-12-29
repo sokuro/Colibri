@@ -367,6 +367,32 @@ namespace Colibri.Areas.Customer.Controllers
             return View(product);
         }
 
+        // Details POST
+        [Route("Customer/Advertisement/Details/{id}")]
+        [HttpPost, ActionName("Details")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DetailsPost(int id)
+        {
+            // check first, if anything exists in the Session
+            // Session Name : "ssScheduling"
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
+
+            // check if null -> create new
+            if (lstCartItems == null)
+            {
+                lstCartItems = new List<int>();
+            }
+
+            // add the retrieved Item (id)
+            lstCartItems.Add(id);
+            // set the Session:
+            // Session Name, Value
+            HttpContext.Session.Set("ssScheduling", lstCartItems);
+
+            // redirect to Action
+            return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
+        }
+
         // Handle Ratings: GET
         [Route("Customer/Advertisement/RateAdvertisement/{id}")]
         public async Task<IActionResult> RateAdvertisement(int? id)
@@ -492,7 +518,8 @@ namespace Colibri.Areas.Customer.Controllers
                             // add the current User as the Creator of the Rating
                             ApplicationUserId = claim.Value,
                             ApplicationUserName = claim.Subject.Name,
-                            ProductRating = tempProductRating
+                            ProductRating = tempProductRating,
+                            CreatedOn = System.DateTime.Now
                         };
 
                         // increment the Number of Product Rates of the Product
@@ -570,32 +597,6 @@ namespace Colibri.Areas.Customer.Controllers
                 // one can simply return to the Form View again for Correction
                 return View(ProductsViewModel);
             }
-        }
-
-        // Details POST
-        [Route("Customer/Advertisement/Details/{id}")]
-        [HttpPost, ActionName("Details")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DetailsPost(int id)
-        {
-            // check first, if anything exists in the Session
-            // Session Name : "ssScheduling"
-            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
-
-            // check if null -> create new
-            if (lstCartItems == null)
-            {
-                lstCartItems = new List<int>();
-            }
-
-            // add the retrieved Item (id)
-            lstCartItems.Add(id);
-            // set the Session:
-            // Session Name, Value
-            HttpContext.Session.Set("ssScheduling", lstCartItems);
-
-            // redirect to Action
-            return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
         }
 
         // Get: /<controller>/Edit
