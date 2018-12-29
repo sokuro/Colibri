@@ -1,78 +1,125 @@
 ﻿@model Colibri.ViewModels.HomeIndexViewModel
 
-<div class="col-md-12">
-    <div class="form-border">
-        <div class="custom-center">
-            <h4>Website durchsuchen</h4>
+<br/>
+<div class="row justify-content-center">
+
+    <!--Card für Angebote suchen-->
+    <div class="col-5" style="margin-bottom:10px;">
+        <div class="card mp-4">
+            <!--Card Header-->
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">
+                    <label style="font-size:23px;color:steelblue;">
+                        Angebote suchen
+                    </label>
+                </h4>
+            </div>
             <br />
-        </div>
-        <div class="row">
-            <!--Angebote suchen-->
-            <div class="col-md-6">
-                <div>
-                    <a asp-controller="SearchOffers" asp-action="Index" type="button" class="btn btn-primary custom-button">
-                        Angebot Suchen &nbsp;
-                        <i class="fas fa-search-plus"></i>
-                    </a>
-                </div>
-                <br />
-                <div class="col-md-6">
+            <img class="card-img-top" style="height:100%;width:90%;margin-left:auto;margin-right:auto;" src="~/img/SystemImages/sys_searchOffer.gif" />
+            <div class="card-body">
+                <div class="d-flex flex-column justify-content-between align-items-center">
+                    <div class="row">
+                        <a asp-controller="SearchOffers" asp-action="Index" class="btn btn-success pull-right btn-outline-info">
+                            Angebot Suchen &nbsp;
+                            <i class="fas fa-search-plus"></i>
+                        </a>
+                    </div>
+                    <br />
                     <form asp-controller="SearchOffers" asp-action="SearchOffer">
                         <div class="row d-flex justify-content-center">
                             <input asp-for="SearchAdvertisement" type="text" /> &nbsp;
-                            <button class="btn btn-primary custom-button"><i class="fas fa-search"></i></button>
+                            <button class="btn btn-primary btn-outline-info"><i class="fas fa-search"></i></button>
                         </div>
                     </form>
                 </div>
             </div>
-            <!--Nachfragen suchen-->
-            <div class="col-md-6">
-                <div>
-                    <a asp-controller="SearchRequests" asp-action="Index" type="button" class="btn btn-primary custom-button">
-                        Nachfrage Suchen &nbsp;
-                        <i class="fas fa-search-plus"></i>
-                    </a>
-                </div>
-                <br />
-                <div class="col-md-6">
+        </div>
+    </div>
+
+    <!--Card für Nachfragen suchen-->
+    <div class="col-5" style="margin-bottom:10px;">
+        <div class="card mp-4">
+            <!--Card Header-->
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">
+                    <label style="font-size:23px;color:steelblue;">
+                        Nachfragen suchen
+                    </label>
+                </h4>
+            </div>
+            <br />
+            <img class="card-img-top" style="height:100%;width:90%;margin-left:auto;margin-right:auto;" src="~/img/SystemImages/sys_searchRequest.gif" />
+            <div class="card-body">
+                <div class="d-flex flex-column justify-content-between align-items-center">
+                    <div class="row">
+                        <a asp-controller="SearchRequests" asp-action="Index" class="btn btn-success pull-right btn-outline-info">
+                            Nachfrage Suchen &nbsp;
+                            <i class="fas fa-search-plus"></i>
+                        </a>
+                    </div>
+                    <br />
                     <form asp-controller="SearchRequests" asp-action="SearchRequest">
                         <div class="row d-flex justify-content-center">
                             <input asp-for="SearchAdvertisement" type="text" /> &nbsp;
-                            <button class="btn btn-primary custom-button"><i class="fas fa-search"></i></button>
+                            <button class="btn btn-primary btn-outline-info"><i class="fas fa-search"></i></button>
                         </div>
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<br />
-<div class="col-md-12">
-    <div class="form-border">
-        <div class="custom-center">
-            <h4>Inserat hochladen</h4>
-            <br />
-        </div>
-        <div class="row">
-            <!--Angebote erstellen-->
-            <div class="col-md-6">
-                <div>
-                    <a asp-route-area="Customer" asp-controller="AdvertisementOffer" asp-action="Index" type="button" class="btn btn-primary custom-button">
-                        Angebot erstellen &nbsp;
-                        <i class="fas fa-plus"></i>
-                    </a>
-                </div>
+
+    <!--Card für Angebot erstellen-->
+    <div class="col-5" style="margin-bottom:10px;">
+        <div class="card mp-4">
+            <!--Card Header-->
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">
+                    <label style="font-size:23px;color:steelblue;">
+                        Angebot erstellen
+                    </label>
+                </h4>
             </div>
-            <!--Nachfragen erstellen-->
-            <div class="col-md-6">
-                <div>
-                    <a asp-route-area="Customer" asp-controller="AdvertisementRequest" asp-action="Index" type="button" class="btn btn-primary custom-button">
-                        Nachfrage erstellen &nbsp;
-                        <i class="fas fa-plus"></i>
-                    </a>
+            <br />
+            <img class="card-img-top" style="height:100%;width:90%;margin-left:auto;margin-right:auto;" src="~/img/SystemImages/sys_createOffer.gif" />
+            <div class="card-body">
+                <div class="d-flex flex-column justify-content-between align-items-center">
+                    <div class="row">
+                        <a asp-controller="AdvertisementOffer" asp-action="Index" asp-route-area="Customer" class="btn btn-success pull-right btn-outline-info">
+                            Angebot erstellen &nbsp;
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!--Card für Nachfrage erstellen-->
+    <div class="col-5" style="margin-bottom:10px;">
+        <div class="card mp-4">
+            <!--Card Header-->
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">
+                    <label style="font-size:23px;color:steelblue;">
+                        Nachfrage erstellen
+                    </label>
+                </h4>
+            </div>
+            <br />
+            <img class="card-img-top" style="height:100%;width:90%;margin-left:auto;margin-right:auto;" src="~/img/SystemImages/sys_createRequest.gif" />
+            <div class="card-body">
+                <div class="d-flex flex-column justify-content-between align-items-center">
+                    <div class="row">
+                        <a asp-controller="AdvertisementRequest" asp-action="Index" asp-route-area="Customer" class="btn btn-success pull-right btn-outline-info">
+                            Nachfrage erstellen &nbsp;
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+<br />

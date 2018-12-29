@@ -117,67 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BackToCategoryGroupText" xml:space="preserve">
-    <value>Back to category-groups</value>
+  <data name="ArchiveEntriesText" xml:space="preserve">
+    <value>Archive entries</value>
   </data>
-  <data name="BackToCategoryTypeText" xml:space="preserve">
-    <value>Back to categories</value>
-  </data>
-  <data name="BackToListText" xml:space="preserve">
+  <data name="BackText" xml:space="preserve">
     <value>Back</value>
   </data>
   <data name="CategoryGroupText" xml:space="preserve">
-    <value>Category Groups</value>
+    <value>Category group</value>
   </data>
-  <data name="CreateCategoryGroupText" xml:space="preserve">
-    <value>New Category Group</value>
+  <data name="CategoryTypeText" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="CreatedOnText" xml:space="preserve">
+    <value>Created on</value>
+  </data>
+  <data name="CreateEntryText" xml:space="preserve">
+    <value>Create archive entry</value>
   </data>
   <data name="CreateText" xml:space="preserve">
     <value>Create</value>
   </data>
-  <data name="DeleteCategoryGroupText" xml:space="preserve">
-    <value>Delete Category Group</value>
+  <data name="EditEntryText" xml:space="preserve">
+    <value>Edit archive entry</value>
   </data>
-  <data name="DeleteText" xml:space="preserve">
-    <value>Delete</value>
+  <data name="IsOfferText" xml:space="preserve">
+    <value>Offer</value>
   </data>
-  <data name="DetailsCategoryGroupText" xml:space="preserve">
-    <value>Category Group Details</value>
+  <data name="NewEntryText" xml:space="preserve">
+    <value>New Entry</value>
   </data>
-  <data name="EditCategoryGroupText" xml:space="preserve">
-    <value>Edit Category Group</value>
-  </data>
-  <data name="EditText" xml:space="preserve">
-    <value>Edit</value>
-  </data>
-  <data name="HideAllText" xml:space="preserve">
-    <value>Hide all</value>
-  </data>
-  <data name="NameText" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="NewCategoryGroupText" xml:space="preserve">
-    <value>New Category Group</value>
-  </data>
-  <data name="OverviewCategoriesText" xml:space="preserve">
-    <value>Overview categories</value>
-  </data>
-  <data name="OverviewText" xml:space="preserve">
-    <value>Overview</value>
-  </data>
-  <data name="ProductsText" xml:space="preserve">
-    <value>Products</value>
-  </data>
-  <data name="ShowAllText" xml:space="preserve">
-    <value>Show all</value>
+  <data name="TitleText" xml:space="preserve">
+    <value>Title</value>
   </data>
   <data name="TypeOfCategoryGroupText" xml:space="preserve">
-    <value>Category Group Type</value>
+    <value>Product / Service</value>
   </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Update</value>
   </data>
-  <data name="UserServiceText" xml:space="preserve">
-    <value>Services</value>
+  <data name="DeleteEntryText" xml:space="preserve">
+    <value>Delete archive entry</value>
+  </data>
+  <data name="DeleteText" xml:space="preserve">
+    <value>Delete</value>
   </data>
 </root>

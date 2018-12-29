@@ -171,4 +171,7 @@
   <data name="UserServicesText" xml:space="preserve">
     <value>Dienstleistungen</value>
   </data>
+  <data name="OverviewCategoriesText" xml:space="preserve">
+    <value>Übersicht Rubriken</value>
+  </data>
 </root>

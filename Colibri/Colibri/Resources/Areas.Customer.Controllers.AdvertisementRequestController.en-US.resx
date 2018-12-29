@@ -126,4 +126,7 @@
   <data name="OfferUserServiceText" xml:space="preserve">
     <value>Userservice offer</value>
   </data>
+  <data name="OverviewCategoriesText" xml:space="preserve">
+    <value>Overview categories</value>
+  </data>
 </root>
