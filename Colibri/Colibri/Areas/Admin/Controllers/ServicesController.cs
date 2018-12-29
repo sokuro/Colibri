@@ -243,6 +243,9 @@ namespace Colibri.Areas.Admin.Controllers
                 // add the current User as the Creator of the Advertisement
                 userServicesFromDb.ApplicationUserId = claim.Value;
 
+                // add the CreatedOn Property to the Model
+                userServicesFromDb.CreatedOn = DateTime.Now;
+
                 // save the Changes asynchronously
                 // update the Image Part inside of the DB
                 await _colibriDbContext.SaveChangesAsync();
