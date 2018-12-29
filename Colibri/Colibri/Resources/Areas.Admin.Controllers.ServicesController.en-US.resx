@@ -162,6 +162,9 @@
   <data name="NumberOfClicksText" xml:space="preserve">
     <value>Number of Clicks</value>
   </data>
+  <data name="NumberOfServiceRatesText" xml:space="preserve">
+    <value>Number of Rates</value>
+  </data>
   <data name="OrderText" xml:space="preserve">
     <value>Order</value>
   </data>
@@ -173,6 +176,9 @@
   </data>
   <data name="SearchText" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="ServiceRatingText" xml:space="preserve">
+    <value>Rate</value>
   </data>
   <data name="SpecialTagText" xml:space="preserve">
     <value>Special Tag</value>

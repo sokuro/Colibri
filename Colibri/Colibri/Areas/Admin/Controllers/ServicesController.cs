@@ -142,6 +142,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Search"] = _localizer["SearchText"];
             ViewData["NewUserService"] = _localizer["NewUserServiceText"];
             ViewData["Price"] = _localizer["PriceText"];
+            ViewData["Available"] = _localizer["AvailableText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
             ViewData["Description"] = _localizer["DescriptionText"];
@@ -437,6 +438,8 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["RemoveFromBag"] = _localizer["RemoveFromBagText"];
             ViewData["Order"] = _localizer["OrderText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["NumberOfServiceRates"] = _localizer["NumberOfServiceRatesText"];
+            ViewData["ServiceRating"] = _localizer["ServiceRatingText"];
 
             return View(userService);
         }
