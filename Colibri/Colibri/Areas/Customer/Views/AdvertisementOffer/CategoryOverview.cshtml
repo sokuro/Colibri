@@ -1,0 +1,140 @@
+﻿@model Colibri.ViewModels.CategoryTypesAndCategoryGroupsViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+
+<script type="text/javascript">
+
+    function myFunction(div, button) {
+        var x = document.getElementById(div);
+        var y = document.getElementById(button);
+
+        if (x.style.display == "none") {
+            x.style.display = "block";
+            y.className ="label-overview label-overview-default";
+        } else {
+            x.style.display = "none";
+            y.className ="label-overview label-overview-primary";
+        }
+    }
+
+    function showAll() {
+        var num = @Model.CategoryGroupsList.Count();
+        console.log(num);
+
+        for (var x = 2; x <= num+1; x++) {
+            var buttonId = (x * 2) - 2;
+            var divId = (x * 2) - 1;
+
+            if (document.getElementById(divId)) {
+                document.getElementById(divId).style.display = "block";
+            }
+            if (document.getElementById(buttonId)) {
+                document.getElementById(buttonId).className = "label-overview label-overview-default";
+            }
+        }
+    }
+
+        function hideAll() {
+        var num = @Model.CategoryGroupsList.Count();
+        console.log(num);
+
+        for (var x = 2; x <= num+1; x++) {
+            var buttonId = (x * 2) - 2;
+            var divId = (x * 2) - 1;
+
+            if (document.getElementById(divId)) {
+                document.getElementById(divId).style.display = "none";
+            }
+            if (document.getElementById(buttonId)) {
+                document.getElementById(buttonId).className = "label-overview label-overview-primary";
+            }
+        }
+    }
+</script>
+
+<br />
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">@ViewData["OverviewCategories"]</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <button onclick="showAll()" class="label-overview label-overview-primary">@ViewData["ShowAll"]</button>
+        <button onclick="hideAll()" class="label-overview label-overview-primary">@ViewData["HideAll"]</button>
+    </div>
+</div>
+
+<div class="p-4 border rounded">
+    <!---Produkte-Rubriken-->
+    <span><h2 style="color:#777;">@ViewData["Products"]</h2></span>
+
+    @{ var buttonId = 0;
+        var divId = 1;}
+
+    @foreach (var c in Model.CategoryGroupsList)
+    {
+        if (c.TypeOfCategoryGroup.Equals("Product"))
+        {
+            buttonId = buttonId + 2;
+            divId = divId + 2;
+
+            <div class="row">
+                <button onclick="myFunction(@divId.ToString(), @buttonId.ToString())" id="@buttonId.ToString()" class="label-overview label-overview-default">@Html.DisplayFor(m => c.Name)</button>
+            </div>
+
+            <div id="@divId.ToString()" class="row">
+
+                @foreach (var d in Model.CategoryTypesListE)
+                {
+                    if (d.CategoryGroups == c)
+                    {
+
+                        <div class="label-overview label-overview-success">@Html.DisplayFor(m => d.Name) &nbsp;</div>
+                    }
+                }
+            </div>
+            <br />
+        }
+    }
+</div>
+<br />
+
+<div class="p-4 border rounded">
+    <!---Dienstleistungs-Rubriken-->
+    <h2 style="color:#777;">@ViewData["UserService"]</h2>
+
+    @foreach (var c in Model.CategoryGroupsList)
+    {
+        if (c.TypeOfCategoryGroup.Equals("Service"))
+        {
+            buttonId = buttonId + 2;
+            divId = divId + 2;
+
+            <div class="row">
+                <button onclick="myFunction(@divId.ToString(), @buttonId.ToString())" id="@buttonId.ToString()" class="label-overview label-overview-default">@Html.DisplayFor(m => c.Name)</button>
+            </div>
+
+            <div id="@divId.ToString()" class="row">
+                @foreach (var d in Model.CategoryTypesListE)
+                {
+                    if (d.CategoryGroups == c)
+                    {
+
+                        <div class="label-overview label-overview-success">@Html.DisplayFor(m => d.Name) &nbsp;</div>
+                    }
+                }
+            </div>
+            <br />
+        }
+    }
+</div>
+
+<br />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
