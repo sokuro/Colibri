@@ -256,6 +256,8 @@ namespace Colibri.Migrations
 
                     b.Property<string>("ApplicationUserId");
 
+                    b.Property<string>("ApplicationUserName");
+
                     b.Property<bool>("Available");
 
                     b.Property<int>("CategoryGroupId");
