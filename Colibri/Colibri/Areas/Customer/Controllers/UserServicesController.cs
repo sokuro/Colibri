@@ -46,6 +46,9 @@ namespace Colibri.Areas.Customer.Controllers
         [BindProperty]
         public UserServicesAddToEntityViewModel UserServicesAddToEntityViewModel { get; set; }
 
+        [BindProperty]
+        public UserServicesRatingViewModel UserServicesRatingViewModel { get; set; }
+
         public UserServicesController(ColibriDbContext colibriDbContext, 
             HostingEnvironment hostingEnvironment,
             IStringLocalizer<UserServicesController> localizer)
@@ -69,6 +72,14 @@ namespace Colibri.Areas.Customer.Controllers
                 CategoryGroups = _colibriDbContext.CategoryGroups.ToList(),
                 CategoryTypes = _colibriDbContext.CategoryTypes.ToList(),
                 UserServices = new Models.UserServices()
+            };
+
+            // UserServicesRatingModel
+            UserServicesRatingViewModel = new UserServicesRatingViewModel()
+            {
+                UserServices = new List<UserServicesRatings>(),
+                UserServiceRating = new Models.UserServicesRatings(),
+                Users = new List<ApplicationUser>()
             };
         }
 
@@ -426,7 +437,7 @@ namespace Colibri.Areas.Customer.Controllers
 
                 // current User
                 var currentUserId = claim.Value;
-                bool userAlreadyRated = false;
+                //bool userAlreadyRated = false;
 
                 if (userServiceRatingFromDb != null)
                 {
@@ -434,7 +445,7 @@ namespace Colibri.Areas.Customer.Controllers
                     if (userServiceRatingFromDb.ApplicationUserId == currentUserId)
                     {
                         // already rated!
-                        userAlreadyRated = true;
+                        //userAlreadyRated = true;
 
                         TempData["msg"] = "<script>alert('Already rated!');</script>";
                         TempData["returnButton"] = "<div><p><b>Already rated!</b></p></div>";
@@ -444,7 +455,8 @@ namespace Colibri.Areas.Customer.Controllers
 
                         return View();
                     }
-                    else if (userAlreadyRated)
+                    //else if (userAlreadyRated)
+                    else
                     {
                         int tempUserServiceRating = 0;
 
@@ -503,7 +515,8 @@ namespace Colibri.Areas.Customer.Controllers
 
                     return View(UserServicesAddToEntityViewModel);
                 }
-                else if (userServiceFromDb == null && !userAlreadyRated)
+                //else if (userServiceFromDb == null && !userAlreadyRated)
+                else
                 {
                     int tempUserServiceRating = 0;
 

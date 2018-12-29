@@ -451,7 +451,7 @@ namespace Colibri.Areas.Customer.Controllers
 
                 // current User
                 var currentUserId = claim.Value;
-                bool userAlreadyRated = false;
+                //bool userAlreadyRated = false;
 
                 if (productRatingFromDb != null)
                 {
@@ -459,7 +459,7 @@ namespace Colibri.Areas.Customer.Controllers
                     if (productRatingFromDb.ApplicationUserId == currentUserId)
                     {
                         // already rated!
-                        userAlreadyRated = true;
+                        //userAlreadyRated = true;
 
                         TempData["msg"] = "<script>alert('Already rated!');</script>";
                         TempData["returnButton"] = "<div><p><b>Already rated!</b></p></div>";
@@ -469,7 +469,7 @@ namespace Colibri.Areas.Customer.Controllers
 
                         return View();
                     }
-                    else if (userAlreadyRated)
+                    else
                     {
                         int tempProductRating = 0;
 
@@ -530,7 +530,8 @@ namespace Colibri.Areas.Customer.Controllers
                     return View(ProductsViewModel);
                 }
 
-                else if (productRatingFromDb == null && !userAlreadyRated)
+                //else if (productRatingFromDb == null && !userAlreadyRated)
+                else
                 {
                     int tempProductRating = 0;
 
@@ -566,7 +567,6 @@ namespace Colibri.Areas.Customer.Controllers
                         productFromDb.ProductRating = Math.Round((productFromDb.ProductRating * productFromDb.NumberOfProductRates + tempProductRating) / (productFromDb.NumberOfProductRates + 1), 2);
                     }
 
-
                     // Rating Create
                     ProductsRatings productsRatings = new ProductsRatings()
                     {
@@ -575,7 +575,8 @@ namespace Colibri.Areas.Customer.Controllers
                         // add the current User as the Creator of the Rating
                         ApplicationUserId = claim.Value,
                         ApplicationUserName = claim.Subject.Name,
-                        ProductRating = tempProductRating
+                        ProductRating = tempProductRating,
+                        CreatedOn = System.DateTime.Now
                     };
 
                     // update the ProductsRatings Entity
