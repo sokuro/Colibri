@@ -14,5 +14,10 @@ namespace Colibri.Models
         public string SearchText { get; set; }
 
         public DateTime SearchDate { get; set; }
+
+        // Flags zum prüfen, ob Suche erfolgreich war
+        public bool FullSuccess { get; set; }
+        public bool PartSuccess { get; set; }
+        public bool NoSuccess { get; set; }
     }
 }
