@@ -138,6 +138,12 @@
   <data name="CreateUserServiceText" xml:space="preserve">
     <value>Create User Service</value>
   </data>
+  <data name="DeleteText" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteUserServiceText" xml:space="preserve">
+    <value>Delete User Service</value>
+  </data>
   <data name="DescriptionText" xml:space="preserve">
     <value>Description</value>
   </data>

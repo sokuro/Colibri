@@ -20,6 +20,7 @@ namespace Colibri.Subscriber.Core
                 bus.Subscribe<Products>("my_subscription_id", HandleAddedProductsMessage);
                 bus.Subscribe<Products>("products_by_admin", HandleAddedProductsByAdminMessage);
                 bus.Subscribe<Products>("removed_products_by_admin", HandleRemovedProductsByAdminMessage);
+                bus.Subscribe<UserServices>("removed_user_services_by_admin", HandleRemovedUserServicesByAdminMessage);
                 bus.Subscribe<CategoryGroups>("create_category_groups", HandleAddedCategoryGroupMessage);
                 bus.Subscribe<CategoryGroups>("remove_category_groups", HandleRemovedCategoryGroupMessage);
 
@@ -27,6 +28,11 @@ namespace Colibri.Subscriber.Core
                 Console.ReadLine();
 
             }
+        }
+
+        private static void HandleRemovedUserServicesByAdminMessage(UserServices obj)
+        {
+            Console.WriteLine("Removed User Service by Admin Name: {0}", obj.Name);
         }
 
         private static void HandleAddedProductsMessage(Products obj)

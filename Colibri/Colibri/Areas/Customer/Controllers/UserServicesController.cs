@@ -699,5 +699,94 @@ namespace Colibri.Areas.Customer.Controllers
                 return View(UserServicesAddToEntityViewModel);
             }
         }
+
+        // Get: /<controller>/Delete
+        [Route("Customer/UserServices/Delete/{id}")]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            // incl. ProductTypes and SpecialTags too
+            UserServicesAddToEntityViewModel.UserServices = await _colibriDbContext.UserServices
+                .Include(m => m.CategoryGroups)
+                .Include(m => m.CategoryTypes)
+                //.Include(m => m.SpecialTags)
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (UserServicesAddToEntityViewModel.UserServices == null)
+            {
+                return NotFound();
+            }
+
+            // i18n
+            ViewData["DeleteUserService"] = _localizer["DeleteUserServiceText"];
+            ViewData["Delete"] = _localizer["DeleteText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
+            // send the ProductsViewModel into the View
+            return View(UserServicesAddToEntityViewModel);
+        }
+
+        // Post: /<controller>/Delete
+        // @param Category
+        [Route("Customer/UserServices/Delete/{id}")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            // find the webRootPath
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            // find the Product by it's ID
+            UserServices userServices = await _colibriDbContext.UserServices.FindAsync(id);
+
+            if (userServices == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                // find the Image File
+                var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderService);
+                // find the Extension
+                var extension = Path.GetExtension(userServices.Image);
+                // exists the File?
+                if (System.IO.File.Exists(Path.Combine(uploads, userServices.Id + extension)))
+                {
+                    // remove the File
+                    System.IO.File.Delete(Path.Combine(uploads, userServices.Id + extension));
+                }
+
+                // remove the Entry from the DB
+                _colibriDbContext.UserServices.Remove(userServices);
+
+                // save the Changes asynchronously
+                await _colibriDbContext.SaveChangesAsync();
+
+
+                // TODO
+                // Publish the Created Advertisement's Product
+                using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                {
+                    Console.WriteLine("Publishing messages with publish and subscribe.");
+                    Console.WriteLine();
+
+                    bus.Publish(userServices, "removed_user_services_by_admin");
+                }
+
+
+                // avoid Refreshing the POST Operation -> Redirect
+                return RedirectToAction(nameof(Index));
+            }
+        }
     }
 }
