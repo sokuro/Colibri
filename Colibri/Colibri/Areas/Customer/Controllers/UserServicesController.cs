@@ -264,6 +264,9 @@ namespace Colibri.Areas.Customer.Controllers
                 // TODO: create a Switch to Offer/Order
                 //userServicesFromDb.SpecialTagId = 1;
 
+                // add the CreatedOn Property to the Model
+                userServicesFromDb.CreatedOn = DateTime.Now;
+
                 // add the current User as the Creator of the Advertisement
                 userServicesFromDb.ApplicationUserId = claim.Value;
                 userServicesFromDb.ApplicationUserName = claim.Subject.Name;
