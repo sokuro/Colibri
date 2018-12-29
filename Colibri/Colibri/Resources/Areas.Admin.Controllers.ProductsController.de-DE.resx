@@ -129,6 +129,9 @@
   <data name="CategoryTypeText" xml:space="preserve">
     <value>Rubrik</value>
   </data>
+  <data name="ContactOwnerText" xml:space="preserve">
+    <value>Kontaktiere Inhaber</value>
+  </data>
   <data name="CreateProductText" xml:space="preserve">
     <value>Erstelle Produkt</value>
   </data>
@@ -159,6 +162,12 @@
   <data name="NewProductText" xml:space="preserve">
     <value>neues Produkt</value>
   </data>
+  <data name="NumberOfClicksText" xml:space="preserve">
+    <value>Anzahl Gesehen</value>
+  </data>
+  <data name="NumberOfProductRatesText" xml:space="preserve">
+    <value>Anzahl Bewertungen</value>
+  </data>
   <data name="PriceText" xml:space="preserve">
     <value>Preis</value>
   </data>
@@ -168,10 +177,16 @@
   <data name="ProductListText" xml:space="preserve">
     <value>Produkte</value>
   </data>
+  <data name="ProductRatingText" xml:space="preserve">
+    <value>Bewertung</value>
+  </data>
   <data name="SpecialTagText" xml:space="preserve">
     <value>Spezial Tag</value>
   </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Aktualisiere</value>
+  </data>
+  <data name="UserNameText" xml:space="preserve">
+    <value>Name des Users</value>
   </data>
 </root>

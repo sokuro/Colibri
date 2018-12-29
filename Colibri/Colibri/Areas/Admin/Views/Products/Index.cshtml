@@ -1,75 +1,143 @@
-﻿@model IEnumerable<Colibri.Models.Products>
+﻿@model Colibri.ViewModels.ProductsListViewModel
 @using Microsoft.AspNetCore.Mvc.Localization
+
+<!-- individual CSS -->
+@section applicationUsers {
+    <link href="~/css/applicationUsers.css" rel="stylesheet" />
+}
 
 @inject IViewLocalizer Localizer
 
-<div class="row">
-    <div class="col-6 text-center">
-        <h2 class="text-info">@ViewData["ProductList"]</h2>
+<form method="get">
+    <div class="row">
+        <div class="col-6 text-center">
+            <h2 class="text-info">@ViewData["ProductList"]</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewProduct"]</a>
+        </div>
     </div>
-    <div class="col-6 text-right">
-        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewProduct"]</a>
-    </div>
-</div>
-<div>
-    <table class="table table-striped border">
-        <tr class="text-info">
-            <th>
-                @ViewData["Name"]
-            </th>
-            <th>
-                @ViewData["Price"]
-            </th>
-            <th>
-                @ViewData["Available"]
-            </th>
-            <th>
-                @ViewData["CategoryGroup"]
-            </th>
-            <th>
-                @ViewData["CategoryType"]
-            </th>
-            @*<th>
-                @ViewData["SpecialTag"]
-            </th>*@
-            <th>
-                @ViewData["Description"]
-            </th>
-            <th></th>
-            <th></th>
-        </tr>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(m => item.Name)
-                </td>
-                <td>
-                    @String.Format("{0:c}", item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.Available)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.CategoryGroups.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.CategoryTypes.Name)
-                </td>
-                @*<td>
-                    @if (!item.SpecialTags.Name.Equals("--None--"))
-                    {
-                        @Html.DisplayFor(m => item.SpecialTags.Name)
-                    }
-                </td>*@
+    <!-- Search -->
+    <div class="container">
+        <div class="col-12">
+            <!-- 1st row -->
+            <div class="row">
+                <div class="col-2">
+                    @ViewData["UserName"]
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <!-- empty column -->
+                <div class="col-2">
+                </div>
+
+                <div class="col-2">
+                    @ViewData["ProductName"]
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchProductName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <!-- END: 1st row -->
+            </div>
+
+            <!-- Search row -->
+            <div class="row">
+                <div class="col-2">
+                    @*@ViewData["ShowMine"]*@
+                </div>
+                <div class="col-3">
+                    @*@Html.Editor("filterMine", new { htmlAttributes = new { @class = "form-control" } })*@
+                </div>
+
+                <!-- empty column -->
+                <div class="col-2">
+                </div>
+
+                <div class="col-2">
+                </div>
+                <div class="col-3">
+                    <button type="submit" name="submit" value="Search" class="btn btn-primary form-control">
+                        <i class="fas fa-search"></i> @ViewData["Search"]
+                    </button>
+                </div>
+                <!-- END: Search row -->
+            </div>
+        </div>
+        <!-- END: Search -->
+    </div>
+
+    <br />
+
+    <div>
+        <table class="table table-striped border">
+            <tr class="text-info">
                 <th>
-                    @Html.DisplayNameFor(m => item.Description)
+                    @ViewData["Name"]
                 </th>
-                <td>
-                    <partial name="_TableButtonPartialAdminProducts" model="item.Id" />
-                </td>
+                <th>
+                    @ViewData["Price"]
+                </th>
+                <th>
+                    @ViewData["Available"]
+                </th>
+                <th>
+                    @ViewData["CategoryGroup"]
+                </th>
+                <th>
+                    @ViewData["CategoryType"]
+                </th>
+                <th>
+                    @ViewData["NumberOfClicks"]
+                </th>
+                <th>
+                    @ViewData["UserName"]
+                </th>
+                <th></th>
+                <th></th>
             </tr>
-        }
-    </table>
-</div>
+
+            @foreach (var item in Model.Products)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.Name)
+                    </td>
+                    <td>
+                        @String.Format("{0:c}", item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Available)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CategoryGroups.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.CategoryTypes.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.NumberOfClicks)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.ApplicationUserName)
+                    </td>
+                    <td>
+                        <partial name="_TableButtonPartialAdminProducts" model="item.Id" />
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <div page-model="@Model.PagingInfo"
+         page-action="Index"
+         page-classes-enabled="true"
+         page-class="btn border"
+         page-class-normal="btn btn-default active"
+         page-class-selected="btn btn-primary active"
+         class="btn-group m-1">
+    </div>
+</form>

@@ -86,6 +86,23 @@
                     <input asp-for="NumberOfClicks" class="form-control" readonly />
                 </div>
             </div>
+            <!-- Rating -->
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="NumberOfServiceRates">@ViewData["NumberOfServiceRates"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="NumberOfServiceRates" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ServiceRating">@ViewData["ServiceRating"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ServiceRating" class="form-control" readonly />
+                </div>
+            </div>
             <!-- Application User: Advertisement's Owner -->
             <div class="form-group row">
                 <div class="col-4">
@@ -100,36 +117,7 @@
                 <div class="col-4">
                 </div>
                 <div class="col-8">
-                    <a asp-action="ContactUser" asp-controller="ApplicationUser" class="btn btn-outline-primary form-control" asp-route-id="@Model.ApplicationUserId">@ViewData["ContactOwner"]</a>
-                </div>
-            </div>
-            <!-- Order -->
-            <div class="form-group row">
-                <div class="col-4">
-                </div>
-                <div class="col-8">
-                    <!-- remove Item from the Scheduling possible -->
-                    @{
-                        // Flag if the Item is already in the Bag
-                        bool isInBag = false;
-                        // Scheduling
-                        List<int> lstCart = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssScheduling");
-
-                        // check if the List already contains the ID of the Page
-                        if (lstCart != null && lstCart.Contains(Model.Id))
-                        {
-                            isInBag = true;
-                        }
-                    }
-
-                    @if (isInBag)
-                    {
-                        <button type="submit" value="Remove from Bag" asp-action="remove" asp-route-id="@Model.Id" class="btn btn-primary form-control">@ViewData["RemoveFromBag"]</button>
-                    }
-                    else
-                    {
-                        <button type="submit" value="Order" asp-route-id="@Model.Id" class="btn btn-outline-success form-control">@ViewData["Order"]</button>
-                    }
+                    <a asp-area="Customer" asp-action="ContactUser" asp-controller="ApplicationUser" class="btn btn-outline-primary form-control" asp-route-id="@Model.ApplicationUserId">@ViewData["ContactOwner"]</a>
                 </div>
             </div>
         </div>

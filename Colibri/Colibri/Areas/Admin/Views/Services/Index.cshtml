@@ -91,9 +91,6 @@
                     @ViewData["CategoryType"]
                 </th>
                 <th>
-                    @ViewData["Description"]
-                </th>
-                <th>
                     @ViewData["NumberOfClicks"]
                 </th>
                 <th>
@@ -120,9 +117,6 @@
                     </td>
                     <td>
                         @Html.DisplayFor(m => item.CategoryTypes.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayNameFor(m => item.Description)
                     </td>
                     <td>
                         @Html.DisplayFor(m => item.NumberOfClicks)
