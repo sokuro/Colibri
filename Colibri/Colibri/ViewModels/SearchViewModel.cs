@@ -20,6 +20,9 @@ namespace Colibri.ViewModels
 
         public string SearchAdvertisementRequest { get; set; }
 
+        // String für PLZ
+        public string PLZ { get; set; }
+
         // Güter
         public Products Products{ get; set; }
         public IEnumerable<Products> ProductsList { get; set; }
