@@ -1,0 +1,108 @@
+﻿@model Colibri.ViewModels.ArchiveViewModel
+@using Colibri.Extensions
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        getCategoryTypes();
+        $("#CategoryGroup").change(function () {
+            getCategoryTypes();
+        });
+    });
+
+    function getCategoryTypes() {
+        console.log("Begin of getCategoryTypes");
+        var url = '@Url.Content("~/")' + "Admin/Archive/Edit/GetCategory";
+        console.log("Url: " + url);
+        var ddlsource = '#CategoryGroup';
+
+        $.getJSON(url, { CategoryGroupID: $(ddlsource).val() }, function (data) {
+
+            var items = '';
+            $("#CategoryTypeId").empty();
+            $.each(data, function (i, categoryType) {
+                items += "<option value ='" + categoryType.value + "'>" + categoryType.text + "</option>";
+            });
+
+            $("#CategoryTypeId").html(items);
+        });
+    }
+</script>
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">@ViewData["CreateEntry"]</h2>
+    </div>
+</div>
+<hr />
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-border row">
+        <input type="hidden" asp-for="ArchiveEntry.Id" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="col-8">
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="ArchiveEntry.Name" class="custom-label">@ViewData["Title"]</label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="ArchiveEntry.Name" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="ArchiveEntry.CategoryGroupId" class="custom-label">@ViewData["CategoryGroup"]</label>
+                </div>
+                <div class="col-5">
+                    <select asp-for="@Model.ArchiveEntry.CategoryGroupId" asp-items="Model.CategoryGroups.ToSelectListItem(Model.ArchiveEntry.CategoryGroupId)" id="CategoryGroup" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="ArchiveEntry.CategoryTypeId" class="custom-label">@ViewData["CategoryType"]</label>
+                </div>
+                <div class="col-5">
+                    <select asp-for="ArchiveEntry.CategoryTypeId" name="CategoryTypeId" id="CategoryTypeId" asp-items="@(new SelectList(string.Empty, "Id", "Name"))" class="form-control"></select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="ArchiveEntry.isOffer" class="custom-label">@ViewData["IsOffer"]</label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="ArchiveEntry.isOffer" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2">
+                    <label asp-for="ArchiveEntry.TypeOfCategoryGroup" class="custom-label">@ViewData["TypeOfCategoryGroup"]</label>
+                </div>
+                <div class="col-5">
+                    <input asp-for="ArchiveEntry.TypeOfCategoryGroup" class="form-control" />
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="@ViewData["Create"]" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-success">@ViewData["Back"]</a>
+            </div>
+
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

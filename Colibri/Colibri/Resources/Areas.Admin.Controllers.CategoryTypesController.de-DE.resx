@@ -126,8 +126,11 @@
   <data name="CategoryTypeText" xml:space="preserve">
     <value>Rubriken</value>
   </data>
+  <data name="CreateCategoryServiceTypeText" xml:space="preserve">
+    <value>Neue Dienstleistungs-Rubrik erstellen</value>
+  </data>
   <data name="CreateCategoryTypeText" xml:space="preserve">
-    <value>Neue Rubrik erstellen</value>
+    <value>Neue Produkt-Rubrik erstellen</value>
   </data>
   <data name="CreateText" xml:space="preserve">
     <value>Erstellen</value>
@@ -157,7 +160,10 @@
     <value>Rubrik Name</value>
   </data>
   <data name="NewCategoryTypeText" xml:space="preserve">
-    <value>Neue Rubrik</value>
+    <value>Neue Produkt-Rubrik</value>
+  </data>
+  <data name="NewCategoryTypeUserServiceText" xml:space="preserve">
+    <value>Neue Dienstleistungs-Rubrik</value>
   </data>
   <data name="PLZText" xml:space="preserve">
     <value>PLZ</value>

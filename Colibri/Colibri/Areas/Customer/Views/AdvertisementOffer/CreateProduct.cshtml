@@ -8,7 +8,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        getCategoryTypes(); 
+        getCategoryTypes();
         $("#CategoryGroup").change(function () {
             getCategoryTypes();
         });
@@ -115,9 +115,10 @@
         <div class="form-group">
             <input type="submit" value="@ViewData["Create"]" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-success">@ViewData["Back"]</a>
+            <a asp-action="CategoryOverview" class="btn btn-info">@ViewData["OverviewCategories"]</a>
         </div>
-
     </div>
+
 </form>
 
 @section Scripts {

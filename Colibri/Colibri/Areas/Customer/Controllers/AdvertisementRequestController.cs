@@ -85,6 +85,9 @@ namespace Colibri.Areas.Customer.Controllers
             // add the current User as the Creator of the Advertisement
             AdvertisementViewModel.CurrentUserId = claim.Value;
 
+            // add the current User name as OwnerId of the Advertisement
+            AdvertisementViewModel.OwnerId = claimsIdentity.Name;
+
             // populate Lists in AdvertisementViewModel for specific User
             // Products (Güter)
             AdvertisementViewModel.Products = await _colibriDbContext.Products.Where(s => s.ApplicationUserId.Equals(AdvertisementViewModel.CurrentUserId))
@@ -119,6 +122,7 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Create"] = _localizer["CreateText"];
             ViewData["Back"] = _localizer["BackText"];
             ViewData["Price"] = _localizer["PriceText"];
+            ViewData["OverviewCategories"] = _localizer["OverviewCategoriesText"];
 
             AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.Where(m => m.TypeOfCategoryGroup == "Product").ToListAsync();
             return View(AdvertisementViewModel);
@@ -148,6 +152,7 @@ namespace Colibri.Areas.Customer.Controllers
 
             // add the current User as the Creator of the Advertisement
             AdvertisementViewModel.Product.ApplicationUserId = claim.Value;
+            AdvertisementViewModel.Product.ApplicationUserName = claimsIdentity.Name;
 
             // add timestamp to "CreatedOn"
             AdvertisementViewModel.Product.CreatedOn = System.DateTime.Now;
@@ -263,6 +268,7 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Create"] = _localizer["CreateText"];
             ViewData["Back"] = _localizer["BackText"];
             ViewData["Price"] = _localizer["PriceText"];
+            ViewData["OverviewCategories"] = _localizer["OverviewCategoriesText"];
 
             AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.Where(m => m.TypeOfCategoryGroup == "Service").ToListAsync();
             return View(AdvertisementViewModel);
@@ -292,6 +298,7 @@ namespace Colibri.Areas.Customer.Controllers
 
             // add the current User as the Creator of the Advertisement
             AdvertisementViewModel.UserService.ApplicationUserId = claim.Value;
+            AdvertisementViewModel.UserService.ApplicationUserName = claimsIdentity.Name;
 
             // add timestamp to "CreatedOn"
             AdvertisementViewModel.UserService.CreatedOn = System.DateTime.Now;

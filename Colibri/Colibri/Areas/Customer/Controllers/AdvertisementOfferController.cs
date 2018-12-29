@@ -85,6 +85,10 @@ namespace Colibri.Areas.Customer.Controllers
             // add the current User as the Creator of the Advertisement
             AdvertisementViewModel.CurrentUserId = claim.Value;
 
+            // add the current User name as OwnerId of the Advertisement
+            AdvertisementViewModel.OwnerId = claimsIdentity.Name;
+
+
             // populate Lists in AdvertisementViewModel for specific User
             // Products (Güter)
             AdvertisementViewModel.Products = await _colibriDbContext.Products.Where(s => s.ApplicationUserId.Equals(AdvertisementViewModel.CurrentUserId))
@@ -119,6 +123,7 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Create"] = _localizer["CreateText"];
             ViewData["Back"] = _localizer["BackText"];
             ViewData["Price"] = _localizer["PriceText"];
+            ViewData["OverviewCategories"] = _localizer["OverviewCategoriesText"];
 
             AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.Where(m => m.TypeOfCategoryGroup == "Product").ToListAsync();
             return View(AdvertisementViewModel);
@@ -148,6 +153,7 @@ namespace Colibri.Areas.Customer.Controllers
 
             // add the current User as the Creator of the Advertisement
             AdvertisementViewModel.Product.ApplicationUserId = claim.Value;
+            AdvertisementViewModel.Product.ApplicationUserName = claimsIdentity.Name;
 
             // add timestamp to "CreatedOn"
             AdvertisementViewModel.Product.CreatedOn = System.DateTime.Now;
@@ -265,6 +271,7 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Price"] = _localizer["PriceText"];
             ViewData["CreateProductOffer"] = _localizer["CreateProductOfferText"];
             ViewData["CreateUserServiceOffer"] = _localizer["CreateUserServiceOfferText"];
+            ViewData["OverviewCategories"] = _localizer["OverviewCategoriesText"];
 
             AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.Where(m => m.TypeOfCategoryGroup == "Service").ToListAsync();
             return View(AdvertisementViewModel);
@@ -295,6 +302,7 @@ namespace Colibri.Areas.Customer.Controllers
 
             // add the current User as the Creator of the Advertisement
             AdvertisementViewModel.UserService.ApplicationUserId = claim.Value;
+            AdvertisementViewModel.UserService.ApplicationUserName = claimsIdentity.Name;
 
             // add timestamp to "CreatedOn"
             AdvertisementViewModel.UserService.CreatedOn = System.DateTime.Now;
@@ -805,6 +813,26 @@ namespace Colibri.Areas.Customer.Controllers
             }
 
             return View(userService);
+        }
+
+        // GET : Action for Overview
+        [Route("Customer/AdvertisementOffer/CategoryOverview")]
+        public async Task<IActionResult> CategoryOverview()
+        {
+            // i18n
+            ViewData["Products"] = _localizer["ProductsText"];
+            ViewData["UserService"] = _localizer["UserServiceText"];
+            ViewData["Overview"] = _localizer["OverviewText"];
+            ViewData["OverviewCategories"] = _localizer["OverviewCategoriesText"];
+            ViewData["ShowAll"] = _localizer["ShowAllText"];
+            ViewData["HideAll"] = _localizer["HideAllText"];
+
+            CategoryTypesAndCategoryGroupsViewModel model = new CategoryTypesAndCategoryGroupsViewModel();
+
+            model.CategoryGroupsList = await _colibriDbContext.CategoryGroups.ToListAsync();
+            model.CategoryTypesListE = await _colibriDbContext.CategoryTypes.ToListAsync();
+
+            return View(model);
         }
 
 
