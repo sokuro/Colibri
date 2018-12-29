@@ -201,4 +201,19 @@
   <data name="UpdateText" xml:space="preserve">
     <value>Aktualisieren</value>
   </data>
+  <data name="HideAllText" xml:space="preserve">
+    <value>Alle ausblenden</value>
+  </data>
+  <data name="OverviewCategoriesText" xml:space="preserve">
+    <value>Übersicht Rubriken</value>
+  </data>
+  <data name="OverviewText" xml:space="preserve">
+    <value>Übersicht</value>
+  </data>
+  <data name="ShowAllText" xml:space="preserve">
+    <value>Alle anzeigen</value>
+  </data>
+  <data name="UserServiceText" xml:space="preserve">
+    <value>Dienstleistungen</value>
+  </data>
 </root>

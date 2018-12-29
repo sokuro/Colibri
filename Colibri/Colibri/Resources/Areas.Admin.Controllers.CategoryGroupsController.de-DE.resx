@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BackToCategoryGroupText" xml:space="preserve">
+    <value>Zurück zu Rubrik-Gruppen</value>
+  </data>
+  <data name="BackToCategoryTypeText" xml:space="preserve">
+    <value>Zurück zu Rubriken</value>
+  </data>
   <data name="BackToListText" xml:space="preserve">
     <value>Zurück</value>
   </data>
@@ -144,16 +150,34 @@
   <data name="EditText" xml:space="preserve">
     <value>Editieren</value>
   </data>
+  <data name="HideAllText" xml:space="preserve">
+    <value>Alle ausblenden</value>
+  </data>
   <data name="NameText" xml:space="preserve">
     <value>Rubrik-Gruppe Name</value>
   </data>
   <data name="NewCategoryGroupText" xml:space="preserve">
     <value>Neue Rubrik-Gruppe</value>
   </data>
+  <data name="OverviewCategoriesText" xml:space="preserve">
+    <value>Übersicht Rubriken</value>
+  </data>
+  <data name="OverviewText" xml:space="preserve">
+    <value>Übersicht</value>
+  </data>
+  <data name="ProductsText" xml:space="preserve">
+    <value>Produkte</value>
+  </data>
+  <data name="ShowAllText" xml:space="preserve">
+    <value>Alle anzeigen</value>
+  </data>
   <data name="TypeOfCategoryGroupText" xml:space="preserve">
     <value>Rubrik-Gruppe Typ</value>
   </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Aktualisieren</value>
+  </data>
+  <data name="UserServiceText" xml:space="preserve">
+    <value>Dienstleistungen</value>
   </data>
 </root>
