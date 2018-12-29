@@ -35,6 +35,7 @@ namespace Colibri.Data
         public DbSet<ApplicationUserCategoryTypesSubscriber> ApplicationUserCategoryTypesSubscribers { get; set; }
         public DbSet<SearchEntry> SearchEntry { get; set; }
         public DbSet<ProductsRatings> ProductsRatings { get; set; }
+        public DbSet<UserServicesRatings> UserServicesRatings { get; set; }
 
 
         // override
