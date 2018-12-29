@@ -367,6 +367,32 @@ namespace Colibri.Areas.Customer.Controllers
             return View(product);
         }
 
+        // Details POST
+        [Route("Customer/Advertisement/Details/{id}")]
+        [HttpPost, ActionName("Details")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DetailsPost(int id)
+        {
+            // check first, if anything exists in the Session
+            // Session Name : "ssScheduling"
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
+
+            // check if null -> create new
+            if (lstCartItems == null)
+            {
+                lstCartItems = new List<int>();
+            }
+
+            // add the retrieved Item (id)
+            lstCartItems.Add(id);
+            // set the Session:
+            // Session Name, Value
+            HttpContext.Session.Set("ssScheduling", lstCartItems);
+
+            // redirect to Action
+            return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
+        }
+
         // Handle Ratings: GET
         [Route("Customer/Advertisement/RateAdvertisement/{id}")]
         public async Task<IActionResult> RateAdvertisement(int? id)
@@ -405,10 +431,6 @@ namespace Colibri.Areas.Customer.Controllers
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
-                // add a Product first to retrieve it, so one can add Properties to it
-                //_colibriDbContext.Add(ProductsViewModel.ProductsRatings.Products);
-                //await _colibriDbContext.SaveChangesAsync();
-
                 // Security Claims
                 System.Security.Claims.ClaimsPrincipal currentUser = this.User;
 
@@ -429,7 +451,7 @@ namespace Colibri.Areas.Customer.Controllers
 
                 // current User
                 var currentUserId = claim.Value;
-                bool userAlreadyRated = false;
+                //bool userAlreadyRated = false;
 
                 if (productRatingFromDb != null)
                 {
@@ -437,7 +459,7 @@ namespace Colibri.Areas.Customer.Controllers
                     if (productRatingFromDb.ApplicationUserId == currentUserId)
                     {
                         // already rated!
-                        userAlreadyRated = true;
+                        //userAlreadyRated = true;
 
                         TempData["msg"] = "<script>alert('Already rated!');</script>";
                         TempData["returnButton"] = "<div><p><b>Already rated!</b></p></div>";
@@ -447,7 +469,7 @@ namespace Colibri.Areas.Customer.Controllers
 
                         return View();
                     }
-                    else if (userAlreadyRated)
+                    else
                     {
                         int tempProductRating = 0;
 
@@ -483,7 +505,6 @@ namespace Colibri.Areas.Customer.Controllers
                             productFromDb.ProductRating = Math.Round((productFromDb.ProductRating * productFromDb.NumberOfProductRates + tempProductRating) / (productFromDb.NumberOfProductRates + 1), 2);
                         }
 
-
                         // Rating Create
                         ProductsRatings productsRatings = new ProductsRatings()
                         {
@@ -492,8 +513,12 @@ namespace Colibri.Areas.Customer.Controllers
                             // add the current User as the Creator of the Rating
                             ApplicationUserId = claim.Value,
                             ApplicationUserName = claim.Subject.Name,
-                            ProductRating = tempProductRating
+                            ProductRating = tempProductRating,
+                            CreatedOn = System.DateTime.Now
                         };
+
+                        // update the ProductsRatings Entity
+                        _colibriDbContext.ProductsRatings.Add(productsRatings);
 
                         // increment the Number of Product Rates of the Product
                         productFromDb.NumberOfProductRates += 1;
@@ -505,7 +530,8 @@ namespace Colibri.Areas.Customer.Controllers
                     return View(ProductsViewModel);
                 }
 
-                else if (productRatingFromDb == null && !userAlreadyRated)
+                //else if (productRatingFromDb == null && !userAlreadyRated)
+                else
                 {
                     int tempProductRating = 0;
 
@@ -541,7 +567,6 @@ namespace Colibri.Areas.Customer.Controllers
                         productFromDb.ProductRating = Math.Round((productFromDb.ProductRating * productFromDb.NumberOfProductRates + tempProductRating) / (productFromDb.NumberOfProductRates + 1), 2);
                     }
 
-
                     // Rating Create
                     ProductsRatings productsRatings = new ProductsRatings()
                     {
@@ -550,7 +575,8 @@ namespace Colibri.Areas.Customer.Controllers
                         // add the current User as the Creator of the Rating
                         ApplicationUserId = claim.Value,
                         ApplicationUserName = claim.Subject.Name,
-                        ProductRating = tempProductRating
+                        ProductRating = tempProductRating,
+                        CreatedOn = System.DateTime.Now
                     };
 
                     // update the ProductsRatings Entity
@@ -570,32 +596,6 @@ namespace Colibri.Areas.Customer.Controllers
                 // one can simply return to the Form View again for Correction
                 return View(ProductsViewModel);
             }
-        }
-
-        // Details POST
-        [Route("Customer/Advertisement/Details/{id}")]
-        [HttpPost, ActionName("Details")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DetailsPost(int id)
-        {
-            // check first, if anything exists in the Session
-            // Session Name : "ssScheduling"
-            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
-
-            // check if null -> create new
-            if (lstCartItems == null)
-            {
-                lstCartItems = new List<int>();
-            }
-
-            // add the retrieved Item (id)
-            lstCartItems.Add(id);
-            // set the Session:
-            // Session Name, Value
-            HttpContext.Session.Set("ssScheduling", lstCartItems);
-
-            // redirect to Action
-            return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
         }
 
         // Get: /<controller>/Edit
