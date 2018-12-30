@@ -6,27 +6,44 @@
 }
 
 
-<form method="get">
-    <div class="row">
-        <div class="col-6 text-center">
-            @*<h2 class="text-info">@ViewData["Advertisement"]</h2>*@
-            <h2 class="text-info">Details</h2>
-        </div>
+<form method="post">
+    <div class="col-6 text-center">
+        @*<h2 class="text-info">@ViewData["Advertisement"]</h2>*@
+        <h2 class="text-info">Details</h2>
     </div>
-    
-    <div>
-        <table class="table table-striped border">
-            <tr class="text-info">
-                <th>
-                    Product
-                </th>
-                <th>
-                    Username
-                </th>
-                <th>
-                    Description
-                </th>
-            </tr>
-        </table>
+    <div class="p-4 border rounded row">
+
+        <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Product.ProductId"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Product.ProductId" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Product.ApplicationUserId"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Product.ApplicationUserId" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="Product.Description"></label>
+                    @*<label asp-for="@Model.Product.Description">Description:</label>*@
+                </div>
+                <div class="col-8">
+                    @*<input asp-for="Product.Description" class="form-control" readonly />*@
+                    <textarea rows="4" asp-for="Product.Description" class="form-control" readonly=""></textarea>
+                </div>
+            </div>
+            @*<div class="form-group">
+                <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-envelope"> Submit</i></button>
+            </div>*@
+        </div>
+
     </div>
 </form>

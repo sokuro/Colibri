@@ -9,7 +9,6 @@
 <form method="get">
     <div class="row">
         <div class="col-6 text-center">
-            @*<h2 class="text-info">@ViewData["Advertisement"]</h2>*@
             <h2 class="text-info">Details</h2>
         </div>
     </div>
@@ -30,15 +29,29 @@
             
             @foreach (var item in Model.Products)
             {
-                <td>
-                    @Html.DisplayFor(p => item.ProductId)
-                </td>
-                <td>
-                    @Html.DisplayFor(u => item.ApplicationUserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(d => item.Description)
-                </td>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(p => item.ProductId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(u => item.ApplicationUserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(d => item.Description)
+                    </td>
+                    @if (User.Identity.IsAuthenticated && Model.CurrentUserId == item.ApplicationUserId)
+                    {
+                        <td>
+                            <partial name="_TableButtonPartialCustomerProductsRatingsAuthorized" model="item.Id" />
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <partial name="_TableButtonPartialCustomerProductsRatings" model="item.Id" />
+                        </td>
+                    }
+                </tr>
             }
         </table>
     </div>

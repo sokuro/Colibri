@@ -82,7 +82,7 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/ProductsRating/Details/{id}")]
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPost(int id)
+        public async Task<IActionResult> Details(int id)
         {
             // Security Claims
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
@@ -97,7 +97,11 @@ namespace Colibri.Areas.Customer.Controllers
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
-                var productFromDb = _colibriDbContext.ProductsRatings.Where(p => p.Id == id);
+                var productFromDb = await _colibriDbContext.ProductsRatings
+                                        .Where(p => p.ProductId == id)
+                                        .FirstOrDefaultAsync();
+
+                _colibriDbContext.ProductsRatings.Add(productFromDb);
 
                 await _colibriDbContext.SaveChangesAsync();
 
