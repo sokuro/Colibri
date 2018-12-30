@@ -1,39 +1,42 @@
-﻿@model Colibri.ViewModels.ProductsRatingViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Colibri.ViewModels.ProductsRatingViewModel
 
-@{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
+@inject IViewLocalizer Localizer
 
 <form method="post">
     <div class="col-6 text-center">
-        @*<h2 class="text-info">@ViewData["Advertisement"]</h2>*@
-        <h2 class="text-info">Details</h2>
+        <h2 class="text-info">@ViewData["ProductDetails"]</h2>
     </div>
     <div class="p-4 border rounded row">
 
         <div class="col-8">
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Product.ProductId"></label>
+                    @ViewData["ProductName"]
                 </div>
                 <div class="col-8">
-                    <input asp-for="Product.ProductId" class="form-control" readonly />
+                    <input asp-for="Product.ProductName" class="form-control" readonly />
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Product.ApplicationUserId"></label>
+                    @ViewData["UserName"]
                 </div>
                 <div class="col-8">
-                    <input asp-for="Product.ApplicationUserId" class="form-control" readonly />
+                    <input asp-for="Product.ApplicationUserName" class="form-control" readonly />
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Product.Description"></label>
-                    @*<label asp-for="@Model.Product.Description">Description:</label>*@
+                    @ViewData["Rating"]
+                </div>
+                <div class="col-8">
+                    <input asp-for="Product.ProductRating" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    @ViewData["Description"]
                 </div>
                 <div class="col-8">
                     @*<input asp-for="Product.Description" class="form-control" readonly />*@
@@ -41,8 +44,8 @@
                 </div>
             </div>
             @*<div class="form-group">
-                <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-envelope"> Submit</i></button>
-            </div>*@
+                    <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-envelope"> Submit</i></button>
+                </div>*@
         </div>
 
     </div>

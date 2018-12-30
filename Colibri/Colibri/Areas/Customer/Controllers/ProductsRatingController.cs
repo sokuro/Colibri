@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Models;
@@ -24,6 +25,9 @@ namespace Colibri.Areas.Customer.Controllers
         private readonly ColibriDbContext _colibriDbContext;
         private readonly IStringLocalizer<ProductsRatingController> _localizer;
 
+        // PageSize (for the Pagination: 10 Product Ratings/Page)
+        private int PageSize = 10;
+
         [BindProperty]
         public ProductsRatingViewModel ProductsRatingViewModel { get; set; }
 
@@ -42,9 +46,70 @@ namespace Colibri.Areas.Customer.Controllers
         }
 
         [Route("Customer/ProductsRating/Index")]
-        public IActionResult Index()
+        public IActionResult Index(
+            int productPage = 1,
+            string searchUserName = null,
+            string searchProductName = null
+            )
         {
+            // Filter the Search Criteria
+            StringBuilder param = new StringBuilder();
+
+            param.Append("/Customer/ProductsRating/Index?productPage=:");
+            param.Append("&searchName=");
+            if (searchUserName != null)
+            {
+                param.Append(searchUserName);
+            }
+            param.Append("&searchName=");
+            if (searchProductName != null)
+            {
+                param.Append(searchProductName);
+            }
+
+            // populate the Lists
             ProductsRatingViewModel.Products = _colibriDbContext.ProductsRatings.ToList();
+
+            // Search Conditions
+            if (searchProductName != null)
+            {
+                ProductsRatingViewModel.Products = ProductsRatingViewModel.Products
+                    .Where(a => a.ProductName.ToLower().Contains(searchProductName.ToLower())).ToList();
+            }
+            if (searchUserName != null)
+            {
+                ProductsRatingViewModel.Users = ProductsRatingViewModel.Users
+                    .Where(a => a.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
+            }
+
+            // Pagination
+            // count Advertisements alltogether
+            var count = ProductsRatingViewModel.Products.Count;
+
+            // Iterate and Filter Appointments
+            // fetch the right Record (if on the 2nd Page, skip the first 3 (if PageSize=3) and continue on the next Page)
+            ProductsRatingViewModel.Products = ProductsRatingViewModel.Products
+                .OrderBy(p => p.ProductName)
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize).ToList();
+
+            // populate the PagingInfo Model
+            // StringBuilder
+            ProductsRatingViewModel.PagingInfo = new PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItems = count,
+                urlParam = param.ToString()
+            };
+
+            // i18n
+            ViewData["ProductsRatingList"] = _localizer["ProductsRatingListText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["ProductName"] = _localizer["ProductNameText"];
+            ViewData["Rating"] = _localizer["RatingText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
 
             return View(ProductsRatingViewModel);
         }
@@ -75,6 +140,14 @@ namespace Colibri.Areas.Customer.Controllers
                                                 .FirstOrDefaultAsync();
 
             // get the Application User
+
+            // i18n
+            ViewData["ProductDetails"] = _localizer["ProductDetailsText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["ProductName"] = _localizer["ProductNameText"];
+            ViewData["Rating"] = _localizer["RatingText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
 
             return View(ProductsRatingViewModel);
         }

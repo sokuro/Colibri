@@ -1,40 +1,96 @@
-﻿@model Colibri.ViewModels.ProductsRatingViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Colibri.ViewModels.ProductsRatingViewModel
 
-@{
-    ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
+@inject IViewLocalizer Localizer
 
 <form method="get">
     <div class="row">
         <div class="col-6 text-center">
-            <h2 class="text-info">Details</h2>
+            <h2 class="text-info">@ViewData["ProductsRatingList"]</h2>
         </div>
     </div>
+
+    <!-- Search -->
+    <div class="container">
+        <div class="col-12">
+            <!-- 1st row -->
+            <div class="row">
+                <div class="col-2">
+                    @ViewData["ProductName"]
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchProductName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <!-- empty column -->
+                <div class="col-2">
+                </div>
+
+                <div class="col-2">
+                    @ViewData["UserName"]
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <!-- END: 1st row -->
+            </div>
+
+            <!-- Search row -->
+            <div class="row">
+                <div class="col-2">
+                </div>
+                <div class="col-3">
+                </div>
+
+                <!-- empty column -->
+                <div class="col-2">
+                </div>
+
+                <div class="col-2">
+                </div>
+                <div class="col-3">
+                    <button type="submit" name="submit" value="Search" class="btn btn-primary form-control">
+                        <i class="fas fa-search"></i> @ViewData["Search"]
+                    </button>
+                </div>
+                <!-- END: Search row -->
+            </div>
+        </div>
+        <!-- END: Search -->
+    </div>
+
+    <br />
 
     <div>
         <table class="table table-striped border">
             <tr class="text-info">
                 <th>
-                    Product
+                    @ViewData["ProductName"]
                 </th>
                 <th>
-                    Username
+                    @ViewData["UserName"]
                 </th>
                 <th>
-                    Description
+                    @ViewData["Rating"]
                 </th>
+                <th>
+                    @ViewData["Description"]
+                </th>
+                <th></th>
+                <th></th>
             </tr>
-            
+
             @foreach (var item in Model.Products)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(p => item.ProductId)
+                        @Html.DisplayFor(p => item.ProductName)
                     </td>
                     <td>
                         @Html.DisplayFor(u => item.ApplicationUserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(r => item.ProductRating)
                     </td>
                     <td>
                         @Html.DisplayFor(d => item.Description)
