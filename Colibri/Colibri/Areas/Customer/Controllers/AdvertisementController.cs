@@ -512,6 +512,7 @@ namespace Colibri.Areas.Customer.Controllers
                         ProductsRatings productsRatings = new ProductsRatings()
                         {
                             ProductId = productFromDb.Id,
+                            ProductName = productFromDb.Name,
                             //ApplicationUserId = productFromDb.ApplicationUserId,
                             // add the current User as the Creator of the Rating
                             ApplicationUserId = claim.Value,
@@ -574,6 +575,7 @@ namespace Colibri.Areas.Customer.Controllers
                     ProductsRatings productsRatings = new ProductsRatings()
                     {
                         ProductId = productFromDb.Id,
+                        ProductName = productFromDb.Name,
                         //ApplicationUserId = productFromDb.ApplicationUserId,
                         // add the current User as the Creator of the Rating
                         ApplicationUserId = claim.Value,
