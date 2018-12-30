@@ -43,6 +43,13 @@
             <input type="submit" name="command" value="5" />
             <i class="fa fa-star" aria-hidden="true"></i>
         </button>
+        
+        <br /><br />
+
+        <div>
+            <a asp-area="Customer" asp-action="Rating" asp-controller="UserServicesRating" class="btn btn-success pull-right btn-outline-info" asp-route-id="@Model.UserServices.Id">Show Rating</a>
+        </div>
+
     </div>
     <div>
         @Html.Raw(TempData["msg"])
