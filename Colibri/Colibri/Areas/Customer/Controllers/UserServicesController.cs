@@ -793,5 +793,26 @@ namespace Colibri.Areas.Customer.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+
+        // Remove (from Bag)
+        [Route("Customer/UserServices/Remove/{id}")]
+        public IActionResult Remove(int id)
+        {
+            List<int> lstCartServices = HttpContext.Session.Get<List<int>>("userServicesScheduling");
+
+            if (lstCartServices != null && lstCartServices.Any())
+            {
+                if (lstCartServices.Contains(id))
+                {
+                    // remove the Item (id)
+                    lstCartServices.Remove(id);
+                }
+            }
+            // set the Session: Name, Value
+            HttpContext.Session.Set("userServicesScheduling", lstCartServices);
+
+            // redirect to Action
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
