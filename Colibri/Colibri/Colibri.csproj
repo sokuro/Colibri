@@ -58,6 +58,12 @@
     <Content Update="Areas\Customer\Views\Advertisement\_RateAdvertisement.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerUserServiceRatingsAuthorized.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerUserServiceRatings.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerProductsRatingsAuthorized.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

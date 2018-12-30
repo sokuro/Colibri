@@ -16,40 +16,40 @@ using Microsoft.Extensions.Localization;
 namespace Colibri.Areas.Customer.Controllers
 {
     /*
-     * Controller to Handle Product's Ratings
+     * Controller to Handle UserServiceRating's Ratings
      */
     //[Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
     [Area("Customer")]
-    public class ProductsRatingController : Controller
+    public class UserServicesRatingController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
-        private readonly IStringLocalizer<ProductsRatingController> _localizer;
+        private readonly IStringLocalizer<UserServicesRatingController> _localizer;
 
-        // PageSize (for the Pagination: 10 Product Ratings/Page)
+        // PageSize (for the Pagination: 10 UserServiceRating Ratings/Page)
         private int PageSize = 10;
 
         [BindProperty]
-        public ProductsRatingViewModel ProductsRatingViewModel { get; set; }
+        public UserServicesRatingViewModel UserServicesRatingViewModel { get; set; }
 
-        public ProductsRatingController(ColibriDbContext colibriDbContext,
-            IStringLocalizer<ProductsRatingController> localizer)
+        public UserServicesRatingController(ColibriDbContext colibriDbContext,
+            IStringLocalizer<UserServicesRatingController> localizer)
         {
             _colibriDbContext = colibriDbContext;
             _localizer = localizer;
 
-            ProductsRatingViewModel = new ProductsRatingViewModel()
+            UserServicesRatingViewModel = new UserServicesRatingViewModel()
             {
-                Products = new List<ProductsRatings>(),
-                Product = new Models.ProductsRatings(),
+                UserServices = new List<UserServicesRatings>(),
+                UserServiceRating = new Models.UserServicesRatings(),
                 Users = new List<ApplicationUser>()
             };
         }
 
-        [Route("Customer/ProductsRating/Index")]
+        [Route("Customer/UserServicesRating/Index")]
         public IActionResult Index(
-            int productPage = 1,
+            int userServicePage = 1,
             string searchUserName = null,
-            string searchProductName = null
+            string searchUserServiceName = null
             )
         {
             // Security Claims
@@ -60,72 +60,73 @@ namespace Colibri.Areas.Customer.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // add the current User as the Creator of the Advertisement
-            ProductsRatingViewModel.CurrentUserId = claim.Value;
+            UserServicesRatingViewModel.CurrentUserId = claim.Value;
 
             // Filter the Search Criteria
             StringBuilder param = new StringBuilder();
 
-            param.Append("/Customer/ProductsRating/Index?productPage=:");
+            param.Append("/Customer/UserServicesRating/Index?userServicePage=:");
             param.Append("&searchName=");
             if (searchUserName != null)
             {
                 param.Append(searchUserName);
             }
             param.Append("&searchName=");
-            if (searchProductName != null)
+            if (searchUserServiceName != null)
             {
-                param.Append(searchProductName);
+                param.Append(searchUserServiceName);
             }
 
             // populate the Lists
-            ProductsRatingViewModel.Products = _colibriDbContext.ProductsRatings.ToList();
+            UserServicesRatingViewModel.UserServices = _colibriDbContext.UserServicesRatings.ToList();
 
             // Search Conditions
-            if (searchProductName != null)
+            if (searchUserServiceName != null)
             {
-                ProductsRatingViewModel.Products = ProductsRatingViewModel.Products
-                    .Where(a => a.ProductName.ToLower().Contains(searchProductName.ToLower())).ToList();
+                UserServicesRatingViewModel.UserServices = UserServicesRatingViewModel.UserServices
+                    .Where(a => a.UserServiceName.ToLower().Contains(searchUserServiceName.ToLower())).ToList();
             }
             if (searchUserName != null)
             {
-                ProductsRatingViewModel.Users = ProductsRatingViewModel.Users
+                UserServicesRatingViewModel.Users = UserServicesRatingViewModel.Users
                     .Where(a => a.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
             }
 
             // Pagination
             // count Advertisements alltogether
-            var count = ProductsRatingViewModel.Products.Count;
+            var count = UserServicesRatingViewModel.UserServices.Count;
 
             // Iterate and Filter Appointments
             // fetch the right Record (if on the 2nd Page, skip the first 3 (if PageSize=3) and continue on the next Page)
-            ProductsRatingViewModel.Products = ProductsRatingViewModel.Products
-                .OrderBy(p => p.ProductName)
-                .Skip((productPage - 1) * PageSize)
+            UserServicesRatingViewModel.UserServices = UserServicesRatingViewModel.UserServices
+                .OrderBy(p => p.UserServiceName)
+                .Skip((userServicePage - 1) * PageSize)
                 .Take(PageSize).ToList();
 
             // populate the PagingInfo Model
             // StringBuilder
-            ProductsRatingViewModel.PagingInfo = new PagingInfo
+            UserServicesRatingViewModel.PagingInfo = new PagingInfo
             {
-                CurrentPage = productPage,
+                CurrentPage = userServicePage,
                 ItemsPerPage = PageSize,
                 TotalItems = count,
                 urlParam = param.ToString()
             };
 
             // i18n
-            ViewData["ProductsRatingList"] = _localizer["ProductsRatingListText"];
+            ViewData["UserServiceRatingList"] = _localizer["UserServiceRatingListText"];
             ViewData["UserName"] = _localizer["UserNameText"];
-            ViewData["ProductName"] = _localizer["ProductNameText"];
-            ViewData["Rating"] = _localizer["RatingText"];
+            ViewData["UserServiceName"] = _localizer["UserServiceNameText"];
+            ViewData["UserServiceRating"] = _localizer["UserServiceRatingText"];
             ViewData["Description"] = _localizer["DescriptionText"];
             ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
+            ViewData["Search"] = _localizer["SearchText"];
 
-            return View(ProductsRatingViewModel);
+            return View(UserServicesRatingViewModel);
         }
 
         // GET: Details
-        [Route("Customer/ProductsRating/Details/{id}")]
+        [Route("Customer/UserServicesRating/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -141,28 +142,28 @@ namespace Colibri.Areas.Customer.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // add the current User as the Creator of the Advertisement
-            ProductsRatingViewModel.CurrentUserId = claim.Value;
+            UserServicesRatingViewModel.CurrentUserId = claim.Value;
 
-            // get the Product
-            ProductsRatingViewModel.Product = await _colibriDbContext.ProductsRatings
+            // get the UserService
+            UserServicesRatingViewModel.UserServiceRating = await _colibriDbContext.UserServicesRatings
                                                 .Where(p => p.Id == id)
                                                 .FirstOrDefaultAsync();
 
             // get the Application User
 
             // i18n
-            ViewData["ProductDetails"] = _localizer["ProductDetailsText"];
+            ViewData["UserServiceDetails"] = _localizer["UserServiceDetailsText"];
             ViewData["UserName"] = _localizer["UserNameText"];
-            ViewData["ProductName"] = _localizer["ProductNameText"];
+            ViewData["UserServiceName"] = _localizer["UserServiceNameText"];
             ViewData["Rating"] = _localizer["RatingText"];
             ViewData["Description"] = _localizer["DescriptionText"];
             ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
 
-            return View(ProductsRatingViewModel);
+            return View(UserServicesRatingViewModel);
         }
 
-        [Route("Customer/ProductsRating/Details/{id}")]
+        [Route("Customer/UserServicesRating/Details/{id}")]
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DetailsPost(int id)
@@ -180,16 +181,16 @@ namespace Colibri.Areas.Customer.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // add the current User as the Creator of the Rating
-            ProductsRatingViewModel.CurrentUserId = claim.Value;
+            UserServicesRatingViewModel.CurrentUserId = claim.Value;
 
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
-                var productFromDb = await _colibriDbContext.ProductsRatings
-                    .Where(p => p.ProductId == id)
+                var userServiceFromDb = await _colibriDbContext.UserServicesRatings
+                    .Where(p => p.UserServiceId == id)
                     .FirstOrDefaultAsync();
 
-                _colibriDbContext.ProductsRatings.Add(productFromDb);
+                _colibriDbContext.UserServicesRatings.Add(userServiceFromDb);
 
                 await _colibriDbContext.SaveChangesAsync();
 
@@ -197,12 +198,12 @@ namespace Colibri.Areas.Customer.Controllers
             }
             else
             {
-                return View(ProductsRatingViewModel);
+                return View(UserServicesRatingViewModel);
             }
         }
 
         // Get: /<controller>/Edit
-        [Route("Customer/ProductsRating/Edit/{id}")]
+        [Route("Customer/UserServicesRating/Edit/{id}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -210,33 +211,31 @@ namespace Colibri.Areas.Customer.Controllers
                 return NotFound();
             }
 
-            // search for the ID
-            // incl. ProductTypes and SpecialTags too
-            ProductsRatingViewModel.Product = await _colibriDbContext.ProductsRatings
+            UserServicesRatingViewModel.UserServiceRating = await _colibriDbContext.UserServicesRatings
                                                     .Where(p => p.Id == id)
                                                     .FirstOrDefaultAsync();
 
-            if (ProductsRatingViewModel.Products == null)
+            if (UserServicesRatingViewModel.UserServices == null)
             {
                 return NotFound();
             }
 
             // i18n
-            ViewData["EditProductRating"] = _localizer["EditProductRatingText"];
+            ViewData["EditUserServiceRating"] = _localizer["EditUserServiceRatingText"];
             ViewData["Edit"] = _localizer["EditText"];
             ViewData["Update"] = _localizer["UpdateText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["UserName"] = _localizer["UserNameText"];
-            ViewData["ProductName"] = _localizer["ProductNameText"];
+            ViewData["UserServiceName"] = _localizer["UserServiceNameText"];
             ViewData["Rating"] = _localizer["RatingText"];
             ViewData["Description"] = _localizer["DescriptionText"];
 
-            return View(ProductsRatingViewModel);
+            return View(UserServicesRatingViewModel);
         }
 
         // Post: /<controller>/Edit
         // @param Category
-        [Route("Customer/ProductsRating/Edit/{id}")]
+        [Route("Customer/UserServicesRating/Edit/{id}")]
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPost(int id)
@@ -244,15 +243,15 @@ namespace Colibri.Areas.Customer.Controllers
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
-                // get the Product from the DB
-                var productFromDb = await _colibriDbContext.ProductsRatings
+                // get the UserService from the DB
+                var userServiceFromDb = await _colibriDbContext.UserServicesRatings
                                         .Where(p => p.Id == id)
                                         .FirstOrDefaultAsync();
 
-                productFromDb.ProductName = ProductsRatingViewModel.Product.ProductName;
-                productFromDb.ApplicationUserName = ProductsRatingViewModel.Product.ApplicationUserName;
-                productFromDb.ProductRating = ProductsRatingViewModel.Product.ProductRating;
-                productFromDb.Description = ProductsRatingViewModel.Product.Description;
+                userServiceFromDb.UserServiceName = UserServicesRatingViewModel.UserServiceRating.UserServiceName;
+                userServiceFromDb.ApplicationUserName = UserServicesRatingViewModel.UserServiceRating.ApplicationUserName;
+                userServiceFromDb.UserServiceRating = UserServicesRatingViewModel.UserServiceRating.UserServiceRating;
+                userServiceFromDb.Description = UserServicesRatingViewModel.UserServiceRating.Description;
 
                 // Save the Changes
                 await _colibriDbContext.SaveChangesAsync();
@@ -262,12 +261,12 @@ namespace Colibri.Areas.Customer.Controllers
             else
             {
                 // one can simply return to the Form View again for Correction
-                return View(ProductsRatingViewModel);
+                return View(UserServicesRatingViewModel);
             }
         }
 
         // Get: /<controller>/Delete
-        [Route("Customer/ProductsRating/Delete/{id}")]
+        [Route("Customer/UserServicesRating/Delete/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -275,44 +274,44 @@ namespace Colibri.Areas.Customer.Controllers
                 return NotFound();
             }
 
-            ProductsRatingViewModel.Product = await _colibriDbContext.ProductsRatings
+            UserServicesRatingViewModel.UserServiceRating = await _colibriDbContext.UserServicesRatings
                                                 .Where(p => p.Id == id)
                                                 .FirstOrDefaultAsync();
 
-            if (ProductsRatingViewModel.Products == null)
+            if (UserServicesRatingViewModel.UserServices == null)
             {
                 return NotFound();
             }
 
             // i18n
-            ViewData["DeleteProductRatings"] = _localizer["DeleteProductRatingsText"];
+            ViewData["DeleteUserServiceRating"] = _localizer["DeleteUserServiceRatingText"];
             ViewData["Delete"] = _localizer["DeleteText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["UserName"] = _localizer["UserNameText"];
-            ViewData["ProductName"] = _localizer["ProductNameText"];
+            ViewData["UserServiceName"] = _localizer["UserServiceNameText"];
             ViewData["Rating"] = _localizer["RatingText"];
             ViewData["Description"] = _localizer["DescriptionText"];
 
-            return View(ProductsRatingViewModel);
+            return View(UserServicesRatingViewModel);
         }
 
         // Post: /<controller>/Delete
         // @param Category
-        [Route("Customer/ProductsRating/Delete/{id}")]
+        [Route("Customer/UserServicesRating/Delete/{id}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            ProductsRatings productsRatings = await _colibriDbContext.ProductsRatings.FindAsync(id);
+            UserServicesRatings userServicesRatings = await _colibriDbContext.UserServicesRatings.FindAsync(id);
 
-            if (productsRatings == null)
+            if (userServicesRatings == null)
             {
                 return NotFound();
             }
             else
             {
                 // remove the Entry from the DB
-                _colibriDbContext.ProductsRatings.Remove(productsRatings);
+                _colibriDbContext.UserServicesRatings.Remove(userServicesRatings);
 
                 // save the Changes asynchronously
                 await _colibriDbContext.SaveChangesAsync();
