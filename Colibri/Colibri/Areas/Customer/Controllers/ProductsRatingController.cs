@@ -52,6 +52,16 @@ namespace Colibri.Areas.Customer.Controllers
             string searchProductName = null
             )
         {
+            // Security Claims
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+            // Claims Identity
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            // add the current User as the Creator of the Advertisement
+            ProductsRatingViewModel.CurrentUserId = claim.Value;
+
             // Filter the Search Criteria
             StringBuilder param = new StringBuilder();
 
@@ -114,7 +124,6 @@ namespace Colibri.Areas.Customer.Controllers
             return View(ProductsRatingViewModel);
         }
 
-
         // GET: Details
         [Route("Customer/ProductsRating/Details/{id}")]
         public async Task<IActionResult> Details(int? id)
@@ -152,11 +161,81 @@ namespace Colibri.Areas.Customer.Controllers
             return View(ProductsRatingViewModel);
         }
 
+        // Get: /<controller>/Edit
+        [Route("Customer/ProductsRating/Edit/{id}")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            // incl. ProductTypes and SpecialTags too
+            ProductsRatingViewModel.Product = await _colibriDbContext.ProductsRatings
+                                                    .Where(p => p.Id == id)
+                                                    .FirstOrDefaultAsync();
+
+            if (ProductsRatingViewModel.Products == null)
+            {
+                return NotFound();
+            }
+
+            // i18n
+            ViewData["EditProductRating"] = _localizer["EditProductRatingText"];
+            ViewData["Edit"] = _localizer["EditText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["ProductName"] = _localizer["ProductNameText"];
+            ViewData["Rating"] = _localizer["RatingText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
+            return View(ProductsRatingViewModel);
+        }
+
+        // Post: /<controller>/Edit
+        // @param Category
+        [Route("Customer/ProductsRating/Edit/{id}")]
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPost(int id)
+        {
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                // get the Product from the DB
+                var productFromDb = await _colibriDbContext.ProductsRatings
+                                        .Where(p => p.Id == id)
+                                        .FirstOrDefaultAsync();
+
+                productFromDb.ProductName = ProductsRatingViewModel.Product.ProductName;
+                productFromDb.ApplicationUserName = ProductsRatingViewModel.Product.ApplicationUserName;
+                productFromDb.ProductRating = ProductsRatingViewModel.Product.ProductRating;
+                productFromDb.Description = ProductsRatingViewModel.Product.Description;
+
+                // Save the Changes
+                await _colibriDbContext.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(ProductsRatingViewModel);
+            }
+        }
+
         [Route("Customer/ProductsRating/Details/{id}")]
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> DetailsPost(int id)
         {
+            if (ModelState.IsValid)
+            {
+
+            }
+
             // Security Claims
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
 

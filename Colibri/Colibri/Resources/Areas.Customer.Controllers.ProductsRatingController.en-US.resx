@@ -123,6 +123,12 @@
   <data name="DescriptionText" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="EditProductRatingText" xml:space="preserve">
+    <value>Edit Product Rating</value>
+  </data>
+  <data name="EditText" xml:space="preserve">
+    <value>Edit</value>
+  </data>
   <data name="ProductDetailsText" xml:space="preserve">
     <value>Product Details</value>
   </data>
@@ -134,6 +140,9 @@
   </data>
   <data name="RatingText" xml:space="preserve">
     <value>Rating</value>
+  </data>
+  <data name="UpdateText" xml:space="preserve">
+    <value>Update</value>
   </data>
   <data name="UserNameText" xml:space="preserve">
     <value>Username</value>
