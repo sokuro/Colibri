@@ -499,6 +499,7 @@ namespace Colibri.Areas.Customer.Controllers
                         UserServicesRatings userServicesRatings = new UserServicesRatings()
                         {
                             UserServiceId = userServiceFromDb.Id,
+                            UserServiceName = userServiceFromDb.Name,
                             // add the current User as the Creator of the Rating
                             ApplicationUserId = claim.Value,
                             ApplicationUserName = claim.Subject.Name,
@@ -559,6 +560,7 @@ namespace Colibri.Areas.Customer.Controllers
                     UserServicesRatings userServicesRatings = new UserServicesRatings()
                     {
                         UserServiceId = userServiceFromDb.Id,
+                        UserServiceName = userServiceFromDb.Name,
                         // add the current User as the Creator of the Rating
                         ApplicationUserId = claim.Value,
                         ApplicationUserName = claim.Subject.Name,
