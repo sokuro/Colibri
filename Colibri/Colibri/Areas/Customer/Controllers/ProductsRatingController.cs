@@ -161,6 +161,45 @@ namespace Colibri.Areas.Customer.Controllers
             return View(ProductsRatingViewModel);
         }
 
+        [Route("Customer/ProductsRating/Details/{id}")]
+        [HttpPost, ActionName("Details")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DetailsPost(int id)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+
+            // Security Claims
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+            // Claims Identity
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            // add the current User as the Creator of the Rating
+            ProductsRatingViewModel.CurrentUserId = claim.Value;
+
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                var productFromDb = await _colibriDbContext.ProductsRatings
+                    .Where(p => p.ProductId == id)
+                    .FirstOrDefaultAsync();
+
+                _colibriDbContext.ProductsRatings.Add(productFromDb);
+
+                await _colibriDbContext.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return View(ProductsRatingViewModel);
+            }
+        }
+
         // Get: /<controller>/Edit
         [Route("Customer/ProductsRating/Edit/{id}")]
         public async Task<IActionResult> Edit(int? id)
@@ -226,42 +265,59 @@ namespace Colibri.Areas.Customer.Controllers
             }
         }
 
-        [Route("Customer/ProductsRating/Details/{id}")]
-        [HttpPost, ActionName("Details")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DetailsPost(int id)
+        // Get: /<controller>/Delete
+        [Route("Customer/ProductsRating/Delete/{id}")]
+        public async Task<IActionResult> Delete(int? id)
         {
-            if (ModelState.IsValid)
+            if (id == null)
             {
-
+                return NotFound();
             }
 
-            // Security Claims
-            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+            ProductsRatingViewModel.Product = await _colibriDbContext.ProductsRatings
+                                                .Where(p => p.Id == id)
+                                                .FirstOrDefaultAsync();
 
-            // Claims Identity
-            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
-            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-
-            // add the current User as the Creator of the Rating
-            ProductsRatingViewModel.CurrentUserId = claim.Value;
-
-            // Check the State Model Binding
-            if (ModelState.IsValid)
+            if (ProductsRatingViewModel.Products == null)
             {
-                var productFromDb = await _colibriDbContext.ProductsRatings
-                                        .Where(p => p.ProductId == id)
-                                        .FirstOrDefaultAsync();
+                return NotFound();
+            }
 
-                _colibriDbContext.ProductsRatings.Add(productFromDb);
+            // i18n
+            ViewData["DeleteProductRatings"] = _localizer["DeleteProductRatingsText"];
+            ViewData["Delete"] = _localizer["DeleteText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["ProductName"] = _localizer["ProductNameText"];
+            ViewData["Rating"] = _localizer["RatingText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
 
-                await _colibriDbContext.SaveChangesAsync();
+            return View(ProductsRatingViewModel);
+        }
 
-                return RedirectToAction(nameof(Index));
+        // Post: /<controller>/Delete
+        // @param Category
+        [Route("Customer/ProductsRating/Delete/{id}")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            ProductsRatings productsRatings = await _colibriDbContext.ProductsRatings.FindAsync(id);
+
+            if (productsRatings == null)
+            {
+                return NotFound();
             }
             else
             {
-                return View(ProductsRatingViewModel);
+                // remove the Entry from the DB
+                _colibriDbContext.ProductsRatings.Remove(productsRatings);
+
+                // save the Changes asynchronously
+                await _colibriDbContext.SaveChangesAsync();
+
+                // avoid Refreshing the POST Operation -> Redirect
+                return RedirectToAction(nameof(Index));
             }
         }
     }

@@ -120,6 +120,12 @@
   <data name="BackToListText" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="DeleteProductsRatingText" xml:space="preserve">
+    <value>Delete Product Rating</value>
+  </data>
+  <data name="DeleteText" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="DescriptionText" xml:space="preserve">
     <value>Description</value>
   </data>
