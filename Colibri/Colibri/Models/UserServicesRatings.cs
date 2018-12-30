@@ -21,6 +21,8 @@ namespace Colibri.Models
         [ForeignKey("UserServiceId")]
         public virtual UserServices UserServices { get; set; }
 
+        public string UserServiceName { get; set; }
+
         public string ApplicationUserId { get; set; }
 
         // 1 User Service = 1 User
