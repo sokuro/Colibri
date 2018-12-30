@@ -320,5 +320,31 @@ namespace Colibri.Areas.Customer.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
+
+        // GET: Rating (extra to reference from the UserServiceController)
+        [Route("Customer/UserServicesRating/Rating/{id}")]
+        public async Task<IActionResult> Rating(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // get the individual User Service
+            UserServicesRatingViewModel.UserServiceRating = await _colibriDbContext.UserServicesRatings
+                                                                .Where(p => p.UserServiceId == id)
+                                                                .FirstOrDefaultAsync();
+
+            // i18n
+            ViewData["UserServiceDetails"] = _localizer["UserServiceDetailsText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["UserServiceName"] = _localizer["UserServiceNameText"];
+            ViewData["Rating"] = _localizer["RatingText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+
+            return View(UserServicesRatingViewModel);
+        }
     }
 }

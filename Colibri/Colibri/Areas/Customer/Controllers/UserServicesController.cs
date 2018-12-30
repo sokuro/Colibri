@@ -499,6 +499,7 @@ namespace Colibri.Areas.Customer.Controllers
                         UserServicesRatings userServicesRatings = new UserServicesRatings()
                         {
                             UserServiceId = userServiceFromDb.Id,
+                            UserServiceName = userServiceFromDb.Name,
                             // add the current User as the Creator of the Rating
                             ApplicationUserId = claim.Value,
                             ApplicationUserName = claim.Subject.Name,
@@ -559,6 +560,7 @@ namespace Colibri.Areas.Customer.Controllers
                     UserServicesRatings userServicesRatings = new UserServicesRatings()
                     {
                         UserServiceId = userServiceFromDb.Id,
+                        UserServiceName = userServiceFromDb.Name,
                         // add the current User as the Creator of the Rating
                         ApplicationUserId = claim.Value,
                         ApplicationUserName = claim.Subject.Name,
@@ -790,6 +792,27 @@ namespace Colibri.Areas.Customer.Controllers
                 // avoid Refreshing the POST Operation -> Redirect
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        // Remove (from Bag)
+        [Route("Customer/UserServices/Remove/{id}")]
+        public IActionResult Remove(int id)
+        {
+            List<int> lstCartServices = HttpContext.Session.Get<List<int>>("userServicesScheduling");
+
+            if (lstCartServices != null && lstCartServices.Any())
+            {
+                if (lstCartServices.Contains(id))
+                {
+                    // remove the Item (id)
+                    lstCartServices.Remove(id);
+                }
+            }
+            // set the Session: Name, Value
+            HttpContext.Session.Set("userServicesScheduling", lstCartServices);
+
+            // redirect to Action
+            return RedirectToAction(nameof(Index));
         }
     }
 }

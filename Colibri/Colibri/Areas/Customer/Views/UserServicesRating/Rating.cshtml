@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Colibri.ViewModels.UserServicesRatingViewModel
+
+@inject IViewLocalizer Localizer
+
+<form method="post">
+    <div class="col-6 text-center">
+        <h2 class="text-info">@ViewData["ProductDetails"]</h2>
+    </div>
+    <div class="p-4 border rounded row">
+
+        <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    @ViewData["UserServiceName"]
+                </div>
+                <div class="col-8">
+                    <input asp-for="UserServiceRating.UserServiceName" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    @ViewData["UserName"]
+                </div>
+                <div class="col-8">
+                    <input asp-for="UserServiceRating.ApplicationUserName" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    @ViewData["Rating"]
+                </div>
+                <div class="col-8">
+                    <input asp-for="UserServiceRating.UserServiceRating" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    @ViewData["Description"]
+                </div>
+                <div class="col-8">
+                    @*<input asp-for="Product.Description" class="form-control" readonly />*@
+                    <textarea rows="4" asp-for="UserServiceRating.Description" class="form-control" readonly=""></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
+            </div>
+        </div>
+
+    </div>
+</form>
