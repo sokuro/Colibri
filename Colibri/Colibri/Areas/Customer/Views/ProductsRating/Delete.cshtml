@@ -5,7 +5,7 @@
 
 <form method="post">
     <div class="col-6 text-center">
-        <h2 class="text-info">@ViewData["ProductDetails"]</h2>
+        <h2 class="text-info">@ViewData["DeleteProductsRating"]</h2>
     </div>
     <div class="p-4 border rounded row">
 
@@ -40,12 +40,13 @@
                 </div>
                 <div class="col-8">
                     @*<input asp-for="Product.Description" class="form-control" readonly />*@
-                    <textarea rows="4" asp-for="Product.Description" class="form-control" readonly=""></textarea>
+                    <textarea rows="4" asp-for="Product.Description" class="form-control"></textarea>
                 </div>
             </div>
-            @*<div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-envelope"> Submit</i></button>
-                </div>*@
+            <div class="form-group">
+                <input type="submit" class="btn btn-danger" value=@ViewData["Delete"] />
+                <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
+            </div>
         </div>
 
     </div>
