@@ -88,8 +88,8 @@ namespace Colibri.Areas.Customer.Controllers
             }
             if (searchUserName != null)
             {
-                UserServicesRatingViewModel.Users = UserServicesRatingViewModel.Users
-                    .Where(a => a.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
+                UserServicesRatingViewModel.UserServices = UserServicesRatingViewModel.UserServices
+                    .Where(a => a.ApplicationUserName.ToLower().Contains(searchUserName.ToLower())).ToList();
             }
 
             // Pagination
