@@ -125,15 +125,15 @@ namespace Colibri.Areas.Customer.Controllers
                                                     select u;
 
             // Search Conditions
-            if (searchUserName != null)
-            {
-                UserServicesViewModel.UserServices = UserServicesViewModel.UserServices
-                    .Where(a => a.ApplicationUser.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
-            }
             if (searchServiceName != null)
             {
                 UserServicesViewModel.UserServices = UserServicesViewModel.UserServices
                     .Where(a => a.Name.ToLower().Contains(searchServiceName.ToLower())).ToList();
+            }
+            if (searchUserName != null)
+            {
+                UserServicesViewModel.UserServices = UserServicesViewModel.UserServices
+                    .Where(a => a.ApplicationUserName.ToLower().Contains(searchUserName.ToLower())).ToList();
             }
 
             // Pagination
