@@ -88,8 +88,8 @@ namespace Colibri.Areas.Customer.Controllers
             }
             if (searchUserName != null)
             {
-                ProductsRatingViewModel.Users = ProductsRatingViewModel.Users
-                    .Where(a => a.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
+                ProductsRatingViewModel.Products = ProductsRatingViewModel.Products
+                    .Where(a => a.ApplicationUserName.ToLower().Contains(searchUserName.ToLower())).ToList();
             }
 
             // Pagination
@@ -320,6 +320,32 @@ namespace Colibri.Areas.Customer.Controllers
                 // avoid Refreshing the POST Operation -> Redirect
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        // GET: Rating (extra to reference from the ProductsController)
+        [Route("Customer/ProductsRating/Rating/{id}")]
+        public async Task<IActionResult> Rating(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // get the individual Product
+            ProductsRatingViewModel.Product = await _colibriDbContext.ProductsRatings
+                                                    .Where(p => p.ProductId == id)
+                                                    .FirstOrDefaultAsync();
+
+            // i18n
+            ViewData["ProductDetails"] = _localizer["ProductDetailsText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["ProductName"] = _localizer["ProductNameText"];
+            ViewData["Rating"] = _localizer["RatingText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+
+            return View(ProductsRatingViewModel);
         }
     }
 }

@@ -25,10 +25,10 @@
             <!-- 1st row -->
             <div class="row">
                 <div class="col-2">
-                    @ViewData["UserName"]
+                    @ViewData["UserServiceName"]
                 </div>
                 <div class="col-3">
-                    @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.Editor("searchServiceName", new { htmlAttributes = new { @class = "form-control" } })
                 </div>
 
                 <!-- empty column -->
@@ -36,10 +36,10 @@
                 </div>
 
                 <div class="col-2">
-                    @ViewData["UserServiceName"]
+                    @ViewData["UserName"]
                 </div>
                 <div class="col-3">
-                    @Html.Editor("searchServiceName", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.Editor("searchUserName", new {htmlAttributes = new {@class = "form-control"}})
                 </div>
                 <!-- END: 1st row -->
             </div>

@@ -131,17 +131,15 @@ namespace Colibri.Areas.Customer.Controllers
                                                     select u;
 
             // Search Conditions
-            if (searchUserName != null)
-            {
-                //AdvertisementViewModel.Products = AdvertisementViewModel.Products
-                //                                    .Where(a => a.ApplicationUser.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
-                AdvertisementViewModel.Users = AdvertisementViewModel.Users
-                                                    .Where(a => a.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
-            }
             if (searchProductName != null)
             {
                 AdvertisementViewModel.Products = AdvertisementViewModel.Products
                                                     .Where(a => a.Name.ToLower().Contains(searchProductName.ToLower())).ToList();
+            }
+            if (searchUserName != null)
+            {
+                AdvertisementViewModel.Products = AdvertisementViewModel.Products
+                                                    .Where(a => a.ApplicationUserName.ToLower().Contains(searchUserName.ToLower())).ToList();
             }
             //if (claim != null)
             if (filterMine != null)
