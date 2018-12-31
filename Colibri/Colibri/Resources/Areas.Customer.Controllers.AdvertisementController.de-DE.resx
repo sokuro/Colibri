@@ -204,8 +204,14 @@
   <data name="SearchText" xml:space="preserve">
     <value>Suche</value>
   </data>
+  <data name="ShowAllRatingsText" xml:space="preserve">
+    <value>Alle Bewertungen</value>
+  </data>
   <data name="ShowMineText" xml:space="preserve">
     <value>Zeige meine Produkte</value>
+  </data>
+  <data name="ShowRatingText" xml:space="preserve">
+    <value>Zeige Bewertung</value>
   </data>
   <data name="SpecialTagText" xml:space="preserve">
     <value>Spezial Tag</value>

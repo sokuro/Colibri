@@ -180,6 +180,12 @@
   <data name="SearchText" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="ShowAllRatingsText" xml:space="preserve">
+    <value>All Ratings</value>
+  </data>
+  <data name="ShowRatingText" xml:space="preserve">
+    <value>Show Rating</value>
+  </data>
   <data name="SpecialTagText" xml:space="preserve">
     <value>Special Tag</value>
   </data>

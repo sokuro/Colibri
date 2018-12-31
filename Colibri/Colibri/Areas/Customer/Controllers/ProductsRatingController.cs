@@ -347,5 +347,38 @@ namespace Colibri.Areas.Customer.Controllers
 
             return View(ProductsRatingViewModel);
         }
+
+        // Post: /<controller>/Edit
+        // @param Category
+        [Route("Customer/ProductsRating/Rating/{id}")]
+        [HttpPost, ActionName("Rating")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RatingPost(int id)
+        {
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                // get the Product from the DB
+                var productFromDb = await _colibriDbContext.ProductsRatings
+                                        .Where(p => p.ProductId == id)
+                                        .FirstOrDefaultAsync();
+
+                productFromDb.ProductName = ProductsRatingViewModel.Product.ProductName;
+                productFromDb.ApplicationUserName = ProductsRatingViewModel.Product.ApplicationUserName;
+                productFromDb.ProductRating = ProductsRatingViewModel.Product.ProductRating;
+                productFromDb.Description = ProductsRatingViewModel.Product.Description;
+
+                // Save the Changes
+                await _colibriDbContext.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(ProductsRatingViewModel);
+            }
+        }
     }
 }

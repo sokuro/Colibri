@@ -408,6 +408,7 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["UserServiceRating"] = _localizer["UserServiceRatingText"];
             ViewData["RateUserService"] = _localizer["RateUserServiceText"];
+            ViewData["ShowAllRatings"] = _localizer["ShowAllRatingsText"];
 
             return View(UserServicesAddToEntityViewModel);
         }
@@ -453,8 +454,12 @@ namespace Colibri.Areas.Customer.Controllers
                         TempData["msg"] = "<script>alert('Already rated!');</script>";
                         TempData["returnButton"] = "<div><p><b>Already rated!</b></p></div>";
                         TempData["returnBackButton"] = "return";
+                        TempData["showUserServiceRating"] = "showUserServiceRating";
+                        TempData["userServiceId"] = userServiceRatingFromDb.Id;
 
                         ViewData["BackToList"] = _localizer["BackToListText"];
+                        ViewData["ShowAllRatings"] = _localizer["ShowAllRatingsText"];
+                        ViewData["ShowRating"] = _localizer["ShowRatingText"];
 
                         return View();
                     }
