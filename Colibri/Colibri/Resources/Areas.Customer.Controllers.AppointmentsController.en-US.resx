@@ -136,7 +136,7 @@
     <value>Email</value>
   </data>
   <data name="CustomerNameText" xml:space="preserve">
-    <value>Name</value>
+    <value>Customer Name</value>
   </data>
   <data name="CustomerPhoneNumberText" xml:space="preserve">
     <value>Phone Number</value>

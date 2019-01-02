@@ -149,6 +149,7 @@ namespace Colibri.Areas.Customer.Controllers
             SchedulingViewModel.Appointments.Customer = _colibriDbContext.ApplicationUsers
                 .FirstOrDefault(u => u.Id == SchedulingViewModel.Appointments.CustomerId);
 
+            SchedulingViewModel.Appointments.CustomerName = SchedulingViewModel.Appointments.Customer.UserName;
             SchedulingViewModel.Appointments.CustomerEmail = SchedulingViewModel.Appointments.Customer.Email;
             SchedulingViewModel.Appointments.CustomerPhoneNumber = SchedulingViewModel.Appointments.Customer.PhoneNumber;
 

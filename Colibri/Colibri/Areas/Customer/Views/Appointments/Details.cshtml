@@ -24,7 +24,7 @@
                 @ViewData["CustomerEmail"]
             </div>
             <div class="col-8">
-                <input asp-for="Appointment.CustomerEmail" class="form-control" />
+                <input asp-for="Appointment.CustomerEmail" disabled class="form-control" />
             </div>
         </div>
         <div class="form-group row">
@@ -60,7 +60,7 @@
             <div class="col-8">
                 @if (User.IsInRole(StaticDetails.AdminEndUser))
                 {
-                    <input asp-for="Appointment.AppPerson.Id" readonly class="form-control" />
+                    <input asp-for="Appointment.AppPerson.UserName" readonly class="form-control" />
                     <input asp-for="Appointment.AppPersonId" hidden />
                 }
                 else

@@ -26,8 +26,8 @@ namespace Colibri.Areas.Customer.Controllers
     public class AppointmentsController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
-        private readonly IStringLocalizer<Admin.Controllers.AppointmentsController> _localizer;
-        private readonly ILogger<Admin.Controllers.AppointmentsController> _logger;
+        private readonly IStringLocalizer<AppointmentsController> _localizer;
+        private readonly ILogger<AppointmentsController> _logger;
 
         // PageSize (for the Pagination: 5 Appointments/Page)
         private int PageSize = 4;
@@ -39,8 +39,8 @@ namespace Colibri.Areas.Customer.Controllers
         public AppointmentViewModel AppointmentViewModel { get; set; }
 
         public AppointmentsController(ColibriDbContext colibriDbContext,
-            IStringLocalizer<Admin.Controllers.AppointmentsController> localizer,
-            ILogger<Admin.Controllers.AppointmentsController> logger)
+            IStringLocalizer<AppointmentsController> localizer,
+            ILogger<AppointmentsController> logger)
         {
             _colibriDbContext = colibriDbContext;
             _localizer = localizer;
