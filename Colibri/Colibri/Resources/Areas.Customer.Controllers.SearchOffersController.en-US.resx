@@ -129,6 +129,12 @@
   <data name="DetailsText" xml:space="preserve">
     <value>Details</value>
   </data>
+  <data name="PLZText" xml:space="preserve">
+    <value>PLZ</value>
+  </data>
+  <data name="ProductsText" xml:space="preserve">
+    <value>Products</value>
+  </data>
   <data name="SearchOffersText" xml:space="preserve">
     <value>Search offers</value>
   </data>
@@ -137,6 +143,12 @@
   </data>
   <data name="SearchStringText" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="SearchText" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="ServiceText" xml:space="preserve">
+    <value>Services</value>
   </data>
   <data name="Sorry1Text" xml:space="preserve">
     <value>Unfortunately, no current advertisements were found for your request.</value>

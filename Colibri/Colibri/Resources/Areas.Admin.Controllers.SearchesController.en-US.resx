@@ -117,70 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BackToListText" xml:space="preserve">
-    <value>Back</value>
+  <data name="CreatedOnText" xml:space="preserve">
+    <value>Created on</value>
   </data>
-  <data name="CategoryGroupText" xml:space="preserve">
-    <value>Category Group</value>
+  <data name="ExportText" xml:space="preserve">
+    <value>Export</value>
   </data>
-  <data name="CategoryType1Text" xml:space="preserve">
-    <value>Category</value>
+  <data name="NumberText" xml:space="preserve">
+    <value>Number of results:</value>
   </data>
-  <data name="CategoryTypeText" xml:space="preserve">
-    <value>Categories</value>
+  <data name="Period30Text" xml:space="preserve">
+    <value>30 Days</value>
   </data>
-  <data name="CreateCategoryServiceTypeText" xml:space="preserve">
-    <value>Create userservice category</value>
+  <data name="PeriodAllText" xml:space="preserve">
+    <value>All</value>
   </data>
-  <data name="CreateCategoryTypeText" xml:space="preserve">
-    <value>Create product category</value>
+  <data name="PeriodText" xml:space="preserve">
+    <value>Period</value>
   </data>
-  <data name="CreateText" xml:space="preserve">
-    <value>Create</value>
+  <data name="PeriodTodayText" xml:space="preserve">
+    <value>Today</value>
   </data>
-  <data name="DeleteCategoryTypeText" xml:space="preserve">
-    <value>Delete Category</value>
+  <data name="ResultsAllText" xml:space="preserve">
+    <value>All</value>
   </data>
-  <data name="DeleteText" xml:space="preserve">
-    <value>Delete</value>
+  <data name="ResultsNoSuccessText" xml:space="preserve">
+    <value>No success</value>
   </data>
-  <data name="DetailsCategoryTypeText" xml:space="preserve">
-    <value>Category Details</value>
+  <data name="ResultsPartSuccessText" xml:space="preserve">
+    <value>Part success</value>
   </data>
-  <data name="EditCategoryTypeText" xml:space="preserve">
-    <value>Edit Category</value>
+  <data name="ResultsSuccessText" xml:space="preserve">
+    <value>Success</value>
   </data>
-  <data name="EditText" xml:space="preserve">
-    <value>Edit</value>
+  <data name="ResultsText" xml:space="preserve">
+    <value>Results</value>
   </data>
-  <data name="ExistingCategoriesText" xml:space="preserve">
-    <value>Existing Categories</value>
+  <data name="SearchRequestsText" xml:space="preserve">
+    <value>Search requests</value>
   </data>
-  <data name="IsNewText" xml:space="preserve">
-    <value>New Category</value>
-  </data>
-  <data name="NameText" xml:space="preserve">
-    <value>Category Name</value>
-  </data>
-  <data name="NewCategoryTypeText" xml:space="preserve">
-    <value>New product category</value>
-  </data>
-  <data name="NewCategoryTypeUserServiceText" xml:space="preserve">
-    <value>New userservice category</value>
-  </data>
-  <data name="OverviewText" xml:space="preserve">
-    <value>Overview</value>
-  </data>
-  <data name="PLZText" xml:space="preserve">
-    <value>PLZ</value>
-  </data>
-  <data name="ProductServiceText" xml:space="preserve">
-    <value>Product / Service</value>
-  </data>
-  <data name="SearchText" xml:space="preserve">
-    <value>Search</value>
+  <data name="SearchRequestText" xml:space="preserve">
+    <value>Search request</value>
   </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Update</value>
+  </data>
+  <data name="OfferRequestText" xml:space="preserve">
+    <value>Offer / Request</value>
+  </data>
+  <data name="OfferText" xml:space="preserve">
+    <value>Offer</value>
+  </data>
+  <data name="OffReqAllText" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="RequestText" xml:space="preserve">
+    <value>Request</value>
+  </data>
+  <data name="CancelText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ConfirmDeleteText" xml:space="preserve">
+    <value>Do you really want to delete all search entries?</value>
+  </data>
+  <data name="DeleteRequestsText" xml:space="preserve">
+    <value>Delete Requests</value>
+  </data>
+  <data name="DeleteText" xml:space="preserve">
+    <value>Delete</value>
   </data>
 </root>
