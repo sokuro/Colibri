@@ -138,6 +138,12 @@
   <data name="CreateUserServiceText" xml:space="preserve">
     <value>Create User Service</value>
   </data>
+  <data name="DeleteText" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteUserServiceText" xml:space="preserve">
+    <value>Delete User Service</value>
+  </data>
   <data name="DescriptionText" xml:space="preserve">
     <value>Description</value>
   </data>
@@ -174,8 +180,17 @@
   <data name="SearchText" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="ShowAllRatingsText" xml:space="preserve">
+    <value>All Ratings</value>
+  </data>
+  <data name="ShowRatingText" xml:space="preserve">
+    <value>Show Rating</value>
+  </data>
   <data name="SpecialTagText" xml:space="preserve">
     <value>Special Tag</value>
+  </data>
+  <data name="UpdateText" xml:space="preserve">
+    <value>Update</value>
   </data>
   <data name="UserNameText" xml:space="preserve">
     <value>User Name</value>
