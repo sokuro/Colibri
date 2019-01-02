@@ -1,0 +1,27 @@
+﻿@model Colibri.ViewModels.UserSearchesViewModel
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<br />
+<div class="col-4 justify-content-center">
+    <h2 class="text-info">@ViewData["DeleteRequests"]</h2>
+</div>
+<hr />
+<div class="form-border">
+    <div class="text-danger" style="font-weight:bold;">
+        @ViewData["ConfirmDelete"]
+    </div>
+    <br />
+    <div class="text-danger" style="font-weight:bold;">
+        @ViewData["Number"] @Model.ResultsCounter
+    </div>
+    <br />
+
+    <form method="post" asp-action="Delete">
+        <div class="form-group">
+            <input type="submit" class="btn btn-outline-danger" value=@ViewData["Delete"] />
+            <a asp-action="Index" class="btn btn-outline-success">@ViewData["Cancel"]</a>
+        </div>
+    </form>
+</div>
