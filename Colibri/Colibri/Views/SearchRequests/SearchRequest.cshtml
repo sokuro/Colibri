@@ -57,7 +57,7 @@
                                                     <b>$@product.Price</b>
                                                 </label>
                                             </div>
-                                            <a asp-action="Details" asp-controller="SearchRequests" class="btn btn-success pull-right btn-outline-info" asp-route-id="@product.Id">@ViewData["Details"]</a>
+                                            <a asp-action="Details" asp-route-area="Customer" asp-controller="Advertisement" class="btn btn-success pull-right btn-outline-info" asp-route-id="@product.Id">Details</a>
                                         </div>
                                     </div>
 
@@ -98,7 +98,7 @@
                                                     <b>$@userService.Price</b>
                                                 </label>
                                             </div>
-                                            <a asp-action="Details" asp-controller="SearchRequests" class="btn btn-success pull-right btn-outline-info" asp-route-id="@userService.Id">@ViewData["Details"]</a>
+                                            <a asp-action="DetailsService" asp-route-area="Customer" asp-controller="Advertisement" class="btn btn-success pull-right btn-outline-info" asp-route-id="@userService.Id">Details</a>
                                         </div>
                                     </div>
 

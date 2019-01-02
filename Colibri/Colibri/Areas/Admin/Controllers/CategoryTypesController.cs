@@ -56,10 +56,15 @@ namespace Colibri.Areas.Admin.Controllers
 
             // i18n
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["CategoryType1"] = _localizer["CategoryType1Text"];
             ViewData["NewCategoryType"] = _localizer["NewCategoryTypeText"];
             ViewData["NewCategoryTypeUserService"] = _localizer["NewCategoryTypeUserServiceText"];
             ViewData["Name"] = _localizer["NameText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["Overview"] = _localizer["OverviewText"];
+            ViewData["PLZ"] = _localizer["PLZText"];
+            ViewData["Search"] = _localizer["SearchText"];
+            ViewData["ProductService"] = _localizer["ProductServiceText"];
 
             // Update Resultscounter
             SearchViewModel.ResultsCounter = SearchViewModel.CategoryTypesList.Count();
@@ -79,6 +84,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["NewCategoryTypeUserService"] = _localizer["NewCategoryTypeUserServiceText"];
             ViewData["Name"] = _localizer["NameText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["Overview"] = _localizer["OverviewText"];
 
             // CategoryTypesList
             SearchViewModel.CategoryTypesList = await _colibriDbContext.CategoryTypes.Include(s => s.CategoryGroups).ToListAsync();

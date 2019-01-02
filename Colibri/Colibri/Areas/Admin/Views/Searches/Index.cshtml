@@ -1,0 +1,405 @@
+﻿@model Colibri.ViewModels.UserSearchesViewModel
+@using Colibri.Extensions
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+    // Export table to Excel (https://www.codexworld.com/export-html-table-data-to-excel-using-javascript/)
+    function exportTableToExcel(tableID, filename = '') {
+        var downloadLink;
+        var dataType = 'application/vnd.ms-excel';
+        var tableSelect = document.getElementById(tableID);
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+        // Specify file name
+        filename = filename ? filename + '.xls' : 'excel_data.xls';
+
+        // Create download link element
+        downloadLink = document.createElement("a");
+
+        document.body.appendChild(downloadLink);
+
+        if (navigator.msSaveOrOpenBlob) {
+            var blob = new Blob(['\ufeff', tableHTML], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob(blob, filename);
+        } else {
+            // Create a link to the file
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+            // Setting the file name
+            downloadLink.download = filename;
+
+            //triggering the function
+            downloadLink.click();
+        }
+    }
+
+    function setDateAll() {
+        $("#inputDateAll").prop('checked', true);
+        $("#inputDate30DAys").prop('checked', false);
+        $("#inputDateToday").prop('checked', false);
+
+        // set buttons-settings
+        document.getElementById("btnDateAll").className = "btn btn-info";
+        document.getElementById("btnDate30").className = "btn btn-outline-info";
+        document.getElementById("btnDate1").className = "btn btn-outline-info";
+    }
+    function setDate30() {
+        $("#inputDateAll").prop('checked', false);
+        $("#inputDate30DAys").prop('checked', true);
+        $("#inputDateToday").prop('checked', false);
+
+        // set buttons-settings
+        document.getElementById("btnDateAll").className = "btn btn-outline-info";
+        document.getElementById("btnDate30").className = "btn btn-info";
+        document.getElementById("btnDate1").className = "btn btn-outline-info";
+    }
+
+    function setDate1() {
+        $("#inputDateAll").prop('checked', false);
+        $("#inputDate30DAys").prop('checked', false);
+        $("#inputDateToday").prop('checked', true);
+
+        // set buttons-settings
+        document.getElementById("btnDateAll").className = "btn btn-outline-info";
+        document.getElementById("btnDate30").className = "btn btn-outline-info";
+        document.getElementById("btnDate1").className = "btn btn-info";
+    }
+
+    function setResAll() {
+        $("#inputResAll").prop('checked', true);
+        $("#inputResSuccess").prop('checked', false);
+        $("#inputResPartSuccess").prop('checked', false);
+        $("#inputResNoSuccess").prop('checked', false);
+
+        // set buttons-settings
+        document.getElementById("btnResAll").className = "btn btn-info";
+        document.getElementById("btnResSuccess").className = "btn btn-outline-info";
+        document.getElementById("btnResPartSuccess").className = "btn btn-outline-info";
+        document.getElementById("btnResNoSuccess").className = "btn btn-outline-info";
+    }
+
+    function setResSuccess() {
+        $("#inputResAll").prop('checked', false);
+        $("#inputResSuccess").prop('checked', true);
+        $("#inputResPartSuccess").prop('checked', false);
+        $("#inputResNoSuccess").prop('checked', false);
+
+        // set buttons-settings
+        document.getElementById("btnResAll").className = "btn btn-outline-info";
+        document.getElementById("btnResSuccess").className = "btn btn-info";
+        document.getElementById("btnResPartSuccess").className = "btn btn-outline-info";
+        document.getElementById("btnResNoSuccess").className = "btn btn-outline-info";
+    }
+
+    function setResPartSuccess() {
+        $("#inputResAll").prop('checked', false);
+        $("#inputResSuccess").prop('checked', false);
+        $("#inputResPartSuccess").prop('checked', true);
+        $("#inputResNoSuccess").prop('checked', false);
+
+        // set buttons-settings
+        document.getElementById("btnResAll").className = "btn btn-outline-info";
+        document.getElementById("btnResSuccess").className = "btn btn-outline-info";
+        document.getElementById("btnResPartSuccess").className = "btn btn-info";
+        document.getElementById("btnResNoSuccess").className = "btn btn-outline-info";
+    }
+
+    function setResNoSuccess() {
+        $("#inputResAll").prop('checked', false);
+        $("#inputResSuccess").prop('checked', false);
+        $("#inputResPartSuccess").prop('checked', false);
+        $("#inputResNoSuccess").prop('checked', true);
+
+        // set buttons-settings
+        document.getElementById("btnResAll").className = "btn btn-outline-info";
+        document.getElementById("btnResSuccess").className = "btn btn-outline-info";
+        document.getElementById("btnResPartSuccess").className = "btn btn-outline-info";
+        document.getElementById("btnResNoSuccess").className = "btn btn-info";
+    }
+
+    function setSearchAll() {
+        $('#inputSearchAll').prop('checked', true)
+        $('#inputSearchOffers').prop('checked', false)
+        $('#inputSearchRequests').prop('checked', false)
+
+        // set buttons-settings
+        document.getElementById("btnSearchAll").className = "btn btn-info";
+        document.getElementById("btnSearchOffer").className = "btn btn-outline-info";
+        document.getElementById("btnSearchRequest").className = "btn btn-outline-info";
+    }
+
+    function setSearchOffer() {
+        $('#inputSearchAll').prop('checked', false)
+        $('#inputSearchOffers').prop('checked', true)
+        $('#inputSearchRequests').prop('checked', false)
+
+        // set buttons-settings
+        document.getElementById("btnSearchAll").className = "btn btn-outline-info";
+        document.getElementById("btnSearchOffer").className = "btn btn-info";
+        document.getElementById("btnSearchRequest").className = "btn btn-outline-info";
+    }
+
+    function setSearchRequest() {
+        $('#inputSearchAll').prop('checked', false)
+        $('#inputSearchOffers').prop('checked', false)
+        $('#inputSearchRequests').prop('checked', true)
+
+        // set buttons-settings
+        document.getElementById("btnSearchAll").className = "btn btn-outline-info";
+        document.getElementById("btnSearchOffer").className = "btn btn-outline-info";
+        document.getElementById("btnSearchRequest").className = "btn btn-info";
+    }
+
+</script>
+
+
+<br />
+
+<div class="row d-flex align-items-end">
+    <!--Überschrift-->
+    <div class="col-4 justify-content-center">
+        <h2 class="text-info">@ViewData["SearchRequests"]</h2>
+    </div>
+
+    <!--hidden inputs und Buttons Aktualisieren & Export & Löschen-->
+    <div class="row col-8 justify-content-end">
+        <form method="post">
+            <fieldset hidden>
+                <label>resAll</label><input asp-for="resAll" id="inputResAll" />
+                <label>resSuccess</label><input asp-for="resSuccess" id="inputResSuccess" />
+                <label>resPartSuccess</label><input asp-for="resPartSuccess" id="inputResPartSuccess" />
+                <label>resNoSuccess</label><input asp-for="resNoSuccess" id="inputResNoSuccess" />
+                <label>dateAll</label><input asp-for="dateAll" id="inputDateAll" />
+                <label>date30Days</label><input asp-for="date30Days" id="inputDate30DAys" />
+                <label>dateToday</label><input asp-for="dateToday" id="inputDateToday" />
+                <label>searchAll</label><input asp-for="searchAll" id="inputSearchAll" />
+                <label>searchOffers</label><input asp-for="searchOffer" id="inputSearchOffers" />
+                <label>searchRequests</label><input asp-for="searchRequest" id="inputSearchRequests" />
+            </fieldset>
+            <button type="submit" class="btn btn-outline-success">@ViewData["Update"]</button>
+        </form>
+        &nbsp;
+        <button onclick="exportTableToExcel('myTable')" class="btn btn-outline-success">@ViewData["Export"]</button>
+        &nbsp;
+        <a asp-action="Delete" class="btn btn-outline-danger">@ViewData["DeleteRequests"]</a>
+    </div>
+</div>
+
+<hr />
+
+
+<div class="row d-flex align-items-end">
+
+    <!--Buttons für Angebot / Nachfrage-->
+    <div class="col-4 justify-content-center">
+        <h4 class="my-0 font-weight-normal">
+            <label style="font-size:18px;color:steelblue;">
+                @ViewData["OfferRequest"]
+            </label>
+        </h4>
+
+        @if (Model.searchAll == true)
+        {
+            <button onclick="setSearchAll()" id="btnSearchAll" class="btn btn-info">@ViewData["OffReqAll"]</button>
+        }
+        else
+        {
+            <button onclick="setSearchAll()" id="btnSearchAll" class="btn btn-outline-info">@ViewData["OffReqAll"]</button>
+        }
+
+        @if (Model.searchOffer)
+        {
+            <button onclick="setSearchOffer()" id="btnSearchOffer" class="btn btn-info">@ViewData["Offer"]</button>
+        }
+        else
+        {
+            <button onclick="setSearchOffer()" id="btnSearchOffer" class="btn btn-outline-info">@ViewData["Offer"]</button>
+        }
+
+        @if (Model.searchRequest)
+        {
+            <button onclick="setSearchRequest()" id="btnSearchRequest" class="btn btn-info">@ViewData["Request"]</button>
+        }
+        else
+        {
+            <button onclick="setSearchRequest()" id="btnSearchRequest" class="btn btn-outline-info">@ViewData["Request"]</button>
+        }
+
+    </div>
+
+    <!--Buttons für Zeitraum-->
+    <div class="col-4 justify-content-center">
+        <h4 class="my-0 font-weight-normal">
+            <label style="font-size:18px;color:steelblue;">
+                @ViewData["Period"]
+            </label>
+        </h4>
+
+        @if (Model.dateAll == true)
+        {
+            <button onclick="setDateAll()" id="btnDateAll" class="btn btn-info">@ViewData["PeriodAll"]</button>
+        }
+        else
+        {
+            <button onclick="setDateAll()" id="btnDateAll" class="btn btn-outline-info">@ViewData["PeriodAll"]</button>
+        }
+
+        @if (Model.date30Days == true)
+        {
+            <button onclick="setDate30()" id="btnDate30" class="btn btn-info">@ViewData["Period30"]</button>
+        }
+        else
+        {
+            <button onclick="setDate30()" id="btnDate30" class="btn btn-outline-info">@ViewData["Period30"]</button>
+        }
+
+        @if (Model.dateToday == true)
+        {
+            <button onclick="setDate1()" id="btnDate1" class="btn btn-info">@ViewData["PeriodToday"]</button>
+        }
+        else
+        {
+            <button onclick="setDate1()" id="btnDate1" class="btn btn-outline-info">@ViewData["PeriodToday"]</button>
+        }
+    </div>
+
+    <!--Buttons für Ergebnisse-->
+    <div class="col-4 justify-content-center">
+        <h4 class="my-0 font-weight-normal">
+            <label style="font-size:18px;color:steelblue;">
+                @ViewData["Results"]
+            </label>
+        </h4>
+
+        @if (Model.resAll == true)
+        {
+            <button onclick="setResAll()" id="btnResAll" class="btn btn-info">@ViewData["ResultsAll"]</button>
+        }
+        else
+        {
+            <button onclick="setResAll()" id="btnResAll" class="btn btn-outline-info">@ViewData["ResultsAll"]</button>
+        }
+
+        @if (Model.resSuccess == true)
+        {
+            <button onclick="setResSuccess()" id="btnResSuccess" class="btn btn-info">@ViewData["ResultsSuccess"]</button>
+        }
+        else
+        {
+            <button onclick="setResSuccess()" id="btnResSuccess" class="btn btn-outline-info">@ViewData["ResultsSuccess"]</button>
+        }
+
+        @if (Model.resPartSuccess == true)
+        {
+            <button onclick="setResPartSuccess()" id="btnResPartSuccess" class="btn btn-info">@ViewData["ResultsPartSuccess"]</button>
+        }
+        else
+        {
+            <button onclick="setResPartSuccess()" id="btnResPartSuccess" class="btn btn-outline-info">@ViewData["ResultsPartSuccess"]</button>
+        }
+
+        @if (Model.resNoSuccess == true)
+        {
+            <button onclick="setResNoSuccess()" id="btnResNoSuccess" class="btn btn-info">@ViewData["ResultsNoSuccess"]</button>
+        }
+        else
+        {
+            <button onclick="setResNoSuccess()" id="btnResNoSuccess" class="btn btn-outline-info">@ViewData["ResultsNoSuccess"]</button>
+        }
+
+    </div>
+</div>
+
+
+
+
+
+
+
+<br />
+<div class="row d-flex align-items-end">
+    <div class="col-12 justify-content-center">
+        <label label style="font-size:18px;color:steelblue;">@ViewData["Number"] @Model.ResultsCounter</label>
+    </div>
+</div>
+
+
+
+
+<div>
+    <table class="table table-striped border" id="myTable">
+        <tr class="text-info">
+            <th>
+                @ViewData["SearchRequest"]
+            </th>
+            <th>
+                @ViewData["CreatedOn"]
+            </th>
+            <th>
+                @ViewData["OfferRequest"]
+            </th>
+            <th>
+                <text><div class="d-flex justify-content-center">@ViewData["ResultsSuccess"]</div></text>
+            </th>
+            <th>
+                <text><div class="d-flex justify-content-center">@ViewData["ResultsPartSuccess"]</div></text>
+            </th>
+            <th>
+                <text><div class="d-flex justify-content-center">@ViewData["ResultsNoSuccess"]</div></text>
+            </th>
+        </tr>
+
+        @foreach (var item in Model.SearchEntryList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.SearchText)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.SearchDate)
+                </td>
+                <td>
+                    @if (item.SearchOffer == true)
+                    {
+                        @ViewData["Offer"]
+                    }
+                    else
+                    {
+                        @ViewData["Request"]
+                    }
+                </td>
+                <td>
+                    @if (item.FullSuccess == true)
+                    {
+                        <text><div class="d-flex justify-content-center">X</div></text>
+                    }
+                </td>
+                <td>
+                    @if (item.PartSuccess == true)
+                    {
+                        <text><div class="d-flex justify-content-center">X</div></text>
+                    }
+                </td>
+                <td>
+                    @if (item.NoSuccess == true)
+                    {
+                        <text><div class="d-flex justify-content-center">X</div></text>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

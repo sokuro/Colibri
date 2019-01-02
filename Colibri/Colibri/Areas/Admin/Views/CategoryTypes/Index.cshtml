@@ -5,14 +5,14 @@
 
 <br />
 <div class="row">
-    <div class="col-4">
+    <div class="col-3">
         <h2 class="text-info">@ViewData["CategoryType"]</h2>
     </div>
 
-    <div class="col-8 text-right">
+    <div class="col-9 text-right">
         <div class="row">
             <div class="col">
-                <a asp-controller="CategoryGroups" asp-action="Overview" class="btn btn-info">Overview</a>
+                <a asp-controller="CategoryGroups" asp-action="Overview" class="btn btn-info">@ViewData["Overview"]</a>
             </div>
             <div class="col">
                 <a asp-action="Create" asp-controller="CategoryTypes" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewCategoryType"]</a>
@@ -36,7 +36,7 @@
 
 
                     <div class="col-10">
-                        <label asp-for="SearchCategoryGroup" class="custom-label"></label>
+                        <label asp-for="SearchCategoryGroup" class="custom-label">@ViewData["CategoryGroup"]</label>
                     </div>
                     <div class="col-10">
                         <input asp-for="SearchCategoryGroup" class="form-control" />
@@ -45,7 +45,7 @@
 
 
                     <div class="col-10">
-                        <label asp-for="SearchCategoryType" class="custom-label"></label>
+                        <label asp-for="SearchCategoryType" class="custom-label">@ViewData["CategoryType1"]</label>
                     </div>
                     <div class="col-10">
                         <input asp-for="SearchCategoryType" class="form-control" />
@@ -53,23 +53,19 @@
                     <br />
 
                     <div class="col-10">
-                        <label asp-for="PLZ" class="custom-label"></label>
+                        <label asp-for="PLZ" class="custom-label">@ViewData["PLZ"]</label>
                     </div>
                     <div class="col-10">
                         <input asp-for="PLZ" class="form-control" />
                     </div>
                     <br />
 
-                    <input type="submit" value="Suchen" class="btn btn-primary" />
+                    <input type="submit" value="@ViewData["Search"]" class="btn btn-primary" />
                 </form>
 
 
             </div>
         </div>
-
-
-
-
 
         <div class="col-9">
             <table class="table table-striped border">
@@ -81,9 +77,9 @@
                         @ViewData["CategoryGroup"]
                     </th>
                     <th>
-                        Produkt / Dienstleistung
+                        @ViewData["ProductService"]
                     </th>
-                    <th></th>
+                    <th></th>   
                     <th></th>
                 </tr>
 

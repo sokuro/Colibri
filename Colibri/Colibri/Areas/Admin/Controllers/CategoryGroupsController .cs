@@ -39,6 +39,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["NewCategoryGroup"] = _localizer["NewCategoryGroupText"];
             ViewData["Name"] = _localizer["NameText"];
             ViewData["TypeOfCategoryGroup"] = _localizer["TypeOfCategoryGroupText"];
+            ViewData["Overview"] = _localizer["OverviewText"];
 
             return View(categoryGroupsList);
         }
