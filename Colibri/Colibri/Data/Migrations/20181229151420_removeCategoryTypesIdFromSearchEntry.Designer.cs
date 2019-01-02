@@ -4,14 +4,16 @@ using Colibri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Colibri.Migrations
 {
     [DbContext(typeof(ColibriDbContext))]
-    partial class ColibriDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181229151420_removeCategoryTypesIdFromSearchEntry")]
+    partial class removeCategoryTypesIdFromSearchEntry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,8 +242,6 @@ namespace Colibri.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Counter");
-
                     b.Property<bool>("FullSuccess");
 
                     b.Property<bool>("NoSuccess");
@@ -249,8 +249,6 @@ namespace Colibri.Migrations
                     b.Property<bool>("PartSuccess");
 
                     b.Property<DateTime>("SearchDate");
-
-                    b.Property<bool>("SearchOffer");
 
                     b.Property<string>("SearchText");
 

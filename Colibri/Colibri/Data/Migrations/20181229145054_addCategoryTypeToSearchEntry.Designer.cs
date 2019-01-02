@@ -4,14 +4,16 @@ using Colibri.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Colibri.Migrations
 {
     [DbContext(typeof(ColibriDbContext))]
-    partial class ColibriDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181229145054_addCategoryTypeToSearchEntry")]
+    partial class addCategoryTypeToSearchEntry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -240,7 +242,7 @@ namespace Colibri.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Counter");
+                    b.Property<int>("CategoryTypeId");
 
                     b.Property<bool>("FullSuccess");
 
@@ -250,11 +252,11 @@ namespace Colibri.Migrations
 
                     b.Property<DateTime>("SearchDate");
 
-                    b.Property<bool>("SearchOffer");
-
                     b.Property<string>("SearchText");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryTypeId");
 
                     b.ToTable("SearchEntry");
                 });
@@ -622,6 +624,14 @@ namespace Colibri.Migrations
                     b.HasOne("Colibri.Models.Products", "Products")
                         .WithMany()
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Colibri.Models.SearchEntry", b =>
+                {
+                    b.HasOne("Colibri.Models.CategoryTypes", "CategoryTypes")
+                        .WithMany()
+                        .HasForeignKey("CategoryTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

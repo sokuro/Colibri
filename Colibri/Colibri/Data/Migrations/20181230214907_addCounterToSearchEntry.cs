@@ -2,21 +2,22 @@
 
 namespace Colibri.Migrations
 {
-    public partial class addNameCombinedToCategoryTypes : Migration
+    public partial class addCounterToSearchEntry : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "NameCombined",
-                table: "CategoryTypes",
-                nullable: true);
+            migrationBuilder.AddColumn<int>(
+                name: "Counter",
+                table: "SearchEntry",
+                nullable: false,
+                defaultValue: 1);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "NameCombined",
-                table: "CategoryTypes");
+                name: "Counter",
+                table: "SearchEntry");
         }
     }
 }
