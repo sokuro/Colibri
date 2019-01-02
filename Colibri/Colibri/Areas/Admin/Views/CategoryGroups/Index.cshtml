@@ -11,7 +11,7 @@
     <div class="col-6 text-right">
         <div class="row">
             <div class="col">
-                <a asp-action="Overview" asp-controller="CategoryGroups" class="btn btn-info">Overview</a>
+                <a asp-action="Overview" asp-controller="CategoryGroups" class="btn btn-info">@ViewData["Overview"]</a>
             </div>
             <div class="col">
                 <a asp-action="Create" asp-controller="CategoryGroups" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewCategoryGroup"]</a>
