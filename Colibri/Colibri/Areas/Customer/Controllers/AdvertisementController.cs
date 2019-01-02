@@ -368,11 +368,88 @@ namespace Colibri.Areas.Customer.Controllers
             return View(product);
         }
 
+        // GET: Details if item is UserService
+        [Route("Customer/Advertisement/DetailsService/{id}")]
+        public async Task<IActionResult> DetailsService(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // get the individual Service
+            var service = await _colibriDbContext.UserServices
+                    .Include(p => p.CategoryGroups)
+                    .Include(p => p.CategoryTypes)
+                    .Where(p => p.Id == id)
+                    .FirstOrDefaultAsync();
+
+            // get the Service's User
+            var user = (IEnumerable<ApplicationUser>)(from u in _colibriDbContext.ApplicationUsers
+                                                      join p in _colibriDbContext.UserServices
+                                                      .Include(p => p.ApplicationUser)
+                                                      .ThenInclude(p => p.UserName)
+                                                      on u.Id equals p.ApplicationUserId
+                                                      select u);
+
+            // count the Number of Clicks on the Product
+            service.NumberOfClicks += 1;
+
+            // save the Changes in DB
+            await _colibriDbContext.SaveChangesAsync();
+
+            // i18n
+            ViewData["AdvertisementDetails"] = _localizer["AdvertisementDetailsText"];
+            ViewData["AdvertisementName"] = _localizer["AdvertisementNameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["NumberOfClicks"] = _localizer["NumberOfClicksText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["ContactOwner"] = _localizer["ContactOwnerText"];
+            ViewData["RemoveFromBag"] = _localizer["RemoveFromBagText"];
+            ViewData["Order"] = _localizer["OrderText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["ProductRating"] = _localizer["ProductRatingText"];
+            ViewData["RateProduct"] = _localizer["RateProductText"];
+            ViewData["NumberOfProductRates"] = _localizer["NumberOfProductRatesText"];
+
+            return View(service);
+        }
+
         // Details POST
         [Route("Customer/Advertisement/Details/{id}")]
         [HttpPost, ActionName("Details")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DetailsPost(int id)
+        {
+            // check first, if anything exists in the Session
+            // Session Name : "ssScheduling"
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
+
+            // check if null -> create new
+            if (lstCartItems == null)
+            {
+                lstCartItems = new List<int>();
+            }
+
+            // add the retrieved Item (id)
+            lstCartItems.Add(id);
+            // set the Session:
+            // Session Name, Value
+            HttpContext.Session.Set("ssScheduling", lstCartItems);
+
+            // redirect to Action
+            return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
+        }
+
+        // Details POST for Userservice
+        [Route("Customer/Advertisement/DetailsService/{id}")]
+        [HttpPost, ActionName("Details")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DetailsServicePost(int id)
         {
             // check first, if anything exists in the Session
             // Session Name : "ssScheduling"
