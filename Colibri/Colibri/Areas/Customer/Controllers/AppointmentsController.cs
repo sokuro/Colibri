@@ -108,7 +108,8 @@ namespace Colibri.Areas.Customer.Controllers
 
             // show only the User's own Appointments
             AppointmentViewModel.Appointments = AppointmentViewModel.Appointments
-                                                    .Where(a => a.AppPersonId == AppointmentViewModel.CurrentUserId)
+                                                    .Where(a => a.AppPersonId == AppointmentViewModel.CurrentUserId
+                                                                || a.CustomerId == AppointmentViewModel.CurrentUserId)
                                                     .ToList();
 
             // Search Conditions

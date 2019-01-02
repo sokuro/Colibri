@@ -133,14 +133,14 @@
                         </div>
                         <div class="col-12">
                             <input asp-for="@Model.Appointments.AppointmentDate" value="" type="text" id="datepicker" class="form-control" />
-                            <span asp-validation-for="@Model.Appointments.AppointmentDate" class="text-danger"></span>
+                            @*<span asp-validation-for="@Model.Appointments.AppointmentDate" class="text-danger"></span>*@
                         </div>
                         <div class="col-12">
                             <label>@ViewData["AppointmentTime"] : </label>
                         </div>
                         <div class="col-12">
                             <input asp-for="@Model.Appointments.AppointmentTime" value="" type="text" class="timepicker form-control" />
-                            <span asp-validation-for="@Model.Appointments.AppointmentTime" class="text-danger"></span>
+                            @*<span asp-validation-for="@Model.Appointments.AppointmentTime" class="text-danger"></span>*@
                         </div>
                         <div class="col-12">
                             <button type="submit" id="btnPlaceOrder" class="btn btn-success">@ViewData["ScheduleAppointment"]</button>
