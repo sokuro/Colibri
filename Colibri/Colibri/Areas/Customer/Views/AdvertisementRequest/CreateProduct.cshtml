@@ -1,5 +1,8 @@
 ﻿@model Colibri.ViewModels.AdvertisementViewModel
 @using Colibri.Extensions
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -102,9 +105,11 @@
             <div class="col-2">
                 <label asp-for="Product.DueDateFrom" class="custom-label">@ViewData["DateFrom"]</label>
             </div>
-            <div class="col-5">
-                @*<input asp-for="Product.DueDateFrom" value="" type="text" id="datepicker" class="form-control" />*@
-                <input asp-for="Product.DueDateFrom" id="datepicker" class="form-control" />
+            <div class="col-3">
+                <input asp-for="Product.DueDateFrom" value="" type="text" class="datepicker form-control" />
+            </div>
+            <div class="col-2">
+                <input asp-for="Product.DueTimeFrom" value="" type="text" class="timepicker form-control" />
             </div>
             <span asp-validation-for="Product.DueDateFrom" class="text-danger"></span>
         </div>
@@ -113,9 +118,11 @@
             <div class="col-2">
                 <label asp-for="Product.DueDateTo" class="custom-label">@ViewData["DateTo"]</label>
             </div>
-            <div class="col-5">
-                @*<input asp-for="Product.DueDateTo" value="" type="text" id="datepicker2" class="form-control" />*@
-                <input asp-for="Product.DueDateTo" id="datepicker2" class="form-control" />
+            <div class="col-3">
+                <input asp-for="Product.DueDateTo" value="" type="text" class="datepicker form-control" />
+            </div>
+            <div class="col-2">
+                <input asp-for="Product.DueTimeTo" value="" type="text" class="timepicker form-control" />
             </div>
             <span asp-validation-for="Product.DueDateTo" class="text-danger"></span>
         </div>
@@ -129,37 +136,33 @@
     </div>
 </form>
 
-@*@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script>
-        // Time-Picker
-        $('.timepicker').timepicker({
-            timeFormat: 'h:mm p',
-            interval: 60,
-            minTime: '10',
-            maxTime: '20:00pm',
-            //defaultTime: '11',
-            startTime: '06:00',
-            dynamic: true,
-            dropdown: true,
-            scrollbar: true
-        });
-
-        // Date-Picker
-        $(function () {
-            $("#datepicker").datepicker({
-                minDate: +1,
-                maxDate: "+3M"
+<!-- min Date: tomorrow -->
+<!-- max Date: 3 Months -->
+@section Scripts {
+    @{
+        <script>
+            // Time-Picker
+            $('.timepicker').timepicker({
+                timeFormat: 'h:mm p',
+                interval: 60,
+                minTime: '10',
+                maxTime: '20:00pm',
+                //defaultTime: '11',
+                startTime: '06:00',
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true
             });
-        });
 
-        // Date-Picker 2
-        $(function () {
-            $("#datepicker2").datepicker({
-                minDate: +1,
-                maxDate: "+3M"
+            // Date-Picker
+            $(function () {
+                $(".datepicker").datepicker({
+                    minDate: +1,
+                    maxDate: "+3M"
+                });
             });
-        });
-    </script>
-}*@
+        </script>
+
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

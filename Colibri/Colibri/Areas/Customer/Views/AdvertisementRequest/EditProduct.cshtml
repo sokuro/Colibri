@@ -1,6 +1,8 @@
 ﻿@model Colibri.ViewModels.AdvertisementViewModel
 @using Colibri.Extensions
+@using Microsoft.AspNetCore.Mvc.Localization
 
+@inject IViewLocalizer Localizer
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -46,7 +48,7 @@
                 <div class="col-2">
                     <label asp-for="Product.Name" class="custom-label"></label>
                 </div>
-                <div class="col-5">
+                <div class="col-6">
                     <input asp-for="Product.Name" class="form-control" />
                 </div>
             </div>
@@ -55,7 +57,7 @@
                 <div class="col-2">
                     <label asp-for="Product.Description" class="custom-label"></label>
                 </div>
-                <div class="col-5">
+                <div class="col-6">
                     <input asp-for="Product.Description" class="form-control" />
                 </div>
             </div>
@@ -64,7 +66,7 @@
                 <div class="col-2">
                     <label asp-for="Product.CategoryGroupId" class="custom-label"></label>
                 </div>
-                <div class="col-5">
+                <div class="col-6">
                     <select asp-for="@Model.Product.CategoryGroupId" asp-items="Model.CategoryGroups.ToSelectListItem(Model.Product.CategoryGroupId)" id="CategoryGroup" class="form-control"></select>
                 </div>
             </div>
@@ -73,7 +75,7 @@
                 <div class="col-2">
                     <label asp-for="Product.CategoryTypeId" class="custom-label"></label>
                 </div>
-                <div class="col-5">
+                <div class="col-6">
                     <select asp-for="Product.CategoryTypeId" name="CategoryTypeId" id="CategoryTypeId" asp-items="@(new SelectList(string.Empty, "Id", "Name"))" class="form-control"></select>
                 </div>
             </div>
@@ -82,7 +84,7 @@
                 <div class="col-2">
                     <label asp-for="Product.Image" class="custom-label"></label>
                 </div>
-                <div class="col-5">
+                <div class="col-6">
                     <input type="file" name="files" multiple class="form-control">
                 </div>
             </div>
@@ -91,7 +93,7 @@
                 <div class="col-2">
                     <label asp-for="Product.Price" class="custom-label"></label>
                 </div>
-                <div class="col-5">
+                <div class="col-6">
                     <input asp-for="Product.Price" class="form-control" />
                 </div>
             </div>
@@ -100,8 +102,11 @@
                 <div class="col-2">
                     <label asp-for="Product.DueDateFrom" class="custom-label"></label>
                 </div>
-                <div class="col-5">
-                    <input asp-for="Product.DueDateFrom" class="form-control" />
+                <div class="col-3">
+                    <input asp-for="Product.DueDateFrom" value="" type="text" class="datepicker form-control" />
+                </div>
+                <div class="col-3">
+                    <input asp-for="Product.DueTimeFrom" value="" type="text" class="timepicker form-control" />
                 </div>
             </div>
 
@@ -109,8 +114,11 @@
                 <div class="col-2">
                     <label asp-for="Product.DueDateTo" class="custom-label"></label>
                 </div>
-                <div class="col-5">
-                    <input asp-for="Product.DueDateTo" class="form-control" />
+                <div class="col-3">
+                    <input asp-for="Product.DueDateTo" value="" type="text" class="datepicker form-control" />
+                </div>
+                <div class="col-3">
+                    <input asp-for="Product.DueTimeTo" value="" type="text" class="timepicker form-control" />
                 </div>
             </div>
 
@@ -118,7 +126,7 @@
                 <div class="col-2">
                     <label asp-for="Product.Available" class="custom-label"></label>
                 </div>
-                <div class="col-5">
+                <div class="col-6">
                     <input asp-for="Product.Available" class="form-control" />
                 </div>
             </div>
@@ -134,6 +142,33 @@
     </div>
 </form>
 
+<!-- min Date: tomorrow -->
+<!-- max Date: 3 Months -->
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        <script>
+            // Time-Picker
+            $('.timepicker').timepicker({
+                timeFormat: 'h:mm p',
+                interval: 60,
+                minTime: '10',
+                maxTime: '20:00pm',
+                //defaultTime: '11',
+                startTime: '06:00',
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true
+            });
+
+            // Date-Picker
+            $(function () {
+                $(".datepicker").datepicker({
+                    minDate: +1,
+                    maxDate: "+3M"
+                });
+            });
+        </script>
+
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

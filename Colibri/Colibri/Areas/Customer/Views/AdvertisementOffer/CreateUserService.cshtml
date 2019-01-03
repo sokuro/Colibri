@@ -1,6 +1,8 @@
 ﻿@model Colibri.ViewModels.AdvertisementViewModel
 @using Colibri.Extensions
+@using Microsoft.AspNetCore.Mvc.Localization
 
+@inject IViewLocalizer Localizer
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -97,8 +99,11 @@
             <div class="col-2">
                 <label asp-for="UserService.DueDateFrom" class="custom-label">@ViewData["DateFrom"]</label>
             </div>
-            <div class="col-5">
-                <input asp-for="UserService.DueDateFrom" class="form-control" />
+            <div class="col-3">
+                <input asp-for="UserService.DueDateFrom" value="" type="text" class="datepicker form-control" />
+            </div>
+            <div class="col-2">
+                <input asp-for="UserService.DueTimeFrom" value="" type="text" class="timepicker form-control" />
             </div>
         </div>
 
@@ -106,8 +111,11 @@
             <div class="col-2">
                 <label asp-for="UserService.DueDateTo" class="custom-label">@ViewData["DateTo"]</label>
             </div>
-            <div class="col-5">
-                <input asp-for="UserService.DueDateTo" class="form-control" />
+            <div class="col-3">
+                <input asp-for="UserService.DueDateTo" value="" type="text" class="datepicker form-control" />
+            </div>
+            <div class="col-2">
+                <input asp-for="UserService.DueTimeTo" value="" type="text" class="timepicker form-control" />
             </div>
         </div>
 
@@ -120,7 +128,34 @@
     </div>
 </form>
 
+<!-- min Date: tomorrow -->
+<!-- max Date: 3 Months -->
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        <script>
+            // Time-Picker
+            $('.timepicker').timepicker({
+                timeFormat: 'h:mm p',
+                interval: 60,
+                minTime: '10',
+                maxTime: '20:00pm',
+                //defaultTime: '11',
+                startTime: '06:00',
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true
+            });
+
+            // Date-Picker
+            $(function () {
+                $(".datepicker").datepicker({
+                    minDate: +1,
+                    maxDate: "+3M"
+                });
+            });
+        </script>
+
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
 
