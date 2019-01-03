@@ -117,11 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplicationUserDetailsText" xml:space="preserve">
+    <value>User Details</value>
+  </data>
+  <data name="ApplicationUserRatingListText" xml:space="preserve">
+    <value>User Bewertung</value>
+  </data>
   <data name="BackToListText" xml:space="preserve">
     <value>Zurück</value>
   </data>
-  <data name="DeleteProductsRatingText" xml:space="preserve">
-    <value>Lösche Produkt Bewertung</value>
+  <data name="DeleteApplicationUserRatingText" xml:space="preserve">
+    <value>Lösche User Bewertung</value>
   </data>
   <data name="DeleteText" xml:space="preserve">
     <value>Lösche</value>
@@ -129,23 +135,20 @@
   <data name="DescriptionText" xml:space="preserve">
     <value>Beschreibung</value>
   </data>
-  <data name="EditProductRatingText" xml:space="preserve">
-    <value>Editiere Produkt Bewertung</value>
+  <data name="EditApplicationUserRatingText" xml:space="preserve">
+    <value>Editiere User Bewertung</value>
   </data>
   <data name="EditText" xml:space="preserve">
     <value>Editiere</value>
   </data>
-  <data name="ProductDetailsText" xml:space="preserve">
-    <value>Produkt Details</value>
-  </data>
-  <data name="ProductNameText" xml:space="preserve">
-    <value>Produkt Name</value>
-  </data>
-  <data name="ProductsRatingListText" xml:space="preserve">
-    <value>Produkte Bewertung</value>
+  <data name="RatedUserText" xml:space="preserve">
+    <value>Bertete User</value>
   </data>
   <data name="RatingText" xml:space="preserve">
     <value>Bewertung</value>
+  </data>
+  <data name="RatingUserText" xml:space="preserve">
+    <value>Bewertende User</value>
   </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Aktualisiere</value>

@@ -219,6 +219,8 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Update"] = _localizer["UpdateText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["RatedUser"] = _localizer["RatedUserText"];
+            ViewData["RatingUser"] = _localizer["RatingUserText"];
             ViewData["Rating"] = _localizer["RatingText"];
             ViewData["Description"] = _localizer["DescriptionText"];
 
@@ -281,6 +283,8 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Delete"] = _localizer["DeleteText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["RatedUser"] = _localizer["RatedUserText"];
+            ViewData["RatingUser"] = _localizer["RatingUserText"];
             ViewData["Rating"] = _localizer["RatingText"];
             ViewData["Description"] = _localizer["DescriptionText"];
 
@@ -331,6 +335,8 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["ApplicationUserDetails"] = _localizer["ApplicationUserDetailsText"];
             ViewData["UserName"] = _localizer["UserNameText"];
             ViewData["Rating"] = _localizer["RatingText"];
+            ViewData["RatedUser"] = _localizer["RatedUserText"];
+            ViewData["RatingUser"] = _localizer["RatingUserText"];
             ViewData["Description"] = _localizer["DescriptionText"];
             ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
