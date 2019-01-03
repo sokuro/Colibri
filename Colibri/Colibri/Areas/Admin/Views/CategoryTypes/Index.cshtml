@@ -1,42 +1,113 @@
-﻿@model IEnumerable<Colibri.Models.CategoryTypes>
+﻿@model Colibri.ViewModels.SearchViewModel
 @using Microsoft.AspNetCore.Mvc.Localization
 
 @inject IViewLocalizer Localizer
 
+<br />
 <div class="row">
-    <div class="col-6 text-center">
+    <div class="col-3">
         <h2 class="text-info">@ViewData["CategoryType"]</h2>
     </div>
-    <div class="col-6 text-right">
-        <a asp-action="Create" asp-controller="CategoryTypes" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewCategoryType"]</a>
+
+    <div class="col-9 text-right">
+        <div class="row">
+            <div class="col">
+                <a asp-controller="CategoryGroups" asp-action="Overview" class="btn btn-info">@ViewData["Overview"]</a>
+            </div>
+            <div class="col">
+                <a asp-action="Create" asp-controller="CategoryTypes" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewCategoryType"]</a>
+            </div>
+            <div class="col">
+                <a asp-action="CreateUserService" asp-controller="CategoryTypes" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp;  @ViewData["NewCategoryTypeUserService"]</a>
+            </div>
+        </div>
     </div>
 </div>
-<div>
-    <table class="table table-striped border">
-        <tr class="text-info">
-            <th>
-                @ViewData["Name"]
-            </th>
-            <th>
-                @ViewData["CategoryGroup"]
-            </th>
-            <th></th>
-            <th></th>
-        </tr>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(m => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => item.CategoryGroups.Name)
-                </td>
-                <td>
-                    <partial name="_TableButtonPartial" model="item.Id" />
-                </td>
-            </tr>
-        }
-    </table>
+<br />
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <!--Anzeigen der Filtereinstellungen-->
+            <div class="form-border col-12">
+                <form asp-controller="CategoryTypes" asp-action="Index">
+
+
+                    <div class="col-10">
+                        <label asp-for="SearchCategoryGroup" class="custom-label">@ViewData["CategoryGroup"]</label>
+                    </div>
+                    <div class="col-10">
+                        <input asp-for="SearchCategoryGroup" class="form-control" />
+                    </div>
+                    <br />
+
+
+                    <div class="col-10">
+                        <label asp-for="SearchCategoryType" class="custom-label">@ViewData["CategoryType1"]</label>
+                    </div>
+                    <div class="col-10">
+                        <input asp-for="SearchCategoryType" class="form-control" />
+                    </div>
+                    <br />
+
+                    <div class="col-10">
+                        <label asp-for="PLZ" class="custom-label">@ViewData["PLZ"]</label>
+                    </div>
+                    <div class="col-10">
+                        <input asp-for="PLZ" class="form-control" />
+                    </div>
+                    <br />
+
+                    <input type="submit" value="@ViewData["Search"]" class="btn btn-primary" />
+                </form>
+
+
+            </div>
+        </div>
+
+        <div class="col-9">
+            <table class="table table-striped border">
+                <tr class="text-info">
+                    <th>
+                        @ViewData["Name"]
+                    </th>
+                    <th>
+                        @ViewData["CategoryGroup"]
+                    </th>
+                    <th>
+                        @ViewData["ProductService"]
+                    </th>
+                    <th></th>   
+                    <th></th>
+                </tr>
+
+                @if (Model.ResultsCounter > 0)
+                {
+
+
+                    @foreach (var item in Model.CategoryTypesList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(m => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.CategoryGroups.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(m => item.CategoryGroups.TypeOfCategoryGroup)
+                            </td>
+                            <td>
+                                <partial name="_TableButtonPartial" model="item.Id" />
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+
 </div>
+<br />

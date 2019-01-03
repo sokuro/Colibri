@@ -27,10 +27,9 @@ namespace Colibri.Areas.Customer.Controllers
     [Area("Customer")]
     public class AdvertisementOfferController : Controller
     {
-
         private readonly ColibriDbContext _colibriDbContext;
         private readonly HostingEnvironment _hostingEnvironment;
-        private readonly IStringLocalizer<AdvertisementController> _localizer;
+        private readonly IStringLocalizer<AdvertisementOfferController> _localizer;
 
         // PageSize (for the Pagination: 5 Appointments/Page)
         private int PageSize = 4;
@@ -44,7 +43,7 @@ namespace Colibri.Areas.Customer.Controllers
         // Constructor
         public AdvertisementOfferController(ColibriDbContext colibriDbContext,
             HostingEnvironment hostingEnvironment,
-            IStringLocalizer<AdvertisementController> localizer)
+            IStringLocalizer<AdvertisementOfferController> localizer)
         {
             _colibriDbContext = colibriDbContext;
             _hostingEnvironment = hostingEnvironment;
@@ -59,12 +58,23 @@ namespace Colibri.Areas.Customer.Controllers
             };
         }
 
-
         // GET : Action for Index
         [Route("Customer/AdvertisementOffer/Index")]
         public async Task<IActionResult> Index(int productPage = 1, string searchUserName = null,
             string searchProductName = null, string filterMine = null)
         {
+            // i18n
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Offers"] = _localizer["OffersText"];
+            ViewData["OfferProduct"] = _localizer["OfferProductText"];
+            ViewData["OfferUserService"] = _localizer["OfferUserServiceText"];
+            ViewData["Products"] = _localizer["ProductsText"];
+            ViewData["UserServices"] = _localizer["UserServicesText"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["Price"] = _localizer["PriceText"];
+
             // Security Claims
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
 
@@ -75,23 +85,24 @@ namespace Colibri.Areas.Customer.Controllers
             // add the current User as the Creator of the Advertisement
             AdvertisementViewModel.CurrentUserId = claim.Value;
 
+            // add the current User name as OwnerId of the Advertisement
+            AdvertisementViewModel.OwnerId = claimsIdentity.Name;
+
+
             // populate Lists in AdvertisementViewModel for specific User
             // Products (Güter)
             AdvertisementViewModel.Products = await _colibriDbContext.Products.Where(s => s.ApplicationUserId.Equals(AdvertisementViewModel.CurrentUserId))
+                .Where(m => m.isOffer == true)
                 .Include(m => m.CategoryGroups)
                 .Include(m => m.CategoryTypes)
                 .ToListAsync();
 
             // UserServices (Dienstleistungen)
             AdvertisementViewModel.UserServices = await _colibriDbContext.UserServices.Where(s => s.ApplicationUserId.Equals(AdvertisementViewModel.CurrentUserId))
+                .Where(m => m.isOffer == true)
                 .Include(m => m.CategoryGroups)
                 .Include(m => m.CategoryTypes)
                 .ToListAsync();
-
-            //AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.ToListAsync();
-            //AdvertisementViewModel.CategoryTypes = await _colibriDbContext.CategoryTypes.ToListAsync();
-            //AdvertisementViewModel.Products = await _colibriDbContext.Products.ToListAsync();
-            //AdvertisementViewModel.UserServices = await _colibriDbContext.UserServices.ToListAsync();
 
             return View(AdvertisementViewModel);
         }
@@ -100,6 +111,20 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/AdvertisementOffer/CreateProduct")]
         public async Task<IActionResult> CreateProduct()
         {
+            // i18n
+            ViewData["CreateOffer"] = _localizer["CreateOfferText"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Image"] = _localizer["ImageText"];
+            ViewData["DateFrom"] = _localizer["DateFromText"];
+            ViewData["DateTo"] = _localizer["DateToText"];
+            ViewData["Create"] = _localizer["CreateText"];
+            ViewData["Back"] = _localizer["BackText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["OverviewCategories"] = _localizer["OverviewCategoriesText"];
+
             AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.Where(m => m.TypeOfCategoryGroup == "Product").ToListAsync();
             return View(AdvertisementViewModel);
         }
@@ -118,7 +143,6 @@ namespace Colibri.Areas.Customer.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             // Convert
-            //AdvertisementViewModel.Product.CategoryGroupId = Convert.ToInt32(Request.Form["CategoryGroup"].ToString());
             AdvertisementViewModel.Product.CategoryTypeId = Convert.ToInt32(Request.Form["CategoryTypeId"].ToString());
 
             // If ModelState is not valid, return View
@@ -129,6 +153,17 @@ namespace Colibri.Areas.Customer.Controllers
 
             // add the current User as the Creator of the Advertisement
             AdvertisementViewModel.Product.ApplicationUserId = claim.Value;
+            AdvertisementViewModel.Product.ApplicationUserName = claimsIdentity.Name;
+
+            // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+            AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom
+                .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
+                .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
+
+            // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+            AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueDateTo
+                .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
+                .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
 
             // add timestamp to "CreatedOn"
             AdvertisementViewModel.Product.CreatedOn = System.DateTime.Now;
@@ -232,6 +267,22 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/AdvertisementOffer/CreateUserService")]
         public async Task<IActionResult> CreateUserService()
         {
+            // i18n
+            ViewData["CreateOffer"] = _localizer["CreateOfferText"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Image"] = _localizer["ImageText"];
+            ViewData["DateFrom"] = _localizer["DateFromText"];
+            ViewData["DateTo"] = _localizer["DateToText"];
+            ViewData["Create"] = _localizer["CreateText"];
+            ViewData["Back"] = _localizer["BackText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["CreateProductOffer"] = _localizer["CreateProductOfferText"];
+            ViewData["CreateUserServiceOffer"] = _localizer["CreateUserServiceOfferText"];
+            ViewData["OverviewCategories"] = _localizer["OverviewCategoriesText"];
+
             AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.Where(m => m.TypeOfCategoryGroup == "Service").ToListAsync();
             return View(AdvertisementViewModel);
         }
@@ -261,6 +312,17 @@ namespace Colibri.Areas.Customer.Controllers
 
             // add the current User as the Creator of the Advertisement
             AdvertisementViewModel.UserService.ApplicationUserId = claim.Value;
+            AdvertisementViewModel.UserService.ApplicationUserName = claimsIdentity.Name;
+
+            // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+            AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom
+                .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
+                .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
+
+            // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+            AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueDateTo
+                .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
+                .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
 
             // add timestamp to "CreatedOn"
             AdvertisementViewModel.UserService.CreatedOn = System.DateTime.Now;
@@ -364,6 +426,14 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/AdvertisementOffer/DeleteProduct")]
         public async Task<IActionResult> DeleteProduct(int? id)
         {
+            // i18n
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["DeleteProduct"] = _localizer["DeleteProductText"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["Delete"] = _localizer["DeleteText"];
+            ViewData["Back"] = _localizer["BackText"];
+
             if (id == null)
             {
                 return NotFound();
@@ -413,6 +483,15 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/AdvertisementOffer/DeleteUserService")]
         public async Task<IActionResult> DeleteUserService(int? id)
         {
+            // i18n
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["DeleteProduct"] = _localizer["DeleteProductText"];
+            ViewData["DeleteUserService"] = _localizer["DeleteUserServiceText"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["Delete"] = _localizer["DeleteText"];
+            ViewData["Back"] = _localizer["BackText"];
+
             if (id == null)
             {
                 return NotFound();
@@ -442,7 +521,7 @@ namespace Colibri.Areas.Customer.Controllers
             // delete Image
             try
             {
-                System.IO.File.Delete(Path.Combine(uploads, AdvertisementViewModel.Product.Id + extension_Old));
+                System.IO.File.Delete(Path.Combine(uploads, AdvertisementViewModel.UserService.Id + extension_Old));
             }
             catch (Exception ex)
             {
@@ -462,6 +541,24 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/AdvertisementOffer/EditProduct")]
         public async Task<IActionResult> EditProduct(int? id)
         {
+            // i18n
+            ViewData["CreateOffer"] = _localizer["CreateOfferText"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Image"] = _localizer["ImageText"];
+            ViewData["DateFrom"] = _localizer["DateFromText"];
+            ViewData["DateTo"] = _localizer["DateToText"];
+            ViewData["Create"] = _localizer["CreateText"];
+            ViewData["Back"] = _localizer["BackText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["EditProduct"] = _localizer["EditProductText"];
+            ViewData["EditUserService"] = _localizer["EditUserServiceText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+
+
             AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.ToListAsync();
 
             if (id == null)
@@ -496,6 +593,16 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 try
                 {
+                    // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                    AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom
+                        .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
+                        .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
+
+                    // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                    AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueDateTo
+                        .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
+                        .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
+
                     string webRootPath = _hostingEnvironment.WebRootPath;
                     var files = HttpContext.Request.Form.Files;
                     var productFromDb = _colibriDbContext.Products.Where(m => m.Id == AdvertisementViewModel.Product.Id).FirstOrDefault();
@@ -553,6 +660,23 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/AdvertisementOffer/EditUserService")]
         public async Task<IActionResult> EditUserService(int? id)
         {
+            // i18n
+            ViewData["CreateOffer"] = _localizer["CreateOfferText"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Image"] = _localizer["ImageText"];
+            ViewData["DateFrom"] = _localizer["DateFromText"];
+            ViewData["DateTo"] = _localizer["DateToText"];
+            ViewData["Create"] = _localizer["CreateText"];
+            ViewData["Back"] = _localizer["BackText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["EditProduct"] = _localizer["EditProductText"];
+            ViewData["EditUserService"] = _localizer["EditUserServiceText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+
             AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.ToListAsync();
 
             if (id == null)
@@ -572,7 +696,7 @@ namespace Colibri.Areas.Customer.Controllers
 
         // POST : Action for EditUserService
         [Route("Customer/AdvertisementOffer/EditUserService")]
-        [HttpPost, ActionName("EditProduct")]
+        [HttpPost, ActionName("EditUserService")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUserServicePOST(int id)
         {
@@ -588,18 +712,28 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 try
                 {
+                    // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                    AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom
+                        .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
+                        .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
+
+                    // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                    AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueDateTo
+                        .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
+                        .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
+
                     string webRootPath = _hostingEnvironment.WebRootPath;
                     var files = HttpContext.Request.Form.Files;
-                    var userServiceFromDb = _colibriDbContext.Products.Where(m => m.Id == AdvertisementViewModel.Product.Id).FirstOrDefault();
+                    var userServiceFromDb = _colibriDbContext.UserServices.Where(m => m.Id == AdvertisementViewModel.UserService.Id).FirstOrDefault();
 
-                    userServiceFromDb.Name = AdvertisementViewModel.Product.Name;
-                    userServiceFromDb.Description = AdvertisementViewModel.Product.Description;
-                    userServiceFromDb.CategoryGroupId = AdvertisementViewModel.Product.CategoryGroupId;
-                    userServiceFromDb.CategoryTypeId = AdvertisementViewModel.Product.CategoryTypeId;
-                    userServiceFromDb.Price = AdvertisementViewModel.Product.Price;
-                    userServiceFromDb.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom;
-                    userServiceFromDb.DueDateTo = AdvertisementViewModel.Product.DueDateTo;
-                    userServiceFromDb.Available = AdvertisementViewModel.Product.Available;
+                    userServiceFromDb.Name = AdvertisementViewModel.UserService.Name;
+                    userServiceFromDb.Description = AdvertisementViewModel.UserService.Description;
+                    userServiceFromDb.CategoryGroupId = AdvertisementViewModel.UserService.CategoryGroupId;
+                    userServiceFromDb.CategoryTypeId = AdvertisementViewModel.UserService.CategoryTypeId;
+                    userServiceFromDb.Price = AdvertisementViewModel.UserService.Price;
+                    userServiceFromDb.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom;
+                    userServiceFromDb.DueDateTo = AdvertisementViewModel.UserService.DueDateTo;
+                    userServiceFromDb.Available = AdvertisementViewModel.UserService.Available;
 
                     await _colibriDbContext.SaveChangesAsync();
 
@@ -645,6 +779,24 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/AdvertisementOffer/DetailsProduct")]
         public async Task<IActionResult> DetailsProduct(int? id)
         {
+            // i18n
+            ViewData["CreateOffer"] = _localizer["CreateOfferText"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Image"] = _localizer["ImageText"];
+            ViewData["DateFrom"] = _localizer["DateFromText"];
+            ViewData["DateTo"] = _localizer["DateToText"];
+            ViewData["Create"] = _localizer["CreateText"];
+            ViewData["Back"] = _localizer["BackText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["EditProduct"] = _localizer["EditProductText"];
+            ViewData["EditUserService"] = _localizer["EditUserServiceText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Edit"] = _localizer["EditText"];
+
             if (id == null)
             {
                 return NotFound();
@@ -666,6 +818,26 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/AdvertisementOffer/DetailsUserService")]
         public async Task<IActionResult> DetailsUserService(int? id)
         {
+            // i18n
+            ViewData["CreateOffer"] = _localizer["CreateOfferText"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Image"] = _localizer["ImageText"];
+            ViewData["DateFrom"] = _localizer["DateFromText"];
+            ViewData["DateTo"] = _localizer["DateToText"];
+            ViewData["Create"] = _localizer["CreateText"];
+            ViewData["Back"] = _localizer["BackText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["EditProduct"] = _localizer["EditProductText"];
+            ViewData["EditUserService"] = _localizer["EditUserServiceText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Edit"] = _localizer["EditText"];
+            ViewData["DetailsProduct"] = _localizer["DetailsProductText"];
+            ViewData["DetailsUserService"] = _localizer["DetailsUserServiceText"];
+
             if (id == null)
             {
                 return NotFound();
@@ -681,6 +853,26 @@ namespace Colibri.Areas.Customer.Controllers
             }
 
             return View(userService);
+        }
+
+        // GET : Action for Overview
+        [Route("Customer/AdvertisementOffer/CategoryOverview")]
+        public async Task<IActionResult> CategoryOverview()
+        {
+            // i18n
+            ViewData["Products"] = _localizer["ProductsText"];
+            ViewData["UserService"] = _localizer["UserServiceText"];
+            ViewData["Overview"] = _localizer["OverviewText"];
+            ViewData["OverviewCategories"] = _localizer["OverviewCategoriesText"];
+            ViewData["ShowAll"] = _localizer["ShowAllText"];
+            ViewData["HideAll"] = _localizer["HideAllText"];
+
+            CategoryTypesAndCategoryGroupsViewModel model = new CategoryTypesAndCategoryGroupsViewModel();
+
+            model.CategoryGroupsList = await _colibriDbContext.CategoryGroups.ToListAsync();
+            model.CategoryTypesListE = await _colibriDbContext.CategoryTypes.ToListAsync();
+
+            return View(model);
         }
 
 

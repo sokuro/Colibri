@@ -1,9 +1,10 @@
 ﻿@model Colibri.Models.CategoryGroups
-@{
-    ViewData["Title"] = "Edit";
-}
 
-<h2 class="text-info">@ViewData["EditCategoryGroup"]</h2>
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">@ViewData["EditCategoryGroup"]</h2>
+    </div>
+</div>
 
 <form method="post" asp-action="Edit">
     <div class="p-4 border rounded">
@@ -23,7 +24,7 @@
                 <label asp-for="TypeOfCategoryGroup">@ViewData["TypeOfCategoryGroup"]</label>
             </div>
             <div class="col-5">
-                <input asp-for="TypeOfCategoryGroup" class="form-control" />
+                <select asp-for="@Model.TypeOfCategoryGroup" asp-items="Html.GetEnumSelectList<CategoryGroups.ETypeOfCategoryGroup>()"></select>
             </div>
             <span asp-validation-for="TypeOfCategoryGroup" class="text-danger"></span>
         </div>

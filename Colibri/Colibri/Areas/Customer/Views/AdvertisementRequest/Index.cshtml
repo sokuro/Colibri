@@ -1,0 +1,135 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Colibri.ViewModels.AdvertisementViewModel
+
+@inject IViewLocalizer Localizer
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">@ViewData["Requests"]</h2>
+    </div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-3">
+        <a asp-action="CreateProduct" type="button" class="btn btn-primary">
+            <i class="fas fa-plus"></i>
+            &nbsp; @ViewData["RequestProduct"]
+        </a>
+    </div>
+
+    <div class="col-3">
+        <a asp-action="CreateUserService" type="button" class="btn btn-primary">
+            <i class="fas fa-plus"></i>
+            &nbsp; @ViewData["RequestUserService"]
+        </a>
+    </div>
+</div>
+
+<br />
+<!--START: Sektion für Products-->
+<h3>@ViewData["Products"]</h3>
+<div class="form-border">
+    <table class="table">
+        <tr>
+            <th>
+                @ViewData["Title"]
+            </th>
+            <th>
+                @ViewData["CategoryType"]
+            </th>
+            <th>
+                @ViewData["CategoryGroup"]
+            </th>
+            <th>
+                @ViewData["Price"]
+            </th>
+        </tr>
+        @foreach (var item in Model.Products)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CategoryTypes.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CategoryGroups.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Price)
+                </td>
+                <!--Buttons for Details, Edit, Delete-->
+                <td style="width:150px;">
+                    <div class="btn-group" role="group">
+                        <a asp-action="EditProduct" asp-route-id="@item.Id" type="button" class="btn btn-primary">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a asp-action="DetailsProduct" asp-route-id="@item.Id" type="button" class="btn btn-success">
+                            <i class="fas fa-list-alt"></i>
+                        </a>
+                        <a asp-action="DeleteProduct" asp-route-id="@item.Id" type="button" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<br />
+
+<!--ENDE: Sektion für Products-->
+<!--START: Sektion für User Services-->
+<h3>@ViewData["UserServices"]</h3>
+<div class="form-border">
+    <table class="table">
+        <tr>
+            <th>
+                @ViewData["Title"]
+            </th>
+            <th>
+                @ViewData["CategoryType"]
+            </th>
+            <th>
+                @ViewData["CategoryGroup"]
+            </th>
+            <th>
+                @ViewData["Price"]
+            </th>
+        </tr>
+        @foreach (var item in Model.UserServices)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CategoryTypes.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.CategoryGroups.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Price)
+                </td>
+                <!--Buttons for Details, Edit, Delete-->
+                <td style="width:150px;">
+                    <div class="btn-group" role="group">
+                        <a asp-action="EditUserService" asp-route-id="@item.Id" type="button" class="btn btn-primary">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a asp-action="DetailsUserService" asp-route-id="@item.Id" type="button" class="btn btn-success">
+                            <i class="fas fa-list-alt"></i>
+                        </a>
+                        <a asp-action="DeleteUserService" asp-route-id="@item.Id" type="button" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<!--ENDE: Sektion für User Services-->

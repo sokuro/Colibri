@@ -19,6 +19,9 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20181210221642_addUserCategoryTypesSubscribers.cs" />
     <Compile Remove="Data\Migrations\20181210222019_addApplicationUserToCategoryTypesSubscriber.cs" />
+    <Compile Remove="Data\Migrations\20181226153150_addUsernameToServices.cs" />
+    <Compile Remove="Data\Migrations\20181228204358_addProductRatingEntity.cs" />
+    <Compile Remove="Data\Migrations\20181229150321_test.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +58,27 @@
     <Content Update="Areas\Customer\Views\Advertisement\_RateAdvertisement.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerApplicationUserRatings.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerApplicationUserRatingsAuthorized.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerUserServiceRatingsAuthorized.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerUserServiceRatings.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerProductsRatingsAuthorized.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerProductsRatings.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerServiceAuthorized.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerAdvertisementAuthorized.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -77,6 +101,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Pages\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_AppointmentServicesDetails.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

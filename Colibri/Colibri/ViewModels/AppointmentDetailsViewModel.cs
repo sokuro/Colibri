@@ -15,5 +15,6 @@ namespace Colibri.ViewModels
         public Appointments Appointment { get; set; }
         public List<ApplicationUser> AppPerson { get; set; }
         public List<Products> Products { get; set; }
+        public List<UserServices> UserServices { get; set; }
     }
 }

@@ -1,94 +1,121 @@
 ﻿@model Colibri.ViewModels.HomeIndexViewModel
 
-<div class="col main pt-1 mt-1">
+@*<div class="col main pt-1 mt-1">
     <h1 class="display-4 d-none d-sm-block">
         Admin Dashboard
     </h1>
-</div>
+</div>*@
 
-<div container-dashboard>
-    <div row>
-        <!-- Column #1 -->
-        <div class="d-flex">
-            <div class="p-lg-5 p-3 flex-fill">
-                <div class="categoryInfo">
-                    <h5>Category Groups</h5>
-                    <img src="~/img/SystemImages/ChoiceArrows.png"/>
-                    <table>
-                        @foreach (var categoryGroup in Model.CategoryGroups)
-                        {
-                            <tr>
-                                @*<td>@categoryGroup.Id</td>*@
-                                <td>@categoryGroup.Name</td>
-                                <td>
-                                    <a asp-action="DetailsCategoryGroup" asp-route-id="@categoryGroup.Id">Details</a>
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                    @*<a asp-action="Create">Add Category</a>*@
-                </div>
+<div class="row justify-content-center">
+
+    <!--Card für Rubriken-->
+    <div class="col-4" style="margin-bottom:10px;">
+        <div class="card mp-4">
+            <!--Card Header-->
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">
+                    <label style="font-size:23px;color:steelblue;">
+                        Rubriken
+                    </label>
+                </h4>
             </div>
-            <div class="p-lg-5 p-3 flex-fill">
-                <div class="categoryInfo">
-                    <h5>Categories</h5>
-                    <img src="~/img/SystemImages/ChoiceFigure.png"/>
-                    <table>
-                        @foreach (var categoryType in Model.CategoryTypes)
-                        {
-                            <tr>
-                                @*<td>@categoryType.Id</td>*@
-                                <td>@categoryType.Name</td>
-                                <td>
-                                    <a asp-action="DetailsCategoryType" asp-route-id="@categoryType.Id">Details</a>
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                    @*<a asp-action="Create">Add Category</a>*@
+            <br />
+            <img class="card-img-top" style="height:100%;width:90%;margin-left:auto;margin-right:auto;" src="~/img/SystemImages/sys_categories_2.gif" />
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a asp-controller="CategoryGroups" asp-action="Overview" class="btn btn-success pull-right btn-outline-info">Übersicht</a>
+                    <a asp-controller="CategoryGroups" asp-action="Index" class="btn btn-success pull-right btn-outline-info">Rubrik-Gruppen</a>
+                    <a asp-controller="CategoryTypes" asp-action="Index" class="btn btn-success pull-right btn-outline-info">Rubriken</a>
                 </div>
             </div>
         </div>
-        <!-- END: Column #1 -->
-        <!-- Column #2 -->
-        <div class="d-flex">
-            <div class="p-lg-5 p-3 flex-fill">
-                <div class="categoryInfo">
-                    <h5>Admin Users</h5>
-                    <img src="~/img/SystemImages/Connection.png"/>
-                    <table>
-                        @foreach (var user in Model.Users)
-                        {
-                            <tr>
-                                <td>@user.UserName</td>
-                                <td>
-                                    @*<a asp-route-area="Customer" asp-action="Details" asp-controller="ApplicationUser" class="btn btn-success pull-right btn-outline-info" asp-route-id="@user.Id">@ViewData["ViewDetails"]</a>*@
-                                    <a asp-action="DetailsAdminUser" asp-route-id="@user.Id">Details</a>
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                </div>
-            </div>
-            <div class="p-lg-5 p-3 flex-fill">
-                <div class="categoryInfo">
-                    @*<h5>Special Tags</h5>
-                    <img src="~/img/SystemImages/ChoiceRowsSigned.png"/>*@
-                    <table>
-                        @*@foreach (var specialTag in Model.SpecialTags)
-                        {*@
-                            @*<tr>
-                                <td>@specialTag.Name</td>
-                                <td>
-                                    <a asp-action="DetailsSpecialTag" asp-route-id="@specialTag.Id">Details</a>
-                                </td>
-                            </tr>*@
-                        @*}*@
-                    </table>
-                    @*<a asp-action="Create">Add Category</a>*@
-                </div>
-            </div>
-        </div>
-        <!-- END: Column #2 -->
     </div>
+
+    <!--Card für Anzeigen-->
+    <div class="col-4" style="margin-bottom:10px;">
+        <div class="card mp-4">
+            <!--Card Header-->
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">
+                    <label style="font-size:23px;color:steelblue;">
+                        Inserate
+                    </label>
+                </h4>
+            </div>
+            <br />
+            <img class="card-img-top" style="height:100%;width:90%;margin-left:auto;margin-right:auto;" src="~/img/SystemImages/sys_advertisements_2.gif" />
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a asp-controller="Products" asp-action="Index" class="btn btn-success pull-right btn-outline-info">Angebote</a>
+                    <a asp-controller="Services" asp-action="Index" class="btn btn-success pull-right btn-outline-info">Nachfragen</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Card für User-->
+    <div class="col-4" style="margin-bottom:10px;">
+        <div class="card mp-4">
+            <!--Card Header-->
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">
+                    <label style="font-size:23px;color:steelblue;">
+                        Benutzer
+                    </label>
+                </h4>
+            </div>
+            <br />
+            <img class="card-img-top" style="height:100%;width:90%;margin-left:auto;margin-right:auto;" src="~/img/SystemImages/sys_user.gif" />
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <a asp-controller="AdminUsers" asp-action="Index" class="btn btn-success pull-right btn-outline-info">Admins</a>
+                    <a asp-controller="CustomerUsers" asp-action="Index" class="btn btn-success pull-right btn-outline-info">Benutzer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Card für Archive-->
+    <div class="col-4" style="margin-bottom:10px;">
+        <div class="card mp-4">
+            <!--Card Header-->
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">
+                    <label style="font-size:23px;color:steelblue;">
+                        Archiv
+                    </label>
+                </h4>
+            </div>
+            <br />
+            <img class="card-img-top" style="height:100%;width:90%;margin-left:auto;margin-right:auto;" src="~/img/SystemImages/sys_archive.gif" />
+            <div class="card-body">
+                <div class="d-flex justify-content-center align-items-center">
+                    <a asp-controller="Archive" asp-action="Index" class="btn btn-success pull-right btn-outline-info">Archiv verwalten</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Card für Searches-->
+    <div class="col-4" style="margin-bottom:10px;">
+        <div class="card mp-4">
+            <!--Card Header-->
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">
+                    <label style="font-size:23px;color:steelblue;">
+                        Suchanfragen
+                    </label>
+                </h4>
+            </div>
+            <br />
+            <img class="card-img-top" style="height:100%;width:90%;margin-left:auto;margin-right:auto;" src="~/img/SystemImages/sys_searches.gif" />
+            <div class="card-body">
+                <div class="d-flex justify-content-center align-items-center">
+                    <a asp-controller="Searches" asp-action="Index" class="btn btn-success pull-right btn-outline-info">Suchanfragen</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+<br />

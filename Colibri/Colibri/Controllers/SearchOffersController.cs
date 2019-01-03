@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Colibri.Data;
+using Colibri.Models;
 using Colibri.Utility;
 using Colibri.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -24,7 +26,7 @@ namespace Colibri.Areas.Customer.Controllers
     {
         private readonly ColibriDbContext _colibriDbContext;
         private readonly HostingEnvironment _hostingEnvironment;
-        private readonly IStringLocalizer<AdvertisementController> _localizer;
+        private readonly IStringLocalizer<SearchOffersController> _localizer;
 
         // bind to the Search-ViewModel
         // not necessary to create new Objects
@@ -35,7 +37,7 @@ namespace Colibri.Areas.Customer.Controllers
         // Constructor
         public SearchOffersController(ColibriDbContext colibriDbContext,
             HostingEnvironment hostingEnvironment,
-            IStringLocalizer<AdvertisementController> localizer)
+            IStringLocalizer<SearchOffersController> localizer)
         {
             _colibriDbContext = colibriDbContext;
             _hostingEnvironment = hostingEnvironment;
@@ -47,18 +49,41 @@ namespace Colibri.Areas.Customer.Controllers
                 Products = new Models.Products(),
                 UserServices = new Models.UserServices()
             };
+
         }
 
         // GET : Action for Index
         //[Route("SearchOffers/Index")]
         public async Task<IActionResult> Index()
         {
-            SearchViewModel.ProductsList = await _colibriDbContext.Products.Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).ToListAsync();
-            SearchViewModel.CategoryGroupsList = _colibriDbContext.CategoryGroups.ToList();
-            SearchViewModel.CategoryTypesList = _colibriDbContext.CategoryTypes.ToList();
+            // i18n
+            ViewData["SearchOffers"] = _localizer["SearchOffersText"];
+            ViewData["SearchString"] = _localizer["SearchStringText"];
+            ViewData["Details"] = _localizer["DetailsText"];
+            ViewData["Sorry1"] = _localizer["Sorry1Text"];
+            ViewData["Sorry2"] = _localizer["Sorry2Text"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["CreatedOn"] = _localizer["CreatedOnText"];
+            ViewData["PLZ"] = _localizer["PLZText"];
+            ViewData["Products"] = _localizer["ProductsText"];
+            ViewData["Service"] = _localizer["ServiceText"];
+            ViewData["Search"] = _localizer["SearchText"];
 
-            // Filter auf Angebote
-            SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.isOffer = true);
+            // Products
+            SearchViewModel.ProductsList = await _colibriDbContext.Products.Where(m => m.isOffer == true).Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).ToListAsync();
+            SearchViewModel.ProductsCounter = SearchViewModel.ProductsList.Count();
+
+            // Userservices
+            SearchViewModel.UserServicesList = await _colibriDbContext.UserServices.Where(m => m.isOffer == true).Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).ToListAsync();
+            SearchViewModel.UserServicesCounter = SearchViewModel.UserServicesList.Count();
+
+            SearchViewModel.CategoryGroupsList = await _colibriDbContext.CategoryGroups.ToListAsync();
+
+            //// Filter auf Angebote
+            //SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.isOffer == true);
+            //SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.isOffer == true);
 
             return View(SearchViewModel);
         }
@@ -68,18 +93,154 @@ namespace Colibri.Areas.Customer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(SearchViewModel model)
         {
+            // i18n
+            ViewData["SearchOffers"] = _localizer["SearchOffersText"];
+            ViewData["SearchString"] = _localizer["SearchStringText"];
+            ViewData["Details"] = _localizer["DetailsText"];
+            ViewData["Sorry1"] = _localizer["Sorry1Text"];
+            ViewData["Sorry2"] = _localizer["Sorry2Text"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["CreatedOn"] = _localizer["CreatedOnText"];
+            ViewData["PLZ"] = _localizer["PLZText"];
+            ViewData["Products"] = _localizer["ProductsText"];
+            ViewData["Service"] = _localizer["ServiceText"];
+            ViewData["Search"] = _localizer["SearchText"];
+
+            // ProductsList and UserServiceList
+            SearchViewModel.ProductsList = await _colibriDbContext.Products.Where(m => m.isOffer == true).Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).ToListAsync();
+            SearchViewModel.UserServicesList = await _colibriDbContext.UserServices.Where(m => m.isOffer == true).Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).ToListAsync();
+
             // check if modelstate is valid
             // if modelstate is not valid, return to Index
-                if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            // if modelstate is valid
-            var listOffersProducts = await _colibriDbContext.Products.Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).ToListAsync();
+            // Prüfen, ob Suchbegriff für Inserat existiert
+            if (!string.IsNullOrEmpty(model.SearchAdvertisement))
+            {
+                SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.Name.Contains(model.SearchAdvertisement));
+                SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.Name.Contains(model.SearchAdvertisement));
+            }
 
-            // Dummy View
-            return View();
+            // Prüfen, ob Suchbegriff für Rubrik-Gruppe existiert
+            if (!string.IsNullOrEmpty(model.SearchCategoryGroup))
+            {
+                SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.CategoryGroups.Name.Contains(model.SearchCategoryGroup));
+                SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.CategoryGroups.Name.Contains(model.SearchCategoryGroup));
+            }
+
+            // Prüfen, ob Suchbegriff für Rubrik existiert
+            if (!string.IsNullOrEmpty(model.SearchCategoryType))
+            {
+                SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.CategoryTypes.Name.Contains(model.SearchCategoryType));
+                SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.CategoryTypes.Name.Contains(model.SearchCategoryType));
+            }
+
+            // Prüfen, ob Suchbegriff für PLZ existiert
+            if (!string.IsNullOrEmpty(model.PLZ))
+            {
+                SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.CategoryTypes.PLZ.Contains(model.PLZ));
+                SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.CategoryTypes.PLZ.Contains(model.PLZ));
+            }
+
+            // Filter auf Angebote
+            SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.isOffer == true);
+            SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.isOffer == true);
+
+            // Counter updaten
+            SearchViewModel.ProductsCounter = SearchViewModel.ProductsList.Count();
+            SearchViewModel.UserServicesCounter = SearchViewModel.UserServicesList.Count();
+
+            // Return View
+            return View(SearchViewModel);
         }
+
+        // GET : Action for SearchOffer
+        public async Task<IActionResult> SearchOffer(HomeIndexViewModel model)
+        {
+            // i18n
+            ViewData["SearchOffers"] = _localizer["SearchOffersText"];
+            ViewData["SearchString"] = _localizer["SearchStringText"];
+            ViewData["Details"] = _localizer["DetailsText"];
+            ViewData["Sorry1"] = _localizer["Sorry1Text"];
+            ViewData["Sorry2"] = _localizer["Sorry2Text"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["CreatedOn"] = _localizer["CreatedOnText"];
+            ViewData["Products"] = _localizer["ProductsText"];
+            ViewData["Service"] = _localizer["ServiceText"];
+
+            SearchViewModel.SearchAdvertisement = model.SearchAdvertisement;
+
+            // Prüfen, ob es ein aktuelles PRODUKTE-Angebot in der Datenbank gibt
+            SearchViewModel.ProductsList = await _colibriDbContext.Products.Where(m => m.Name.Contains(SearchViewModel.SearchAdvertisement)).Where(m => m.isOffer == true).ToListAsync();
+            SearchViewModel.ProductsCounter = SearchViewModel.ProductsList.Count();
+
+            // Prüfen, ob es ein aktuelles DIENSTLEISTUNGS-Angebot in der Datenbank gibt
+            SearchViewModel.UserServicesList = await _colibriDbContext.UserServices.Where(m => m.Name.Contains(SearchViewModel.SearchAdvertisement)).Where(m => m.isOffer == true).ToListAsync();
+            SearchViewModel.UserServicesCounter = SearchViewModel.UserServicesList.Count();
+
+            // Gesamte Anzahl Resultate
+            SearchViewModel.ResultsCounter = SearchViewModel.ProductsCounter + SearchViewModel.UserServicesCounter;
+
+            // Falls kein aktuelles Angebot in der Datenbank gefunden wird, wird im Archiv gesucht, ob in der Vergangenheit ein passendes Angebot erfasst wurde
+            if (SearchViewModel.ResultsCounter < 1)
+            {
+                // Ergebnisse werden absteigend sortiert und die Top 3 Werte werden zurückgegeben
+                SearchViewModel.ArchiveEntryList = await _colibriDbContext.ArchiveEntry.Where(m => m.Name.Contains(SearchViewModel.SearchAdvertisement)).Where(m => m.isOffer == true).Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).OrderByDescending(p => p.CreatedOn).Take(3).ToListAsync();
+                SearchViewModel.ResultsCounterArchive = SearchViewModel.ArchiveEntryList.Count();
+            }
+
+            // Einträge für SUCHANFRAGEN in Tabelle SearchEntry schreiben
+            if(SearchViewModel.SearchAdvertisement != null)
+            {
+                if (SearchViewModel.SearchAdvertisement.Length > 2)
+                {
+                    var userSearch = new SearchEntry();
+
+                    userSearch.SearchDate = System.DateTime.Now;
+                    userSearch.SearchText = SearchViewModel.SearchAdvertisement;
+                    userSearch.Counter = 1;
+                    userSearch.SearchOffer = true;
+
+                    // Falls Resultat vorhanden
+                    if (SearchViewModel.ResultsCounter > 0)
+                    {
+                        userSearch.FullSuccess = true;
+                        userSearch.PartSuccess = false;
+                        userSearch.NoSuccess = false;
+                    }
+
+                    // Falls Resultat in Archive gefunden wird
+                    else
+                    {
+                        if (SearchViewModel.ResultsCounterArchive > 0)
+                        {
+                            userSearch.FullSuccess = false;
+                            userSearch.PartSuccess = true;
+                            userSearch.NoSuccess = false;
+                        }
+                        // Falls kein Resultat gefunden wird
+                        else
+                        {
+                            userSearch.FullSuccess = false;
+                            userSearch.PartSuccess = false;
+                            userSearch.NoSuccess = true;
+                        }
+                    }
+
+                    // Add userSearch to DB and save changes
+                    _colibriDbContext.SearchEntry.Add(userSearch);
+                    await _colibriDbContext.SaveChangesAsync();
+                }
+            }
+            return View(SearchViewModel);
+        }
+
     }
 }

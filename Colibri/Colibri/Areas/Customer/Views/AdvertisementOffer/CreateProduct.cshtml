@@ -1,6 +1,8 @@
 ﻿@model Colibri.ViewModels.AdvertisementViewModel
 @using Colibri.Extensions
+@using Microsoft.AspNetCore.Mvc.Localization
 
+@inject IViewLocalizer Localizer
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -8,7 +10,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        getCategoryTypes(); 
+        getCategoryTypes();
         $("#CategoryGroup").change(function () {
             getCategoryTypes();
         });
@@ -33,7 +35,7 @@
     }
 </script>
 
-<h2>CreateProduct</h2>
+<h2>@ViewData["CreateOffer"]</h2>
 
 <form method="post" enctype="multipart/form-data">
     <div class="form-border">
@@ -41,7 +43,7 @@
 
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Product.Name" class="custom-label"></label>
+                <label asp-for="Product.Name" class="custom-label">@ViewData["Title"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="Product.Name" class="form-control" />
@@ -51,7 +53,7 @@
 
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Product.Description" class="custom-label"></label>
+                <label asp-for="Product.Description" class="custom-label">@ViewData["Description"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="Product.Description" class="form-control" />
@@ -60,7 +62,7 @@
 
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Product.CategoryGroupId" class="custom-label"></label>
+                <label asp-for="Product.CategoryGroupId" class="custom-label">@ViewData["CategoryGroup"]</label>
             </div>
             <div class="col-5">
                 <select asp-for="@Model.Product.CategoryGroupId" asp-items="Model.CategoryGroups.ToSelectListItem(Model.Product.CategoryGroupId)" id="CategoryGroup" class="form-control"></select>
@@ -69,7 +71,7 @@
 
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Product.CategoryTypeId" class="custom-label"></label>
+                <label asp-for="Product.CategoryTypeId" class="custom-label">@ViewData["CategoryType"]</label>
             </div>
             <div class="col-5">
                 <select asp-for="Product.CategoryTypeId" name="CategoryTypeId" id="CategoryTypeId" asp-items="@(new SelectList(string.Empty, "Id", "Name"))" class="form-control"></select>
@@ -78,7 +80,7 @@
 
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Product.Image" class="custom-label"></label>
+                <label asp-for="Product.Image" class="custom-label">@ViewData["Image"]</label>
             </div>
             <div class="col-5">
                 <input type="file" name="files" multiple class="form-control">
@@ -87,7 +89,7 @@
 
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Product.Price" class="custom-label"></label>
+                <label asp-for="Product.Price" class="custom-label">@ViewData["Price"]</label>
             </div>
             <div class="col-5">
                 <input asp-for="Product.Price" class="form-control" />
@@ -96,31 +98,65 @@
 
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Product.DueDateFrom" class="custom-label"></label>
+                <label asp-for="Product.DueDateFrom" class="custom-label">@ViewData["DateFrom"]</label>
             </div>
-            <div class="col-5">
-                <input asp-for="Product.DueDateFrom" class="form-control" />
+            <div class="col-3">
+                <input asp-for="Product.DueDateFrom" value="" type="text" class="datepicker form-control" />
+            </div>
+            <div class="col-2">
+                <input asp-for="Product.DueTimeFrom" value="" type="text" class="timepicker form-control" />
             </div>
         </div>
 
         <div class="form-group row">
             <div class="col-2">
-                <label asp-for="Product.DueDateTo" class="custom-label"></label>
+                <label asp-for="Product.DueDateTo" class="custom-label">@ViewData["DateTo"]</label>
             </div>
-            <div class="col-5">
-                <input asp-for="Product.DueDateTo" class="form-control" />
+            <div class="col-3">
+                <input asp-for="Product.DueDateTo" value="" type="text" class="datepicker form-control" />
+            </div>
+            <div class="col-2">
+                <input asp-for="Product.DueTimeTo" value="" type="text" class="timepicker form-control" />
             </div>
         </div>
 
         <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
-            <a asp-action="Index" class="btn btn-success">Zurück zur Liste</a>
+            <input type="submit" value="@ViewData["Create"]" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-success">@ViewData["Back"]</a>
+            <a asp-action="CategoryOverview" class="btn btn-info">@ViewData["OverviewCategories"]</a>
         </div>
-
     </div>
+
 </form>
 
+<!-- min Date: tomorrow -->
+<!-- max Date: 3 Months -->
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        <script>
+            // Time-Picker
+            $('.timepicker').timepicker({
+                timeFormat: 'h:mm p',
+                interval: 60,
+                minTime: '10',
+                maxTime: '20:00pm',
+                //defaultTime: '11',
+                startTime: '06:00',
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true
+            });
+
+            // Date-Picker
+            $(function () {
+                $(".datepicker").datepicker({
+                    minDate: +1,
+                    maxDate: "+3M"
+                });
+            });
+        </script>
+
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
 

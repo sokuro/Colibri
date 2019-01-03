@@ -1,9 +1,10 @@
 ﻿@model Colibri.Models.CategoryGroups
-@{
-    ViewData["Title"] = "Delete";
-}
 
-<h2 class="text-info">@ViewData["DeleteCategoryGroup"]</h2>
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">@ViewData["DeleteCategoryGroup"]</h2>
+    </div>
+</div>
 
 <form method="post" asp-action="Delete">
     <div class="p-4 border rounded">

@@ -22,6 +22,7 @@
         <!-- Custom CSS -->
         <link href="~/css/index.css" rel="stylesheet" />
         <link href="~/css/products.css" rel="stylesheet" />
+        <link href="~/css/overview.css" rel="stylesheet" />
         <link href="~/css/appointments.css" rel="stylesheet" />
         @*<link href="~/css/applicationUsers.css" rel="stylesheet" />*@
         <!-- individual CSS -->
@@ -76,7 +77,7 @@
                             <div class="dropdown-menu" aria-labelledby="adminPagesDropdown">
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="AdminDashboard" asp-action="Index">Dashboard</a>
                                 <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Categories & Types:</h6>
+                                <h6 class="dropdown-header">Categories:</h6>
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryGroups" asp-action="Index">Category Groups</a>
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryTypes" asp-action="Index">Category Types</a>
                                 <div class="dropdown-divider"></div>
@@ -84,10 +85,10 @@
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="AdminUsers" asp-action="Index">Admin Users</a>
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="CustomerUsers" asp-action="Index">Customer Users</a>
                                 <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Items:</h6>
+                                <h6 class="dropdown-header">Advertisements:</h6>
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="Products" asp-action="Index">Products</a>
                                 <a class="dropdown-item" asp-route-area="Admin" asp-controller="Services" asp-action="Index">Services</a>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="Appointments" asp-action="Index">Appointments</a>
+                                @*<a class="dropdown-item" asp-route-area="Admin" asp-controller="Appointments" asp-action="Index">Appointments</a>*@
                             </div>
                         </li>
                     }
@@ -101,20 +102,35 @@
                                 <span>Reg. Users</span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="registeredUserPagesDropdown">
+                                <h6 class="dropdown-header">Users:</h6>
                                 <a class="dropdown-item" asp-route-area="Customer" asp-controller="ApplicationUser" asp-action="Index">Application Users</a>
+                                <div class="dropdown-divider"></div>
+                                <h6 class="dropdown-header">Products & Services:</h6>
                                 <a class="dropdown-item" asp-route-area="Customer" asp-controller="Advertisement" asp-action="Index">Advertisements</a>
                                 <a class="dropdown-item" asp-route-area="Customer" asp-controller="UserServices" asp-action="Index">User Services</a>
+                                <div class="dropdown-divider"></div>
+                                <h6 class="dropdown-header">Advertisements:</h6>
                                 <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementOffer" asp-action="Index">Angebot Erstellen</a>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="Appointments" asp-action="Index">Appointments</a>
                                 <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementRequest" asp-action="Index">Nachfrage Erstellen</a>
+                                <div class="dropdown-divider"></div>
+                                <h6 class="dropdown-header">Appointments:</h6>
+                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="Appointments" asp-action="Index">Appointments</a>
+                                <div class="dropdown-divider"></div>
+                                <h6 class="dropdown-header">Ratings:</h6>
+                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="ProductsRating" asp-action="Index">Product Ratings</a>
+                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="UserServicesRating" asp-action="Index">User Service Ratings</a>
+                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="ApplicationUserRating" asp-action="Index">User Ratings</a>
                             </div>
                         </li>
                     }
 
                     <!-- Anonymous Users -->
-                    <li class="nav-item">
+                    @*<li class="nav-item">
                         <a class="nav-link" asp-route-area="Customer" asp-controller="ProductsHome" asp-action="Index">Products List</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-route-area="Customer" asp-controller="UserServicesHome" asp-action="Index">Services List</a>
+                    </li>*@
                     <li class="nav-item">
                         <a class="nav-link" asp-route-area="" asp-controller="Home" asp-action="Contact">Contact</a>
                     </li>
@@ -131,6 +147,19 @@
                                 <!-- # Items in the Scheduling -->
                                 @{
                                     var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssScheduling").Count;
+                                }
+                                (@count)
+                            </a>
+                        </li>
+                    }
+                    else if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("userServicesScheduling") != null)
+                    {
+                        <li style="color:white">
+                            <a asp-route-area="Customer" asp-controller="Scheduling" asp-action="Index" class="nav-link">
+                                <i class="fa fa-list-ol"></i> &nbsp;
+                                <!-- # Items in the Scheduling -->
+                                @{
+                                    var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("userServicesScheduling").Count;
                                 }
                                 (@count)
                             </a>
@@ -217,7 +246,9 @@
     <footer class="sticky-footer">
         <div class="container my-auto">
             <div class="copyright text-center my-auto">
+         @*   <div class="copyright col-6">*@
                 <span>Colibri © @DateTime.Now.Year</span>
+                <span>@await Html.PartialAsync("_SelectLanguagePartial")</span>
             </div>
         </div>
     </footer>

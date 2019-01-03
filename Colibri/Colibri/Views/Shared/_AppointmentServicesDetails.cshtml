@@ -1,0 +1,64 @@
+﻿@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization
+@model List<Colibri.Models.UserServices>
+@inject IViewLocalizer Localizer
+<!-- individual CSS -->
+@section appointments {
+    <link href="~/css/appointments.css" rel="stylesheet" />
+}
+
+@if (Model.Count > 0)
+{
+    <div class="appointment-product-details">
+        <table class="table table-striped">
+            <tr class="table-info">
+
+                <!-- Table Headers -->
+                <th id="imageRowHeader"></th>
+                <th>
+                    @ViewData["Name"]
+                </th>
+                <th>
+                    @ViewData["Price"]
+                </th>
+                <th>
+                    @ViewData["CategoryType"]
+                </th>
+                <th>
+                    @ViewData["Description"]
+                </th>
+                <th></th>
+                <!-- END: Table Headers -->
+            </tr>
+
+            <!-- Table Content -->
+            @foreach (var item in Model)
+            {
+                <!-- Images clickable: redirect to Details Page -->
+                <tr class="table-content">
+                    <td id="imageContent">
+                        <a asp-area="Customer" asp-controller="UserServicesHome" asp-action="Details" asp-route-id="@item.Id">
+                            <img src="@item.Image" />
+                        </a>
+                    </td>
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(p => item.Name)
+                    </td>
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(p => item.Price)
+                    </td>
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(p => item.CategoryTypes.Name)
+                    </td>
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(p => item.Description)
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+else
+{
+    <div>No Items added!</div>
+}

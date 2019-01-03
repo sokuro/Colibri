@@ -31,7 +31,8 @@ namespace Colibri.Models
         // Admin Area
         public bool IsSuperAdmin { get; set; }
 
-        // Rating
+        // Rating the User
+        public int NumberOfApplicationUserRates { get; set; }
         public double UserRating { get; set; }
 
         // Logging

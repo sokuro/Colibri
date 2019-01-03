@@ -26,7 +26,8 @@
                                 <b>$@product.Price</b>
                             </label>
                         </div>
-                        <a asp-action="Details" asp-controller="ProductsHome" class="btn btn-success pull-right btn-outline-info" asp-route-id="@product.Id">@ViewData["ViewDetails"]</a>
+                        @*<a asp-action="Details" asp-controller="ProductsHome" class="btn btn-success pull-right btn-outline-info" asp-route-id="@product.Id">@ViewData["ViewDetails"]</a>*@
+                        <a asp-action="Details" asp-controller="Advertisement" class="btn btn-success pull-right btn-outline-info" asp-route-id="@product.Id">@ViewData["ViewDetails"]</a>
                     </div>
                 </div>
             </div>

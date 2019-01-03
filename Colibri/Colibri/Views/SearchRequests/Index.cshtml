@@ -1,0 +1,128 @@
+﻿@model Colibri.ViewModels.SearchViewModel
+@using Colibri.Extensions
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+<div class="col-12">
+    <h2 class="text-info">@ViewData["SearchRequests"]</h2>
+</div>
+
+<div class="container">
+    <!--Zeile 1: Filter und Produkte-->
+    <div class="row">
+        <!--Anzeigen der Filtereinstellungen-->
+        <div class="col-3">
+            <div class="form-border col-12">
+                <form asp-controller="SearchRequests" asp-action="Index">
+
+                    <div class="col-10">
+                        <label asp-for="SearchAdvertisement" class="custom-label">@ViewData["Title"]</label>
+                    </div>
+                    <div class="col-10">
+                        <input asp-for="SearchAdvertisement" class="form-control" />
+                    </div>
+
+                    <div class="col-10">
+                        <label asp-for="SearchCategoryGroup" class="custom-label">@ViewData["CategoryGroup"]</label>
+                    </div>
+                    <div class="col-10">
+                        <input asp-for="SearchCategoryGroup" class="form-control" />
+                    </div>
+
+                    <div class="col-10">
+                        <label asp-for="SearchCategoryType" class="custom-label">@ViewData["CategoryType"]</label>
+                    </div>
+                    <div class="col-10">
+                        <input asp-for="SearchCategoryType" class="form-control" />
+                    </div>
+
+                    <div class="col-10">
+                        <label asp-for="PLZ" class="custom-label">@ViewData["PLZ"]</label>
+                    </div>
+                    <div class="col-10">
+                        <input asp-for="PLZ" class="form-control" />
+                    </div>
+                    <br />
+                    <div class="d-flex justify-content-end">
+                        <input type="submit" value="Suchen" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!--Anzeigen der Resultate Produkte-->
+        <div class="col-9 form-border">
+            <h3 class="text-info">@ViewData["Products"]</h3>
+            <div class="form-group row">
+                @foreach (var product in Model.ProductsList)
+                {
+                    <div class="col-4">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4 class="my-0 font-weight-normal">
+                                    <label style="font-size:23px;color:steelblue;">
+                                        @Html.DisplayFor(m => product.Name)
+                                    </label>
+                                </h4>
+                            </div>
+
+                            <img class="card-img-top advertisementImage" src="@product.Image" alt="Card Image">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <label style="font-size:20px; color:#a51313">
+                                            <b>$@product.Price</b>
+                                        </label>
+                                    </div>
+                                    <a asp-action="Details" asp-route-area="Customer" asp-controller="Advertisement" class="btn btn-success pull-right btn-outline-info" asp-route-id="@product.Id">Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <!--Zeile 2: Dienstleistungen-->
+    <div class="row">
+        <div class="col-3">
+
+        </div>
+        <!--Anzeigen der Resultate Dienstleistungen-->
+        <div class="col-9 form-border">
+            <h3 class="text-info">@ViewData["Service"]</h3>
+            <div class="form-group row">
+                @foreach (var userService in Model.UserServicesList)
+                {
+                    <div class="col-4">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h4 class="my-0 font-weight-normal">
+                                    <label style="font-size:23px;color:steelblue;">
+                                        @Html.DisplayFor(m => userService.Name)
+                                    </label>
+                                </h4>
+                            </div>
+
+                            <img class="card-img-top advertisementImage" src="@userService.Image" alt="Card Image">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <label style="font-size:20px; color:#a51313">
+                                            @*<b>$@ViewData["Price"]</b>*@
+                                            <b>$@userService.Price</b>
+                                        </label>
+                                    </div>
+                                    <a asp-action="DetailsService" asp-route-area="Customer" asp-controller="Advertisement" class="btn btn-success pull-right btn-outline-info" asp-route-id="@userService.Id">@ViewData["Details"]</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

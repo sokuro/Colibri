@@ -24,7 +24,7 @@ namespace Colibri.Areas.Customer.Controllers
      *
      * authorize only the AdminEndUser (registered User)
      */
-    //[Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
+    [Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
     [Area("Customer")]
     public class UserServicesController : Controller
     {
@@ -45,6 +45,9 @@ namespace Colibri.Areas.Customer.Controllers
         // necessary to create new Objects
         [BindProperty]
         public UserServicesAddToEntityViewModel UserServicesAddToEntityViewModel { get; set; }
+
+        [BindProperty]
+        public UserServicesRatingViewModel UserServicesRatingViewModel { get; set; }
 
         public UserServicesController(ColibriDbContext colibriDbContext, 
             HostingEnvironment hostingEnvironment,
@@ -70,6 +73,14 @@ namespace Colibri.Areas.Customer.Controllers
                 CategoryTypes = _colibriDbContext.CategoryTypes.ToList(),
                 UserServices = new Models.UserServices()
             };
+
+            // UserServicesRatingModel
+            UserServicesRatingViewModel = new UserServicesRatingViewModel()
+            {
+                UserServices = new List<UserServicesRatings>(),
+                UserServiceRating = new Models.UserServicesRatings(),
+                Users = new List<ApplicationUser>()
+            };
         }
 
         // Index
@@ -79,6 +90,16 @@ namespace Colibri.Areas.Customer.Controllers
             string searchUserName = null,
             string searchServiceName = null)
         {
+            // Security Claims
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+            // Claims Identity
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            // add the current User as the Creator of the Advertisement
+            UserServicesViewModel.CurrentUserId = claim.Value;
+
             // Filter the Search Criteria
             StringBuilder param = new StringBuilder();
 
@@ -104,15 +125,15 @@ namespace Colibri.Areas.Customer.Controllers
                                                     select u;
 
             // Search Conditions
-            if (searchUserName != null)
-            {
-                UserServicesViewModel.UserServices = UserServicesViewModel.UserServices
-                    .Where(a => a.ApplicationUser.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
-            }
             if (searchServiceName != null)
             {
                 UserServicesViewModel.UserServices = UserServicesViewModel.UserServices
                     .Where(a => a.Name.ToLower().Contains(searchServiceName.ToLower())).ToList();
+            }
+            if (searchUserName != null)
+            {
+                UserServicesViewModel.UserServices = UserServicesViewModel.UserServices
+                    .Where(a => a.ApplicationUserName.ToLower().Contains(searchUserName.ToLower())).ToList();
             }
 
             // Pagination
@@ -243,8 +264,12 @@ namespace Colibri.Areas.Customer.Controllers
                 // TODO: create a Switch to Offer/Order
                 //userServicesFromDb.SpecialTagId = 1;
 
+                // add the CreatedOn Property to the Model
+                userServicesFromDb.CreatedOn = DateTime.Now;
+
                 // add the current User as the Creator of the Advertisement
                 userServicesFromDb.ApplicationUserId = claim.Value;
+                userServicesFromDb.ApplicationUserName = claim.Subject.Name;
 
                 // save the Changes asynchronously
                 // update the Image Part inside of the DB
@@ -303,7 +328,7 @@ namespace Colibri.Areas.Customer.Controllers
                                                       select u);
 
             // add the user as the ApplicationUser to the User Service
-            userService.ApplicationUser = user.FirstOrDefault();
+            //userService.ApplicationUser = user.FirstOrDefault();
 
             // count the Number of Clicks on the User Service
             userService.NumberOfClicks += 1;
@@ -325,6 +350,9 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["RemoveFromBag"] = _localizer["RemoveFromBagText"];
             ViewData["Order"] = _localizer["OrderText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["UserServiceRating"] = _localizer["UserServiceRatingText"];
+            ViewData["RateUserService"] = _localizer["RateUserServiceText"];
+            ViewData["NumberOfUserServiceRates"] = _localizer["NumberOfUserServiceRatesText"];
 
             return View(userService);
         }
@@ -337,22 +365,459 @@ namespace Colibri.Areas.Customer.Controllers
         {
             // check first, if anything exists in the Session
             // Session Name : "ssScheduling"
-            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
+            List<int> lstCartServices = HttpContext.Session.Get<List<int>>("userServicesScheduling");
 
             // check if null -> create new
-            if (lstCartItems == null)
+            if (lstCartServices == null)
             {
-                lstCartItems = new List<int>();
+                lstCartServices = new List<int>();
             }
 
             // add the retrieved Item (id)
-            lstCartItems.Add(id);
+            lstCartServices.Add(id);
             // set the Session:
             // Session Name, Value
-            HttpContext.Session.Set("ssScheduling", lstCartItems);
+            HttpContext.Session.Set("userServicesScheduling", lstCartServices);
 
             // redirect to Action
-            return RedirectToAction("Index", "UserServices", new { area = "Customer" });
+            return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
+        }
+
+        // Handle Ratings: GET
+        [Route("Customer/UserServices/RateUserService/{id}")]
+        public async Task<IActionResult> RateUserService(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // get the individual Product
+            UserServicesAddToEntityViewModel.UserServices = await _colibriDbContext.UserServices
+                .Include(p => p.CategoryGroups)
+                .Include(p => p.CategoryTypes)
+                .Where(p => p.Id == id)
+                .FirstOrDefaultAsync();
+
+            // save the Changes in DB
+            await _colibriDbContext.SaveChangesAsync();
+
+            // i18n
+            ViewData["RateQuestion"] = _localizer["RateQuestionText"];
+            ViewData["Save"] = _localizer["SaveText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["UserServiceRating"] = _localizer["UserServiceRatingText"];
+            ViewData["RateUserService"] = _localizer["RateUserServiceText"];
+            ViewData["ShowAllRatings"] = _localizer["ShowAllRatingsText"];
+
+            return View(UserServicesAddToEntityViewModel);
+        }
+
+        [Route("Customer/UserServices/RateUserService/{id}")]
+        [HttpPost, ActionName("RateUserService")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> RateUserServicePost(int id, string command)
+        {
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                // Security Claims
+                System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+                // Claims Identity
+                var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+                // to overwrite a Rating, first get the old One
+                // get the Product from the DB
+                var userServiceFromDb = await _colibriDbContext.UserServices
+                                        .Where(m => m.Id == id)
+                                        .FirstOrDefaultAsync();
+
+                // another Table ProductRatings for the Description
+                var userServiceRatingFromDb = await _colibriDbContext.UserServicesRatings
+                    .Where(p => p.UserServiceId == id)
+                    .FirstOrDefaultAsync();
+
+                // current User
+                var currentUserId = claim.Value;
+                //bool userAlreadyRated = false;
+
+                if (userServiceRatingFromDb != null)
+                {
+                    // check if already rated
+                    if (userServiceRatingFromDb.ApplicationUserId == currentUserId)
+                    {
+                        // already rated!
+                        //userAlreadyRated = true;
+
+                        TempData["msg"] = "<script>alert('Already rated!');</script>";
+                        TempData["returnButton"] = "<div><p><b>Already rated!</b></p></div>";
+                        TempData["returnBackButton"] = "return";
+                        TempData["showUserServiceRating"] = "showUserServiceRating";
+                        TempData["userServiceId"] = userServiceRatingFromDb.Id;
+
+                        ViewData["BackToList"] = _localizer["BackToListText"];
+                        ViewData["ShowAllRatings"] = _localizer["ShowAllRatingsText"];
+                        ViewData["ShowRating"] = _localizer["ShowRatingText"];
+
+                        return View();
+                    }
+                    //else if (userAlreadyRated)
+                    else
+                    {
+                        int tempUserServiceRating = 0;
+
+                        if (command.Equals("1"))
+                        {
+                            tempUserServiceRating = 1;
+                        }
+                        else if (command.Equals("2"))
+                        {
+                            tempUserServiceRating = 2;
+                        }
+                        else if (command.Equals("3"))
+                        {
+                            tempUserServiceRating = 3;
+                        }
+                        else if (command.Equals("4"))
+                        {
+                            tempUserServiceRating = 4;
+                        }
+                        else if (command.Equals("5"))
+                        {
+                            tempUserServiceRating = 5;
+                        }
+
+                        // go to the User Service Table
+                        // calculate the new ProductRating
+                        if (userServiceFromDb.NumberOfServiceRates == 0)
+                        {
+                            userServiceFromDb.ServiceRating = tempUserServiceRating;
+                        }
+                        else
+                        {
+                            userServiceFromDb.ServiceRating = Math.Round((userServiceFromDb.ServiceRating * userServiceFromDb.NumberOfServiceRates + tempUserServiceRating) / (userServiceFromDb.NumberOfServiceRates + 1), 2);
+                        }
+
+                        // Rating Create
+                        UserServicesRatings userServicesRatings = new UserServicesRatings()
+                        {
+                            UserServiceId = userServiceFromDb.Id,
+                            UserServiceName = userServiceFromDb.Name,
+                            // add the current User as the Creator of the Rating
+                            ApplicationUserId = claim.Value,
+                            ApplicationUserName = claim.Subject.Name,
+                            UserServiceRating = tempUserServiceRating,
+                            CreatedOn = System.DateTime.Now
+                        };
+
+                        // update the UserServicesRating Entity
+                        _colibriDbContext.UserServicesRatings.Add(userServicesRatings);
+
+                        // increment the Number of User Service Rates of the User Service
+                        userServiceFromDb.NumberOfServiceRates += 1;
+
+                        // save the Changes in DB
+                        await _colibriDbContext.SaveChangesAsync();
+                    }
+
+                    return View(UserServicesAddToEntityViewModel);
+                }
+                //else if (userServiceFromDb == null && !userAlreadyRated)
+                else
+                {
+                    int tempUserServiceRating = 0;
+
+                    if (command.Equals("1"))
+                    {
+                        tempUserServiceRating = 1;
+                    }
+                    else if (command.Equals("2"))
+                    {
+                        tempUserServiceRating = 2;
+                    }
+                    else if (command.Equals("3"))
+                    {
+                        tempUserServiceRating = 3;
+                    }
+                    else if (command.Equals("4"))
+                    {
+                        tempUserServiceRating = 4;
+                    }
+                    else if (command.Equals("5"))
+                    {
+                        tempUserServiceRating = 5;
+                    }
+
+                    // go to the User Service Table
+                    // calculate the new ProductRating
+                    if (userServiceFromDb.NumberOfServiceRates == 0)
+                    {
+                        userServiceFromDb.ServiceRating = tempUserServiceRating;
+                    }
+                    else
+                    {
+                        userServiceFromDb.ServiceRating = Math.Round((userServiceFromDb.ServiceRating * userServiceFromDb.NumberOfServiceRates + tempUserServiceRating) / (userServiceFromDb.NumberOfServiceRates + 1), 2);
+                    }
+
+                    // Rating Create
+                    UserServicesRatings userServicesRatings = new UserServicesRatings()
+                    {
+                        UserServiceId = userServiceFromDb.Id,
+                        UserServiceName = userServiceFromDb.Name,
+                        // add the current User as the Creator of the Rating
+                        ApplicationUserId = claim.Value,
+                        ApplicationUserName = claim.Subject.Name,
+                        UserServiceRating = tempUserServiceRating,
+                        CreatedOn = System.DateTime.Now
+                    };
+
+                    // update the UserServicesRating Entity
+                    _colibriDbContext.UserServicesRatings.Add(userServicesRatings);
+
+                    // increment the Number of User Service Rates of the User Service
+                    userServiceFromDb.NumberOfServiceRates += 1;
+
+                    // save the Changes in DB
+                    await _colibriDbContext.SaveChangesAsync();
+                }
+
+                return RedirectToAction(nameof(Details));
+            }
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(UserServicesAddToEntityViewModel);
+            }
+        }
+
+        // Get: /<controller>/Edit
+        [Route("Customer/UserServices/Edit/{id}")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            // incl. ProductTypes
+            UserServicesAddToEntityViewModel.UserServices = await _colibriDbContext.UserServices
+                .Include(m => m.CategoryGroups)
+                .Include(m => m.CategoryTypes)
+                //.Include(m => m.SpecialTags)
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (UserServicesAddToEntityViewModel.UserServices == null)
+            {
+                return NotFound();
+            }
+
+            // i18n
+            ViewData["EditUserService"] = _localizer["EditUserServiceText"];
+            ViewData["Edit"] = _localizer["EditText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["Image"] = _localizer["ImageText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
+            // send the UserServicesAddToEntityViewModel into the View
+            return View(UserServicesAddToEntityViewModel);
+        }
+
+        // Post: /<controller>/Edit
+        // @param Category
+        [Route("Customer/UserServices/Edit/{id}")]
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPost(int id)
+        {
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                // for uploaded Images
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                var files = HttpContext.Request.Form.Files;
+                // to replace an Image, first remove the old One
+                // get the Product from the DB
+                var userServiceFromDb = await _colibriDbContext.UserServices.Where(m => m.Id == UserServicesAddToEntityViewModel.UserServices.Id).FirstOrDefaultAsync();
+                // does the File exist and was uploaded by the User
+                if (files.Count > 0 && files[0] != null)
+                {
+                    // if the User uploades a new Image
+                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderService);
+                    // find out the Extension of the new Image File and also the Extension of the old Image existing in the DB
+                    var extension_new = Path.GetExtension(files[0].FileName);
+                    var extension_old = Path.GetExtension(userServiceFromDb.Image);
+
+                    // delete the old File
+                    if (System.IO.File.Exists(Path.Combine(uploads, UserServicesAddToEntityViewModel.UserServices.Id + extension_old)))
+                    {
+                        System.IO.File.Delete(Path.Combine(uploads, UserServicesAddToEntityViewModel.UserServices.Id + extension_old));
+                    }
+
+                    // copy the new File
+                    // use the FileStreamObject -> copy the File from the Uploaded to the Server
+                    // create the File on the Server
+                    using (var filestream = new FileStream(Path.Combine(uploads, UserServicesAddToEntityViewModel.UserServices.Id + extension_new), FileMode.Create))
+                    {
+                        files[0].CopyTo(filestream);
+                    }
+
+                    // ProductsImage = exact Path of the Image on the Server + ImageName + Extension
+                    UserServicesAddToEntityViewModel.UserServices.Image = @"\" + StaticDetails.ImageFolderService + @"\" + UserServicesAddToEntityViewModel.UserServices.Id + extension_new;
+                }
+
+                /*
+                 * update the productsFromDb and save them back into the DB
+                 */
+                // Image
+                if (UserServicesAddToEntityViewModel.UserServices.Image != null)
+                {
+                    // replace the old Image
+                    userServiceFromDb.Image = UserServicesAddToEntityViewModel.UserServices.Image;
+                }
+                // Name
+                userServiceFromDb.Name = UserServicesAddToEntityViewModel.UserServices.Name;
+                // Price
+                userServiceFromDb.Price = UserServicesAddToEntityViewModel.UserServices.Price;
+                // Available
+                userServiceFromDb.Available = UserServicesAddToEntityViewModel.UserServices.Available;
+                // CategoryTypeId
+                userServiceFromDb.CategoryTypeId = UserServicesAddToEntityViewModel.UserServices.CategoryTypeId;
+                // SpecialTagId
+                //productFromDb.SpecialTagId = ProductsViewModel.Products.SpecialTagId;
+                // Description
+                userServiceFromDb.Description = UserServicesAddToEntityViewModel.UserServices.Description;
+
+                // Save the Changes
+                await _colibriDbContext.SaveChangesAsync();
+
+                // avoid Refreshing the POST Operation -> Redirect
+                //return View("Details", newCategory);
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(UserServicesAddToEntityViewModel);
+            }
+        }
+
+        // Get: /<controller>/Delete
+        [Route("Customer/UserServices/Delete/{id}")]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            // incl. ProductTypes and SpecialTags too
+            UserServicesAddToEntityViewModel.UserServices = await _colibriDbContext.UserServices
+                .Include(m => m.CategoryGroups)
+                .Include(m => m.CategoryTypes)
+                //.Include(m => m.SpecialTags)
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (UserServicesAddToEntityViewModel.UserServices == null)
+            {
+                return NotFound();
+            }
+
+            // i18n
+            ViewData["DeleteUserService"] = _localizer["DeleteUserServiceText"];
+            ViewData["Delete"] = _localizer["DeleteText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
+            // send the ProductsViewModel into the View
+            return View(UserServicesAddToEntityViewModel);
+        }
+
+        // Post: /<controller>/Delete
+        // @param Category
+        [Route("Customer/UserServices/Delete/{id}")]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            // find the webRootPath
+            string webRootPath = _hostingEnvironment.WebRootPath;
+            // find the Product by it's ID
+            UserServices userServices = await _colibriDbContext.UserServices.FindAsync(id);
+
+            if (userServices == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                // find the Image File
+                var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderService);
+                // find the Extension
+                var extension = Path.GetExtension(userServices.Image);
+                // exists the File?
+                if (System.IO.File.Exists(Path.Combine(uploads, userServices.Id + extension)))
+                {
+                    // remove the File
+                    System.IO.File.Delete(Path.Combine(uploads, userServices.Id + extension));
+                }
+
+                // remove the Entry from the DB
+                _colibriDbContext.UserServices.Remove(userServices);
+
+                // save the Changes asynchronously
+                await _colibriDbContext.SaveChangesAsync();
+
+
+                // TODO
+                // Publish the Created Advertisement's Product
+                using (var bus = RabbitHutch.CreateBus("host=localhost"))
+                {
+                    Console.WriteLine("Publishing messages with publish and subscribe.");
+                    Console.WriteLine();
+
+                    bus.Publish(userServices, "removed_user_services_by_admin");
+                }
+
+
+                // avoid Refreshing the POST Operation -> Redirect
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        // Remove (from Bag)
+        [Route("Customer/UserServices/Remove/{id}")]
+        public IActionResult Remove(int id)
+        {
+            List<int> lstCartServices = HttpContext.Session.Get<List<int>>("userServicesScheduling");
+
+            if (lstCartServices != null && lstCartServices.Any())
+            {
+                if (lstCartServices.Contains(id))
+                {
+                    // remove the Item (id)
+                    lstCartServices.Remove(id);
+                }
+            }
+            // set the Session: Name, Value
+            HttpContext.Session.Set("userServicesScheduling", lstCartServices);
+
+            // redirect to Action
+            return RedirectToAction(nameof(Index));
         }
     }
 }

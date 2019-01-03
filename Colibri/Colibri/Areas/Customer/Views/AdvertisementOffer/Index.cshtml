@@ -1,40 +1,48 @@
-﻿@model Colibri.ViewModels.AdvertisementViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Colibri.ViewModels.AdvertisementViewModel
 
-<h2>Index</h2>
+@inject IViewLocalizer Localizer
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">@ViewData["Offers"]</h2>
+    </div>
+</div>
+<hr />
 
 <div class="row">
     <div class="col-3">
         <a asp-action="CreateProduct" type="button" class="btn btn-primary">
             <i class="fas fa-plus"></i>
-            &nbsp; Produktangebot
+            &nbsp; @ViewData["OfferProduct"]
         </a>
     </div>
 
     <div class="col-3">
         <a asp-action="CreateUserService" type="button" class="btn btn-primary">
             <i class="fas fa-plus"></i>
-            &nbsp; Dienstleistungsangebot
+            &nbsp; @ViewData["OfferUserService"]
         </a>
     </div>
 </div>
 
 <br />
 <!--START: Sektion für Products-->
-<h3>Produkte</h3>
+<h3>@ViewData["Products"]</h3>
 <div class="form-border">
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(m => m.Product.Name)
+                @ViewData["Title"]
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.Product.CategoryTypeId)
+                @ViewData["CategoryType"]
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.Product.CategoryGroupId)
+                @ViewData["CategoryGroup"]
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.Product.Price)
+                @ViewData["Price"]
             </th>
         </tr>
         @foreach (var item in Model.Products)
@@ -70,23 +78,25 @@
         }
     </table>
 </div>
+<br />
+
 <!--ENDE: Sektion für Products-->
 <!--START: Sektion für User Services-->
-<h3>Dienstleistungen</h3>
+<h3>@ViewData["UserServices"]</h3>
 <div class="form-border">
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(m => m.UserService.Name)
+                @ViewData["Title"]
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.UserService.CategoryTypeId)
+                @ViewData["CategoryType"]
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.UserService.CategoryGroupId)
+                @ViewData["CategoryGroup"]
             </th>
             <th>
-                @Html.DisplayNameFor(m => m.UserService.Price)
+                @ViewData["Price"]
             </th>
         </tr>
         @foreach (var item in Model.UserServices)

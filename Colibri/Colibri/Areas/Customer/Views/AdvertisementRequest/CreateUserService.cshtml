@@ -1,0 +1,161 @@
+﻿@model Colibri.ViewModels.AdvertisementViewModel
+@using Colibri.Extensions
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        getCategoryTypes();
+        $("#CategoryGroup").change(function () {
+            getCategoryTypes();
+        });
+    });
+
+    function getCategoryTypes() {
+        console.log("Begin of getCategoryTypes");
+        var url = '@Url.Content("~/")' + "Customer/AdvertisementRequest/CreateProduct/GetCategory";
+        console.log("Url: " + url);
+        var ddlsource = '#CategoryGroup';
+
+        $.getJSON(url, { CategoryGroupID: $(ddlsource).val() }, function (data) {
+
+            var items = '';
+            $("#CategoryTypeId").empty();
+            $.each(data, function (i, categoryType) {
+                items += "<option value ='" + categoryType.value + "'>" + categoryType.text + "</option>";
+            });
+
+            $("#CategoryTypeId").html(items);
+        });
+    }
+</script>
+
+<h2>@ViewData["CreateUserServiceRequest"]</h2>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-border">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="UserService.Name" class="custom-label">@ViewData["Title"]</label>
+            </div>
+            <div class="col-5">
+                <input asp-for="UserService.Name" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="UserService.Description" class="custom-label">@ViewData["Description"]</label>
+            </div>
+            <div class="col-5">
+                <input asp-for="UserService.Description" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="UserService.CategoryGroupId" class="custom-label">@ViewData["CategoryGroup"]</label>
+            </div>
+            <div class="col-5">
+                <select asp-for="@Model.UserService.CategoryGroupId" asp-items="Model.CategoryGroups.ToSelectListItem(Model.UserService.CategoryGroupId)" id="CategoryGroup" class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="UserService.CategoryTypeId" class="custom-label">@ViewData["CategoryType"]</label>
+            </div>
+            <div class="col-5">
+                <select asp-for="UserService.CategoryTypeId" name="CategoryTypeId" id="CategoryTypeId" asp-items="@(new SelectList(string.Empty, "Id", "Name"))" class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="UserService.Image" class="custom-label">@ViewData["Image"]</label>
+            </div>
+            <div class="col-5">
+                <input type="file" name="files" multiple class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="UserService.Price" class="custom-label">@ViewData["Price"]</label>
+            </div>
+            <div class="col-5">
+                <input asp-for="UserService.Price" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="UserService.DueDateFrom" class="custom-label">@ViewData["DateFrom"]</label>
+            </div>
+            <div class="col-3">
+                <input asp-for="UserService.DueDateFrom" value="" type="text" class="datepicker form-control" />
+            </div>
+            <div class="col-2">
+                <input asp-for="UserService.DueTimeFrom" value="" type="text" class="timepicker form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="UserService.DueDateTo" class="custom-label">@ViewData["DateTo"]</label>
+            </div>
+            <div class="col-3">
+                <input asp-for="UserService.DueDateTo" value="" type="text" class="datepicker form-control" />
+            </div>
+            <div class="col-2">
+                <input asp-for="UserService.DueTimeTo" value="" type="text" class="timepicker form-control" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="@ViewData["Create"]" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-success">@ViewData["Back"]</a>
+            <a asp-controller="AdvertisementOffer" asp-action="CategoryOverview" class="btn btn-info">@ViewData["OverviewCategories"]</a>
+        </div>
+
+    </div>
+</form>
+
+<!-- min Date: tomorrow -->
+<!-- max Date: 3 Months -->
+@section Scripts {
+    @{
+        <script>
+            // Time-Picker
+            $('.timepicker').timepicker({
+                timeFormat: 'h:mm p',
+                interval: 60,
+                minTime: '10',
+                maxTime: '20:00pm',
+                //defaultTime: '11',
+                startTime: '06:00',
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true
+            });
+
+            // Date-Picker
+            $(function () {
+                $(".datepicker").datepicker({
+                    minDate: +1,
+                    maxDate: "+3M"
+                });
+            });
+        </script>
+
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

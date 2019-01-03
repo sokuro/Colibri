@@ -6,9 +6,11 @@ using Colibri.Areas.Customer.Controllers;
 using Colibri.Data;
 using Colibri.Models;
 using Colibri.Utility;
+using Colibri.ViewModels;
 using EasyNetQ;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
 namespace Colibri.Areas.Admin.Controllers
@@ -37,6 +39,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["NewCategoryGroup"] = _localizer["NewCategoryGroupText"];
             ViewData["Name"] = _localizer["NameText"];
             ViewData["TypeOfCategoryGroup"] = _localizer["TypeOfCategoryGroupText"];
+            ViewData["Overview"] = _localizer["OverviewText"];
 
             return View(categoryGroupsList);
         }
@@ -149,6 +152,16 @@ namespace Colibri.Areas.Admin.Controllers
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
+                // Strings für TypeOfCategoryGroup schreiben
+                if (categoryGroups.TypeOfCategoryGroup.Equals("0"))
+                {
+                    categoryGroups.TypeOfCategoryGroup = "Product";
+                }
+                else
+                {
+                    categoryGroups.TypeOfCategoryGroup = "Service";
+                }
+
                 // Update the Changes
                 _colibriDbContext.Update(categoryGroups);
                 await _colibriDbContext.SaveChangesAsync();
@@ -242,5 +255,31 @@ namespace Colibri.Areas.Admin.Controllers
             //return View("Details", newCategory);
             return RedirectToAction(nameof(Index));
         }
+
+        // GET : Action Overview
+        [Route("Admin/CategoryGroups/Overview")]
+        public async Task<IActionResult> Overview()
+        {
+            // i18n
+            ViewData["Products"] = _localizer["ProductsText"];
+            ViewData["UserService"] = _localizer["UserServiceText"];
+            ViewData["Overview"] = _localizer["OverviewText"];
+            ViewData["BackToCategoryGroup"] = _localizer["BackToCategoryGroupText"];
+            ViewData["BackToCategoryType"] = _localizer["BackToCategoryTypeText"];
+            ViewData["OverviewCategories"] = _localizer["OverviewCategoriesText"];
+            ViewData["ShowAll"] = _localizer["ShowAllText"];
+            ViewData["HideAll"] = _localizer["HideAllText"];
+            ViewData["ToCategoryGroup"] = _localizer["ToCategoryGroupText"];
+            ViewData["ToCategoryType"] = _localizer["ToCategoryTypeText"];
+
+            CategoryTypesAndCategoryGroupsViewModel model = new CategoryTypesAndCategoryGroupsViewModel();
+
+            model.CategoryGroupsList = await _colibriDbContext.CategoryGroups.ToListAsync();
+            model.CategoryTypesListE = await _colibriDbContext.CategoryTypes.ToListAsync();
+
+            return View(model);
+        }
+
+       
     }
 }

@@ -153,6 +153,9 @@
   <data name="PhoneNumberText" xml:space="preserve">
     <value>Phone Number</value>
   </data>
+  <data name="RateUserText" xml:space="preserve">
+    <value>Rate</value>
+  </data>
   <data name="SearchText" xml:space="preserve">
     <value>Search</value>
   </data>
@@ -164,6 +167,9 @@
   </data>
   <data name="UserNameText" xml:space="preserve">
     <value>User Name</value>
+  </data>
+  <data name="UserRatingText" xml:space="preserve">
+    <value>Rating</value>
   </data>
   <data name="ViewDetailsText" xml:space="preserve">
     <value>View Details</value>

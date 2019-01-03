@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Colibri.Areas.Admin.Controllers;
@@ -29,6 +30,12 @@ namespace Colibri.Areas.Customer.Controllers
         private readonly IEmailSender _emailSender;
         private readonly IStringLocalizer<ApplicationUserController> _localizer;
 
+        [BindProperty]
+        public ApplicationUserViewModel ApplicationUserViewModel { get; set; }
+
+        [BindProperty]
+        public ApplicationUserRatingViewModel ApplicationUserRatingViewModel { get; set; }
+
         // CTOR
         // get the Data from the DB
         public ApplicationUserController(ColibriDbContext colibriDbContext,
@@ -38,6 +45,18 @@ namespace Colibri.Areas.Customer.Controllers
             _colibriDbContext = colibriDbContext;
             _emailSender = emailSender;
             _localizer = localizer;
+
+            ApplicationUserViewModel = new ApplicationUserViewModel()
+            {
+                ApplicationUser = new Models.ApplicationUser(),
+                ApplicationUsers = new List<ApplicationUser>()
+            };
+
+            ApplicationUserRatingViewModel = new ApplicationUserRatingViewModel()
+            {
+                ApplicationUsers = new List<ApplicationUserRatings>(),
+                ApplicationUser = new Models.ApplicationUserRatings()
+            };
         }
 
         // extend the Method with the Parameters for Search:
@@ -128,6 +147,8 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["LastName"] = _localizer["LastNameText"];
             ViewData["Contact"] = _localizer["ContactText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["UserRating"] = _localizer["UserRatingText"];
+            ViewData["RateUser"] = _localizer["RateUserText"];
 
             return View(user);
         }
@@ -171,6 +192,206 @@ namespace Colibri.Areas.Customer.Controllers
                 ModelState.Clear();
             }
             return RedirectToAction("Index", "ApplicationUser", new { area = "Customer" });
+        }
+
+
+        // Handle Ratings: GET: Rate User
+        [Route("Customer/ApplicationUser/RateUser/{id}")]
+        public async Task<IActionResult> RateUser(string id)
+        {
+            if (id == "")
+            {
+                return NotFound();
+            }
+
+            // get the individual User
+            ApplicationUserViewModel.ApplicationUser = await _colibriDbContext.ApplicationUsers
+                                                            .Where(p => p.Id.ToLower().Contains(id.ToLower()))
+                                                            .FirstOrDefaultAsync();
+
+            // save the Changes in DB
+            await _colibriDbContext.SaveChangesAsync();
+
+            // i18n
+            ViewData["RateQuestion"] = _localizer["RateQuestionText"];
+            ViewData["Save"] = _localizer["SaveText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["ProductRating"] = _localizer["ProductRatingText"];
+            ViewData["RateProduct"] = _localizer["RateProductText"];
+            ViewData["ShowAllRatings"] = _localizer["ShowAllRatingsText"];
+
+            return View(ApplicationUserViewModel);
+        }
+
+        // Rate the User
+        [Route("Customer/ApplicationUser/RateUser/{id}")]
+        [HttpPost, ActionName("RateUser")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> RateUserPost(string id, string command)
+        {
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                // Security Claims
+                System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+                // Claims Identity
+                var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+                // to overwrite a Rating, first get the old One
+                // get the User from the DB
+                var userFromDb = await _colibriDbContext.ApplicationUsers
+                                        .Where(m => m.Id == id)
+                                        .FirstOrDefaultAsync();
+
+                // another Table Rating for the Description
+                var userRatingFromDb = await _colibriDbContext.ApplicationUserRatings
+                    .Where(p => p.ApplicationUserRatedId == id)
+                    .FirstOrDefaultAsync();
+
+                // current User
+                var currentUserId = claim.Value;
+
+                if (userRatingFromDb != null)
+                {
+                    // check, if already rated
+                    if (userRatingFromDb.ApplicationUserRatingId == currentUserId)
+                    {
+                        TempData["msg"] = "<script>alert('Already rated!');</script>";
+                        TempData["returnButton"] = "<div><p><b>Already rated!</b></p></div>";
+                        TempData["returnBackButton"] = "return";
+                        TempData["showApplicationUserRating"] = "showApplicationUserRating";
+                        TempData["applicationUserId"] = userFromDb.Id;
+
+                        ViewData["BackToList"] = _localizer["BackToListText"];
+                        ViewData["ShowAllRatings"] = _localizer["ShowAllRatingsText"];
+                        ViewData["ShowRating"] = _localizer["ShowRatingText"];
+
+                        return View();
+                    }
+                    else
+                    {
+                        int tempUserRating = 0;
+
+                        if (command.Equals("1"))
+                        {
+                            tempUserRating = 1;
+                        }
+                        else if (command.Equals("2"))
+                        {
+                            tempUserRating = 2;
+                        }
+                        else if (command.Equals("3"))
+                        {
+                            tempUserRating = 3;
+                        }
+                        else if (command.Equals("4"))
+                        {
+                            tempUserRating = 4;
+                        }
+                        else if (command.Equals("5"))
+                        {
+                            tempUserRating = 5;
+                        }
+
+                        // go to the Product Table
+                        // calculate the new ProductRating
+                        if (userFromDb.NumberOfApplicationUserRates == 0)
+                        {
+                            userFromDb.UserRating = tempUserRating;
+                        }
+                        else
+                        {
+                            userFromDb.UserRating = Math.Round((userFromDb.UserRating * userFromDb.NumberOfApplicationUserRates + tempUserRating) / (userFromDb.NumberOfApplicationUserRates + 1), 2);
+                        }
+
+                        // Rating Create
+                        ApplicationUserRatings applicationUserRatings = new ApplicationUserRatings()
+                        {
+                            ApplicationUserRatedId = userFromDb.Id,
+                            ApplicationUserRatedName = userFromDb.UserName,
+                            ApplicationUserRatingId = claim.Value,
+                            ApplicationUserRatingName = claim.Subject.Name,
+                            ApplicationUserRate = tempUserRating,
+                            CreatedOn = System.DateTime.Now
+                        };
+
+                        // update the ApplicationRating Entity
+                        _colibriDbContext.ApplicationUserRatings.Add(applicationUserRatings);
+
+                        // increment the Number of Application User Rates
+                        userFromDb.NumberOfApplicationUserRates += 1;
+
+                        // save the Changes in DB
+                        await _colibriDbContext.SaveChangesAsync();
+                    }
+
+                    return View(ApplicationUserViewModel);
+                }
+
+                else
+                {
+                    int tempUserRating = 0;
+
+                    if (command.Equals("1"))
+                    {
+                        tempUserRating = 1;
+                    }
+                    else if (command.Equals("2"))
+                    {
+                        tempUserRating = 2;
+                    }
+                    else if (command.Equals("3"))
+                    {
+                        tempUserRating = 3;
+                    }
+                    else if (command.Equals("4"))
+                    {
+                        tempUserRating = 4;
+                    }
+                    else if (command.Equals("5"))
+                    {
+                        tempUserRating = 5;
+                    }
+
+                    if (userFromDb.NumberOfApplicationUserRates == 0)
+                    {
+                        userFromDb.UserRating = tempUserRating;
+                    }
+                    else
+                    {
+                        userFromDb.UserRating = Math.Round((userFromDb.UserRating * userFromDb.NumberOfApplicationUserRates + tempUserRating) / (userFromDb.NumberOfApplicationUserRates + 1), 2);
+                    }
+
+                    // Rating Create
+                    ApplicationUserRatings applicationUserRatings = new ApplicationUserRatings()
+                    {
+                        ApplicationUserRatedId = userFromDb.Id,
+                        ApplicationUserRatedName = userFromDb.UserName,
+                        ApplicationUserRatingId = claim.Value,
+                        ApplicationUserRatingName = claim.Subject.Name,
+                        ApplicationUserRate = tempUserRating,
+                        CreatedOn = System.DateTime.Now
+                    };
+
+                    // update the ProductsRatings Entity
+                    _colibriDbContext.ApplicationUserRatings.Add(applicationUserRatings);
+
+                    // increment the Number of Product Rates of the Product
+                    userFromDb.NumberOfApplicationUserRates += 1;
+
+                    // save the Changes in DB
+                    await _colibriDbContext.SaveChangesAsync();
+                }
+
+                return RedirectToAction(nameof(Details));
+            }
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(ApplicationUserViewModel);
+            }
         }
     }
 }

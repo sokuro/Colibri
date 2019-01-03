@@ -1,5 +1,7 @@
 ﻿@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization
 @model List<Colibri.Models.Products>
+@inject IViewLocalizer Localizer
 <!-- individual CSS -->
 @section appointments {
     <link href="~/css/appointments.css" rel="stylesheet" />
@@ -14,16 +16,16 @@
                 <!-- Table Headers -->
                 <th id="imageRowHeader"></th>
                 <th>
-                    <label asp-for="@Model.FirstOrDefault().Name"></label>
+                    @ViewData["Name"]
                 </th>
                 <th>
-                    <label asp-for="@Model.FirstOrDefault().Price"></label>
+                    @ViewData["Price"]
                 </th>
                 <th>
-                    <label asp-for="@Model.FirstOrDefault().CategoryTypes"></label>
+                    @ViewData["CategoryType"]
                 </th>
                 <th>
-                    <label asp-for="@Model.FirstOrDefault().Description"></label>
+                    @ViewData["Description"]
                 </th>
                 <th></th>
                 <!-- END: Table Headers -->
@@ -58,5 +60,5 @@
 }
 else
 {
-<div>No Items added!</div>
+    <div>@ViewData["NoItemsAdded"]</div>
 }

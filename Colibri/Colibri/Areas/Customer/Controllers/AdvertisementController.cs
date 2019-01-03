@@ -46,6 +46,9 @@ namespace Colibri.Areas.Customer.Controllers
         [BindProperty]
         public ProductsViewModel ProductsViewModel { get; set; }
 
+        [BindProperty]
+        public ProductsRatingViewModel ProductsRatingViewModel { get; set; }
+
         public AdvertisementController(ColibriDbContext colibriDbContext, 
             HostingEnvironment hostingEnvironment, 
             IStringLocalizer<AdvertisementController> localizer)
@@ -67,6 +70,14 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 // initialize
                 Products = new List<Products>(),
+                Users = new List<ApplicationUser>()
+            };
+
+            // ProductsRatingModel
+            ProductsRatingViewModel = new ProductsRatingViewModel()
+            {
+                Products = new List<ProductsRatings>(),
+                Product = new Models.ProductsRatings(),
                 Users = new List<ApplicationUser>()
             };
         }
@@ -120,17 +131,17 @@ namespace Colibri.Areas.Customer.Controllers
                                                     select u;
 
             // Search Conditions
-            if (searchUserName != null)
-            {
-                //AdvertisementViewModel.Products = AdvertisementViewModel.Products
-                //                                    .Where(a => a.ApplicationUser.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
-                AdvertisementViewModel.Users = AdvertisementViewModel.Users
-                                                    .Where(a => a.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
-            }
             if (searchProductName != null)
             {
+                AdvertisementViewModel.SearchFilter = searchProductName;
                 AdvertisementViewModel.Products = AdvertisementViewModel.Products
                                                     .Where(a => a.Name.ToLower().Contains(searchProductName.ToLower())).ToList();
+            }
+            if (searchUserName != null)
+            {
+                AdvertisementViewModel.SearchFilter = searchUserName;
+                AdvertisementViewModel.Products = AdvertisementViewModel.Products
+                                                    .Where(a => a.ApplicationUserName.ToLower().Contains(searchUserName.ToLower())).ToList();
             }
             //if (claim != null)
             if (filterMine != null)
@@ -270,6 +281,9 @@ namespace Colibri.Areas.Customer.Controllers
                 // TODO: create a Switch to Offer/Order
                 //productsFromDb.SpecialTagId = 1;
 
+                // add the CreatedOn Property to the Model
+                productsFromDb.CreatedOn = DateTime.Now;
+
                 // add the current User as the Creator of the Advertisement
                 productsFromDb.ApplicationUserId = claim.Value;
                 productsFromDb.ApplicationUserName = claim.Subject.Name;
@@ -356,97 +370,55 @@ namespace Colibri.Areas.Customer.Controllers
             return View(product);
         }
 
-        // Handle Ratings: GET
-        [Route("Customer/Advertisement/RateAdvertisement/{id}")]
-        public async Task<IActionResult> RateAdvertisement(int? id)
+        // GET: Details if item is UserService
+        [Route("Customer/Advertisement/DetailsService/{id}")]
+        public async Task<IActionResult> DetailsService(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            // get the individual Product
-            ProductsViewModel.Products = await _colibriDbContext.Products
+            // get the individual Service
+            var service = await _colibriDbContext.UserServices
                     .Include(p => p.CategoryGroups)
                     .Include(p => p.CategoryTypes)
                     .Where(p => p.Id == id)
                     .FirstOrDefaultAsync();
 
+            // get the Service's User
+            var user = (IEnumerable<ApplicationUser>)(from u in _colibriDbContext.ApplicationUsers
+                                                      join p in _colibriDbContext.UserServices
+                                                      .Include(p => p.ApplicationUser)
+                                                      .ThenInclude(p => p.UserName)
+                                                      on u.Id equals p.ApplicationUserId
+                                                      select u);
+
+            // count the Number of Clicks on the Product
+            service.NumberOfClicks += 1;
+
             // save the Changes in DB
             await _colibriDbContext.SaveChangesAsync();
 
             // i18n
-            ViewData["RateQuestion"] = _localizer["RateQuestionText"];
-            ViewData["Save"] = _localizer["SaveText"];
+            ViewData["AdvertisementDetails"] = _localizer["AdvertisementDetailsText"];
+            ViewData["AdvertisementName"] = _localizer["AdvertisementNameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["SpecialTag"] = _localizer["SpecialTagText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["NumberOfClicks"] = _localizer["NumberOfClicksText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["ContactOwner"] = _localizer["ContactOwnerText"];
+            ViewData["RemoveFromBag"] = _localizer["RemoveFromBagText"];
+            ViewData["Order"] = _localizer["OrderText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["ProductRating"] = _localizer["ProductRatingText"];
             ViewData["RateProduct"] = _localizer["RateProductText"];
+            ViewData["NumberOfProductRates"] = _localizer["NumberOfProductRatesText"];
 
-            return View(ProductsViewModel);
-        }
-
-
-        [Route("Customer/Advertisement/RateAdvertisement/{id}")]
-        [HttpPost, ActionName("RateAdvertisement")]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> RateAdvertisementPost(int id, string command)
-        {
-            // Check the State Model Binding
-            if (ModelState.IsValid)
-            {
-                // to overwrite a Rating, first get the old One
-                // get the Product from the DB
-                var productFromDb = await _colibriDbContext.Products
-                                        .Where(m => m.Id == id)
-                                        .FirstOrDefaultAsync();
-
-                int tempProductRating = 0;
-
-                if (command.Equals("1"))
-                {
-                    tempProductRating = 1;
-                }
-                else if (command.Equals("2"))
-                {
-                    tempProductRating = 2;
-                }
-                else if (command.Equals("3"))
-                {
-                    tempProductRating = 3;
-                }
-                else if (command.Equals("4"))
-                {
-                    tempProductRating = 4;
-                }
-                else if (command.Equals("5"))
-                {
-                    tempProductRating = 5;
-                }
-
-                // calculate the new ProductRating
-                if (productFromDb.NumberOfProductRates == 0)
-                {
-                    productFromDb.ProductRating = tempProductRating;
-                }
-                else
-                {
-                    productFromDb.ProductRating = Math.Round((productFromDb.ProductRating * productFromDb.NumberOfProductRates + tempProductRating) / (productFromDb.NumberOfProductRates + 1), 2);
-                }
-
-                // increment the Number of Product Rates of the Product
-                productFromDb.NumberOfProductRates += 1;
-
-                // save the Changes in DB
-                await _colibriDbContext.SaveChangesAsync();
-
-                return RedirectToAction(nameof(Details));
-                //return View();
-            }
-            else
-            {
-                // one can simply return to the Form View again for Correction
-                return View(ProductsViewModel);
-            }
+            return View(service);
         }
 
         // Details POST
@@ -473,6 +445,244 @@ namespace Colibri.Areas.Customer.Controllers
 
             // redirect to Action
             return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
+        }
+
+        // Details POST for Userservice
+        [Route("Customer/Advertisement/DetailsService/{id}")]
+        [HttpPost, ActionName("Details")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DetailsServicePost(int id)
+        {
+            // check first, if anything exists in the Session
+            // Session Name : "ssScheduling"
+            List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
+
+            // check if null -> create new
+            if (lstCartItems == null)
+            {
+                lstCartItems = new List<int>();
+            }
+
+            // add the retrieved Item (id)
+            lstCartItems.Add(id);
+            // set the Session:
+            // Session Name, Value
+            HttpContext.Session.Set("ssScheduling", lstCartItems);
+
+            // redirect to Action
+            return RedirectToAction("Index", "Scheduling", new { area = "Customer" });
+        }
+
+        // Handle Ratings: GET
+        [Route("Customer/Advertisement/RateAdvertisement/{id}")]
+        public async Task<IActionResult> RateAdvertisement(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // get the individual Product
+            ProductsViewModel.Products = await _colibriDbContext.Products
+                    .Include(p => p.CategoryGroups)
+                    .Include(p => p.CategoryTypes)
+                    .Where(p => p.Id == id)
+                    .FirstOrDefaultAsync();
+
+            // save the Changes in DB
+            await _colibriDbContext.SaveChangesAsync();
+
+            // i18n
+            ViewData["RateQuestion"] = _localizer["RateQuestionText"];
+            ViewData["Save"] = _localizer["SaveText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["ProductRating"] = _localizer["ProductRatingText"];
+            ViewData["RateProduct"] = _localizer["RateProductText"];
+            ViewData["ShowAllRatings"] = _localizer["ShowAllRatingsText"];
+
+            return View(ProductsViewModel);
+        }
+
+
+        [Route("Customer/Advertisement/RateAdvertisement/{id}")]
+        [HttpPost, ActionName("RateAdvertisement")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> RateAdvertisementPost(int id, string command)
+        {
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                // Security Claims
+                System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+                // Claims Identity
+                var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+                // to overwrite a Rating, first get the old One
+                // get the Product from the DB
+                var productFromDb = await _colibriDbContext.Products
+                                        .Where(m => m.Id == id)
+                                        .FirstOrDefaultAsync();
+
+                // another Table ProductRatings for the Description
+                var productRatingFromDb = await _colibriDbContext.ProductsRatings
+                    .Where(p => p.ProductId == id)
+                    .FirstOrDefaultAsync();
+
+                // current User
+                var currentUserId = claim.Value;
+                //bool userAlreadyRated = false;
+
+                if (productRatingFromDb != null)
+                {
+                    // check, if already rated
+                    if (productRatingFromDb.ApplicationUserId == currentUserId)
+                    {
+                        // already rated!
+                        //userAlreadyRated = true;
+
+                        TempData["msg"] = "<script>alert('Already rated!');</script>";
+                        TempData["returnButton"] = "<div><p><b>Already rated!</b></p></div>";
+                        TempData["returnBackButton"] = "return";
+                        TempData["showProductRating"] = "showProductRating";
+                        TempData["productId"] = productFromDb.Id;
+
+                        ViewData["BackToList"] = _localizer["BackToListText"];
+                        ViewData["ShowAllRatings"] = _localizer["ShowAllRatingsText"];
+                        ViewData["ShowRating"] = _localizer["ShowRatingText"];
+
+                        return View();
+                    }
+                    else
+                    {
+                        int tempProductRating = 0;
+
+                        if (command.Equals("1"))
+                        {
+                            tempProductRating = 1;
+                        }
+                        else if (command.Equals("2"))
+                        {
+                            tempProductRating = 2;
+                        }
+                        else if (command.Equals("3"))
+                        {
+                            tempProductRating = 3;
+                        }
+                        else if (command.Equals("4"))
+                        {
+                            tempProductRating = 4;
+                        }
+                        else if (command.Equals("5"))
+                        {
+                            tempProductRating = 5;
+                        }
+
+                        // go to the Product Table
+                        // calculate the new ProductRating
+                        if (productFromDb.NumberOfProductRates == 0)
+                        {
+                            productFromDb.ProductRating = tempProductRating;
+                        }
+                        else
+                        {
+                            productFromDb.ProductRating = Math.Round((productFromDb.ProductRating * productFromDb.NumberOfProductRates + tempProductRating) / (productFromDb.NumberOfProductRates + 1), 2);
+                        }
+
+                        // Rating Create
+                        ProductsRatings productsRatings = new ProductsRatings()
+                        {
+                            ProductId = productFromDb.Id,
+                            ProductName = productFromDb.Name,
+                            //ApplicationUserId = productFromDb.ApplicationUserId,
+                            // add the current User as the Creator of the Rating
+                            ApplicationUserId = claim.Value,
+                            ApplicationUserName = claim.Subject.Name,
+                            ProductRating = tempProductRating,
+                            CreatedOn = System.DateTime.Now
+                        };
+
+                        // update the ProductsRatings Entity
+                        _colibriDbContext.ProductsRatings.Add(productsRatings);
+
+                        // increment the Number of Product Rates of the Product
+                        productFromDb.NumberOfProductRates += 1;
+
+                        // save the Changes in DB
+                        await _colibriDbContext.SaveChangesAsync();
+                    }
+
+                    return View(ProductsViewModel);
+                }
+
+                //else if (productRatingFromDb == null && !userAlreadyRated)
+                else
+                {
+                    int tempProductRating = 0;
+
+                    if (command.Equals("1"))
+                    {
+                        tempProductRating = 1;
+                    }
+                    else if (command.Equals("2"))
+                    {
+                        tempProductRating = 2;
+                    }
+                    else if (command.Equals("3"))
+                    {
+                        tempProductRating = 3;
+                    }
+                    else if (command.Equals("4"))
+                    {
+                        tempProductRating = 4;
+                    }
+                    else if (command.Equals("5"))
+                    {
+                        tempProductRating = 5;
+                    }
+
+                    // go to the Product Table
+                    // calculate the new ProductRating
+                    if (productFromDb.NumberOfProductRates == 0)
+                    {
+                        productFromDb.ProductRating = tempProductRating;
+                    }
+                    else
+                    {
+                        productFromDb.ProductRating = Math.Round((productFromDb.ProductRating * productFromDb.NumberOfProductRates + tempProductRating) / (productFromDb.NumberOfProductRates + 1), 2);
+                    }
+
+                    // Rating Create
+                    ProductsRatings productsRatings = new ProductsRatings()
+                    {
+                        ProductId = productFromDb.Id,
+                        ProductName = productFromDb.Name,
+                        //ApplicationUserId = productFromDb.ApplicationUserId,
+                        // add the current User as the Creator of the Rating
+                        ApplicationUserId = claim.Value,
+                        ApplicationUserName = claim.Subject.Name,
+                        ProductRating = tempProductRating,
+                        CreatedOn = System.DateTime.Now
+                    };
+
+                    // update the ProductsRatings Entity
+                    _colibriDbContext.ProductsRatings.Add(productsRatings);
+
+                    // increment the Number of Product Rates of the Product
+                    productFromDb.NumberOfProductRates += 1;
+
+                    // save the Changes in DB
+                    await _colibriDbContext.SaveChangesAsync();
+                }
+
+                return RedirectToAction(nameof(Details));
+            }
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(ProductsViewModel);
+            }
         }
 
         // Get: /<controller>/Edit
@@ -690,7 +900,7 @@ namespace Colibri.Areas.Customer.Controllers
         {
             List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
 
-            if (lstCartItems.Count > 0)
+            if (lstCartItems != null && lstCartItems.Any())
             {
                 if (lstCartItems.Contains(id))
                 {

@@ -15,30 +15,38 @@ namespace Colibri.ViewModels
         [Display(Name = "Rubrik Gruppe")]
         public string SearchCategoryGroup { get; set; }
 
-        [Display(Name = "Rubrik")]
-        public string SearchCategory { get; set; }
-
         [Display(Name = "Inserat Titel")]
         public string SearchAdvertisement { get; set; }
 
         public string SearchAdvertisementRequest { get; set; }
 
+        // String für PLZ
+        public string PLZ { get; set; }
+
         // Güter
         public Products Products{ get; set; }
         public IEnumerable<Products> ProductsList { get; set; }
+        public int ProductsCounter { get; set; }
 
         // Dienstleistungen
         public UserServices UserServices { get; set; }
         public IEnumerable<UserServices> UserServicesList { get; set; }
+        public int UserServicesCounter { get; set; }
 
         // Angebot oder Nachfrage
         public string TypeOfAdvertisement { get; set; }
 
-        // Rubrik-Gruppe
+        // Rubrik-Gruppen 
         public IEnumerable<CategoryGroups> CategoryGroupsList { get; set; }
 
-        // Rubrik
+        // Rubriken 
         public IEnumerable<CategoryTypes> CategoryTypesList { get; set; }
+
+        // Rubrik-Gruppen der Archiv-Einträge
+        public IEnumerable<CategoryGroups> ArchiveCategoryGroupsList { get; set; }
+
+        // Rubriken der Archiv-Einträge
+        public List<CategoryTypes> ArchiveCategoryTypesList { get; set; }
 
         public IEnumerable<ArchiveEntry> ArchiveEntryList { get; set; }
 

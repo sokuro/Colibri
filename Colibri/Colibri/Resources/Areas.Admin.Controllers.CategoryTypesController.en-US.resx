@@ -120,11 +120,20 @@
   <data name="BackToListText" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="CategoryGroupText" xml:space="preserve">
+    <value>Category Group</value>
+  </data>
+  <data name="CategoryType1Text" xml:space="preserve">
+    <value>Category</value>
+  </data>
   <data name="CategoryTypeText" xml:space="preserve">
     <value>Categories</value>
   </data>
+  <data name="CreateCategoryServiceTypeText" xml:space="preserve">
+    <value>Create userservice category</value>
+  </data>
   <data name="CreateCategoryTypeText" xml:space="preserve">
-    <value>Create new Category</value>
+    <value>Create product category</value>
   </data>
   <data name="CreateText" xml:space="preserve">
     <value>Create</value>
@@ -144,11 +153,32 @@
   <data name="EditText" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="ExistingCategoriesText" xml:space="preserve">
+    <value>Existing Categories</value>
+  </data>
+  <data name="IsNewText" xml:space="preserve">
+    <value>New Category</value>
+  </data>
   <data name="NameText" xml:space="preserve">
-    <value>Name</value>
+    <value>Category Name</value>
   </data>
   <data name="NewCategoryTypeText" xml:space="preserve">
-    <value>New Category</value>
+    <value>New product category</value>
+  </data>
+  <data name="NewCategoryTypeUserServiceText" xml:space="preserve">
+    <value>New userservice category</value>
+  </data>
+  <data name="OverviewText" xml:space="preserve">
+    <value>Overview</value>
+  </data>
+  <data name="PLZText" xml:space="preserve">
+    <value>PLZ</value>
+  </data>
+  <data name="ProductServiceText" xml:space="preserve">
+    <value>Product / Service</value>
+  </data>
+  <data name="SearchText" xml:space="preserve">
+    <value>Search</value>
   </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Update</value>

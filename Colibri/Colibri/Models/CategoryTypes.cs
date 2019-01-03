@@ -16,6 +16,8 @@ namespace Colibri.Models
         [Required]
         public string Name { get; set; }
 
+        public string NameCombined { get; set; }
+
         public string Description { get; set; }
 
         // Timestamp, wann die Rubrik angelegt wurde
@@ -28,6 +30,7 @@ namespace Colibri.Models
         public bool isGlobal { get; set; }
 
         public string PLZ { get; set; }
+
 
         // Fremdschlüssel für Rubrik-Gruppe
         [Required]

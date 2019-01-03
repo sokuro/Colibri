@@ -138,6 +138,12 @@
   <data name="CreateUserServiceText" xml:space="preserve">
     <value>Erstelle eine Dienstleistung</value>
   </data>
+  <data name="DeleteText" xml:space="preserve">
+    <value>Lösche</value>
+  </data>
+  <data name="DeleteUserServiceText" xml:space="preserve">
+    <value>Lösche Dienstleistung</value>
+  </data>
   <data name="DescriptionText" xml:space="preserve">
     <value>Beschreibung</value>
   </data>
@@ -150,20 +156,41 @@
   <data name="NumberOfClicksText" xml:space="preserve">
     <value>Anzahl Klicks</value>
   </data>
+  <data name="NumberOfUserServiceRatesText" xml:space="preserve">
+    <value>Anzahl Bewertungen</value>
+  </data>
   <data name="OrderText" xml:space="preserve">
     <value>Bestelle</value>
   </data>
   <data name="PriceText" xml:space="preserve">
     <value>Preis</value>
   </data>
+  <data name="RateQuestionText" xml:space="preserve">
+    <value>Wie würdest Du die Dienstleistung bewerten?</value>
+  </data>
+  <data name="RateUserServiceText" xml:space="preserve">
+    <value>Bewerte</value>
+  </data>
   <data name="RemoveFromBagText" xml:space="preserve">
     <value>Entferne aus der Bestellung</value>
+  </data>
+  <data name="SaveText" xml:space="preserve">
+    <value>Speichere</value>
   </data>
   <data name="SearchText" xml:space="preserve">
     <value>Suche</value>
   </data>
+  <data name="ShowAllRatingsText" xml:space="preserve">
+    <value>Alle Bewertungen</value>
+  </data>
+  <data name="ShowRatingText" xml:space="preserve">
+    <value>Zeige Bewertung</value>
+  </data>
   <data name="SpecialTagText" xml:space="preserve">
     <value>Spezial Tag</value>
+  </data>
+  <data name="UpdateText" xml:space="preserve">
+    <value>Aktualisiere</value>
   </data>
   <data name="UserNameText" xml:space="preserve">
     <value>User Name</value>
@@ -173,6 +200,9 @@
   </data>
   <data name="UserServiceNameText" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="UserServiceRatingText" xml:space="preserve">
+    <value>Bewertung</value>
   </data>
   <data name="UserServiceText" xml:space="preserve">
     <value>Dienstleistungen</value>

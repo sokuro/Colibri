@@ -1,7 +1,7 @@
 ﻿@model Colibri.Models.UserServices
 
 
-<h2>DetailsUserService</h2>
+<h2>@ViewData["DetailsUserService"]</h2>
 <br />
 
 <form method="post" enctype="multipart/form-data">
@@ -15,7 +15,7 @@
 
                 <div class="form-group row">
                     <div class="col-2">
-                        <label asp-for="Name" class="custom-label"></label>
+                        <label asp-for="Name" class="custom-label">@ViewData["Title"]</label>
                     </div>
                     <div class="col-5">
                         <input asp-for="Name" class="form-control" />
@@ -24,7 +24,7 @@
 
                 <div class="form-group row">
                     <div class="col-2">
-                        <label asp-for="Description" class="custom-label"></label>
+                        <label asp-for="Description" class="custom-label">@ViewData["Description"]</label>
                     </div>
                     <div class="col-5">
                         <input asp-for="Description" class="form-control" />
@@ -33,7 +33,7 @@
 
                 <div class="form-group row">
                     <div class="col-2">
-                        <label asp-for="CategoryGroupId" class="custom-label"></label>
+                        <label asp-for="CategoryGroupId" class="custom-label">@ViewData["CategoryGroup"]</label>
                     </div>
                     <div class="col-5">
                         <input asp-for="CategoryGroups.Name" class="form-control" />
@@ -42,7 +42,7 @@
 
                 <div class="form-group row">
                     <div class="col-2">
-                        <label asp-for="CategoryTypeId" class="custom-label"></label>
+                        <label asp-for="CategoryTypeId" class="custom-label">@ViewData["CategoryType"]</label>
                     </div>
                     <div class="col-5">
                         <input asp-for="CategoryTypes.Name" class="form-control" />
@@ -51,7 +51,7 @@
 
                 <div class="form-group row">
                     <div class="col-2">
-                        <label asp-for="Image" class="custom-label"></label>
+                        <label asp-for="Image" class="custom-label">@ViewData["Image"]</label>
                     </div>
                     <div class="col-5">
                         <input type="file" name="files" multiple class="form-control" />
@@ -60,7 +60,7 @@
 
                 <div class="form-group row">
                     <div class="col-2">
-                        <label asp-for="Price" class="custom-label"></label>
+                        <label asp-for="Price" class="custom-label">@ViewData["Price"]</label>
                     </div>
                     <div class="col-5">
                         <input asp-for="Price" class="form-control" />
@@ -69,7 +69,7 @@
 
                 <div class="form-group row">
                     <div class="col-2">
-                        <label asp-for="DueDateFrom" class="custom-label"></label>
+                        <label asp-for="DueDateFrom" class="custom-label">@ViewData["DateFrom"]</label>
                     </div>
                     <div class="col-5">
                         <input asp-for="DueDateFrom" class="form-control" />
@@ -78,7 +78,7 @@
 
                 <div class="form-group row">
                     <div class="col-2">
-                        <label asp-for="DueDateTo" class="custom-label"></label>
+                        <label asp-for="DueDateTo" class="custom-label">@ViewData["DateTo"]</label>
                     </div>
                     <div class="col-5">
                         <input asp-for="DueDateTo" class="form-control" />
@@ -87,7 +87,7 @@
 
                 <div class="form-group row">
                     <div class="col-2">
-                        <label asp-for="Available" class="custom-label"></label>
+                        <label asp-for="Available" class="custom-label">@ViewData["Available"]</label>
                     </div>
                     <div class="col-5">
                         <input asp-for="Available" class="form-control" />
@@ -97,8 +97,8 @@
             </fieldset>
 
             <div class="form-group">
-                <a asp-action="EditUserService" asp-route-id="@Model.Id" class="btn btn-primary">Bearbeiten</a>
-                <a asp-action="Index" class="btn btn-success">Zurück zur Liste</a>
+                <a asp-action="EditUserService" asp-route-id="@Model.Id" class="btn btn-primary">@ViewData["Edit"]</a>
+                <a asp-action="Index" class="btn btn-success">@ViewData["Back"]</a>
             </div>
         </div>
         <div class="col-3">

@@ -11,6 +11,7 @@ namespace Colibri.Models
     public class UserServices
     {
         [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
@@ -21,7 +22,12 @@ namespace Colibri.Models
         //public double Duration { get; set; }
 
         public DateTime DueDateFrom { get; set; }
+        [NotMapped]
+        public DateTime DueTimeFrom { get; set; }
         public DateTime DueDateTo { get; set; }
+        [NotMapped]
+        public DateTime DueTimeTo { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         // Number of Clicks on the Product
@@ -69,5 +75,8 @@ namespace Colibri.Models
         // 1 Product = 1 User
         [ForeignKey("ApplicationUserId")]
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        // #5 UserName
+        public string ApplicationUserName { get; set; }
     }
 }

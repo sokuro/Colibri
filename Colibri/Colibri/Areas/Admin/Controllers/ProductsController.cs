@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Colibri.Data;
 using Colibri.Models;
@@ -29,10 +30,16 @@ namespace Colibri.Areas.Admin.Controllers
         private readonly HostingEnvironment _hostingEnvironment;
         private readonly IStringLocalizer<ProductsController> _localizer;
 
+        // PageSize (for the Pagination: 5 Appointments/Page)
+        private int PageSize = 5;
+
         // bind to the ViewModel
         // not necessary to create new Objects
         [BindProperty]
         public ProductsViewModel ProductsViewModel { get; set; }
+
+        [BindProperty]
+        public ProductsListViewModel ProductsListViewModel { get; set; }
 
         public ProductsController(ColibriDbContext colibriDbContext,
             HostingEnvironment hostingEnvironment,
@@ -49,21 +56,83 @@ namespace Colibri.Areas.Admin.Controllers
                 CategoryTypes = _colibriDbContext.CategoryTypes.ToList(),
                 Products = new Models.Products()
             };
+
+            // extra for the Index View with the Pagination
+            ProductsListViewModel = new ProductsListViewModel()
+            {
+                Products = new List<Products>(),
+                Users = new List<ApplicationUser>()
+            };
         }
 
         // Action Method Create
         [Route("Admin/Products/Index")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            int productPage = 1,
+            string searchUserName = null,
+            string searchProductName = null
+            )
         {
-            // List of Products
-            var productList = await _colibriDbContext.Products
-                                    .Include(m => m.CategoryGroups)
-                                    .Include(m => m.CategoryTypes)
-                                    //.Include(m => m.SpecialTags)
-                                    .ToListAsync();
+            // Filter the Search Criteria
+            StringBuilder param = new StringBuilder();
+
+            param.Append("/Admin/Products/Index?productPage=:");
+            param.Append("&searchName=");
+            if (searchUserName != null)
+            {
+                param.Append(searchUserName);
+            }
+            param.Append("&searchName=");
+            if (searchProductName != null)
+            {
+                param.Append(searchProductName);
+            }
+
+            // populate the Lists
+            ProductsListViewModel.Products = _colibriDbContext.Products.ToList();
+            ProductsListViewModel.Users = from u in _colibriDbContext.ApplicationUsers
+                                                join p in _colibriDbContext.Products
+                                                .Include(p => p.ApplicationUser)
+                                                .ThenInclude(p => p.UserName)
+                                                on u.Id equals p.ApplicationUserId
+                                                select u;
+
+            // Search Conditions
+            if (searchUserName != null)
+            {
+                ProductsListViewModel.Users = ProductsListViewModel.Users
+                    .Where(a => a.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
+            }
+            if (searchProductName != null)
+            {
+                ProductsListViewModel.Products = ProductsListViewModel.Products
+                    .Where(a => a.Name.ToLower().Contains(searchProductName.ToLower())).ToList();
+            }
+
+            // Pagination
+            // count Products alltogether
+            var count = ProductsListViewModel.Products.Count;
+
+            // Iterate and Filter Products
+            // fetch the right Record (if on the 2nd Page, skip the first 3 (if PageSize=3) and continue on the next Page)
+            ProductsListViewModel.Products = ProductsListViewModel.Products
+                                                    .OrderBy(p => p.Name)
+                                                    .Skip((productPage - 1) * PageSize)
+                                                    .Take(PageSize).ToList();
+
+            // populate the PagingInfo Model
+            // StringBuilder
+            ProductsListViewModel.PagingInfo = new PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItems = count,
+                urlParam = param.ToString()
+            };
 
             // i18n
             ViewData["ProductList"] = _localizer["ProductListText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
             ViewData["NewProduct"] = _localizer["NewProductText"];
             ViewData["Name"] = _localizer["NameText"];
             ViewData["Price"] = _localizer["PriceText"];
@@ -71,8 +140,10 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
             ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["NumberOfClicks"] = _localizer["NumberOfClicksText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
 
-            return View(productList);
+            return View(ProductsListViewModel);
         }
 
         // Action Method Create
@@ -91,6 +162,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
             ViewData["Available"] = _localizer["AvailableText"];
             ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
 
             return View(ProductsViewModel);
         }
@@ -157,6 +229,10 @@ namespace Colibri.Areas.Admin.Controllers
                     // update the ProductFromDb.Image with the actual FileName
                     productsFromDb.Image = @"\" + StaticDetails.ImageFolderProduct + @"\" + ProductsViewModel.Products.Id + ".jpg";
                 }
+
+                // add the CreatedOn Property to the Model
+                productsFromDb.CreatedOn = DateTime.Now;
+
                 // save the Changes asynchronously
                 // update the Image Part inside of the DB
                 await _colibriDbContext.SaveChangesAsync();
@@ -335,11 +411,16 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Edit"] = _localizer["EditText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["Name"] = _localizer["NameText"];
+            ViewData["UserName"] = _localizer["UserNameText"];
             ViewData["Price"] = _localizer["PriceText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
             ViewData["Available"] = _localizer["AvailableText"];
             ViewData["Description"] = _localizer["DescriptionText"];
+            ViewData["NumberOfClicks"] = _localizer["NumberOfClicksText"];
+            ViewData["NumberOfProductRates"] = _localizer["NumberOfProductRatesText"];
+            ViewData["ProductRating"] = _localizer["ProductRatingText"];
+            ViewData["ContactOwner"] = _localizer["ContactOwnerText"];
 
             // send the ProductsViewModel into the View
             return View(ProductsViewModel);

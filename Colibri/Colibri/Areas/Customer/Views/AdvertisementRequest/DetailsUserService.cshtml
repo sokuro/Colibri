@@ -1,0 +1,108 @@
+﻿@model Colibri.Models.UserServices
+
+
+<h2>DetailsUserService</h2>
+<br />
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-border row">
+        <input type="hidden" asp-for="Id" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="col-8">
+            <fieldset disabled>
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="Name" class="custom-label"></label>
+                    </div>
+                    <div class="col-5">
+                        <input asp-for="Name" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="Description" class="custom-label"></label>
+                    </div>
+                    <div class="col-5">
+                        <input asp-for="Description" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="CategoryGroupId" class="custom-label"></label>
+                    </div>
+                    <div class="col-5">
+                        <input asp-for="CategoryGroups.Name" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="CategoryTypeId" class="custom-label"></label>
+                    </div>
+                    <div class="col-5">
+                        <input asp-for="CategoryTypes.Name" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="Image" class="custom-label"></label>
+                    </div>
+                    <div class="col-5">
+                        <input type="file" name="files" multiple class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="Price" class="custom-label"></label>
+                    </div>
+                    <div class="col-5">
+                        <input asp-for="Price" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="DueDateFrom" class="custom-label"></label>
+                    </div>
+                    <div class="col-5">
+                        <input asp-for="DueDateFrom" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="DueDateTo" class="custom-label"></label>
+                    </div>
+                    <div class="col-5">
+                        <input asp-for="DueDateTo" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-2">
+                        <label asp-for="Available" class="custom-label"></label>
+                    </div>
+                    <div class="col-5">
+                        <input asp-for="Available" class="form-control" />
+                    </div>
+                </div>
+
+            </fieldset>
+
+            <div class="form-group">
+                <a asp-action="EditUserService" asp-route-id="@Model.Id" class="btn btn-primary">Bearbeiten</a>
+                <a asp-action="Index" class="btn btn-success">Zurück zur Liste</a>
+            </div>
+        </div>
+        <div class="col-3">
+            <img src="@Model.Image" width="100%" style="border-radius:5px;border:1px solid #bbb9b9" />
+        </div>
+    </div>
+</form>

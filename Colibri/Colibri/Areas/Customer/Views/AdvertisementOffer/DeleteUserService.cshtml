@@ -1,10 +1,7 @@
 ﻿@model Colibri.Models.UserServices
 
-@{
-    ViewData["Title"] = "DeleteUserService";
-}
 
-<h2>DeleteUserService</h2>
+<h2>@ViewData["DeleteUserService"]</h2>
 
 <form method="post">
     <div class="form-border">
@@ -13,7 +10,7 @@
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="Name" class="custom-label"></label>
+                    <label asp-for="Name" class="custom-label">@ViewData["Title"]</label>
                 </div>
                 <div class="col-4">
                     <input asp-for="Name" class="form-control" />
@@ -22,7 +19,7 @@
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="CategoryTypes.Name" class="custom-label"></label>
+                    <label asp-for="CategoryTypes.Name" class="custom-label">@ViewData["CategoryType"]</label>
                 </div>
                 <div class="col-4">
                     <input asp-for="CategoryTypes.Name" class="form-control" />
@@ -31,7 +28,7 @@
 
             <div class="form-group row">
                 <div class="col-2">
-                    <label asp-for="CategoryGroups.Name" class="custom-label"></label>
+                    <label asp-for="CategoryGroups.Name" class="custom-label">@ViewData["CategoryGroup"]</label>
                 </div>
                 <div class="col-4">
                     <input asp-for="CategoryGroups.Name" class="form-control" />
@@ -41,8 +38,8 @@
         </fieldset>
         <br />
         <div class="form-group">
-            <input type="submit" value="Löschen" class="btn btn-danger" />
-            <a asp-action="Index" class="btn btn-success">Zurück zur Liste</a>
+            <input type="submit" value="@ViewData["Delete"]" class="btn btn-danger" />
+            <a asp-action="Index" class="btn btn-success">@ViewData["Back"]</a>
         </div>
     </div>
 </form>

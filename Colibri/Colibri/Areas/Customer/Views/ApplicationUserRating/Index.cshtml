@@ -1,0 +1,116 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model Colibri.ViewModels.ApplicationUserRatingViewModel
+
+@inject IViewLocalizer Localizer
+
+<form method="get">
+    <div class="row">
+        <div class="col-6 text-center">
+            <h2 class="text-info">@ViewData["ApplicationUserRatingList"]</h2>
+        </div>
+    </div>
+
+    <!-- Search -->
+    <div class="container">
+        <div class="col-12">
+            <!-- 1st row -->
+            <div class="row">
+                <div class="col-2">
+                    @ViewData["RatedUser"]
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <!-- empty column -->
+                <div class="col-2">
+                </div>
+
+                <div class="col-2">
+                    @ViewData["RatingUser"]
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <!-- END: 1st row -->
+            </div>
+
+            <!-- Search row -->
+            <div class="row">
+                <div class="col-2">
+                    @ViewData["Rating"]
+                </div>
+                <div class="col-3">
+                    @Html.Editor("searchUserRating", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <!-- empty column -->
+                <div class="col-2">
+                </div>
+
+                <div class="col-2">
+                </div>
+                <div class="col-3">
+                    <button type="submit" name="submit" value="Search" class="btn btn-primary form-control">
+                        <i class="fas fa-search"></i> @ViewData["Search"]
+                    </button>
+                </div>
+                <!-- END: Search row -->
+            </div>
+        </div>
+        <!-- END: Search -->
+    </div>
+
+    <br />
+
+    <div>
+        <table class="table table-striped border">
+            <tr class="text-info">
+                <th>
+                    @ViewData["RatedUser"]
+                </th>
+                <th>
+                    @ViewData["RatingUser"]
+                </th>
+                <th>
+                    @ViewData["Rating"]
+                </th>
+                <th>
+                    @ViewData["Description"]
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.ApplicationUsers)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(p => item.ApplicationUserRatedName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(u => item.ApplicationUserRatingName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(r => item.ApplicationUserRate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(d => item.Description)
+                    </td>
+                    @if (User.Identity.IsAuthenticated && Model.CurrentUserId == item.ApplicationUserRatingId)
+                    {
+                        <td>
+                            <partial name="_TableButtonPartialCustomerApplicationUserRatingsAuthorized" model="item.ApplicationUserRatedId" />
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <partial name="_TableButtonPartialCustomerApplicationUserRatings" model="item.ApplicationUserRatedId" />
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+    </div>
+</form>

@@ -28,10 +28,15 @@ namespace Colibri.Data
         public DbSet<UserServices> UserServices { get; set; }
         public DbSet<Appointments> Appointments { get; set; }
         public DbSet<ProductsSelectedForAppointment> ProductsSelectedForAppointment { get; set; }
+        public DbSet<UserServicesSelectedForAppointment> UserServicesSelectedForAppointment { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Notifications> Notifications { get; set; }
         public DbSet<ArchiveEntry> ArchiveEntry { get; set; }
         public DbSet<ApplicationUserCategoryTypesSubscriber> ApplicationUserCategoryTypesSubscribers { get; set; }
+        public DbSet<SearchEntry> SearchEntry { get; set; }
+        public DbSet<ProductsRatings> ProductsRatings { get; set; }
+        public DbSet<UserServicesRatings> UserServicesRatings { get; set; }
+        public DbSet<ApplicationUserRatings> ApplicationUserRatings { get; set; }
 
 
         // override
