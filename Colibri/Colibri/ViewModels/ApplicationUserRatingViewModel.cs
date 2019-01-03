@@ -1,21 +1,18 @@
-﻿using Colibri.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Colibri.Models;
 
 namespace Colibri.ViewModels
 {
-    /*
-     * ViewModel to handle the Application Users
-     */
-    public class ApplicationUserViewModel
+    public class ApplicationUserRatingViewModel
     {
         public ApplicationUserRatings ApplicationUser { get; set; }
 
         // List of Users
-        public List<ApplicationUser> ApplicationUsers { get; set; }
+        public List<ApplicationUserRatings> ApplicationUsers { get; set; }
 
         // Custom Pagination
         public PagingInfo PagingInfo { get; set; }

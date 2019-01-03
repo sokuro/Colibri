@@ -17,12 +17,11 @@ namespace Colibri.Models
         [ForeignKey("ApplicationUserRatedId")]
         public virtual ApplicationUser ApplicationUserRated { get; set; }
         public string ApplicationUserRatedName { get; set; }
-
         public string ApplicationUserRatedId { get; set; }
 
         [ForeignKey("ApplicationUserRatingId")]
         public virtual ApplicationUser ApplicationUserRating { get; set; }
-
+        public string ApplicationUserRatingId { get; set; }
         public string ApplicationUserRatingName { get; set; }
 
         public int ApplicationUserRate { get; set; }
