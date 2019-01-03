@@ -154,6 +154,16 @@ namespace Colibri.Areas.Customer.Controllers
             AdvertisementViewModel.Product.ApplicationUserId = claim.Value;
             AdvertisementViewModel.Product.ApplicationUserName = claimsIdentity.Name;
 
+            // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+            AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom
+                .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
+                .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
+
+            // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+            AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueDateTo
+                .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
+                .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
+
             // add timestamp to "CreatedOn"
             AdvertisementViewModel.Product.CreatedOn = System.DateTime.Now;
 
@@ -299,6 +309,16 @@ namespace Colibri.Areas.Customer.Controllers
             // add the current User as the Creator of the Advertisement
             AdvertisementViewModel.UserService.ApplicationUserId = claim.Value;
             AdvertisementViewModel.UserService.ApplicationUserName = claimsIdentity.Name;
+
+            // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+            AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom
+                .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
+                .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
+
+            // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+            AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueDateTo
+                .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
+                .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
 
             // add timestamp to "CreatedOn"
             AdvertisementViewModel.UserService.CreatedOn = System.DateTime.Now;
@@ -480,7 +500,7 @@ namespace Colibri.Areas.Customer.Controllers
             // delete Image
             try
             {
-                System.IO.File.Delete(Path.Combine(uploads, AdvertisementViewModel.Product.Id + extension_Old));
+                System.IO.File.Delete(Path.Combine(uploads, AdvertisementViewModel.UserService.Id + extension_Old));
             }
             catch (Exception ex)
             {
@@ -534,6 +554,16 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 try
                 {
+                    // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                    AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom
+                        .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
+                        .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
+
+                    // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                    AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueDateTo
+                        .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
+                        .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
+
                     string webRootPath = _hostingEnvironment.WebRootPath;
                     var files = HttpContext.Request.Form.Files;
                     var productFromDb = _colibriDbContext.Products.Where(m => m.Id == AdvertisementViewModel.Product.Id).FirstOrDefault();
@@ -610,7 +640,7 @@ namespace Colibri.Areas.Customer.Controllers
 
         // POST : Action for EditUserService
         [Route("Customer/AdvertisementRequest/EditUserService")]
-        [HttpPost, ActionName("EditProduct")]
+        [HttpPost, ActionName("EditUserService")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUserServicePOST(int id)
         {
@@ -626,18 +656,28 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 try
                 {
+                    // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                    AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom
+                        .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
+                        .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
+
+                    // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                    AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueDateTo
+                        .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
+                        .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
+
                     string webRootPath = _hostingEnvironment.WebRootPath;
                     var files = HttpContext.Request.Form.Files;
-                    var userServiceFromDb = _colibriDbContext.Products.Where(m => m.Id == AdvertisementViewModel.Product.Id).FirstOrDefault();
+                    var userServiceFromDb = _colibriDbContext.UserServices.Where(m => m.Id == AdvertisementViewModel.UserService.Id).FirstOrDefault();
 
-                    userServiceFromDb.Name = AdvertisementViewModel.Product.Name;
-                    userServiceFromDb.Description = AdvertisementViewModel.Product.Description;
-                    userServiceFromDb.CategoryGroupId = AdvertisementViewModel.Product.CategoryGroupId;
-                    userServiceFromDb.CategoryTypeId = AdvertisementViewModel.Product.CategoryTypeId;
-                    userServiceFromDb.Price = AdvertisementViewModel.Product.Price;
-                    userServiceFromDb.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom;
-                    userServiceFromDb.DueDateTo = AdvertisementViewModel.Product.DueDateTo;
-                    userServiceFromDb.Available = AdvertisementViewModel.Product.Available;
+                    userServiceFromDb.Name = AdvertisementViewModel.UserService.Name;
+                    userServiceFromDb.Description = AdvertisementViewModel.UserService.Description;
+                    userServiceFromDb.CategoryGroupId = AdvertisementViewModel.UserService.CategoryGroupId;
+                    userServiceFromDb.CategoryTypeId = AdvertisementViewModel.UserService.CategoryTypeId;
+                    userServiceFromDb.Price = AdvertisementViewModel.UserService.Price;
+                    userServiceFromDb.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom;
+                    userServiceFromDb.DueDateTo = AdvertisementViewModel.UserService.DueDateTo;
+                    userServiceFromDb.Available = AdvertisementViewModel.UserService.Available;
 
                     await _colibriDbContext.SaveChangesAsync();
 
