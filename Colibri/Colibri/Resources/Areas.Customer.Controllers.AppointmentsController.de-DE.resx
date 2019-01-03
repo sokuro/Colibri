@@ -136,7 +136,7 @@
     <value>Email</value>
   </data>
   <data name="CustomerNameText" xml:space="preserve">
-    <value>Name</value>
+    <value>Kundenname</value>
   </data>
   <data name="CustomerPhoneNumberText" xml:space="preserve">
     <value>Telefonnummer</value>
@@ -145,7 +145,7 @@
     <value>Lösche Termin</value>
   </data>
   <data name="DeleteText" xml:space="preserve">
-    <value />
+    <value>Lösche</value>
   </data>
   <data name="EditAppointmentsText" xml:space="preserve">
     <value>Editiere Termin</value>
@@ -159,7 +159,10 @@
   <data name="UpdateText" xml:space="preserve">
     <value>Aktualisiere</value>
   </data>
-  <data name="UserNameText1" xml:space="preserve">
+  <data name="UserNameText" xml:space="preserve">
     <value>User Name</value>
+  </data>
+  <data name="AppPersonText" xml:space="preserve">
+    <value>Name</value>
   </data>
 </root>

@@ -96,6 +96,7 @@ namespace Colibri.Controllers
             {
                 bus.Receive("create_product_by_admin", x => x.Add<Products>(p => HandleProductByAdmin(p)));
                 bus.Receive("create_advertisement", x => x.Add<Products>(p => HandleAdvertisements(p)));
+                bus.Receive("create_user_service", x => x.Add<UserServices>(p => HandleUserService(p)));
                 //bus.Receive("create_category_groups", x => x.Add<CategoryGroups>(p => HandleCategoryGroups(p)));
                 //bus.Receive("create_category_types", x => x.Add<CategoryTypes>(p => HandleCategoryTypes(p)));
             }
@@ -108,6 +109,13 @@ namespace Colibri.Controllers
             }
 
             return View(SubscriberViewModel);
+        }
+
+        private void HandleUserService(UserServices userServices)
+        {
+            SubscriberViewModel.Notifications.Message = "Added an User Service: " + userServices.Name;
+            SubscriberViewModel.Notifications.NotificationType = userServices.CategoryTypes.Name;
+            SubscriberViewModel.Notifications.CategoryTypeId = userServices.CategoryTypes.Id;
         }
 
         private void HandleAdvertisements(Products product)

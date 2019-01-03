@@ -22,7 +22,13 @@ namespace Colibri.Models
         public string Description { get; set; }
 
         public DateTime DueDateFrom { get; set; }
+        [NotMapped]
+        public DateTime DueTimeFrom { get; set; }
+
         public DateTime DueDateTo { get; set; }
+        [NotMapped]
+        public DateTime DueTimeTo { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         // Number of Clicks on the Product

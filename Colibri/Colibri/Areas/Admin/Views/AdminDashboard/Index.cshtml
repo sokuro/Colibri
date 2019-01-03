@@ -1,10 +1,10 @@
 ﻿@model Colibri.ViewModels.HomeIndexViewModel
 
-<div class="col main pt-1 mt-1">
+@*<div class="col main pt-1 mt-1">
     <h1 class="display-4 d-none d-sm-block">
         Admin Dashboard
     </h1>
-</div>
+</div>*@
 
 <div class="row justify-content-center">
 
@@ -24,8 +24,8 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <a asp-controller="CategoryGroups" asp-action="Overview" class="btn btn-success pull-right btn-outline-info">Übersicht</a>
-                    <a asp-controller="CategoryTypes" asp-action="Index" class="btn btn-success pull-right btn-outline-info">Rubriken</a>
                     <a asp-controller="CategoryGroups" asp-action="Index" class="btn btn-success pull-right btn-outline-info">Rubrik-Gruppen</a>
+                    <a asp-controller="CategoryTypes" asp-action="Index" class="btn btn-success pull-right btn-outline-info">Rubriken</a>
                 </div>
             </div>
         </div>

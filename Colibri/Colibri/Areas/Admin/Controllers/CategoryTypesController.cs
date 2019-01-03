@@ -85,6 +85,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Name"] = _localizer["NameText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
             ViewData["Overview"] = _localizer["OverviewText"];
+            ViewData["ProductService"] = _localizer["ProductServiceText"];
 
             // CategoryTypesList
             SearchViewModel.CategoryTypesList = await _colibriDbContext.CategoryTypes.Include(s => s.CategoryGroups).ToListAsync();

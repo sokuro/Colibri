@@ -269,6 +269,8 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["OverviewCategories"] = _localizer["OverviewCategoriesText"];
             ViewData["ShowAll"] = _localizer["ShowAllText"];
             ViewData["HideAll"] = _localizer["HideAllText"];
+            ViewData["ToCategoryGroup"] = _localizer["ToCategoryGroupText"];
+            ViewData["ToCategoryType"] = _localizer["ToCategoryTypeText"];
 
             CategoryTypesAndCategoryGroupsViewModel model = new CategoryTypesAndCategoryGroupsViewModel();
 

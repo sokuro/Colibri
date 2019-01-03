@@ -81,7 +81,7 @@ namespace Colibri.Areas.Admin.Controllers
             // Filter the Search Criteria
             StringBuilder param = new StringBuilder();
 
-            param.Append("/Admin/UserService/Index?servicePage=:");
+            param.Append("/Admin/UserServices/Index?servicePage=:");
             param.Append("&searchName=");
             if (searchUserName != null)
             {
@@ -142,6 +142,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Search"] = _localizer["SearchText"];
             ViewData["NewUserService"] = _localizer["NewUserServiceText"];
             ViewData["Price"] = _localizer["PriceText"];
+            ViewData["Available"] = _localizer["AvailableText"];
             ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
             ViewData["Description"] = _localizer["DescriptionText"];
@@ -242,6 +243,9 @@ namespace Colibri.Areas.Admin.Controllers
                 // add the current User as the Creator of the Advertisement
                 userServicesFromDb.ApplicationUserId = claim.Value;
 
+                // add the CreatedOn Property to the Model
+                userServicesFromDb.CreatedOn = DateTime.Now;
+
                 // save the Changes asynchronously
                 // update the Image Part inside of the DB
                 await _colibriDbContext.SaveChangesAsync();
@@ -264,6 +268,124 @@ namespace Colibri.Areas.Admin.Controllers
                 var result = Json(UserServicesAddToEntityViewModel);
 
                 // avoid Refreshing the POST Operation -> Redirect
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(UserServicesAddToEntityViewModel);
+            }
+        }
+
+        // Get: /<controller>/Edit
+        [Route("Admin/UserServices/Edit/{id}")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            // incl. ProductTypes
+            UserServicesAddToEntityViewModel.UserServices = await _colibriDbContext.UserServices
+                .Include(m => m.CategoryGroups)
+                .Include(m => m.CategoryTypes)
+                //.Include(m => m.SpecialTags)
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (UserServicesAddToEntityViewModel.UserServices == null)
+            {
+                return NotFound();
+            }
+
+            // i18n
+            ViewData["EditUserService"] = _localizer["EditUserServiceText"];
+            ViewData["Edit"] = _localizer["EditText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["Name"] = _localizer["NameText"];
+            ViewData["Price"] = _localizer["PriceText"];
+            ViewData["Image"] = _localizer["ImageText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["Available"] = _localizer["AvailableText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
+            // send the UserServicesAddToEntityViewModel into the View
+            return View(UserServicesAddToEntityViewModel);
+        }
+
+        // Post: /<controller>/Edit
+        // @param Category
+        [Route("Admin/UserServices/Edit/{id}")]
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPost(int id)
+        {
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                // for uploaded Images
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                var files = HttpContext.Request.Form.Files;
+                // to replace an Image, first remove the old One
+                // get the Product from the DB
+                var userServiceFromDb = await _colibriDbContext.UserServices.Where(m => m.Id == UserServicesAddToEntityViewModel.UserServices.Id).FirstOrDefaultAsync();
+                // does the File exist and was uploaded by the User
+                if (files.Count > 0 && files[0] != null)
+                {
+                    // if the User uploades a new Image
+                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderService);
+                    // find out the Extension of the new Image File and also the Extension of the old Image existing in the DB
+                    var extension_new = Path.GetExtension(files[0].FileName);
+                    var extension_old = Path.GetExtension(userServiceFromDb.Image);
+
+                    // delete the old File
+                    if (System.IO.File.Exists(Path.Combine(uploads, UserServicesAddToEntityViewModel.UserServices.Id + extension_old)))
+                    {
+                        System.IO.File.Delete(Path.Combine(uploads, UserServicesAddToEntityViewModel.UserServices.Id + extension_old));
+                    }
+
+                    // copy the new File
+                    // use the FileStreamObject -> copy the File from the Uploaded to the Server
+                    // create the File on the Server
+                    using (var filestream = new FileStream(Path.Combine(uploads, UserServicesAddToEntityViewModel.UserServices.Id + extension_new), FileMode.Create))
+                    {
+                        files[0].CopyTo(filestream);
+                    }
+
+                    // ProductsImage = exact Path of the Image on the Server + ImageName + Extension
+                    UserServicesAddToEntityViewModel.UserServices.Image = @"\" + StaticDetails.ImageFolderService + @"\" + UserServicesAddToEntityViewModel.UserServices.Id + extension_new;
+                }
+
+                /*
+                 * update the productsFromDb and save them back into the DB
+                 */
+                // Image
+                if (UserServicesAddToEntityViewModel.UserServices.Image != null)
+                {
+                    // replace the old Image
+                    userServiceFromDb.Image = UserServicesAddToEntityViewModel.UserServices.Image;
+                }
+                // Name
+                userServiceFromDb.Name = UserServicesAddToEntityViewModel.UserServices.Name;
+                // Price
+                userServiceFromDb.Price = UserServicesAddToEntityViewModel.UserServices.Price;
+                // Available
+                userServiceFromDb.Available = UserServicesAddToEntityViewModel.UserServices.Available;
+                // CategoryTypeId
+                userServiceFromDb.CategoryTypeId = UserServicesAddToEntityViewModel.UserServices.CategoryTypeId;
+                // SpecialTagId
+                //productFromDb.SpecialTagId = ProductsViewModel.Products.SpecialTagId;
+                // Description
+                userServiceFromDb.Description = UserServicesAddToEntityViewModel.UserServices.Description;
+
+                // Save the Changes
+                await _colibriDbContext.SaveChangesAsync();
+
+                // avoid Refreshing the POST Operation -> Redirect
+                //return View("Details", newCategory);
                 return RedirectToAction(nameof(Index));
             }
             else
@@ -319,6 +441,8 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["RemoveFromBag"] = _localizer["RemoveFromBagText"];
             ViewData["Order"] = _localizer["OrderText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["NumberOfServiceRates"] = _localizer["NumberOfServiceRatesText"];
+            ViewData["ServiceRating"] = _localizer["ServiceRatingText"];
 
             return View(userService);
         }

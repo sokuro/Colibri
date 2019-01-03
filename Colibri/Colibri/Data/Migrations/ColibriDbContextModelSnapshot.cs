@@ -215,6 +215,35 @@ namespace Colibri.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("Colibri.Models.ProductsRatings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<string>("ApplicationUserName");
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("ProductId");
+
+                    b.Property<string>("ProductName");
+
+                    b.Property<int>("ProductRating");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductsRatings");
+                });
+
             modelBuilder.Entity("Colibri.Models.ProductsSelectedForAppointment", b =>
                 {
                     b.Property<int>("Id")
@@ -321,6 +350,35 @@ namespace Colibri.Migrations
                     b.HasIndex("CategoryTypeId");
 
                     b.ToTable("UserServices");
+                });
+
+            modelBuilder.Entity("Colibri.Models.UserServicesRatings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApplicationUserId");
+
+                    b.Property<string>("ApplicationUserName");
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("Description");
+
+                    b.Property<int>("UserServiceId");
+
+                    b.Property<string>("UserServiceName");
+
+                    b.Property<int>("UserServiceRating");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("UserServiceId");
+
+                    b.ToTable("UserServicesRatings");
                 });
 
             modelBuilder.Entity("Colibri.Models.UserServicesSelectedForAppointment", b =>
@@ -612,6 +670,18 @@ namespace Colibri.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("Colibri.Models.ProductsRatings", b =>
+                {
+                    b.HasOne("Colibri.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Colibri.Models.Products", "Products")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("Colibri.Models.ProductsSelectedForAppointment", b =>
                 {
                     b.HasOne("Colibri.Models.Appointments", "Appointments")
@@ -639,6 +709,18 @@ namespace Colibri.Migrations
                     b.HasOne("Colibri.Models.CategoryTypes", "CategoryTypes")
                         .WithMany()
                         .HasForeignKey("CategoryTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Colibri.Models.UserServicesRatings", b =>
+                {
+                    b.HasOne("Colibri.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("Colibri.Models.UserServices", "UserServices")
+                        .WithMany()
+                        .HasForeignKey("UserServiceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
