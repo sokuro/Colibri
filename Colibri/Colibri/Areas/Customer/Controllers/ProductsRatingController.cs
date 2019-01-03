@@ -167,11 +167,6 @@ namespace Colibri.Areas.Customer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DetailsPost(int id)
         {
-            if (ModelState.IsValid)
-            {
-
-            }
-
             // Security Claims
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
 
