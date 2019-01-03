@@ -448,10 +448,12 @@ namespace Colibri.Areas.Customer.Controllers
             }
 
             // search for the ID
-            ApplicationUserViewModel.ApplicationUser = await _colibriDbContext.ApplicationUsers
-                                                            .SingleOrDefaultAsync(m => m.Id == id);
+            //ApplicationUserViewModel.ApplicationUser = await _colibriDbContext.ApplicationUsers
+            //                                                .SingleOrDefaultAsync(m => m.Id == id);
+            var userFromDb = await _colibriDbContext.ApplicationUsers.FindAsync(id);
 
-            if (ApplicationUserViewModel.ApplicationUser == null)
+            //if (ApplicationUserViewModel.ApplicationUser == null)
+            if (userFromDb == null)
             {
                 return NotFound();
             }
@@ -472,7 +474,8 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Disabled"] = _localizer["DisabledText"];
             ViewData["Description"] = _localizer["DescriptionText"];
 
-            return View(ApplicationUserViewModel);
+            //return View(ApplicationUserViewModel);
+            return View(userFromDb);
         }
 
         // Post: /<controller>/Edit
@@ -480,19 +483,24 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/ApplicationUser/Edit/{id}")]
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPost(string id)
+        public async Task<IActionResult> EditPost(string id, ApplicationUser applicationUser)
         {
+            if (id != applicationUser.Id)
+            {
+                return NotFound();
+            }
+
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
                 // for uploaded Images
                 string webRootPath = _hostingEnvironment.WebRootPath;
                 var files = HttpContext.Request.Form.Files;
-                // to replace an Image, first remove the old One
 
                 var userFromDb = await _colibriDbContext.ApplicationUsers
-                    .Where(m => m.Id == ApplicationUserViewModel.ApplicationUser.Id)
-                    .FirstOrDefaultAsync();
+                                    .Where(m => m.Id == id)
+                                    .FirstOrDefaultAsync();
+
                 // does the File exist and was uploaded by the User
                 if (files.Count > 0 && files[0] != null)
                 {
@@ -503,52 +511,52 @@ namespace Colibri.Areas.Customer.Controllers
                     var extension_old = Path.GetExtension(userFromDb.Image);
 
                     // delete the old File
-                    if (System.IO.File.Exists(Path.Combine(uploads, ApplicationUserViewModel.ApplicationUser.Id + extension_old)))
+                    if (System.IO.File.Exists(Path.Combine(uploads, applicationUser.Id + extension_old)))
                     {
-                        System.IO.File.Delete(Path.Combine(uploads, ApplicationUserViewModel.ApplicationUser.Id + extension_old));
+                        System.IO.File.Delete(Path.Combine(uploads, applicationUser.Id + extension_old));
                     }
 
                     // copy the new File
                     // use the FileStreamObject -> copy the File from the Uploaded to the Server
                     // create the File on the Server
-                    using (var filestream = new FileStream(Path.Combine(uploads, ApplicationUserViewModel.ApplicationUser.Id + extension_new), FileMode.Create))
+                    using (var filestream = new FileStream(Path.Combine(uploads, applicationUser.Id + extension_new), FileMode.Create))
                     {
                         files[0].CopyTo(filestream);
                     }
 
                     // UserImage = exact Path of the Image on the Server + ImageName + Extension
-                    ApplicationUserViewModel.ApplicationUser.Image = @"\" + StaticDetails.ImageFolderUser + @"\" + ApplicationUserViewModel.ApplicationUser.Id + extension_new;
+                    applicationUser.Image = @"\" + StaticDetails.ImageFolderUser + @"\" + applicationUser.Id + extension_new;
                 }
 
                 /*
                  * update the userFromDb and save them back into the DB
                  */
                 // Image
-                if (ApplicationUserViewModel.ApplicationUser.Image != null)
+                if (applicationUser.Image != null)
                 {
                     // replace the old Image
-                    userFromDb.Image = ApplicationUserViewModel.ApplicationUser.Image;
+                    userFromDb.Image = applicationUser.Image;
                 }
                 // UserName
-                userFromDb.UserName = ApplicationUserViewModel.ApplicationUser.UserName;
+                userFromDb.UserName = applicationUser.UserName;
                 // FirstName
-                userFromDb.FirstName = ApplicationUserViewModel.ApplicationUser.FirstName;
+                userFromDb.FirstName = applicationUser.FirstName;
                 // LastName
-                userFromDb.LastName = ApplicationUserViewModel.ApplicationUser.LastName;
+                userFromDb.LastName = applicationUser.LastName;
                 // Street
-                userFromDb.Street = ApplicationUserViewModel.ApplicationUser.Street;
+                userFromDb.Street = applicationUser.Street;
                 // CareOf
-                userFromDb.CareOf = ApplicationUserViewModel.ApplicationUser.CareOf;
+                userFromDb.CareOf = applicationUser.CareOf;
                 // Zip
-                userFromDb.Zip = ApplicationUserViewModel.ApplicationUser.Zip;
+                userFromDb.Zip = applicationUser.Zip;
                 // City
-                userFromDb.City = ApplicationUserViewModel.ApplicationUser.City;
+                userFromDb.City = applicationUser.City;
                 // Country
-                userFromDb.Country = ApplicationUserViewModel.ApplicationUser.Country;
+                userFromDb.Country = applicationUser.Country;
                 // Phone Number
-                userFromDb.PhoneNumber = ApplicationUserViewModel.ApplicationUser.PhoneNumber;
+                userFromDb.PhoneNumber = applicationUser.PhoneNumber;
                 // User Rating
-                userFromDb.UserRating = ApplicationUserViewModel.ApplicationUser.UserRating;
+                userFromDb.UserRating = applicationUser.UserRating;
 
                 // Save the Changes
                 await _colibriDbContext.SaveChangesAsync();
@@ -560,7 +568,7 @@ namespace Colibri.Areas.Customer.Controllers
             else
             {
                 // one can simply return to the Form View again for Correction
-                return View(ApplicationUserViewModel);
+                return View(applicationUser);
             }
         }
     }

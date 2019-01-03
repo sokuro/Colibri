@@ -95,7 +95,7 @@ namespace Colibri.Areas.Admin.Controllers
         [Route("Admin/CustomerUsers/Edit/{id}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, ApplicationUser applicationUser)
+        public async Task<IActionResult> Edit(string id, ApplicationUser applicationUser)
         {
             if (id != applicationUser.Id)
             {
@@ -104,9 +104,9 @@ namespace Colibri.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                ApplicationUser userFromDb = _colibriDbContext.ApplicationUsers
+                ApplicationUser userFromDb = await _colibriDbContext.ApplicationUsers
                                                     .Where(u => u.Id == id)
-                                                    .FirstOrDefault();
+                                                    .FirstOrDefaultAsync();
                 // Properties or the User
                 userFromDb.FirstName = applicationUser.FirstName;
                 userFromDb.LastName = applicationUser.LastName;
@@ -121,7 +121,7 @@ namespace Colibri.Areas.Admin.Controllers
                 userFromDb.Modified = DateTime.Now;
 
                 // save Changes
-                _colibriDbContext.SaveChanges();
+                await _colibriDbContext.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -164,17 +164,17 @@ namespace Colibri.Areas.Admin.Controllers
         [Route("Admin/CustomerUsers/Delete/{id}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePost (string id)
+        public async Task<IActionResult> DeletePost (string id)
         {
-            ApplicationUser userFromDb = _colibriDbContext.ApplicationUsers
+            ApplicationUser userFromDb = await _colibriDbContext.ApplicationUsers
                                                 .Where(u => u.Id == id)
-                                                .FirstOrDefault();
+                                                .FirstOrDefaultAsync();
             // set the Lockout for the User with specific Time
             // @param years = 100y
             userFromDb.LockoutEnd = DateTime.Now.AddYears(100);
 
             // save Changes
-            _colibriDbContext.SaveChanges();
+            await _colibriDbContext.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
