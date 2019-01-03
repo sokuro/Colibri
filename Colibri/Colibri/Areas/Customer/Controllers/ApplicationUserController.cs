@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -10,6 +11,7 @@ using Colibri.Models;
 using Colibri.Utility;
 using Colibri.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,8 +29,12 @@ namespace Colibri.Areas.Customer.Controllers
     public class ApplicationUserController : Controller
     {
         private readonly ColibriDbContext _colibriDbContext;
+        private readonly HostingEnvironment _hostingEnvironment;
         private readonly IEmailSender _emailSender;
         private readonly IStringLocalizer<ApplicationUserController> _localizer;
+
+        // PageSize (for the Pagination: 5 Users/Page)
+        private int PageSize = 5;
 
         [BindProperty]
         public ApplicationUserViewModel ApplicationUserViewModel { get; set; }
@@ -39,10 +45,12 @@ namespace Colibri.Areas.Customer.Controllers
         // CTOR
         // get the Data from the DB
         public ApplicationUserController(ColibriDbContext colibriDbContext,
+            HostingEnvironment hostingEnvironment,
             IEmailSender emailSender,
             IStringLocalizer<ApplicationUserController> localizer)
         {
             _colibriDbContext = colibriDbContext;
+            _hostingEnvironment = hostingEnvironment;
             _emailSender = emailSender;
             _localizer = localizer;
 
@@ -63,17 +71,28 @@ namespace Colibri.Areas.Customer.Controllers
         // UserName, FirstName, LastName
         [Route("Customer/ApplicationUser/Index")]
         public async Task<IActionResult> Index(
+            int userPage = 1,
             string searchUserName=null,
             string searchFirstName=null,
             string searchLastName=null
             )
         {
+            // Security Claims
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+
+            // Claims Identity
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
             // Application User ViewModel
             ApplicationUserViewModel applicationUserViewModel = new ApplicationUserViewModel
             {
                 // initialize
                 ApplicationUsers = new List<Models.ApplicationUser>()
             };
+
+            // add the current User as the Creator of the Advertisement
+            applicationUserViewModel.CurrentUserId = claim.Value;
 
             // Filter the Search Criteria
             StringBuilder param = new StringBuilder();
@@ -115,6 +134,26 @@ namespace Colibri.Areas.Customer.Controllers
                 applicationUserViewModel.ApplicationUsers = applicationUserViewModel.ApplicationUsers.Where(a => a.LastName.ToLower().Contains(searchLastName.ToLower())).ToList();
             }
 
+            // Pagination
+            var count = applicationUserViewModel.ApplicationUsers.Count;
+
+            // Iterate and Filter Users
+            // fetch the right Record (if on the 2nd Page, skip the first 3 (if PageSize=3) and continue on the next Page)
+            applicationUserViewModel.ApplicationUsers = applicationUserViewModel.ApplicationUsers
+                .OrderBy(p => p.UserName)
+                .Skip((userPage - 1) * PageSize)
+                .Take(PageSize).ToList();
+
+            // populate the PagingInfo Model
+            // StringBuilder
+            applicationUserViewModel.PagingInfo = new PagingInfo
+            {
+                CurrentPage = userPage,
+                ItemsPerPage = PageSize,
+                TotalItems = count,
+                urlParam = param.ToString()
+            };
+
             // i18n
             ViewData["ApplicationUsers"] = _localizer["ApplicationUsersText"];
             ViewData["NewApplicationUser"] = _localizer["NewApplicationUserText"];
@@ -123,6 +162,11 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["LastName"] = _localizer["LastNameText"];
             ViewData["Search"] = _localizer["SearchText"];
             ViewData["Email"] = _localizer["EmailText"];
+            ViewData["Street"] = _localizer["StreetText"];
+            ViewData["CareOf"] = _localizer["CareOfText"];
+            ViewData["Zip"] = _localizer["ZipText"];
+            ViewData["City"] = _localizer["CityText"];
+            ViewData["Country"] = _localizer["CountryText"];
             ViewData["PhoneNumber"] = _localizer["PhoneNumberText"];
             ViewData["Disabled"] = _localizer["DisabledText"];
             ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
@@ -386,6 +430,132 @@ namespace Colibri.Areas.Customer.Controllers
                 }
 
                 return RedirectToAction(nameof(Details));
+            }
+            else
+            {
+                // one can simply return to the Form View again for Correction
+                return View(ApplicationUserViewModel);
+            }
+        }
+
+        // Get: /<controller>/Edit
+        [Route("Customer/ApplicationUser/Edit/{id}")]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            // search for the ID
+            ApplicationUserViewModel.ApplicationUser = await _colibriDbContext.ApplicationUsers
+                                                            .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (ApplicationUserViewModel.ApplicationUser == null)
+            {
+                return NotFound();
+            }
+
+            // i18n
+            ViewData["EditApplicationUser"] = _localizer["EditApplicationUserText"];
+            ViewData["Edit"] = _localizer["EditText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["FirstName"] = _localizer["FirstNameText"];
+            ViewData["LastName"] = _localizer["LastNameText"];
+            ViewData["Street"] = _localizer["StreetText"];
+            ViewData["CareOf"] = _localizer["CareOfText"];
+            ViewData["Zip"] = _localizer["ZipText"];
+            ViewData["City"] = _localizer["CityText"];
+            ViewData["Country"] = _localizer["CountryText"];
+            ViewData["PhoneNumber"] = _localizer["PhoneNumberText"];
+            ViewData["Disabled"] = _localizer["DisabledText"];
+            ViewData["Description"] = _localizer["DescriptionText"];
+
+            return View(ApplicationUserViewModel);
+        }
+
+        // Post: /<controller>/Edit
+        // @param Category
+        [Route("Customer/ApplicationUser/Edit/{id}")]
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPost(string id)
+        {
+            // Check the State Model Binding
+            if (ModelState.IsValid)
+            {
+                // for uploaded Images
+                string webRootPath = _hostingEnvironment.WebRootPath;
+                var files = HttpContext.Request.Form.Files;
+                // to replace an Image, first remove the old One
+
+                var userFromDb = await _colibriDbContext.ApplicationUsers
+                    .Where(m => m.Id == ApplicationUserViewModel.ApplicationUser.Id)
+                    .FirstOrDefaultAsync();
+                // does the File exist and was uploaded by the User
+                if (files.Count > 0 && files[0] != null)
+                {
+                    // if the User uploades a new Image
+                    var uploads = Path.Combine(webRootPath, StaticDetails.ImageFolderUser);
+                    // find out the Extension of the new Image File and also the Extension of the old Image existing in the DB
+                    var extension_new = Path.GetExtension(files[0].FileName);
+                    var extension_old = Path.GetExtension(userFromDb.Image);
+
+                    // delete the old File
+                    if (System.IO.File.Exists(Path.Combine(uploads, ApplicationUserViewModel.ApplicationUser.Id + extension_old)))
+                    {
+                        System.IO.File.Delete(Path.Combine(uploads, ApplicationUserViewModel.ApplicationUser.Id + extension_old));
+                    }
+
+                    // copy the new File
+                    // use the FileStreamObject -> copy the File from the Uploaded to the Server
+                    // create the File on the Server
+                    using (var filestream = new FileStream(Path.Combine(uploads, ApplicationUserViewModel.ApplicationUser.Id + extension_new), FileMode.Create))
+                    {
+                        files[0].CopyTo(filestream);
+                    }
+
+                    // UserImage = exact Path of the Image on the Server + ImageName + Extension
+                    ApplicationUserViewModel.ApplicationUser.Image = @"\" + StaticDetails.ImageFolderUser + @"\" + ApplicationUserViewModel.ApplicationUser.Id + extension_new;
+                }
+
+                /*
+                 * update the userFromDb and save them back into the DB
+                 */
+                // Image
+                if (ApplicationUserViewModel.ApplicationUser.Image != null)
+                {
+                    // replace the old Image
+                    userFromDb.Image = ApplicationUserViewModel.ApplicationUser.Image;
+                }
+                // UserName
+                userFromDb.UserName = ApplicationUserViewModel.ApplicationUser.UserName;
+                // FirstName
+                userFromDb.FirstName = ApplicationUserViewModel.ApplicationUser.FirstName;
+                // LastName
+                userFromDb.LastName = ApplicationUserViewModel.ApplicationUser.LastName;
+                // Street
+                userFromDb.Street = ApplicationUserViewModel.ApplicationUser.Street;
+                // CareOf
+                userFromDb.CareOf = ApplicationUserViewModel.ApplicationUser.CareOf;
+                // Zip
+                userFromDb.Zip = ApplicationUserViewModel.ApplicationUser.Zip;
+                // City
+                userFromDb.City = ApplicationUserViewModel.ApplicationUser.City;
+                // Country
+                userFromDb.Country = ApplicationUserViewModel.ApplicationUser.Country;
+                // Phone Number
+                userFromDb.PhoneNumber = ApplicationUserViewModel.ApplicationUser.PhoneNumber;
+                // User Rating
+                userFromDb.UserRating = ApplicationUserViewModel.ApplicationUser.UserRating;
+
+                // Save the Changes
+                await _colibriDbContext.SaveChangesAsync();
+
+                // avoid Refreshing the POST Operation -> Redirect
+                //return View("Details", newCategory);
+                return RedirectToAction(nameof(Index));
             }
             else
             {
