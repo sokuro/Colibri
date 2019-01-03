@@ -165,6 +165,9 @@
   <data name="UserNameText" xml:space="preserve">
     <value>User Name</value>
   </data>
+  <data name="UserRatingText" xml:space="preserve">
+    <value>Bewertung</value>
+  </data>
   <data name="ViewDetailsText" xml:space="preserve">
     <value>Zeige Details</value>
   </data>
