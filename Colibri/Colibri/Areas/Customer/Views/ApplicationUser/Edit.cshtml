@@ -1,0 +1,135 @@
+﻿@model Colibri.ViewModels.ApplicationUserViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
+<h2 class="text-info">@ViewData["EditApplicationUser"]</h2>
+
+<form method="post" enctype="multipart/form-data" asp-action="Edit">
+    <div class="p-4 border rounded row">
+
+        <input hidden asp-for="ApplicationUser.Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Image -->
+        <div class="col-3">
+            <img src="@Model.ApplicationUser.Image" class="productImage" />
+            @if (Model.ApplicationUser.EmailConfirmed)
+            {
+                <img src="~/img/SystemImages/IconApprovedgreen.png" class="availableIconImage" />
+            }
+            else
+            {
+                <img src="~/img/SystemImages/Cute-Ball-Stop-icon.png" class="availableIconImage" />
+            }
+        </div>
+
+        <!-- Application User Properties -->
+        <div class="col-8">
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ApplicationUser.UserName">@ViewData["UserName"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ApplicationUser.UserName" class="form-control" />
+                </div>
+                <span asp-validation-for="ApplicationUser.UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ApplicationUser.FirstName">@ViewData["FirstName"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ApplicationUser.FirstName" class="form-control" />
+                </div>
+                <span asp-validation-for="ApplicationUser.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ApplicationUser.LastName">@ViewData["LastName"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ApplicationUser.LastName" class="form-control" />
+                </div>
+                <span asp-validation-for="ApplicationUser.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ApplicationUser.Image">@ViewData["Image"]</label>
+                </div>
+                <div class="col-8">
+                    <input type="file" name="file" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ApplicationUser.Street">@ViewData["Street"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ApplicationUser.Street" class="form-control" />
+                </div>
+                <span asp-validation-for="ApplicationUser.Street" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ApplicationUser.CareOf">@ViewData["CareOf"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ApplicationUser.CareOf" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ApplicationUser.Zip">@ViewData["Zip"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ApplicationUser.Zip" class="form-control" />
+                </div>
+                <span asp-validation-for="ApplicationUser.Zip" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ApplicationUser.City">@ViewData["City"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ApplicationUser.City" class="form-control" />
+                </div>
+                <span asp-validation-for="ApplicationUser.City" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ApplicationUser.Country">@ViewData["Country"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ApplicationUser.Country" class="form-control" />
+                </div>
+                <span asp-validation-for="ApplicationUser.Country" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ApplicationUser.PhoneNumber">@ViewData["PhoneNumber"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ApplicationUser.PhoneNumber" class="form-control" />
+                </div>
+                <span asp-validation-for="ApplicationUser.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
+                    <label asp-for="ApplicationUser.UserRating">@ViewData["UserRating"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ApplicationUser.UserRating" class="form-control" readonly />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-primary" value=@ViewData["Update"] />
+            <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -15,14 +15,14 @@
 
         <!-- Image -->
         <div class="col-3">
-            <img src="~/img/SystemImages/user_500_500.png" class="productImage" />
+            <img src="@Model.Image" class="productImage"/>
             @if (Model.EmailConfirmed)
             {
-                <img src="~/img/SystemImages/IconApprovedgreen.png" class="availableIconImage" />
+                <img src="~/img/SystemImages/IconApprovedgreen.png" class="availableIconImage"/>
             }
             else
             {
-                <img src="~/img/SystemImages/Cute-Ball-Stop-icon.png" class="availableIconImage" />
+                <img src="~/img/SystemImages/Cute-Ball-Stop-icon.png" class="availableIconImage"/>
             }
         </div>
 

@@ -58,6 +58,12 @@
     <Content Update="Areas\Customer\Views\Advertisement\_RateAdvertisement.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerApplicationUser.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerApplicationUserAuthorized.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\Customer\Views\Shared\_TableButtonPartialCustomerApplicationUserRatings.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -110,6 +116,7 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="wwwroot\img\UserImage\" />
   </ItemGroup>
 
 </Project>

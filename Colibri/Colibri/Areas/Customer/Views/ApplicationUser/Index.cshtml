@@ -14,7 +14,7 @@
             <h2 class="text-info">@ViewData["ApplicationUsers"]</h2>
         </div>
         <div class="col-6 text-right">
-            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New User</a>
+            <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewApplicationUser"]</a>
         </div>
     </div>
 
@@ -103,12 +103,14 @@
                 <th>
                     @ViewData["Email"]
                 </th>
-                <th>
+                @*<th>
                     @ViewData["PhoneNumber"]
-                </th>
+                </th>*@
                 <th>
                     @ViewData["Disabled"]
                 </th>
+                <th></th>
+                <th></th>
                 <th></th>
             </tr>
 
@@ -127,25 +129,43 @@
                     <td>
                         @Html.DisplayFor(m => item.Email)
                     </td>
-                    <td>
-                        @Html.DisplayFor(m => item.PhoneNumber)
-                    </td>
+                    @*<td>
+            @Html.DisplayFor(m => item.PhoneNumber)
+        </td>*@
                     <td>
                         <!-- Condition 'Lockout': if the Date ends, lock the User out -->
                         @if (item.LockoutEnd != null || item.LockoutEnd > DateTime.Now)
                         {
-                        <label>@ViewData["Disabled"]</label>
+                            <label>@ViewData["Disabled"]</label>
                         }
                     </td>
                     <td>
                         <!-- Condition 'Lockout': if the Date does NOT end, allow Redirection -->
-                        @if (item.LockoutEnd == null || item.LockoutEnd < DateTime.Now)
+                        @if ((item.LockoutEnd == null || item.LockoutEnd < DateTime.Now) && User.Identity.IsAuthenticated && Model.CurrentUserId == item.Id)
                         {
-                            <a asp-action="Details" asp-controller="ApplicationUser" class="btn btn-success pull-right btn-outline-info" asp-route-id="@item.Id">@ViewData["ViewDetails"]</a>
+                            <td>
+                                <partial name="_TableButtonPartialCustomerApplicationUserAuthorized" model="item.Id" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <partial name="_TableButtonPartialCustomerApplicationUser" model="item.Id" />
+                            </td>
                         }
                     </td>
                 </tr>
             }
         </table>
+    </div>
+    
+    <!-- Pagination -->
+    <div page-model="@Model.PagingInfo"
+         page-action="Index"
+         page-classes-enabled="true"
+         page-class="btn border"
+         page-class-normal="btn btn-default active"
+         page-class-selected="btn btn-primary active"
+         class="btn-group m-1">
     </div>
 </form>
