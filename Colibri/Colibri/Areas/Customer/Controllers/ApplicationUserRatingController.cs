@@ -47,7 +47,8 @@ namespace Colibri.Areas.Customer.Controllers
         [Route("Customer/ApplicationUserRating/Index")]
         public IActionResult Index(
             int applicationUserPage = 1,
-            string searchUserName = null
+            string searchUserName = null,
+            int searchUserRating = 0
             )
         {
             // Security Claims
@@ -68,6 +69,10 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 param.Append(searchUserName);
             }
+            if (searchUserRating != 0)
+            {
+                param.Append(searchUserRating);
+            }
 
             // populate the Lists
             ApplicationUserRatingViewModel.ApplicationUsers = _colibriDbContext.ApplicationUserRatings.ToList();
@@ -77,6 +82,11 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 ApplicationUserRatingViewModel.ApplicationUsers = ApplicationUserRatingViewModel.ApplicationUsers
                     .Where(a => a.ApplicationUserRatedName.ToLower().Contains(searchUserName.ToLower())).ToList();
+            }
+            if (searchUserRating != 0)
+            {
+                ApplicationUserRatingViewModel.ApplicationUsers = ApplicationUserRatingViewModel.ApplicationUsers
+                    .Where(a => a.ApplicationUserRate == searchUserRating).ToList();
             }
 
             // Pagination
@@ -101,8 +111,10 @@ namespace Colibri.Areas.Customer.Controllers
             };
 
             // i18n
-            ViewData["UserRatingList"] = _localizer["UserRatingListText"];
+            ViewData["ApplicationUserRatingList"] = _localizer["ApplicationUserRatingListText"];
             ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["RatedUser"] = _localizer["RatedUserText"];
+            ViewData["RatingUser"] = _localizer["RatingUserText"];
             ViewData["Rating"] = _localizer["RatingText"];
             ViewData["Description"] = _localizer["DescriptionText"];
             ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
@@ -136,9 +148,10 @@ namespace Colibri.Areas.Customer.Controllers
             // get the Application User
 
             // i18n
-            ViewData["ProductDetails"] = _localizer["ProductDetailsText"];
+            ViewData["ApplicationUserDetails"] = _localizer["ApplicationUserDetailsText"];
             ViewData["UserName"] = _localizer["UserNameText"];
-            ViewData["ProductName"] = _localizer["ProductNameText"];
+            ViewData["RatedUser"] = _localizer["RatedUserText"];
+            ViewData["RatingUser"] = _localizer["RatingUserText"];
             ViewData["Rating"] = _localizer["RatingText"];
             ViewData["Description"] = _localizer["DescriptionText"];
             ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
@@ -201,7 +214,7 @@ namespace Colibri.Areas.Customer.Controllers
             }
 
             // i18n
-            ViewData["EditApplicationUserRating"] = _localizer["EditApplicationUsertRatingText"];
+            ViewData["EditApplicationUserRating"] = _localizer["EditApplicationUserRatingText"];
             ViewData["Edit"] = _localizer["EditText"];
             ViewData["Update"] = _localizer["UpdateText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
@@ -264,7 +277,7 @@ namespace Colibri.Areas.Customer.Controllers
             }
 
             // i18n
-            ViewData["DeleteApplicationUserRatings"] = _localizer["DeleteApplicationUserRatingsText"];
+            ViewData["DeleteApplicationUserRating"] = _localizer["DeleteApplicationUserRatingText"];
             ViewData["Delete"] = _localizer["DeleteText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["UserName"] = _localizer["UserNameText"];

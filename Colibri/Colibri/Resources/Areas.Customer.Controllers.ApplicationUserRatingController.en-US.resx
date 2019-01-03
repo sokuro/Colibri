@@ -120,61 +120,43 @@
   <data name="ApplicationUserDetailsText" xml:space="preserve">
     <value>Application User Details</value>
   </data>
-  <data name="ApplicationUsersText" xml:space="preserve">
-    <value>Application Users</value>
+  <data name="ApplicationUserRatingListText" xml:space="preserve">
+    <value>Application User Ratings</value>
   </data>
   <data name="BackToListText" xml:space="preserve">
     <value>Back</value>
   </data>
-  <data name="ContactText" xml:space="preserve">
-    <value>Contact</value>
+  <data name="DeleteApplicationUserRatingText" xml:space="preserve">
+    <value>Delete Application User Rating</value>
   </data>
-  <data name="DisabledText" xml:space="preserve">
-    <value>Disabled</value>
+  <data name="DeleteText" xml:space="preserve">
+    <value>Delete</value>
   </data>
-  <data name="EmailText" xml:space="preserve">
-    <value>Email</value>
+  <data name="DescriptionText" xml:space="preserve">
+    <value>Description</value>
   </data>
-  <data name="FirstNameText" xml:space="preserve">
-    <value>First Name</value>
+  <data name="EditApplicationUserRatingText" xml:space="preserve">
+    <value>Edit Application User Rating</value>
   </data>
-  <data name="LastNameText" xml:space="preserve">
-    <value>Last Name</value>
+  <data name="EditText" xml:space="preserve">
+    <value>Edit</value>
   </data>
-  <data name="MessageSentText" xml:space="preserve">
-    <value>Message Sent</value>
+  <data name="RatedUserText" xml:space="preserve">
+    <value>Rated User</value>
   </data>
-  <data name="MessageText" xml:space="preserve">
-    <value>Message</value>
+  <data name="RatingText" xml:space="preserve">
+    <value>Rating</value>
   </data>
-  <data name="NewApplicationUserText" xml:space="preserve">
-    <value>New Application User</value>
+  <data name="RatingUserText" xml:space="preserve">
+    <value>Rating User</value>
   </data>
-  <data name="PhoneNumberText" xml:space="preserve">
-    <value>Phone Number</value>
-  </data>
-  <data name="RateUserText" xml:space="preserve">
-    <value>Rate</value>
-  </data>
-  <data name="SearchText" xml:space="preserve">
-    <value>Search</value>
-  </data>
-  <data name="SendMessageText" xml:space="preserve">
-    <value>Send Message</value>
-  </data>
-  <data name="SubjectText" xml:space="preserve">
-    <value>Subject</value>
+  <data name="UpdateText" xml:space="preserve">
+    <value>Update</value>
   </data>
   <data name="UserNameText" xml:space="preserve">
-    <value>User Name</value>
-  </data>
-  <data name="UserRatingText" xml:space="preserve">
-    <value>Rating</value>
+    <value>Username</value>
   </data>
   <data name="ViewDetailsText" xml:space="preserve">
     <value>View Details</value>
-  </data>
-  <data name="YourNameText" xml:space="preserve">
-    <value>Your Name</value>
   </data>
 </root>

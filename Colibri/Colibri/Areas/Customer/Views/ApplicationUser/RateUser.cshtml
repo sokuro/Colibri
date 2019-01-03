@@ -1,7 +1,6 @@
 ﻿@model Colibri.ViewModels.ApplicationUserViewModel
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-
 <!-- Rating -->
 <form method="post" enctype="multipart/form-data" asp-action="RateUser">
     <div class="form-group" id="rating-ability-wrapper">
@@ -48,11 +47,11 @@
         <br /><br />
 
         <div>
-            <a asp-area="Customer" asp-action="Index" asp-controller="ProductsRating" class="btn btn-success pull-right btn-outline-info">@ViewData["ShowAllRatings"]</a>
+            <a asp-area="Customer" asp-action="Index" asp-controller="ApplicationUserRating" class="btn btn-success pull-right btn-outline-info">@ViewData["ShowAllRatings"]</a>
 
-            @if (@Html.Raw(TempData["showProductRating"]).ToString() != "")
+            @if (@Html.Raw(TempData["showApplicationUserRating"]).ToString() != "")
             {
-                <a asp-area="Customer" asp-action="Rating" asp-controller="ProductsRating" class="btn btn-success pull-right btn-outline-warning" asp-route-id="@Html.Raw(TempData["productId"])">@ViewData["ShowRating"]</a>
+                <a asp-area="Customer" asp-action="Rating" asp-controller="ApplicationUserRating" class="btn btn-success pull-right btn-outline-warning" asp-route-id="@Html.Raw(TempData["applicationUserId"])">@ViewData["ShowRating"]</a>
             }
         </div>
 

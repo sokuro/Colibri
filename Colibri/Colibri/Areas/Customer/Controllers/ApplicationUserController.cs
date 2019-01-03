@@ -46,6 +46,12 @@ namespace Colibri.Areas.Customer.Controllers
             _emailSender = emailSender;
             _localizer = localizer;
 
+            ApplicationUserViewModel = new ApplicationUserViewModel()
+            {
+                ApplicationUser = new Models.ApplicationUser(),
+                ApplicationUsers = new List<ApplicationUser>()
+            };
+
             ApplicationUserRatingViewModel = new ApplicationUserRatingViewModel()
             {
                 ApplicationUsers = new List<ApplicationUserRatings>(),
@@ -142,6 +148,7 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Contact"] = _localizer["ContactText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
             ViewData["UserRating"] = _localizer["UserRatingText"];
+            ViewData["RateUser"] = _localizer["RateUserText"];
 
             return View(user);
         }
@@ -190,16 +197,16 @@ namespace Colibri.Areas.Customer.Controllers
 
         // Handle Ratings: GET: Rate User
         [Route("Customer/ApplicationUser/RateUser/{id}")]
-        public async Task<IActionResult> RateAdvertisement(string id)
+        public async Task<IActionResult> RateUser(string id)
         {
-            if (id == null)
+            if (id == "")
             {
                 return NotFound();
             }
 
-            // get the individual Product
-            ApplicationUserViewModel.ApplicationUser = await _colibriDbContext.ApplicationUserRatings
-                                                            .Where(p => p.ApplicationUserRatedId == id)
+            // get the individual User
+            ApplicationUserViewModel.ApplicationUser = await _colibriDbContext.ApplicationUsers
+                                                            .Where(p => p.Id.ToLower().Contains(id.ToLower()))
                                                             .FirstOrDefaultAsync();
 
             // save the Changes in DB

@@ -73,7 +73,7 @@
                 </div>
                 <div class="col-8">
                     <input hidden asp-for="@Model.Id" />
-                    <a asp-action="RateUser" class="btn btn-outline-warning form-control">@ViewData["RateUser"]</a>
+                    <a asp-action="RateUser" asp-controller="ApplicationUser" class="btn btn-outline-warning form-control">@ViewData["RateUser"]</a>
                 </div>
             </div>
         </div>

@@ -16,10 +16,10 @@
             <!-- 1st row -->
             <div class="row">
                 <div class="col-2">
-                    @*@ViewData["ApplicationUserName"]*@
+                    @ViewData["RatedUser"]
                 </div>
                 <div class="col-3">
-                    @*@Html.Editor("searchProductName", new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
                 </div>
 
                 <!-- empty column -->
@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="col-2">
-                    @ViewData["UserName"]
+                    @ViewData["RatingUser"]
                 </div>
                 <div class="col-3">
                     @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
@@ -38,8 +38,10 @@
             <!-- Search row -->
             <div class="row">
                 <div class="col-2">
+                    @ViewData["Rating"]
                 </div>
                 <div class="col-3">
+                    @Html.Editor("searchUserRating", new { htmlAttributes = new { @class = "form-control" } })
                 </div>
 
                 <!-- empty column -->
@@ -65,10 +67,10 @@
         <table class="table table-striped border">
             <tr class="text-info">
                 <th>
-                    @ViewData["UserName"]
+                    @ViewData["RatedUser"]
                 </th>
                 <th>
-                    @ViewData["UserName"]
+                    @ViewData["RatingUser"]
                 </th>
                 <th>
                     @ViewData["Rating"]
@@ -98,13 +100,13 @@
                     @if (User.Identity.IsAuthenticated && Model.CurrentUserId == item.ApplicationUserRatingId)
                     {
                         <td>
-                            <partial name="_TableButtonPartialCustomerProductsRatingsAuthorized" model="item.Id" />
+                            <partial name="_TableButtonPartialCustomerApplicationUserRatingsAuthorized" model="item.ApplicationUserRatedId" />
                         </td>
                     }
                     else
                     {
                         <td>
-                            <partial name="_TableButtonPartialCustomerProductsRatings" model="item.Id" />
+                            <partial name="_TableButtonPartialCustomerApplicationUserRatings" model="item.ApplicationUserRatedId" />
                         </td>
                     }
                 </tr>

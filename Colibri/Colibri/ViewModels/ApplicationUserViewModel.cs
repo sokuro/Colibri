@@ -12,7 +12,7 @@ namespace Colibri.ViewModels
      */
     public class ApplicationUserViewModel
     {
-        public ApplicationUserRatings ApplicationUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
         // List of Users
         public List<ApplicationUser> ApplicationUsers { get; set; }
