@@ -18,7 +18,7 @@ namespace Colibri.Areas.Customer.Controllers
     /*
      * Controller to Handle Application User's Ratings
      */
-    //[Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
+    [Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
     [Area("Customer")]
     public class ApplicationUserRatingController : Controller
     {
@@ -69,6 +69,7 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 param.Append(searchUserName);
             }
+            param.Append("&searchName=");
             if (searchUserRating != 0)
             {
                 param.Append(searchUserRating);
@@ -118,6 +119,7 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Rating"] = _localizer["RatingText"];
             ViewData["Description"] = _localizer["DescriptionText"];
             ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
+            ViewData["Search"] = _localizer["SearchText"];
 
             return View(ApplicationUserRatingViewModel);
         }
