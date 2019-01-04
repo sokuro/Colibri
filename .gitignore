@@ -261,3 +261,4 @@ __pycache__/
 *.pyc
 /Colibri/Colibri/wwwroot/img/ProductImage
 /Colibri/Colibri/wwwroot/img/ServiceImage
+/Colibri/Colibri/wwwroot/img/UserImage
