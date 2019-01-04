@@ -130,9 +130,10 @@ namespace Colibri
 
             // Adding MVC Services
             services.AddMvc()
-                //.SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization()
+                .AddRazorPagesOptions(options => options.AllowAreas = true)
                 .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             services.AddSignalR();

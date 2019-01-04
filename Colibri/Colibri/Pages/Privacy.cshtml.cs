@@ -9,9 +9,12 @@ namespace Colibri.Pages
 {
     public class PrivacyModel : PageModel
     {
-        public void OnGet()
-        {
+        public string ReturnUrl { get; set; }
 
+        [Route("/Pages/Privacy")]
+        public void OnGet(string returnUrl = null)
+        {
+            ReturnUrl = returnUrl;
         }
     }
 }
