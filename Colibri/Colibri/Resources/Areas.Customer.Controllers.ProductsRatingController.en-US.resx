@@ -147,6 +147,9 @@
   <data name="RatingText" xml:space="preserve">
     <value>Rating</value>
   </data>
+  <data name="SearchText" xml:space="preserve">
+    <value>Search</value>
+  </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Update</value>
   </data>

@@ -18,7 +18,7 @@ namespace Colibri.Areas.Customer.Controllers
     /*
      * Controller to Handle Product's Ratings
      */
-    //[Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
+    [Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
     [Area("Customer")]
     public class ProductsRatingController : Controller
     {
@@ -49,7 +49,8 @@ namespace Colibri.Areas.Customer.Controllers
         public IActionResult Index(
             int productPage = 1,
             string searchUserName = null,
-            string searchProductName = null
+            string searchProductName = null,
+            int searchProductRating = 0
             )
         {
             // Security Claims
@@ -76,6 +77,11 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 param.Append(searchProductName);
             }
+            param.Append("&searchName=");
+            if (searchProductRating != 0)
+            {
+                param.Append(searchProductRating);
+            }
 
             // populate the Lists
             ProductsRatingViewModel.Products = _colibriDbContext.ProductsRatings.ToList();
@@ -90,6 +96,11 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 ProductsRatingViewModel.Products = ProductsRatingViewModel.Products
                     .Where(a => a.ApplicationUserName.ToLower().Contains(searchUserName.ToLower())).ToList();
+            }
+            if (searchProductRating != 0)
+            {
+                ProductsRatingViewModel.Products = ProductsRatingViewModel.Products
+                    .Where(a => a.ProductRating == searchProductRating).ToList();
             }
 
             // Pagination
@@ -120,6 +131,7 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["Rating"] = _localizer["RatingText"];
             ViewData["Description"] = _localizer["DescriptionText"];
             ViewData["ViewDetails"] = _localizer["ViewDetailsText"];
+            ViewData["Search"] = _localizer["SearchText"];
 
             return View(ProductsRatingViewModel);
         }
