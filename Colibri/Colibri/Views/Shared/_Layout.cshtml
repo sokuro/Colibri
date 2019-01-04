@@ -50,168 +50,170 @@
 
 </head>
 <body>
-    <header class="container">
-        <nav class="navbar navbar-dark bg-dark navbar-expand-md">
-            <h1 class="navbar-brand">
-                <span><img src="~/img/SystemImages/colibri.png" alt="Colibri Logo" height="50" width="50"/></span>
-                Colibri
-            </h1>
-            <button class="navbar-toggler" data-toggle="collapse" data-target="#theMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div id="theMenu" class="navbar-collapse collapse">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-route-area="" asp-controller="Home" asp-action="Index">Home</a>
+<header class="container">
+    <nav class="navbar navbar-dark bg-dark navbar-expand-md">
+        <h1 class="navbar-brand">
+            <span><img src="~/img/SystemImages/colibri.png" alt="Colibri Logo" height="50" width="50"/></span>
+            Colibri
+        </h1>
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#theMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="theMenu" class="navbar-collapse collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-route-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+
+                <!-- hide if not authorized -->
+                @if (User.IsInRole(StaticDetails.SuperAdminEndUser))
+                {
+                    <!-- SuperAdmin Part -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminPagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>Admin</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="adminPagesDropdown">
+                            <a class="dropdown-item" asp-route-area="Admin" asp-controller="AdminDashboard" asp-action="Index">Dashboard</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Categories:</h6>
+                            <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryGroups" asp-action="Index">Category Groups</a>
+                            <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryTypes" asp-action="Index">Category Types</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Users:</h6>
+                            <a class="dropdown-item" asp-route-area="Admin" asp-controller="AdminUsers" asp-action="Index">Admin Users</a>
+                            <a class="dropdown-item" asp-route-area="Admin" asp-controller="CustomerUsers" asp-action="Index">Customer Users</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Advertisements:</h6>
+                            <a class="dropdown-item" asp-route-area="Admin" asp-controller="Products" asp-action="Index">Products</a>
+                            <a class="dropdown-item" asp-route-area="Admin" asp-controller="Services" asp-action="Index">Services</a>
+                            @*<a class="dropdown-item" asp-route-area="Admin" asp-controller="Appointments" asp-action="Index">Appointments</a>*@
+                        </div>
                     </li>
+                }
 
-                    <!-- hide if not authorized -->
-                    @if (User.IsInRole(StaticDetails.SuperAdminEndUser))
-                    {
-                        <!-- SuperAdmin Part -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="adminPagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-fw fa-folder"></i>
-                                <span>Admin</span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="adminPagesDropdown">
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="AdminDashboard" asp-action="Index">Dashboard</a>
-                                <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Categories:</h6>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryGroups" asp-action="Index">Category Groups</a>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="CategoryTypes" asp-action="Index">Category Types</a>
-                                <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Users:</h6>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="AdminUsers" asp-action="Index">Admin Users</a>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="CustomerUsers" asp-action="Index">Customer Users</a>
-                                <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Advertisements:</h6>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="Products" asp-action="Index">Products</a>
-                                <a class="dropdown-item" asp-route-area="Admin" asp-controller="Services" asp-action="Index">Services</a>
-                                @*<a class="dropdown-item" asp-route-area="Admin" asp-controller="Appointments" asp-action="Index">Appointments</a>*@
-                            </div>
-                        </li>
-                    }
+                @if (User.IsInRole(StaticDetails.SuperAdminEndUser) || User.IsInRole(StaticDetails.AdminEndUser))
+                {
+                    <!-- registered Users Part -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="registeredUserPagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-fw fa-folder"></i>
+                            <span>Reg. Users</span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="registeredUserPagesDropdown">
+                            <h6 class="dropdown-header">Users:</h6>
+                            <a class="dropdown-item" asp-route-area="Customer" asp-controller="ApplicationUser" asp-action="Index">Application Users</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Products & Services:</h6>
+                            <a class="dropdown-item" asp-route-area="Customer" asp-controller="Advertisement" asp-action="Index">Advertisements</a>
+                            <a class="dropdown-item" asp-route-area="Customer" asp-controller="UserServices" asp-action="Index">User Services</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Advertisements:</h6>
+                            <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementOffer" asp-action="Index">Angebot Erstellen</a>
+                            <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementRequest" asp-action="Index">Nachfrage Erstellen</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Appointments:</h6>
+                            <a class="dropdown-item" asp-route-area="Customer" asp-controller="Appointments" asp-action="Index">Appointments</a>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header">Ratings:</h6>
+                            <a class="dropdown-item" asp-route-area="Customer" asp-controller="ProductsRating" asp-action="Index">Product Ratings</a>
+                            <a class="dropdown-item" asp-route-area="Customer" asp-controller="UserServicesRating" asp-action="Index">User Service Ratings</a>
+                            <a class="dropdown-item" asp-route-area="Customer" asp-controller="ApplicationUserRating" asp-action="Index">User Ratings</a>
+                        </div>
+                    </li>
+                }
 
-                    @if (User.IsInRole(StaticDetails.SuperAdminEndUser) || User.IsInRole(StaticDetails.AdminEndUser))
-                    {
-                        <!-- registered Users Part -->
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="registeredUserPagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-fw fa-folder"></i>
-                                <span>Reg. Users</span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="registeredUserPagesDropdown">
-                                <h6 class="dropdown-header">Users:</h6>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="ApplicationUser" asp-action="Index">Application Users</a>
-                                <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Products & Services:</h6>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="Advertisement" asp-action="Index">Advertisements</a>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="UserServices" asp-action="Index">User Services</a>
-                                <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Advertisements:</h6>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementOffer" asp-action="Index">Angebot Erstellen</a>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="AdvertisementRequest" asp-action="Index">Nachfrage Erstellen</a>
-                                <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Appointments:</h6>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="Appointments" asp-action="Index">Appointments</a>
-                                <div class="dropdown-divider"></div>
-                                <h6 class="dropdown-header">Ratings:</h6>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="ProductsRating" asp-action="Index">Product Ratings</a>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="UserServicesRating" asp-action="Index">User Service Ratings</a>
-                                <a class="dropdown-item" asp-route-area="Customer" asp-controller="ApplicationUserRating" asp-action="Index">User Ratings</a>
-                            </div>
-                        </li>
-                    }
-
-                    <!-- Anonymous Users -->
-                    @*<li class="nav-item">
+                <!-- Anonymous Users -->
+                @*<li class="nav-item">
                         <a class="nav-link" asp-route-area="Customer" asp-controller="ProductsHome" asp-action="Index">Products List</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-route-area="Customer" asp-controller="UserServicesHome" asp-action="Index">Services List</a>
                     </li>*@
-                    <li class="nav-item">
-                        <a class="nav-link" asp-route-area="" asp-controller="Home" asp-action="Contact">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-route-area="" asp-controller="About" asp-action="">About</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-route-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-route-area="" asp-controller="About" asp-action="">About</a>
+                </li>
 
-                    <!-- handle Session: Values in the Session -->
-                    @if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssScheduling") != null)
-                    {
-                        <li style="color:white">
-                            <a asp-route-area="Customer" asp-controller="Scheduling" asp-action="Index" class="nav-link">
-                                <i class="fa fa-list-ol"></i> &nbsp;
-                                <!-- # Items in the Scheduling -->
-                                @{
-                                    var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssScheduling").Count;
-                                }
-                                (@count)
-                            </a>
-                        </li>
-                    }
-                    else if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("userServicesScheduling") != null)
-                    {
-                        <li style="color:white">
-                            <a asp-route-area="Customer" asp-controller="Scheduling" asp-action="Index" class="nav-link">
-                                <i class="fa fa-list-ol"></i> &nbsp;
-                                <!-- # Items in the Scheduling -->
-                                @{
-                                    var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("userServicesScheduling").Count;
-                                }
-                                (@count)
-                            </a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li style="color:white">
-                            <a asp-route-area="Customer" asp-controller="Scheduling" asp-action="Index" class="nav-link">
-                                <i class="fa fa-list-ul"></i> &nbsp;
-                                <!-- display Zero -->
-                                (0)
-                            </a>
-                        </li>
-                    }
-                </ul>
-                <!-- Navbar right -->
-                <div class="navbar-right">
-                    <partial name="_LoginPartial" />
-                </div>
-                <ul class="navbar-nav ml-auto ml-md-0">
-                    <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-bell fa-fw"></i>
-                            <!-- handle Session: Values in the Session -->
-                            @*@if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("productsByAdminNotifications") != null)*@
-                            @if (HttpContextAccessor.HttpContext.Session.Get<Notifications>("productsByAdminNotifications") != null)
-                            {
-                                <span class="badge badge-danger">
-                                    @{
-                                        var countNotifications = HttpContextAccessor.HttpContext.Session.Get<List<int>>("productsByAdminNotifications").Count;
-                                    }
-                                    (@countNotifications)
-                                    5
-                                </span>
+                <!-- handle Session: Values in the Session -->
+                @if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssScheduling") != null)
+                {
+                    <li style="color:white">
+                        <a asp-route-area="Customer" asp-controller="Scheduling" asp-action="Index" class="nav-link">
+                            <i class="fa fa-list-ol"></i> &nbsp;
+                            <!-- # Items in the Scheduling -->
+                            @{
+                                var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("ssScheduling").Count;
                             }
-                            <span class="badge badge-danger"></span>
+                            (@count)
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                            <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="Index">Subscriber</a>
-                            <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="SendReceive">SendReceive</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="ShowAllNotifications">ShowAllNotifications</a>
-                            <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="ShowMyNotifications">ShowMyNotifications</a>
-                        </div>
                     </li>
-                </ul>
+                }
+                else if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("userServicesScheduling") != null)
+                {
+                    <li style="color:white">
+                        <a asp-route-area="Customer" asp-controller="Scheduling" asp-action="Index" class="nav-link">
+                            <i class="fa fa-list-ol"></i> &nbsp;
+                            <!-- # Items in the Scheduling -->
+                            @{
+                                var count = HttpContextAccessor.HttpContext.Session.Get<List<int>>("userServicesScheduling").Count;
+                            }
+                            (@count)
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li style="color:white">
+                        <a asp-route-area="Customer" asp-controller="Scheduling" asp-action="Index" class="nav-link">
+                            <i class="fa fa-list-ul"></i> &nbsp;
+                            <!-- display Zero -->
+                            (0)
+                        </a>
+                    </li>
+                }
+            </ul>
+            <!-- Navbar right -->
+            <div class="navbar-right">
+                <partial name="_LoginPartial" />
             </div>
-        </nav>
-    </header>
+            <ul class="navbar-nav ml-auto ml-md-0">
+                <li class="nav-item dropdown no-arrow mx-1">
+                    <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-bell fa-fw"></i>
+                        <!-- handle Session: Values in the Session -->
+                        @*@if (HttpContextAccessor.HttpContext.Session.Get<List<int>>("productsByAdminNotifications") != null)*@
+                        @if (HttpContextAccessor.HttpContext.Session.Get<Notifications>("productsByAdminNotifications") != null)
+                        {
+                            <span class="badge badge-danger">
+                                @{
+                                    var countNotifications = HttpContextAccessor.HttpContext.Session.Get<List<int>>("productsByAdminNotifications").Count;
+                                }
+                                (@countNotifications)
+                                5
+                            </span>
+                        }
+                        <span class="badge badge-danger"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+                        <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="Index">Subscriber</a>
+                        <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="SendReceive">SendReceive</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="ShowAllNotifications">ShowAllNotifications</a>
+                        <a class="dropdown-item" asp-route-area="" asp-controller="Subscriber" asp-action="ShowMyNotifications">ShowMyNotifications</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
 
-    <!-- Main Class -->
+<partial name="_CookieConsentPartial" />
+
+<!-- Main Class -->
     <main class="container">
         <aside>
         </aside>
