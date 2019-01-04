@@ -171,6 +171,12 @@
   <data name="ShowAllText" xml:space="preserve">
     <value>Show all</value>
   </data>
+  <data name="ToCategoryGroupText" xml:space="preserve">
+    <value>Go to category-groups</value>
+  </data>
+  <data name="ToCategoryTypeText" xml:space="preserve">
+    <value>Go to categories</value>
+  </data>
   <data name="TypeOfCategoryGroupText" xml:space="preserve">
     <value>Category Group Type</value>
   </data>

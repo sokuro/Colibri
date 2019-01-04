@@ -84,6 +84,7 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["City"] = _localizer["CityText"];
             ViewData["Zip"] = _localizer["ZipText"];
             ViewData["Country"] = _localizer["CountryText"];
+            ViewData["LockoutEnabled"] = _localizer["LockoutEnabledText"];
             ViewData["Update"] = _localizer["UpdateText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
 
@@ -95,7 +96,7 @@ namespace Colibri.Areas.Admin.Controllers
         [Route("Admin/AdminUsers/Edit/{id}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, ApplicationUser applicationUser)
+        public async Task<IActionResult> Edit(string id, ApplicationUser applicationUser)
         {
             if (id != applicationUser.Id)
             {
@@ -104,13 +105,12 @@ namespace Colibri.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                ApplicationUser userFromDb = _colibriDbContext.ApplicationUsers
+                ApplicationUser userFromDb = await _colibriDbContext.ApplicationUsers
                                                     .Where(u => u.Id == id)
-                                                    .FirstOrDefault();
+                                                    .FirstOrDefaultAsync();
                 // Properties or the User
                 userFromDb.FirstName = applicationUser.FirstName;
                 userFromDb.LastName = applicationUser.LastName;
-                // TODO: User can edit Email?!
                 userFromDb.Email = applicationUser.Email;
                 userFromDb.PhoneNumber = applicationUser.PhoneNumber;
                 userFromDb.Street = applicationUser.Street;
@@ -119,9 +119,20 @@ namespace Colibri.Areas.Admin.Controllers
                 userFromDb.Zip = applicationUser.Zip;
                 userFromDb.Country = applicationUser.Country;
                 userFromDb.Modified = DateTime.Now;
+                userFromDb.LockoutEnabled = applicationUser.LockoutEnabled;
+
+                // handle the Lockout by the Admin manually
+                if (!applicationUser.LockoutEnabled)
+                {
+                    userFromDb.LockoutEnd = null;
+                }
+                else
+                {
+                    userFromDb.LockoutEnd = DateTimeOffset.MaxValue;
+                }
 
                 // save Changes
-                _colibriDbContext.SaveChanges();
+                await _colibriDbContext.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -164,17 +175,17 @@ namespace Colibri.Areas.Admin.Controllers
         [Route("Admin/AdminUsers/Delete/{id}")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePost (string id)
+        public async Task<IActionResult> DeletePost (string id)
         {
-            ApplicationUser userFromDb = _colibriDbContext.ApplicationUsers
+            ApplicationUser userFromDb = await _colibriDbContext.ApplicationUsers
                                                 .Where(u => u.Id == id)
-                                                .FirstOrDefault();
+                                                .FirstOrDefaultAsync();
             // set the Lockout for the User with specific Time
             // @param years = 100y
             userFromDb.LockoutEnd = DateTime.Now.AddYears(100);
 
             // save Changes
-            _colibriDbContext.SaveChanges();
+            await _colibriDbContext.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }

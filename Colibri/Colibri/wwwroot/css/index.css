@@ -159,6 +159,7 @@ footer.sticky-footer {
     text-align: center;
     height: 80px;
     z-index: -1;
+    /*position:absolute;*/
     /*background-color: #e9ecef;*/
 }
 
