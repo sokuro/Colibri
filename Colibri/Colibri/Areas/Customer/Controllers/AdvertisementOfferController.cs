@@ -468,7 +468,7 @@ namespace Colibri.Areas.Customer.Controllers
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine("{0} Exception caught.", ex);
             }
 
             // Remove product from DB
@@ -525,7 +525,7 @@ namespace Colibri.Areas.Customer.Controllers
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine("{0} Exception caught.", ex);
             }
 
             // Remove userService from DB
@@ -646,7 +646,7 @@ namespace Colibri.Areas.Customer.Controllers
                 }
                 catch (Exception ex)
                 {
-
+                    Console.WriteLine("{0} Exception caught.", ex);
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -765,7 +765,7 @@ namespace Colibri.Areas.Customer.Controllers
                 }
                 catch (Exception ex)
                 {
-
+                    Console.WriteLine("{0} Exception caught.", ex);
                 }
                 return RedirectToAction(nameof(Index));
             }
