@@ -162,6 +162,9 @@
   <data name="LastNameText" xml:space="preserve">
     <value>Last Name</value>
   </data>
+  <data name="LockoutEnabledText" xml:space="preserve">
+    <value>Locked</value>
+  </data>
   <data name="NewAdminUserText" xml:space="preserve">
     <value>New Administrator</value>
   </data>
