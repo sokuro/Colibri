@@ -10,6 +10,7 @@ using Colibri.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
@@ -122,23 +123,24 @@ namespace Colibri.Areas.Customer.Controllers
             // Prüfen, ob Suchbegriff für Inserat existiert
             if (!string.IsNullOrEmpty(model.SearchAdvertisement))
             {
-                SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.Name.Contains(model.SearchAdvertisement));
-                SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.Name.Contains(model.SearchAdvertisement));
+                SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.Name.ToLower().Contains(model.SearchAdvertisement.ToLower()));
+                SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.Name.ToLower().Contains(model.SearchAdvertisement.ToLower()));
             }
 
             // Prüfen, ob Suchbegriff für Rubrik-Gruppe existiert
             if (!string.IsNullOrEmpty(model.SearchCategoryGroup))
             {
-                SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.CategoryGroups.Name.Contains(model.SearchCategoryGroup));
-                SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.CategoryGroups.Name.Contains(model.SearchCategoryGroup));
+                SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.CategoryGroups.Name.ToLower().Contains(model.SearchCategoryGroup.ToLower()));
+                SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.CategoryGroups.Name.ToLower().Contains(model.SearchCategoryGroup.ToLower()));
             }
 
             // Prüfen, ob Suchbegriff für Rubrik existiert
             if (!string.IsNullOrEmpty(model.SearchCategoryType))
             {
-                SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.CategoryTypes.Name.Contains(model.SearchCategoryType));
-                SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.CategoryTypes.Name.Contains(model.SearchCategoryType));
+                SearchViewModel.ProductsList = SearchViewModel.ProductsList.Where(m => m.CategoryTypes.Name.ToLower().Contains(model.SearchCategoryType.ToLower()));
+                SearchViewModel.UserServicesList = SearchViewModel.UserServicesList.Where(m => m.CategoryTypes.Name.ToLower().Contains(model.SearchCategoryType.ToLower()));
             }
+
 
             // Prüfen, ob Suchbegriff für PLZ existiert
             if (!string.IsNullOrEmpty(model.PLZ))
@@ -240,6 +242,19 @@ namespace Colibri.Areas.Customer.Controllers
                 }
             }
             return View(SearchViewModel);
+        }
+
+        // Get Category 
+        [Route("SearchOffers/GetCategory")]
+        public JsonResult GetCategory(int CategoryGroupID)
+        {
+            List<CategoryTypes> categoryTypesList = new List<CategoryTypes>();
+
+            categoryTypesList = (from category in _colibriDbContext.CategoryTypes
+                                 where category.CategoryGroupId == CategoryGroupID
+                                 select category).ToList();
+
+            return Json(new SelectList(categoryTypesList, "Id", "Name"));
         }
 
     }
