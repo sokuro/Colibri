@@ -581,6 +581,7 @@ namespace Colibri.Areas.Customer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProductPOST(int id)
         {
+            AdvertisementViewModel.CategoryGroups = await _colibriDbContext.CategoryGroups.ToListAsync();
             // Convert
             AdvertisementViewModel.Product.CategoryTypeId = Convert.ToInt32(Request.Form["CategoryTypeId"].ToString());
 
