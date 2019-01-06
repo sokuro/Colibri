@@ -9,11 +9,17 @@ namespace Colibri
     [Route("about")]
     public class AboutController : Controller
     {
+        [Route("About")]
+        public IActionResult About()
+        {
+            return View();
+        }
+
         // Phone
         [Route("")]
         public string Phone()
         {
-            return "031 301 03 47";
+            return "123";
         }
 
         // Address
