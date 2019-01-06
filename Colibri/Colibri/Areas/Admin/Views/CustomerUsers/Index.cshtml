@@ -59,15 +59,15 @@
                 </td>
                 <td>
                     <!-- Condition 'Lockout': if the Date does NOT end, allow Redirection -->
-                    @if (item.LockoutEnd == null || item.LockoutEnd < DateTime.Now)
-                    {
+                    @*@if (item.LockoutEnd == null || item.LockoutEnd < DateTime.Now)*@
+                    @*{*@
                         <a type="button" class="btn btn-primary" href="@Url.Action("Edit","CustomerUsers", new { item.Id })">
                             <i class="fas fa-edit"></i>
                         </a>
                         <a type="button" class="btn btn-danger" href="@Url.Action("Delete","CustomerUsers", new { item.Id })">
                             <i class="fas fa-trash-alt"></i>
                         </a>
-                    }
+                    @*}*@
                 </td>
             </tr>
         }

@@ -126,11 +126,26 @@
   <data name="BackToListText" xml:space="preserve">
     <value>Zurück</value>
   </data>
+  <data name="CareOfText" xml:space="preserve">
+    <value>c/o</value>
+  </data>
+  <data name="CityText" xml:space="preserve">
+    <value>Ort</value>
+  </data>
   <data name="ContactText" xml:space="preserve">
     <value>Kontaktiere</value>
   </data>
+  <data name="CountryText" xml:space="preserve">
+    <value>Land</value>
+  </data>
+  <data name="DescriptionText" xml:space="preserve">
+    <value>Beschreibung</value>
+  </data>
   <data name="DisabledText" xml:space="preserve">
     <value>Deaktiviert</value>
+  </data>
+  <data name="EditApplicationUserText" xml:space="preserve">
+    <value>Editiere Personalien</value>
   </data>
   <data name="EmailText" xml:space="preserve">
     <value>Email</value>
@@ -153,22 +168,37 @@
   <data name="PhoneNumberText" xml:space="preserve">
     <value>Telefonnummer</value>
   </data>
+  <data name="RateUserText" xml:space="preserve">
+    <value>Bewerte</value>
+  </data>
   <data name="SearchText" xml:space="preserve">
     <value>Suche</value>
   </data>
   <data name="SendMessageText" xml:space="preserve">
     <value>Sende Nachricht</value>
   </data>
+  <data name="StreetText" xml:space="preserve">
+    <value>Strasse</value>
+  </data>
   <data name="SubjectText" xml:space="preserve">
     <value>Subjekt</value>
   </data>
+  <data name="UpdateText" xml:space="preserve">
+    <value>Aktualisiere</value>
+  </data>
   <data name="UserNameText" xml:space="preserve">
     <value>User Name</value>
+  </data>
+  <data name="UserRatingText" xml:space="preserve">
+    <value>Bewertung</value>
   </data>
   <data name="ViewDetailsText" xml:space="preserve">
     <value>Zeige Details</value>
   </data>
   <data name="YourNameText" xml:space="preserve">
     <value>Dein Name</value>
+  </data>
+  <data name="ZipText" xml:space="preserve">
+    <value>PLZ</value>
   </data>
 </root>

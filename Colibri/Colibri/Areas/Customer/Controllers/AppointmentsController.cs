@@ -134,7 +134,7 @@ namespace Colibri.Areas.Customer.Controllers
                 }
                 catch (Exception ex)
                 {
-
+                    Console.WriteLine("{0} Exception caught.", ex);
                 }
             }
 

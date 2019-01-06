@@ -38,6 +38,35 @@ namespace Colibri.Migrations
                     b.ToTable("ApplicationUserCategoryTypesSubscribers");
                 });
 
+            modelBuilder.Entity("Colibri.Models.ApplicationUserRatings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApplicationUserRate");
+
+                    b.Property<string>("ApplicationUserRatedId");
+
+                    b.Property<string>("ApplicationUserRatedName");
+
+                    b.Property<string>("ApplicationUserRatingId");
+
+                    b.Property<string>("ApplicationUserRatingName");
+
+                    b.Property<DateTime>("CreatedOn");
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserRatedId");
+
+                    b.HasIndex("ApplicationUserRatingId");
+
+                    b.ToTable("ApplicationUserRatings");
+                });
+
             modelBuilder.Entity("Colibri.Models.Appointments", b =>
                 {
                     b.Property<int>("Id")
@@ -588,6 +617,8 @@ namespace Colibri.Migrations
 
                     b.Property<DateTime>("Modified");
 
+                    b.Property<int>("NumberOfApplicationUserRates");
+
                     b.Property<string>("Password");
 
                     b.Property<string>("Street");
@@ -611,6 +642,17 @@ namespace Colibri.Migrations
                         .WithMany()
                         .HasForeignKey("CategoryTypeId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Colibri.Models.ApplicationUserRatings", b =>
+                {
+                    b.HasOne("Colibri.Models.ApplicationUser", "ApplicationUserRated")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserRatedId");
+
+                    b.HasOne("Colibri.Models.ApplicationUser", "ApplicationUserRating")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserRatingId");
                 });
 
             modelBuilder.Entity("Colibri.Models.Appointments", b =>

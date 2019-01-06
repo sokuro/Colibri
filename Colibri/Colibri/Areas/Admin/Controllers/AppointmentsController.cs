@@ -94,8 +94,8 @@ namespace Colibri.Areas.Admin.Controllers
 
 
             // include the Appointments Person (populate it)
-            appointmentViewModel.Appointments = _colibriDbContext.Appointments
-                                                    .Include(a => a.AppPerson).ToList();
+            appointmentViewModel.Appointments = await _colibriDbContext.Appointments
+                                                    .Include(a => a.AppPerson).ToListAsync();
 
             // Search Conditions
             if (searchName != null)
@@ -119,7 +119,7 @@ namespace Colibri.Areas.Admin.Controllers
                 }
                 catch (Exception ex)
                 {
-
+                    Console.WriteLine("{0} Exception caught.", ex);
                 }
             }
 

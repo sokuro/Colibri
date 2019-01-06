@@ -122,7 +122,7 @@ namespace Colibri.Areas.Customer.Controllers
             }
 
             // populate the Lists
-            AdvertisementViewModel.Products = _colibriDbContext.Products.ToList();
+            AdvertisementViewModel.Products = await _colibriDbContext.Products.ToListAsync();
             AdvertisementViewModel.Users = from u in _colibriDbContext.ApplicationUsers
                                                     join p in _colibriDbContext.Products
                                                     .Include(p => p.ApplicationUser)
@@ -133,11 +133,13 @@ namespace Colibri.Areas.Customer.Controllers
             // Search Conditions
             if (searchProductName != null)
             {
+                AdvertisementViewModel.SearchFilter = searchProductName;
                 AdvertisementViewModel.Products = AdvertisementViewModel.Products
                                                     .Where(a => a.Name.ToLower().Contains(searchProductName.ToLower())).ToList();
             }
             if (searchUserName != null)
             {
+                AdvertisementViewModel.SearchFilter = searchUserName;
                 AdvertisementViewModel.Products = AdvertisementViewModel.Products
                                                     .Where(a => a.ApplicationUserName.ToLower().Contains(searchUserName.ToLower())).ToList();
             }
@@ -241,7 +243,7 @@ namespace Colibri.Areas.Customer.Controllers
 
                 // to update the Products from the DB: retrieve the Db Files
                 // new Properties will be added to the specific Product -> Id needed!
-                var productsFromDb = _colibriDbContext.Products.Find(ProductsViewModel.Products.Id);
+                var productsFromDb = await _colibriDbContext.Products.FindAsync(ProductsViewModel.Products.Id);
 
                 // Image File has been uploaded from the View
                 if (files.Count != 0)

@@ -18,7 +18,7 @@ namespace Colibri.Areas.Customer.Controllers
     /*
      * Controller to Handle UserServiceRating's Ratings
      */
-    //[Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
+    [Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
     [Area("Customer")]
     public class UserServicesRatingController : Controller
     {
@@ -49,7 +49,8 @@ namespace Colibri.Areas.Customer.Controllers
         public IActionResult Index(
             int userServicePage = 1,
             string searchUserName = null,
-            string searchUserServiceName = null
+            string searchUserServiceName = null,
+            int searchUserServiceRating = 0
             )
         {
             // Security Claims
@@ -76,6 +77,11 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 param.Append(searchUserServiceName);
             }
+            param.Append("&searchName=");
+            if (searchUserServiceRating != 0)
+            {
+                param.Append(searchUserServiceRating);
+            }
 
             // populate the Lists
             UserServicesRatingViewModel.UserServices = _colibriDbContext.UserServicesRatings.ToList();
@@ -90,6 +96,11 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 UserServicesRatingViewModel.UserServices = UserServicesRatingViewModel.UserServices
                     .Where(a => a.ApplicationUserName.ToLower().Contains(searchUserName.ToLower())).ToList();
+            }
+            if (searchUserServiceRating != 0)
+            {
+                UserServicesRatingViewModel.UserServices = UserServicesRatingViewModel.UserServices
+                    .Where(a => a.UserServiceRating == searchUserServiceRating).ToList();
             }
 
             // Pagination

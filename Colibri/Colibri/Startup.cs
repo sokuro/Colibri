@@ -55,6 +55,13 @@ namespace Colibri
             //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]))
             //    };
             //});
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies 
+                // is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
             // Add Authentication
             // -> Facebook
@@ -123,9 +130,10 @@ namespace Colibri
 
             // Adding MVC Services
             services.AddMvc()
-                //.SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization()
+                .AddRazorPagesOptions(options => options.AllowAreas = true)
                 .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             services.AddSignalR();
@@ -166,6 +174,8 @@ namespace Colibri
 
             // #2: Instance to serve Files from the /node_modules
             //app.UseNodeModules(env.ContentRootPath);
+
+            app.UseCookiePolicy();
 
             // #3.5 (later implemented) enables Identity Service
             app.UseAuthentication();

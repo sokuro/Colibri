@@ -12,10 +12,14 @@ namespace Colibri.ViewModels
      */
     public class ApplicationUserViewModel
     {
+        public ApplicationUser ApplicationUser { get; set; }
+
         // List of Users
         public List<ApplicationUser> ApplicationUsers { get; set; }
 
         // Custom Pagination
         public PagingInfo PagingInfo { get; set; }
+
+        public string CurrentUserId { get; set; }
     }
 }
