@@ -15,5 +15,9 @@ namespace Colibri.ViewModels
         public IEnumerable<CategoryGroups> CategoryGroups { get; set; }
         public IEnumerable<CategoryTypes> CategoryTypes { get; set; }
 
+        public string SearchTitle { get; set; }
+        public string SearchCategoryGroup { get; set; }
+        public string SearchCategoryType { get; set; }
+
     }
 }

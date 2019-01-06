@@ -67,6 +67,57 @@ namespace Colibri.Areas.Admin.Controllers
             return View(ArchiveViewModel);
         }
 
+        // POST : Action for Index
+        [Route("Admin/Archive/Index")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(ArchiveViewModel model)
+        {
+            // i18n
+            ViewData["ArchiveEntries"] = _localizer["ArchiveEntriesText"];
+            ViewData["Back"] = _localizer["BackText"];
+            ViewData["CategoryGroup"] = _localizer["CategoryGroupText"];
+            ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["CreatedOn"] = _localizer["CreatedOnText"];
+            ViewData["CreateEntry"] = _localizer["CreateEntryText"];
+            ViewData["Create"] = _localizer["CreateText"];
+            ViewData["EditEntry"] = _localizer["EditEntryText"];
+            ViewData["IsOffer"] = _localizer["IsOfferText"];
+            ViewData["NewEntry"] = _localizer["NewEntryText"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["TypeOfCategoryGroup"] = _localizer["TypeOfCategoryGroupText"];
+            ViewData["Update"] = _localizer["UpdateText"];
+            ViewData["DeleteEntry"] = _localizer["DeleteEntryText"];
+            ViewData["Delete"] = _localizer["DeleteText"];
+
+            ArchiveViewModel.ArchiveEntryList = await _colibriDbContext.ArchiveEntry.Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).ToListAsync();
+
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Prüfen, ob Suchbegriff für Titel existiert
+            if(!string.IsNullOrEmpty(model.SearchTitle))
+            {
+                ArchiveViewModel.ArchiveEntryList = ArchiveViewModel.ArchiveEntryList.Where(m => m.Name.Contains(model.SearchTitle));
+            }
+            // Prüfen, ob Suchbegriff für Rubrik-Gruppe existiert
+            if(!string.IsNullOrEmpty(model.SearchCategoryGroup))
+            {
+                ArchiveViewModel.ArchiveEntryList = ArchiveViewModel.ArchiveEntryList.Where(m => m.CategoryGroups.Name.Contains(model.SearchCategoryGroup));
+            }
+
+            // Prüfen, ob Suchbegriff für Rubrik existiert
+            if (!string.IsNullOrEmpty(model.SearchCategoryType))
+            {
+                ArchiveViewModel.ArchiveEntryList = ArchiveViewModel.ArchiveEntryList.Where(m => m.CategoryTypes.Name.Contains(model.SearchCategoryType));
+            }
+
+            // Return View
+            return View(ArchiveViewModel);
+        }
+
         // GET : Action for Create
         [Route("Admin/Archive/Create")]
         public async Task<IActionResult> Create()
@@ -125,6 +176,16 @@ namespace Colibri.Areas.Admin.Controllers
                 return View(ArchiveViewModel);
             }
 
+            // Strings für TypeOfCategoryGroup schreiben
+            if (ArchiveViewModel.ArchiveEntry.TypeOfCategoryGroup.Equals("0"))
+            {
+                ArchiveViewModel.ArchiveEntry.TypeOfCategoryGroup = "Product";
+            }
+            else
+            {
+                ArchiveViewModel.ArchiveEntry.TypeOfCategoryGroup = "Service";
+            }
+
             // add timestamp to "CreatedOn"
             ArchiveViewModel.ArchiveEntry.CreatedOn = System.DateTime.Now;
 
@@ -166,7 +227,7 @@ namespace Colibri.Areas.Admin.Controllers
             ArchiveViewModel.ArchiveEntry = await _colibriDbContext.ArchiveEntry.Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).SingleOrDefaultAsync(m => m.Id == id);
             ArchiveViewModel.CategoryTypes = await _colibriDbContext.CategoryTypes.Where(s => s.CategoryGroupId == ArchiveViewModel.ArchiveEntry.CategoryGroupId).ToListAsync();
 
-            if(ArchiveViewModel.ArchiveEntry == null)
+            if (ArchiveViewModel.ArchiveEntry == null)
             {
                 return NotFound();
             }
@@ -178,7 +239,7 @@ namespace Colibri.Areas.Admin.Controllers
         [Route("Admin/Archive/Edit")]
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPOST(int id)
+        public async Task<IActionResult> EditPOST()
         {
             // i18n
             ViewData["ArchiveEntries"] = _localizer["ArchiveEntriesText"];
@@ -200,32 +261,36 @@ namespace Colibri.Areas.Admin.Controllers
             // Convert
             ArchiveViewModel.ArchiveEntry.CategoryTypeId = Convert.ToInt32(Request.Form["CategoryTypeId"].ToString());
 
-            ArchiveViewModel.ArchiveEntry = await _colibriDbContext.ArchiveEntry.Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).SingleOrDefaultAsync(m => m.Id == id);
+            // Strings für TypeOfCategoryGroup schreiben
+            if (ArchiveViewModel.ArchiveEntry.TypeOfCategoryGroup.Equals("0"))
+            {
+                ArchiveViewModel.ArchiveEntry.TypeOfCategoryGroup = "Product";
+            }
+            else
+            {
+                ArchiveViewModel.ArchiveEntry.TypeOfCategoryGroup = "Service";
+            }
+
+            //ArchiveViewModel.ArchiveEntry = await _colibriDbContext.ArchiveEntry.Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).SingleOrDefaultAsync(m => m.Id == Ar);
             ArchiveViewModel.CategoryTypes = await _colibriDbContext.CategoryTypes.Where(s => s.CategoryGroupId == ArchiveViewModel.ArchiveEntry.CategoryGroupId).ToListAsync();
 
-            if (id != ArchiveViewModel.ArchiveEntry.Id)
+            if (!ModelState.IsValid)
             {
                 return NotFound();
             }
 
-            if(ModelState.IsValid)
-            {
-                var entryFromDb = _colibriDbContext.ArchiveEntry.Where(m => m.Id == ArchiveViewModel.ArchiveEntry.Id).FirstOrDefault();
+            var entryFromDb = _colibriDbContext.ArchiveEntry.Include(m => m.CategoryGroups).Where(m => m.Id == ArchiveViewModel.ArchiveEntry.Id).FirstOrDefault();
 
-                entryFromDb.Name = ArchiveViewModel.ArchiveEntry.Name;
-                entryFromDb.CategoryGroupId = ArchiveViewModel.ArchiveEntry.CategoryGroupId;
-                entryFromDb.CategoryTypeId = ArchiveViewModel.ArchiveEntry.CategoryTypeId;
-                entryFromDb.isOffer = ArchiveViewModel.ArchiveEntry.isOffer;
-                entryFromDb.TypeOfCategoryGroup = ArchiveViewModel.ArchiveEntry.CategoryGroups.TypeOfCategoryGroup;
+            entryFromDb.Name = ArchiveViewModel.ArchiveEntry.Name;
+            entryFromDb.CategoryGroupId = ArchiveViewModel.ArchiveEntry.CategoryGroupId;
+            entryFromDb.CategoryTypeId = ArchiveViewModel.ArchiveEntry.CategoryTypeId;
+            entryFromDb.isOffer = ArchiveViewModel.ArchiveEntry.isOffer;
+            entryFromDb.TypeOfCategoryGroup = ArchiveViewModel.ArchiveEntry.TypeOfCategoryGroup;
 
-                await _colibriDbContext.SaveChangesAsync();
+            _colibriDbContext.Update(entryFromDb);
+            await _colibriDbContext.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Index));
-            }
-
-            // If ModelState is not valid
-            ArchiveViewModel.CategoryTypes = _colibriDbContext.CategoryTypes.Where(s => s.CategoryGroupId == ArchiveViewModel.ArchiveEntry.CategoryGroupId).ToList();
-            return View(ArchiveViewModel);
+            return RedirectToAction(nameof(Index));
         }
 
 
@@ -256,7 +321,7 @@ namespace Colibri.Areas.Admin.Controllers
             }
 
             var entry = await _colibriDbContext.ArchiveEntry.Include(m => m.CategoryGroups).Include(m => m.CategoryTypes).SingleOrDefaultAsync(m => m.Id == id);
-            if(entry == null)
+            if (entry == null)
             {
                 return NotFound();
             }
