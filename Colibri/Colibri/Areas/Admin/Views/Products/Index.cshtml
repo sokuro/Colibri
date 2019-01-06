@@ -8,63 +8,45 @@
 
 @inject IViewLocalizer Localizer
 
-<form method="get">
-    <div class="row">
-        <div class="col-6 text-center">
-            <h2 class="text-info">@ViewData["ProductList"]</h2>
-        </div>
-        <div class="col-6 text-right">
-            <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewProduct"]</a>
-        </div>
+<br />
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">@ViewData["ProductList"]</h2>
     </div>
+    @*<div class="col-6 text-right">
+            <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewProduct"]</a>
+        </div>*@
+</div>
+
+<form method="get">
 
     <!-- Search -->
-    <div class="container">
-        <div class="col-12">
-            <!-- 1st row -->
-            <div class="row">
-                <div class="col-2">
-                    @ViewData["UserName"]
-                </div>
-                <div class="col-3">
-                    @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-
-                <!-- empty column -->
-                <div class="col-2">
-                </div>
-
-                <div class="col-2">
-                    @ViewData["ProductName"]
-                </div>
-                <div class="col-3">
-                    @Html.Editor("searchProductName", new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-                <!-- END: 1st row -->
+    <div class="container form-border col-10">
+        <!-- 1st row -->
+        <div class="row">
+            <div class="col-2">
+                <label class="custom-label">@ViewData["UserName"]</label>
+            </div>
+            <div class="col-3">
+                @Html.Editor("searchUserName", new { htmlAttributes = new { @class = "form-control" } })
             </div>
 
-            <!-- Search row -->
-            <div class="row">
-                <div class="col-2">
-                    @*@ViewData["ShowMine"]*@
-                </div>
-                <div class="col-3">
-                    @*@Html.Editor("filterMine", new { htmlAttributes = new { @class = "form-control" } })*@
-                </div>
-
-                <!-- empty column -->
-                <div class="col-2">
-                </div>
-
-                <div class="col-2">
-                </div>
-                <div class="col-3">
-                    <button type="submit" name="submit" value="Search" class="btn btn-primary form-control">
-                        <i class="fas fa-search"></i> @ViewData["Search"]
-                    </button>
-                </div>
-                <!-- END: Search row -->
+            <div class="col-2">
+                <label class="custom-label">@ViewData["Title"]</label>
             </div>
+            <div class="col-3">
+                @Html.Editor("searchProductName", new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+
+            <div class="col-2">
+                <button type="submit" name="submit" value="Search" class="btn btn-primary form-control">
+                    <i class="fas fa-search"></i> @ViewData["Search"]
+                </button>
+            </div>
+
+            <!-- END: 1st row -->
+        </div>
+
         </div>
         <!-- END: Search -->
     </div>
@@ -75,7 +57,7 @@
         <table class="table table-striped border">
             <tr class="text-info">
                 <th>
-                    @ViewData["Name"]
+                    @ViewData["Title"]
                 </th>
                 <th>
                     @ViewData["Price"]
@@ -106,7 +88,8 @@
                         @Html.DisplayFor(m => item.Name)
                     </td>
                     <td>
-                        @String.Format("{0:c}", item.Price)
+                        @*@String.Format("{0:c}", item.Price)*@
+                        CHF @String.Format("{0:n}", item.Price)
                     </td>
                     <td>
                         @Html.DisplayFor(m => item.Available)
@@ -141,3 +124,4 @@
          class="btn-group m-1">
     </div>
 </form>
+<br />

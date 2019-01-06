@@ -4,28 +4,55 @@
 
 @inject IViewLocalizer Localizer
 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        getCategoryTypes();
+        $("#CategoryGroup").change(function () {
+            getCategoryTypes();
+        });
+    });
+
+    function getCategoryTypes() {
+        console.log("Begin of getCategoryTypes");
+        var url = '@Url.Content("~/")' + "Admin/Products/Edit/GetCategory";
+        console.log("Url: " + url);
+        var ddlsource = '#CategoryGroup';
+
+        $.getJSON(url, { CategoryGroupID: $(ddlsource).val() }, function (data) {
+
+            var items = '';
+            $("#CategoryTypeId").empty();
+            $.each(data, function (i, categoryType) {
+                items += "<option value ='" + categoryType.value + "'>" + categoryType.text + "</option>";
+            });
+
+            $("#CategoryTypeId").html(items);
+        });
+    }
+</script>
+
 @{
     ViewData["Title"] = "Edit";
 }
 
 <h2 class="text-info">@ViewData["EditProduct"]</h2>
 
-<!-- for Images: enctype="multipart/form-data" -->
-<form method="post" enctype="multipart/form-data" asp-action="Edit">
-    <div class="p-4 border rounded row">
-        <!-- hidden Property needed -->
-        <input hidden asp-for="Products.Id" />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-border row">
 
-        <div class="col-1"></div>
 
-        <!-- Image -->
-        <div class="col-3">
-            <img src="@Model.Products.Image" width="100%" style="border-radius:5px; border:1px solid #bbb9b9;" />
-        </div>
 
-        <!-- Product Properties -->
-        <div class="col-8">
+    <!-- hidden Property needed -->
+    <input hidden asp-for="Products.Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <!-- Product Properties -->
+    <div class="col-6">
+        <!-- for Images: enctype="multipart/form-data" -->
+        <form method="post" enctype="multipart/form-data" asp-action="Edit">
             <div class="form-group row">
                 <div class="col-4">
                     <label asp-for="Products.Name">@ViewData["Name"]</label>
@@ -37,10 +64,19 @@
             </div>
             <div class="form-group row">
                 <div class="col-4">
+                    <label asp-for="Products.Description">@ViewData["Description"]</label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Products.Description" class="form-control" />
+                </div>
+                <span asp-validation-for="Products.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group row">
+                <div class="col-4">
                     <label asp-for="Products.Price">@ViewData["Price"]</label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="Products.Price" class="form-control" />
+                    <input asp-for="Products.Price" value="@String.Format("{0:n}", Model.Products.Price)" class="form-control" />
                 </div>
                 <span asp-validation-for="Products.Price" class="text-danger"></span>
             </div>
@@ -58,7 +94,7 @@
                 </div>
                 <!-- using the Extension Method for DropDown -->
                 <div class="col-8">
-                    <select asp-for="@Model.Products.CategoryGroupId" asp-items="Model.CategoryGroups.ToSelectListItem(Model.Products.CategoryGroupId)"></select>
+                    <select asp-for="@Model.Products.CategoryGroupId" id="CategoryGroup" asp-items="Model.CategoryGroups.ToSelectListItem(Model.Products.CategoryGroupId)"></select>
                 </div>
             </div>
             <div class="form-group row">
@@ -67,18 +103,9 @@
                 </div>
                 <!-- using the Extension Method for DropDown -->
                 <div class="col-8">
-                    <select asp-for="@Model.Products.CategoryTypeId" asp-items="Model.CategoryTypes.ToSelectListItem(Model.Products.CategoryTypeId)"></select>
+                    <select asp-for="@Model.Products.CategoryTypeId" name="CategoryTypeId" id="CategoryTypeId" asp-items="@(new SelectList(string.Empty, "Id", "Name"))"></select>
                 </div>
             </div>
-            @*<div class="form-group row">
-                <div class="col-4">
-                    <label asp-for="SpecialTags">@ViewData["SpecialTag"]</label>
-                </div>*@
-                <!-- using the Extension Method for DropDown -->
-                @*<div class="col-8">
-                    <select asp-for="@Model.Products.SpecialTagId" asp-items="Model.SpecialTags.ToSelectListItem(Model.Products.SpecialTagId)"></select>
-                </div>
-            </div>*@
             <!-- Available with a Checkbox -->
             <div class="form-group row">
                 <div class="col-4">
@@ -88,23 +115,21 @@
                     <input type="checkbox" asp-for="Products.Available" />
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-4">
-                    <label asp-for="Products.Description">@ViewData["Description"]</label>
-                </div>
-                <div class="col-8">
-                    <input asp-for="Products.Description" class="form-control" />
-                </div>
-                <span asp-validation-for="Products.Description" class="text-danger"></span>
+
+            <!-- Buttons -->
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value=@ViewData["Update"] />
+                <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
             </div>
-        </div>
-        <!-- Buttons -->
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary" value=@ViewData["Update"] />
-            <a asp-action="Index" class="btn btn-success">@ViewData["BackToList"]</a>
-        </div>
+        </form>
     </div>
-</form>
+    <!-- Image -->
+    <div class="col-5">
+        <img src="@Model.Products.Image" width="100%" style="border-radius:5px; border:1px solid #bbb9b9;" />
+    </div>
+
+</div>
+<br />
 
 @section Scripts{
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
