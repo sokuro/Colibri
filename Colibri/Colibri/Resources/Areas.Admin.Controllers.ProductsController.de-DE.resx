@@ -148,10 +148,10 @@
     <value>Beschreibung</value>
   </data>
   <data name="EditProductText" xml:space="preserve">
-    <value>Editiere Produkt</value>
+    <value>Produkt Bearbeiten</value>
   </data>
   <data name="EditText" xml:space="preserve">
-    <value>Editiere</value>
+    <value>Bearbeiten</value>
   </data>
   <data name="ImageText" xml:space="preserve">
     <value>Bild</value>
@@ -172,21 +172,27 @@
     <value>Preis</value>
   </data>
   <data name="ProductDetailsText" xml:space="preserve">
-    <value>Produktendetails</value>
+    <value>Produkt Details</value>
   </data>
   <data name="ProductListText" xml:space="preserve">
-    <value>Produkte</value>
+    <value>Übersicht Produkte-Inserate</value>
   </data>
   <data name="ProductRatingText" xml:space="preserve">
     <value>Bewertung</value>
   </data>
+  <data name="SearchText" xml:space="preserve">
+    <value>Suche</value>
+  </data>
   <data name="SpecialTagText" xml:space="preserve">
     <value>Spezial Tag</value>
+  </data>
+  <data name="TitleText" xml:space="preserve">
+    <value>Titel</value>
   </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Aktualisiere</value>
   </data>
   <data name="UserNameText" xml:space="preserve">
-    <value>Name des Users</value>
+    <value>Benutzer</value>
   </data>
 </root>
