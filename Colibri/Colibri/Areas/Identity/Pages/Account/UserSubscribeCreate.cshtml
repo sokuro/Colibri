@@ -48,15 +48,14 @@
                 @*<span asp-validation-for="CategoryTypes" class="text-danger"></span>*@
             </div>
             
-            <table class="table table-striped">
-                @*@for (var i = 0; i < 5; i++)*@
+            @*<table class="table table-striped">
                 @foreach(var item in Model.UserSubscribeNotificationsViewModel.CategoryTypes)
                 {
-                    @*<input type="checkbox" name="CategoryTypeId" value="@i" />*@
                     <input type="checkbox" name="CategoryTypeId" value="@item" />
+                    @item.Name
                     <br/>
                 }
-            </table>
+            </table>*@
 
             <button type="submit" value="" class="btn btn-default">Save</button>
         </form>
