@@ -62,7 +62,7 @@
                         <label asp-for="Price" class="custom-label">@ViewData["Price"]</label>
                     </div>
                     <div class="col-7">
-                        <input asp-for="Price" class="form-control" />
+                        <input asp-for="Price" value="CHF @String.Format("{0:n}", Model.Price)" class="form-control" />
                     </div>
                 </div>
 
