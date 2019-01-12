@@ -120,10 +120,13 @@
   <data name="BackToListText" xml:space="preserve">
     <value>Zurück</value>
   </data>
+  <data name="CategoriesText" xml:space="preserve">
+    <value>Rubriken</value>
+  </data>
   <data name="CategoryTypeIdText" xml:space="preserve">
     <value>Rubrik-ID</value>
   </data>
-  <data name="CategoryTypeText" xml:space="preserve">
+  <data name="CategoryTypesText" xml:space="preserve">
     <value>Rubrik</value>
   </data>
   <data name="CreatedText" xml:space="preserve">

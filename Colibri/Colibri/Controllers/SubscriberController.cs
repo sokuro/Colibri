@@ -165,6 +165,7 @@ namespace Colibri.Controllers
             ViewData["NotificationType"] = _localizer["NotificationTypeText"];
             ViewData["CategoryTypeId"] = _localizer["CategoryTypeIdText"];
             ViewData["CategoryTypes"] = _localizer["CategoryTypesText"];
+            ViewData["Categories"] = _localizer["CategoriesText"];
             ViewData["Created"] = _localizer["CreatedText"];
 
             return View(notificationsList);
@@ -294,6 +295,7 @@ namespace Colibri.Controllers
             ViewData["CategoryTypeId"] = _localizer["CategoryTypeIdText"];
             ViewData["CategoryTypes"] = _localizer["CategoryTypesText"];
             ViewData["Created"] = _localizer["CreatedText"];
+            ViewData["Categories"] = _localizer["CategoriesText"];
             ViewData["Search"] = _localizer["SearchText"];
 
             return View(SubscriberViewModel);
