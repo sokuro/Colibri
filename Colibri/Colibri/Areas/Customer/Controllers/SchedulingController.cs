@@ -131,10 +131,24 @@ namespace Colibri.Areas.Customer.Controllers
             List<int> lstCartItems = HttpContext.Session.Get<List<int>>("ssScheduling");
             List<int> lstCartServices = HttpContext.Session.Get<List<int>>("userServicesScheduling");
 
-            // merge (add) the Appointment Date and Time to the Appointment Date itself
-            SchedulingViewModel.Appointments.AppointmentDate = SchedulingViewModel.Appointments.AppointmentDate
+            // get the User's Culture
+            int userLangId = CultureInfo.CurrentCulture.LCID;
+
+            // LCID(1033) = DE
+            if (userLangId == 1031)
+            {
+                SchedulingViewModel.Appointments.AppointmentDate = SchedulingViewModel.Appointments.AppointmentTime
+                                                                    .AddHours(SchedulingViewModel.Appointments.AppointmentTime.Hour)
+                                                                    .AddMinutes(SchedulingViewModel.Appointments.AppointmentTime.Minute);
+            }
+            else
+            {
+                // merge (add) the Appointment Date and Time to the Appointment Date itself
+                SchedulingViewModel.Appointments.AppointmentDate = SchedulingViewModel.Appointments.AppointmentDate
                                                                     .AddHours(SchedulingViewModel.Appointments.AppointmentTime.Hour)
                                                                     .AddMinutes (SchedulingViewModel.Appointments.AppointmentTime.Minute);
+            }
+
 
             // Security Claims
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
@@ -305,7 +319,7 @@ namespace Colibri.Areas.Customer.Controllers
                             $"<p>Item: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
                             $"<p>Owner: " + SchedulingViewModel.Appointments.AppPerson.UserName +"</p>" +
                             $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
-                            $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                            //$"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
                             $"<p>Thank you, " + "</p>" +
                             $"<p>Your Colibri Team</p>");
 
@@ -322,7 +336,7 @@ namespace Colibri.Areas.Customer.Controllers
                                 $"<p>Item: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
                                 $"<p>User " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
                                 $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
-                                $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                                //$"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
                                 $"<p>Thank you, " + "</p>" +
                                 $"<p>Your Colibri Team</p>");
                         }
@@ -344,7 +358,7 @@ namespace Colibri.Areas.Customer.Controllers
                             $"<p>Artikel: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
                             $"<p>Besitzer: " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p>" +
                             $"<p>am " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
-                            $"<p>um " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                            //$"<p>um " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
                             $"<p>Danke schön, " + "</p>" +
                             $"<p>Ihr Colibri Team</p>");
 
@@ -361,7 +375,7 @@ namespace Colibri.Areas.Customer.Controllers
                                 $"<p>Artikel: " + SchedulingViewModel.Products.FirstOrDefault().Name + "</p>" +
                                 $"<p>Kunde " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
                                 $"<p>am " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
-                                $"<p>um " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                                //$"<p>um " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
                                 $"<p>Danke schön, " + "</p>" +
                                 $"<p>Ihr Colibri Team</p>");
                         }
@@ -418,7 +432,7 @@ namespace Colibri.Areas.Customer.Controllers
                             $"<p>Item: " + SchedulingViewModel.UserServices.FirstOrDefault().Name + "</p>" +
                             $"<p>Owner: " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p>" +
                             $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
-                            $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                            //$"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
                             $"<p>Thank you, " + "</p>" +
                             $"<p>Your Colibri Team</p>");
 
@@ -435,7 +449,7 @@ namespace Colibri.Areas.Customer.Controllers
                                 $"<p>Item: " + SchedulingViewModel.UserServices.FirstOrDefault().Name + "</p>" +
                                 $"<p>User " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
                                 $"<p>on " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
-                                $"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                                //$"<p>at " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
                                 $"<p>Thank you, " + "</p>" +
                                 $"<p>Your Colibri Team</p>");
                         }
@@ -456,7 +470,7 @@ namespace Colibri.Areas.Customer.Controllers
                             $"<p>Artikel: " + SchedulingViewModel.UserServices.FirstOrDefault().Name + "</p>" +
                             $"<p>Besitzer: " + SchedulingViewModel.Appointments.AppPerson.UserName + "</p>" +
                             $"<p>am " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
-                            $"<p>um " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                            //$"<p>um " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
                             $"<p>Danke schön, " + "</p>" +
                             $"<p>Ihr Colibri Team</p>");
 
@@ -473,7 +487,7 @@ namespace Colibri.Areas.Customer.Controllers
                                 $"<p>Artikel: " + SchedulingViewModel.UserServices.FirstOrDefault().Name + "</p>" +
                                 $"<p>Kunde " + SchedulingViewModel.Appointments.Customer.UserName + "</p>" +
                                 $"<p>am " + SchedulingViewModel.Appointments.AppointmentDate + "</p>" +
-                                $"<p>um " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
+                                //$"<p>um " + SchedulingViewModel.Appointments.AppointmentTime + "</p>" +
                                 $"<p>Danke schön, " + "</p>" +
                                 $"<p>Ihr Colibri Team</p>");
                         }
