@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
@@ -32,7 +33,7 @@ namespace Colibri.Areas.Customer.Controllers
         private readonly IStringLocalizer<AdvertisementOfferController> _localizer;
 
         // PageSize (for the Pagination: 5 Appointments/Page)
-        private int PageSize = 4;
+        private int PageSize = 5;
 
         // bind to the Advertisement ViewModel
         // not necessary to create new Objects
@@ -145,8 +146,37 @@ namespace Colibri.Areas.Customer.Controllers
             // Convert
             AdvertisementViewModel.Product.CategoryTypeId = Convert.ToInt32(Request.Form["CategoryTypeId"].ToString());
 
+            // get the User's Culture
+            int userLangId = CultureInfo.CurrentCulture.LCID;
+
+            // LCID(1031) = DE
+            if (userLangId == 1031)
+            {
+                // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueTimeFrom
+                    .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
+                    .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
+
+                // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueTimeTo
+                    .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
+                    .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
+            }
+            else
+            {
+                // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom
+                    .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
+                    .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
+
+                // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueDateTo
+                    .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
+                    .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
+            }
+
             // If ModelState is not valid, return View
-            if (!ModelState.IsValid)
+                if (!ModelState.IsValid)
             {
                 return View(AdvertisementViewModel);
             }
@@ -155,15 +185,6 @@ namespace Colibri.Areas.Customer.Controllers
             AdvertisementViewModel.Product.ApplicationUserId = claim.Value;
             AdvertisementViewModel.Product.ApplicationUserName = claimsIdentity.Name;
 
-            // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
-            AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom
-                .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
-                .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
-
-            // combine the Advertisement Offer's Date and Time for the DueDateTo Property
-            AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueDateTo
-                .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
-                .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
 
             // add timestamp to "CreatedOn"
             AdvertisementViewModel.Product.CreatedOn = System.DateTime.Now;
@@ -304,8 +325,37 @@ namespace Colibri.Areas.Customer.Controllers
             //AdvertisementViewModel.UserService.CategoryGroupId = Convert.ToInt32(Request.Form["CategoryGroup"].ToString());
             AdvertisementViewModel.UserService.CategoryTypeId = Convert.ToInt32(Request.Form["CategoryTypeId"].ToString());
 
+            // get the User's Culture
+            int userLangId = CultureInfo.CurrentCulture.LCID;
+
+            // LCID(1031) = DE
+            if (userLangId == 1031)
+            {
+                // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueTimeFrom
+                    .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
+                    .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
+
+                // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueTimeTo
+                    .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
+                    .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
+            }
+            else
+            {
+                // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom
+                    .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
+                    .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
+
+                // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueDateTo
+                    .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
+                    .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
+            }
+
             // If ModelState is not valid, return View
-            if (!ModelState.IsValid)
+                if (!ModelState.IsValid)
             {
                 return View(AdvertisementViewModel);
             }
@@ -314,15 +364,6 @@ namespace Colibri.Areas.Customer.Controllers
             AdvertisementViewModel.UserService.ApplicationUserId = claim.Value;
             AdvertisementViewModel.UserService.ApplicationUserName = claimsIdentity.Name;
 
-            // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
-            AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom
-                .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
-                .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
-
-            // combine the Advertisement Offer's Date and Time for the DueDateTo Property
-            AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueDateTo
-                .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
-                .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
 
             // add timestamp to "CreatedOn"
             AdvertisementViewModel.UserService.CreatedOn = System.DateTime.Now;
@@ -594,15 +635,34 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 try
                 {
-                    // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
-                    AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom
-                        .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
-                        .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
+                    // get the User's Culture
+                    int userLangId = CultureInfo.CurrentCulture.LCID;
 
-                    // combine the Advertisement Offer's Date and Time for the DueDateTo Property
-                    AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueDateTo
-                        .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
-                        .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
+                    // LCID(1031) = DE
+                    if (userLangId == 1031)
+                    {
+                        // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                        AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueTimeFrom
+                            .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
+                            .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
+
+                        // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                        AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueTimeTo
+                            .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
+                            .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
+                    }
+                    else
+                    {
+                        // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                            AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom
+                            .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
+                            .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
+
+                        // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                        AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueDateTo
+                            .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
+                            .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
+                    }
 
                     string webRootPath = _hostingEnvironment.WebRootPath;
                     var files = HttpContext.Request.Form.Files;
@@ -713,15 +773,35 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 try
                 {
-                    // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
-                    AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom
-                        .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
-                        .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
+                    // get the User's Culture
+                    int userLangId = CultureInfo.CurrentCulture.LCID;
 
-                    // combine the Advertisement Offer's Date and Time for the DueDateTo Property
-                    AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueDateTo
-                        .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
-                        .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
+                    // LCID(1031) = DE
+                    if (userLangId == 1031)
+                    {
+                        // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                        AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueTimeFrom
+                            .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
+                            .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
+
+                        // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                        AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueTimeTo
+                            .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
+                            .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
+                    }
+                    else
+                    {
+                        // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                            AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom
+                            .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
+                            .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
+
+                        // combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                        AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueDateTo
+                            .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
+                            .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
+                    }
+
 
                     string webRootPath = _hostingEnvironment.WebRootPath;
                     var files = HttpContext.Request.Form.Files;

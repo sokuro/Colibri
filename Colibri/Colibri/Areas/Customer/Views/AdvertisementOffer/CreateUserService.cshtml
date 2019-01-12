@@ -100,7 +100,7 @@
                 <label asp-for="UserService.DueDateFrom" class="custom-label">@ViewData["DateFrom"]</label>
             </div>
             <div class="col-3">
-                <input asp-for="UserService.DueDateFrom" class="datepicker form-control" />
+                <input asp-for="UserService.DueDateFrom" value="" type="text" class="datepicker form-control" />
             </div>
             <div class="col-2">
                 <input asp-for="UserService.DueTimeFrom" value="" type="text" class="timepicker form-control" />
@@ -112,7 +112,7 @@
                 <label asp-for="UserService.DueDateTo" class="custom-label">@ViewData["DateTo"]</label>
             </div>
             <div class="col-3">
-                <input asp-for="UserService.DueDateTo" class="datepicker form-control" />
+                <input asp-for="UserService.DueDateTo" value="" type="text" class="datepicker form-control" />
             </div>
             <div class="col-2">
                 <input asp-for="UserService.DueTimeTo" value="" type="text" class="timepicker form-control" />
@@ -132,7 +132,7 @@
 <!-- max Date: 3 Months -->
 @section Scripts {
     @{
-        @*<script>
+        <script>
             // Time-Picker
             $('.timepicker').timepicker({
                 timeFormat: 'h:mm p',
@@ -153,7 +153,7 @@
                     maxDate: "+3M"
                 });
             });
-        </script>*@
+        </script>
 
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
