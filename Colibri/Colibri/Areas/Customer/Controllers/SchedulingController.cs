@@ -511,6 +511,8 @@ namespace Colibri.Areas.Customer.Controllers
             ViewData["AppointmentTime"] = _localizer["AppointmentTimeText"];
             ViewData["UserName"] = _localizer["UserNameText"];
             ViewData["BackToList"] = _localizer["BackToListText"];
+            ViewData["BackToOffers"] = _localizer["BackToOffersText"];
+            ViewData["BackToRequests"] = _localizer["BackToRequestsText"];
             ViewData["BackToScheduling"] = _localizer["BackToSchedulingText"];
             ViewData["Name"] = _localizer["NameText"];
             ViewData["Price"] = _localizer["PriceText"];
