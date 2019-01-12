@@ -117,16 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="OfferProductText" xml:space="preserve">
-    <value>Product offer</value>
+  <data name="BackText" xml:space="preserve">
+    <value>Back</value>
   </data>
-  <data name="OffersText" xml:space="preserve">
-    <value>Own Offers</value>
+  <data name="CategoryGroupText" xml:space="preserve">
+    <value>Category Group</value>
   </data>
-  <data name="OfferUserServiceText" xml:space="preserve">
-    <value>Userservice offer</value>
+  <data name="CategoryTypeText" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="CreateProductRequestText" xml:space="preserve">
+    <value>Create product request</value>
+  </data>
+  <data name="CreateRequestText" xml:space="preserve">
+    <value>Create request</value>
+  </data>
+  <data name="CreateText" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateUserServiceOfferText" xml:space="preserve">
+    <value>Create service offer</value>
+  </data>
+  <data name="DateFromText" xml:space="preserve">
+    <value>Date from</value>
+  </data>
+  <data name="DateToText" xml:space="preserve">
+    <value>Date to</value>
+  </data>
+  <data name="DescriptionText" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="ImageText" xml:space="preserve">
+    <value>Image</value>
   </data>
   <data name="OverviewCategoriesText" xml:space="preserve">
     <value>Overview categories</value>
+  </data>
+  <data name="PriceText" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="ProductsText" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="RequestProductText" xml:space="preserve">
+    <value>Product-request</value>
+  </data>
+  <data name="RequestsText" xml:space="preserve">
+    <value>Own requests</value>
+  </data>
+  <data name="RequestUserServiceText" xml:space="preserve">
+    <value>Service-request</value>
+  </data>
+  <data name="TitleText" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="UserServicesText" xml:space="preserve">
+    <value>Services</value>
   </data>
 </root>
