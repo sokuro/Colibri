@@ -134,7 +134,7 @@ namespace Colibri.Areas.Customer.Controllers
             // get the User's Culture
             int userLangId = CultureInfo.CurrentCulture.LCID;
 
-            // LCID(1033) = DE
+            // LCID(1031) = DE
             if (userLangId == 1031)
             {
                 SchedulingViewModel.Appointments.AppointmentDate = SchedulingViewModel.Appointments.AppointmentTime
