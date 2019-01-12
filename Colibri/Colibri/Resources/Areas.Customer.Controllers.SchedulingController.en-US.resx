@@ -204,4 +204,10 @@
   <data name="UserNameText" xml:space="preserve">
     <value>User Name</value>
   </data>
+  <data name="BackToOffersText" xml:space="preserve">
+    <value>Back to Offers</value>
+  </data>
+  <data name="BackToRequestsText" xml:space="preserve">
+    <value>Back to Requests</value>
+  </data>
 </root>

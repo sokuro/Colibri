@@ -395,7 +395,7 @@ namespace Colibri.Areas.Customer.Controllers
                 //bus.Publish<AdvertisementViewModel>(AdvertisementViewModel, "my_subscription_id");
                 //bus.Publish(productsFromDb, "my_subscription_id");
 
-                await bus.SendAsync("create_advertisement", servicesFromDb);
+                await bus.SendAsync("create_user_service", servicesFromDb);
             }
 
             // Eintrag für ArchiveEntry erstellen

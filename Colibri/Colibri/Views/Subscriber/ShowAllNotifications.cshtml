@@ -8,14 +8,17 @@
         <table class="table table-striped">
             <tr class="table-info">
                 <th>
+                    @ViewData["Created"]
+                </th>
+                <th>
                     @ViewData["CurrentUser"]
                 </th>
                 <th>
                     @ViewData["Message"]
                 </th>
-                <th>
+                @*<th>
                     @ViewData["NotificationType"]
-                </th>
+                </th>*@
                 <th>
                     @ViewData["CategoryTypeId"]
                 </th>
@@ -28,19 +31,22 @@
             {
                 <tr class="table-content">
                     <td class="tableContentColumn">
-                        @Html.DisplayFor(n => item.Id)
+                        @Html.DisplayFor(n => item.CreatedOn)
+                    </td>
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(n => item.UserName)
                     </td>
                     <td class="tableContentColumn">
                         @Html.DisplayFor(n => item.Message)
                     </td>
-                    <td class="tableContentColumn">
+                    @*<td class="tableContentColumn">
                         @Html.DisplayFor(n => item.NotificationType)
-                    </td>
+                    </td>*@
                     <td class="tableContentColumn">
                         @Html.DisplayFor(n => item.CategoryTypeId)
                     </td>
                     <td class="tableContentColumn">
-                        @Html.DisplayFor(n => item.CategoryTypes)
+                        @Html.DisplayFor(n => item.CategoryTypes.Name)
                     </td>
                 </tr>
             }

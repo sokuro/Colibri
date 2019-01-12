@@ -19,6 +19,9 @@ namespace Colibri.ViewModels
 
         public string CurrentUserId { get; set; }
 
+        // for Filtering
+        public string SearchFilter { get; set; }
+
         // Custom Pagination
         public PagingInfo PagingInfo { get; set; }
     }

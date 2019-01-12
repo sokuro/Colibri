@@ -16,9 +16,9 @@
                 <th>
                     <label asp-for="@Model.FirstOrDefault().Message"></label>
                 </th>
-                <th>
+                @*<th>
                     <label asp-for="@Model.FirstOrDefault().NotificationType"></label>
-                </th>
+                </th>*@
                 <th>
                     <label asp-for="@Model.FirstOrDefault().CategoryTypeId"></label>
                 </th>
@@ -36,9 +36,9 @@
                 <td class="tableContentColumn">
                     @Html.DisplayFor(n => item.Message)
                 </td>
-                <td class="tableContentColumn">
+                @*<td class="tableContentColumn">
                     @Html.DisplayFor(n => item.NotificationType)
-                </td>
+                </td>*@
                 <td class="tableContentColumn">
                     @Html.DisplayFor(n => item.CategoryTypeId)
                 </td>

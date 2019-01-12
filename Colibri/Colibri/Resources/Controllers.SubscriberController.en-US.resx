@@ -124,10 +124,7 @@
     <value>Category ID</value>
   </data>
   <data name="CategoryTypesText" xml:space="preserve">
-    <value>Category Type</value>
-  </data>
-  <data name="CategoryTypeText" xml:space="preserve">
-    <value>Categories</value>
+    <value>Category</value>
   </data>
   <data name="CreateCategoryTypeText" xml:space="preserve">
     <value>Create new Category</value>
@@ -152,5 +149,14 @@
   </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Update</value>
+  </data>
+  <data name="CreatedText" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="SearchText" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="CategoriesText" xml:space="preserve">
+    <value>Categories</value>
   </data>
 </root>

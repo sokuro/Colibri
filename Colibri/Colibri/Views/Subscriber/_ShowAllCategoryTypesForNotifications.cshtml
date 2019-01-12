@@ -3,14 +3,23 @@
 
 @inject IViewLocalizer Localizer
 
-<div class="row">
+@*<div class="row">
     <div class="col-6 text-center">
         <h2 class="text-info">@ViewData["CategoryType"]</h2>
     </div>
-</div>
+</div>*@
 <div>
-    <table class="table table-striped border">
+    <td style="width:150px">
+        <div>
+            <a asp-area="Admin" asp-action="Overview" asp-controller="CategoryGroups" class="btn btn-success pull-right btn-outline-info" asp-route-id="@Model">@ViewData["Categories"]</a>
+        </div>
+    </td>
+
+    @*<table class="table table-striped border">
         <tr class="text-info">
+            <th>
+                Id
+            </th>
             <th>
                 @ViewData["Name"]
                 Name
@@ -21,9 +30,12 @@
         {
             <tr>
                 <td>
+                    @Html.DisplayFor(m => item.Id)
+                </td>
+                <td>
                     @Html.DisplayFor(m => item.Name)
                 </td>
             </tr>
         }
-    </table>
+    </table>*@
 </div>
