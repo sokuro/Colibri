@@ -12,6 +12,9 @@
     <table class="table table-striped border">
         <tr class="text-info">
             <th>
+                Id
+            </th>
+            <th>
                 @ViewData["Name"]
                 Name
             </th>
@@ -20,6 +23,9 @@
         @foreach (var item in Model.CategoryTypes)
         {
             <tr>
+                <td>
+                    @Html.DisplayFor(m => item.Id)
+                </td>
                 <td>
                     @Html.DisplayFor(m => item.Name)
                 </td>

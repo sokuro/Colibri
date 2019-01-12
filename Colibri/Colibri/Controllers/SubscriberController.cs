@@ -115,6 +115,7 @@ namespace Colibri.Controllers
         private void HandleUserService(UserServices userServices)
         {
             SubscriberViewModel.Notifications.Message = "Added an User Service: " + userServices.Name;
+            SubscriberViewModel.Notifications.UserName = userServices.ApplicationUserName;
             SubscriberViewModel.Notifications.NotificationType = userServices.CategoryTypes.Name;
             SubscriberViewModel.Notifications.CategoryTypeId = userServices.CategoryTypes.Id;
             SubscriberViewModel.Notifications.CreatedOn = DateTime.Now;
@@ -123,6 +124,7 @@ namespace Colibri.Controllers
         private void HandleAdvertisements(Products product)
         {
             SubscriberViewModel.Notifications.Message = "Added a Advertisement: " + product.Name;
+            SubscriberViewModel.Notifications.UserName = product.ApplicationUserName;
             SubscriberViewModel.Notifications.NotificationType = product.CategoryTypes.Name;
             //SubscriberViewModel.Notifications.CategoryTypes = product.CategoryTypes;
             SubscriberViewModel.Notifications.CategoryTypeId = product.CategoryTypes.Id;
@@ -187,6 +189,7 @@ namespace Colibri.Controllers
             string notificationType = null,
             int categoryType = 0,
             string categoryTypesName = null,
+            string userNameOfNotification = null,
             DateTime createdDateTime = default(DateTime)
             )
         {
@@ -213,6 +216,10 @@ namespace Colibri.Controllers
             if (categoryTypesName != null)
             {
                 param.Append(categoryTypesName);
+            }
+            if (userNameOfNotification != null)
+            {
+                param.Append(userNameOfNotification);
             }
             //if (createdDateTime != null)
             //{
@@ -246,6 +253,12 @@ namespace Colibri.Controllers
                 SubscriberViewModel.SearchFilter = categoryTypesName;
                 SubscriberViewModel.NotificationsEnumerable = SubscriberViewModel.NotificationsEnumerable
                     .Where(a => a.CategoryTypes.Name == categoryTypesName).ToList();
+            }
+            if (userNameOfNotification != null)
+            {
+                SubscriberViewModel.SearchFilter = userNameOfNotification;
+                SubscriberViewModel.NotificationsEnumerable = SubscriberViewModel.NotificationsEnumerable
+                    .Where(a => a.UserName == userNameOfNotification).ToList();
             }
 
             if (SubscriberViewModel.Notifications == null)
