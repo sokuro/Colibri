@@ -14,6 +14,8 @@ namespace Colibri.Models
         public string Message { get; set; }
         public string NotificationType { get; set; }
 
+        public DateTime CreatedOn { get; set; }
+
         public int CategoryTypeId { get; set; }
 
         // 1 Product = 1 Category Type
