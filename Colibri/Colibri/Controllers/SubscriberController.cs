@@ -116,6 +116,7 @@ namespace Colibri.Controllers
             SubscriberViewModel.Notifications.Message = "Added an User Service: " + userServices.Name;
             SubscriberViewModel.Notifications.NotificationType = userServices.CategoryTypes.Name;
             SubscriberViewModel.Notifications.CategoryTypeId = userServices.CategoryTypes.Id;
+            SubscriberViewModel.Notifications.CreatedOn = DateTime.Now;
         }
 
         private void HandleAdvertisements(Products product)
@@ -124,22 +125,26 @@ namespace Colibri.Controllers
             SubscriberViewModel.Notifications.NotificationType = product.CategoryTypes.Name;
             //SubscriberViewModel.Notifications.CategoryTypes = product.CategoryTypes;
             SubscriberViewModel.Notifications.CategoryTypeId = product.CategoryTypes.Id;
+            SubscriberViewModel.Notifications.CreatedOn = DateTime.Now;
         }
 
         private void HandleCategoryGroups(CategoryGroups categoryGroup)
         {
             SubscriberViewModel.Notifications.Message = "Added a Category Group: " + categoryGroup.Name;
+            SubscriberViewModel.Notifications.CreatedOn = DateTime.Now;
         }
 
         private void HandleCategoryTypes(CategoryTypes categoryType)
         {
             SubscriberViewModel.Notifications.Message = "Added a Category Type: " + categoryType.Name;
+            SubscriberViewModel.Notifications.CreatedOn = DateTime.Now;
         }
 
         private void HandleProductByAdmin(Products product)
         {
             SubscriberViewModel.Notifications.Message = "Added a Product by Admin: " + product.Name;
             SubscriberViewModel.Notifications.NotificationType = product.CategoryTypes.Name;
+            SubscriberViewModel.Notifications.CreatedOn = DateTime.Now;
 
             // set the Session: Name, Value
             HttpContext.Session.Set("productsByAdminNotifications", product);
@@ -157,6 +162,7 @@ namespace Colibri.Controllers
             ViewData["NotificationType"] = _localizer["NotificationTypeText"];
             ViewData["CategoryTypeId"] = _localizer["CategoryTypeIdText"];
             ViewData["CategoryTypes"] = _localizer["CategoryTypesText"];
+            ViewData["Created"] = _localizer["CreatedText"];
 
             return View(notificationsList);
         }
@@ -200,6 +206,7 @@ namespace Colibri.Controllers
             ViewData["NotificationType"] = _localizer["NotificationTypeText"];
             ViewData["CategoryTypeId"] = _localizer["CategoryTypeIdText"];
             ViewData["CategoryTypes"] = _localizer["CategoryTypesText"];
+            ViewData["Created"] = _localizer["CreatedText"];
 
             return View(SubscriberViewModel);
         }

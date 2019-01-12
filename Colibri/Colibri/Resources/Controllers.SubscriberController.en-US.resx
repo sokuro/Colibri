@@ -153,4 +153,7 @@
   <data name="UpdateText" xml:space="preserve">
     <value>Update</value>
   </data>
+  <data name="CreatedText" xml:space="preserve">
+    <value>Created</value>
+  </data>
 </root>

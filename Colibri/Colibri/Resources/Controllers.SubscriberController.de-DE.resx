@@ -126,6 +126,9 @@
   <data name="CategoryTypeText" xml:space="preserve">
     <value>Rubrik</value>
   </data>
+  <data name="CreatedText" xml:space="preserve">
+    <value>Erstellt</value>
+  </data>
   <data name="CurrentUserText" xml:space="preserve">
     <value>Aktueller User</value>
   </data>

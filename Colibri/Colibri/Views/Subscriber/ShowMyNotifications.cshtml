@@ -14,6 +14,9 @@
             @*<tr class="table-info">*@
             <tr class="text-info">
                 <th>
+                    @ViewData["Created"]
+                </th>
+                <th>
                     @ViewData["CurrentUser"]
                 </th>
                 <th>
@@ -34,23 +37,26 @@
 
             @foreach (var item in Model.NotificationsEnumerable)
             {
-                <tr class="table-content">
-                    <td class="tableContentColumn">
-                        @Html.DisplayFor(n => item.Id)
-                    </td>
-                    <td class="tableContentColumn">
-                        @Html.DisplayFor(n => item.Message)
-                    </td>
-                    <td class="tableContentColumn">
-                        @Html.DisplayFor(n => item.NotificationType)
-                    </td>
-                    <td class="tableContentColumn">
-                        @Html.DisplayFor(n => item.CategoryTypeId)
-                    </td>
-                    <td class="tableContentColumn">
-                        @Html.DisplayFor(n => item.CategoryTypes.Name)
-                    </td>
-                </tr>
+            <tr class="table-content">
+                <td class="tableContentColumn">
+                    @Html.DisplayFor(n => item.CreatedOn)
+                </td>
+                <td class="tableContentColumn">
+                    @Html.DisplayFor(n => item.Id)
+                </td>
+                <td class="tableContentColumn">
+                    @Html.DisplayFor(n => item.Message)
+                </td>
+                <td class="tableContentColumn">
+                    @Html.DisplayFor(n => item.NotificationType)
+                </td>
+                <td class="tableContentColumn">
+                    @Html.DisplayFor(n => item.CategoryTypeId)
+                </td>
+                <td class="tableContentColumn">
+                    @Html.DisplayFor(n => item.CategoryTypes.Name)
+                </td>
+            </tr>
             }
         </table>
     </div>
