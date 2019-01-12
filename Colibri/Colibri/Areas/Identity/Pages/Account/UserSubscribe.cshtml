@@ -10,16 +10,20 @@
 <div class="row">
     <div class="col-md-4">
         <table class="table table-striped">
-            @foreach (var category in Model.UserSubscribeNotificationsIndexViewModel.CategoryTypes)
+            @*<td style="width:150px">*@
+            <div>
+                <a asp-area="Admin" asp-action="Overview" asp-controller="CategoryGroups" class="btn btn-success pull-right btn-outline-info" asp-route-id="@Model">Categories</a>
+            </div>
+@*            </td>*@
+
+            @*@foreach (var category in Model.UserSubscribeNotificationsIndexViewModel.CategoryTypes)
             {
-                <h3 style="padding-left:50px;" class="text-success">@category.Name</h3>
+                <h3 style="padding-left: 50px;" class="text-success">@category.Name</h3>
                 <div class="row">
                     <div class="col-sm-12">
-                        @* Partial View *@
-                        @*@Html.Partial("_ThumbnailAreaPartial",Model.UserSubscribeNotificationsIndexViewModel.UserSubscriber.Where(u => u.CategoryTypes.Name.Equals(category.Name)))*@
                     </div>
                 </div>
-            }
+            }*@
         </table>
     </div>
 </div>
