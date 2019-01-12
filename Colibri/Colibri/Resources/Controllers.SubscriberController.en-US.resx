@@ -156,4 +156,7 @@
   <data name="CreatedText" xml:space="preserve">
     <value>Created</value>
   </data>
+  <data name="SearchText" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

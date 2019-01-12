@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Colibri.Areas.Admin.Controllers;
 using Colibri.Data;
@@ -179,8 +180,15 @@ namespace Colibri.Controllers
             return View(SubscriberViewModel);
         }
 
+        [Route("Subscriber/ShowMyNotifications")]
         // filter with id
-        public async Task<IActionResult> ShowMyNotifications()
+        public async Task<IActionResult> ShowMyNotifications(
+            int notificationPage = 1,
+            string notificationType = null,
+            int categoryType = 0,
+            string categoryTypesName = null,
+            DateTime createdDateTime = default(DateTime)
+            )
         {
             // Security Claims
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
@@ -189,16 +197,82 @@ namespace Colibri.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             SubscriberViewModel.CurrentUserId = claim.Value;
 
+            // Filter the Search Criteria
+            StringBuilder param = new StringBuilder();
+
+            param.Append("Subscriber/ShowMyNotifications?notificationPage=:");
+            param.Append("&searchName=");
+            if (notificationType != null)
+            {
+                param.Append(notificationType);
+            }
+            if (categoryType != 0)
+            {
+                param.Append(categoryType);
+            }
+            if (categoryTypesName != null)
+            {
+                param.Append(categoryTypesName);
+            }
+            //if (createdDateTime != null)
+            //{
+            //    param.Append(createdDateTime);
+            //}
+
+            // populate
             SubscriberViewModel.NotificationsEnumerable = (IEnumerable<Notifications>)(from n in _colibriDbContext.Notifications
                 join s in _colibriDbContext.ApplicationUserCategoryTypesSubscribers
                     on n.CategoryTypeId equals s.CategoryTypeId
                 select n)
                 .Distinct();
 
+            // Search Conditions
+            if (notificationType != null)
+            {
+                SubscriberViewModel.SearchFilter = notificationType;
+
+                SubscriberViewModel.NotificationsEnumerable = SubscriberViewModel.NotificationsEnumerable
+                    .Where(n => n.NotificationType.ToLower().Contains(notificationType.ToLower()))
+                    .ToList();
+            }
+            if (categoryType != 0)
+            {
+                SubscriberViewModel.SearchFilter = notificationType;
+                SubscriberViewModel.NotificationsEnumerable = SubscriberViewModel.NotificationsEnumerable
+                    .Where(a => a.CategoryTypeId == categoryType).ToList();
+            }
+            if (categoryTypesName != null)
+            {
+                SubscriberViewModel.SearchFilter = categoryTypesName;
+                SubscriberViewModel.NotificationsEnumerable = SubscriberViewModel.NotificationsEnumerable
+                    .Where(a => a.CategoryTypes.Name == categoryTypesName).ToList();
+            }
+
             if (SubscriberViewModel.Notifications == null)
             {
                 return NotFound();
             }
+
+            // Pagination
+            // count Notifications alltogether
+            var count = SubscriberViewModel.NotificationsEnumerable.Count();
+
+            // Iterate and Filter Notifications
+            // fetch the right Record (if on the 2nd Page, skip the first 3 (if PageSize=3) and continue on the next Page)
+            SubscriberViewModel.NotificationsEnumerable = SubscriberViewModel.NotificationsEnumerable
+                                                                .OrderBy(p => p.CreatedOn)
+                                                                .Skip((notificationPage - 1) * PageSize)
+                                                                .Take(PageSize).ToList();
+
+            // populate the PagingInfo Model
+            // StringBuilder
+            SubscriberViewModel.PagingInfo = new PagingInfo
+            {
+                CurrentPage = notificationPage,
+                ItemsPerPage = PageSize,
+                TotalItems = count,
+                urlParam = param.ToString()
+            };
 
             // i18n
             ViewData["CurrentUser"] = _localizer["CurrentUserText"];
@@ -207,6 +281,7 @@ namespace Colibri.Controllers
             ViewData["CategoryTypeId"] = _localizer["CategoryTypeIdText"];
             ViewData["CategoryTypes"] = _localizer["CategoryTypesText"];
             ViewData["Created"] = _localizer["CreatedText"];
+            ViewData["Search"] = _localizer["SearchText"];
 
             return View(SubscriberViewModel);
         }
