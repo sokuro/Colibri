@@ -3,14 +3,17 @@
 
 @inject IViewLocalizer Localizer
 
+<br>
 <div class="row">
-    <div class="col-6 text-center">
+    <div class="col-6">
         <h2 class="text-info">@ViewData["AdminUser"]</h2>
     </div>
     <div class="col-6 text-right">
         <a asp-area="Identity" asp-page="/Account/RegisterAdmin" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; @ViewData["NewAdminUser"]</a>
     </div>
 </div>
+<hr />
+
 <div>
     <table class="table table-striped border">
         <tr class="text-info">
@@ -61,6 +64,9 @@
                         <a type="button" class="btn btn-primary" href="@Url.Action("Edit","AdminUsers", new { item.Id })">
                             <i class="fas fa-edit"></i>
                         </a>
+                        <a type="button" class="btn btn-success" href="@Url.Action("Details","AdminUsers", new { item.Id })">
+                            <i class="fas fa-list-alt"></i>
+                        </a>
                         <a type="button" class="btn btn-danger" href="@Url.Action("Delete","AdminUsers", new { item.Id })">
                             <i class="fas fa-trash-alt"></i>
                         </a>
@@ -70,3 +76,4 @@
         }
     </table>
 </div>
+<br />

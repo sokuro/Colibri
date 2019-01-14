@@ -43,7 +43,9 @@ namespace Colibri.Areas.Identity.Pages.Account
                 CategoryTypes = _colibriDbContext.CategoryTypes.OrderBy(d => d.Name)
             };
 
-            return Page();
+            return RedirectToAction("Overview", "CategoryGroups", new { area = "Admin" });
+
+            //return Page();
         }
     }
 }

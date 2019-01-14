@@ -154,15 +154,15 @@ namespace Colibri.Areas.Customer.Controllers
             AdvertisementViewModel.Product.ApplicationUserId = claim.Value;
             AdvertisementViewModel.Product.ApplicationUserName = claimsIdentity.Name;
 
-            // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
-            AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom
-                .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
-                .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
+            //// combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+            //AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom
+            //    .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
+            //    .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
 
-            // combine the Advertisement Offer's Date and Time for the DueDateTo Property
-            AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueDateTo
-                .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
-                .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
+            //// combine the Advertisement Offer's Date and Time for the DueDateTo Property
+            //AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueDateTo
+            //    .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
+            //    .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
 
             // add timestamp to "CreatedOn"
             AdvertisementViewModel.Product.CreatedOn = System.DateTime.Now;
@@ -310,15 +310,15 @@ namespace Colibri.Areas.Customer.Controllers
             AdvertisementViewModel.UserService.ApplicationUserId = claim.Value;
             AdvertisementViewModel.UserService.ApplicationUserName = claimsIdentity.Name;
 
-            // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
-            AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom
-                .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
-                .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
+            //// combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+            //AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom
+            //    .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
+            //    .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
 
-            // combine the Advertisement Offer's Date and Time for the DueDateTo Property
-            AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueDateTo
-                .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
-                .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
+            //// combine the Advertisement Offer's Date and Time for the DueDateTo Property
+            //AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueDateTo
+            //    .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
+            //    .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
 
             // add timestamp to "CreatedOn"
             AdvertisementViewModel.UserService.CreatedOn = System.DateTime.Now;
@@ -395,7 +395,7 @@ namespace Colibri.Areas.Customer.Controllers
                 //bus.Publish<AdvertisementViewModel>(AdvertisementViewModel, "my_subscription_id");
                 //bus.Publish(productsFromDb, "my_subscription_id");
 
-                await bus.SendAsync("create_advertisement", servicesFromDb);
+                await bus.SendAsync("create_user_service", servicesFromDb);
             }
 
             // Eintrag für ArchiveEntry erstellen
@@ -554,15 +554,15 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 try
                 {
-                    // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
-                    AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom
-                        .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
-                        .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
+                    //// combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                    //AdvertisementViewModel.Product.DueDateFrom = AdvertisementViewModel.Product.DueDateFrom
+                    //    .AddHours(AdvertisementViewModel.Product.DueTimeFrom.Hour)
+                    //    .AddMinutes(AdvertisementViewModel.Product.DueTimeFrom.Minute);
 
-                    // combine the Advertisement Offer's Date and Time for the DueDateTo Property
-                    AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueDateTo
-                        .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
-                        .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
+                    //// combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                    //AdvertisementViewModel.Product.DueDateTo = AdvertisementViewModel.Product.DueDateTo
+                    //    .AddHours(AdvertisementViewModel.Product.DueTimeTo.Hour)
+                    //    .AddMinutes(AdvertisementViewModel.Product.DueTimeTo.Minute);
 
                     string webRootPath = _hostingEnvironment.WebRootPath;
                     var files = HttpContext.Request.Form.Files;
@@ -656,15 +656,15 @@ namespace Colibri.Areas.Customer.Controllers
             {
                 try
                 {
-                    // combine the Advertisement Offer's Date and Time for the DueDateFrom Property
-                    AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom
-                        .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
-                        .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
+                    //// combine the Advertisement Offer's Date and Time for the DueDateFrom Property
+                    //AdvertisementViewModel.UserService.DueDateFrom = AdvertisementViewModel.UserService.DueDateFrom
+                    //    .AddHours(AdvertisementViewModel.UserService.DueTimeFrom.Hour)
+                    //    .AddMinutes(AdvertisementViewModel.UserService.DueTimeFrom.Minute);
 
-                    // combine the Advertisement Offer's Date and Time for the DueDateTo Property
-                    AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueDateTo
-                        .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
-                        .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
+                    //// combine the Advertisement Offer's Date and Time for the DueDateTo Property
+                    //AdvertisementViewModel.UserService.DueDateTo = AdvertisementViewModel.UserService.DueDateTo
+                    //    .AddHours(AdvertisementViewModel.UserService.DueTimeTo.Hour)
+                    //    .AddMinutes(AdvertisementViewModel.UserService.DueTimeTo.Minute);
 
                     string webRootPath = _hostingEnvironment.WebRootPath;
                     var files = HttpContext.Request.Form.Files;

@@ -80,6 +80,7 @@ namespace Colibri.Areas.Admin.Controllers
         {
             // i18n
             ViewData["CategoryType"] = _localizer["CategoryTypeText"];
+            ViewData["CategoryType1"] = _localizer["CategoryType1Text"];
             ViewData["NewCategoryType"] = _localizer["NewCategoryTypeText"];
             ViewData["NewCategoryTypeUserService"] = _localizer["NewCategoryTypeUserServiceText"];
             ViewData["Name"] = _localizer["NameText"];

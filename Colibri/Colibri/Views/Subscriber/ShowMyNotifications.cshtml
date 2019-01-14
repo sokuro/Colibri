@@ -1,27 +1,85 @@
 ﻿@model Colibri.ViewModels.SubscriberViewModel
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer Localizer
-
 <!-- Show All Notification Groups -->
 <div class="col-6">
     <partial name="~/Views/Subscriber/_ShowAllCategoryTypesForNotifications.cshtml" model="Model" />
 </div>
 
-@if (Model != null)
-{
+<form method="get">
+    @*@if (Model != null)
+    {*@
+        <!-- Search -->
+    <div class="container">
+        <div class="col-12">
+            <!-- 1st row -->
+            <div class="row">
+                <div class="col-2">
+                    @*@ViewData["NotificationType"]*@
+                    @ViewData["CategoryTypeId"]
+                </div>
+                <div class="col-3">
+                    @*@Html.Editor("notificationType", new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.Editor("categoryTypesName", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <!-- empty column -->
+                <div class="col-2">
+                </div>
+
+                <div class="col-2">
+                    @ViewData["CurrentUser"]
+                </div>
+                <div class="col-3">
+                    @Html.Editor("userNameOfNotification", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <!-- END: 1st row -->
+            </div>
+
+            <!-- Search row -->
+            <div class="row">
+                <div class="col-2">
+                    @ViewData["CategoryTypes"]
+                </div>
+                <div class="col-3">
+                    @Html.Editor("categoryType", new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+                <!-- empty column -->
+                <div class="col-2">
+                </div>
+
+                <div class="col-2">
+                </div>
+                <div class="col-3">
+                    <button type="submit" name="submit" value="Search" class="btn btn-primary form-control">
+                        <i class="fas fa-search"></i> @ViewData["Search"]
+                    </button>
+                </div>
+                <!-- END: Search row -->
+            </div>
+        </div>
+        <!-- END: Search -->
+    </div>
+
+    <br />
+
     <div>
         <table class="table table-striped">
             @*<tr class="table-info">*@
             <tr class="text-info">
+                <th>
+                    @ViewData["Created"]
+                </th>
                 <th>
                     @ViewData["CurrentUser"]
                 </th>
                 <th>
                     @ViewData["Message"]
                 </th>
-                <th>
+                @*<th>
                     @ViewData["NotificationType"]
-                </th>
+                </th>*@
                 <th>
                     @ViewData["CategoryTypeId"]
                 </th>
@@ -36,14 +94,17 @@
             {
                 <tr class="table-content">
                     <td class="tableContentColumn">
-                        @Html.DisplayFor(n => item.Id)
+                        @Html.DisplayFor(n => item.CreatedOn)
+                    </td>
+                    <td class="tableContentColumn">
+                        @Html.DisplayFor(n => item.UserName)
                     </td>
                     <td class="tableContentColumn">
                         @Html.DisplayFor(n => item.Message)
                     </td>
-                    <td class="tableContentColumn">
+                    @*<td class="tableContentColumn">
                         @Html.DisplayFor(n => item.NotificationType)
-                    </td>
+                    </td>*@
                     <td class="tableContentColumn">
                         @Html.DisplayFor(n => item.CategoryTypeId)
                     </td>
@@ -56,16 +117,17 @@
     </div>
 
     <!-- Pagination -->
-    @*<div page-model="@Model.PagingInfo"
-         page-action="Index"
-         page-classes-enabled="true"
-         page-class="btn border"
-         page-class-normal="btn btn-default active"
-         page-class-selected="btn btn-primary active"
-         class="btn-group m-1">
-    </div>*@
-}
-else
-{
-    <div>No Items added!</div>
-}
+    <div page-model="@Model.PagingInfo"
+             page-action="ShowMyNotifications"
+             page-classes-enabled="true"
+             page-class="btn border"
+             page-class-normal="btn btn-default active"
+             page-class-selected="btn btn-primary active"
+             class="btn-group m-1">
+    </div>
+    @*}
+    else
+    {
+        <div>No Items added!</div>
+    }*@
+</form>

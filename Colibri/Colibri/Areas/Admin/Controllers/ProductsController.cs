@@ -12,6 +12,7 @@ using EasyNetQ;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 
@@ -65,7 +66,7 @@ namespace Colibri.Areas.Admin.Controllers
             };
         }
 
-        // Action Method Create
+        // Action Method Index
         [Route("Admin/Products/Index")]
         public async Task<IActionResult> Index(
             int productPage = 1,
@@ -100,8 +101,8 @@ namespace Colibri.Areas.Admin.Controllers
             // Search Conditions
             if (searchUserName != null)
             {
-                ProductsListViewModel.Users = ProductsListViewModel.Users
-                    .Where(a => a.UserName.ToLower().Contains(searchUserName.ToLower())).ToList();
+                ProductsListViewModel.Products = ProductsListViewModel.Products
+                    .Where(a => a.ApplicationUserName.ToLower().Contains(searchUserName.ToLower())).ToList();
             }
             if (searchProductName != null)
             {
@@ -142,6 +143,8 @@ namespace Colibri.Areas.Admin.Controllers
             ViewData["Description"] = _localizer["DescriptionText"];
             ViewData["NumberOfClicks"] = _localizer["NumberOfClicksText"];
             ViewData["UserName"] = _localizer["UserNameText"];
+            ViewData["Title"] = _localizer["TitleText"];
+            ViewData["Search"] = _localizer["SearchText"];
 
             return View(ProductsListViewModel);
         }
@@ -314,6 +317,9 @@ namespace Colibri.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPost(int id)
         {
+            // Convert
+            ProductsViewModel.Products.CategoryTypeId = Convert.ToInt32(Request.Form["CategoryTypeId"].ToString());
+
             // Check the State Model Binding
             if (ModelState.IsValid)
             {
@@ -361,14 +367,17 @@ namespace Colibri.Areas.Admin.Controllers
                 }
                 // Name
                 productFromDb.Name = ProductsViewModel.Products.Name;
+                // Description
+                productFromDb.Description = ProductsViewModel.Products.Description;
                 // Price
                 productFromDb.Price = ProductsViewModel.Products.Price;
                 // Available
                 productFromDb.Available = ProductsViewModel.Products.Available;
+                // Category
+                productFromDb.CategoryGroupId = ProductsViewModel.Products.CategoryGroupId;
                 // CategoryTypeId
                 productFromDb.CategoryTypeId = ProductsViewModel.Products.CategoryTypeId;
-                // Description
-                productFromDb.Description = ProductsViewModel.Products.Description;
+
 
                 // Save the Changes
                 await _colibriDbContext.SaveChangesAsync();
@@ -512,6 +521,19 @@ namespace Colibri.Areas.Admin.Controllers
                 // avoid Refreshing the POST Operation -> Redirect
                 return RedirectToAction(nameof(Index));
             }
+        }
+
+        // Methode zum Ermitteln der Rubriken pro Rubrik-Gruppe
+        [Route("Admin/Products/Edit/GetCategory")]
+        public JsonResult GetCategory(int CategoryGroupID)
+        {
+            List<CategoryTypes> categoryTypesList = new List<CategoryTypes>();
+
+            categoryTypesList = (from category in _colibriDbContext.CategoryTypes
+                                 where category.CategoryGroupId == CategoryGroupID
+                                 select category).ToList();
+
+            return Json(new SelectList(categoryTypesList, "Id", "Name"));
         }
     }
 }

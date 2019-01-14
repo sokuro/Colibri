@@ -175,18 +175,24 @@
     <value>Product Details</value>
   </data>
   <data name="ProductListText" xml:space="preserve">
-    <value>Products</value>
+    <value>Overivew product advertisements</value>
   </data>
   <data name="ProductRatingText" xml:space="preserve">
     <value>Rating</value>
   </data>
+  <data name="SearchText" xml:space="preserve">
+    <value>Search</value>
+  </data>
   <data name="SpecialTagText" xml:space="preserve">
     <value>Special Tag</value>
+  </data>
+  <data name="TitleText" xml:space="preserve">
+    <value>Title</value>
   </data>
   <data name="UpdateText" xml:space="preserve">
     <value>Update</value>
   </data>
   <data name="UserNameText" xml:space="preserve">
-    <value>Username</value>
+    <value>User</value>
   </data>
 </root>

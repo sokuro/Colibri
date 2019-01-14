@@ -1,4 +1,8 @@
 ﻿@model Colibri.ViewModels.ArchiveViewModel
+@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IViewLocalizer Localizer
+
 
 
 <div class="row">
@@ -18,49 +22,93 @@
 </div>
 <br />
 
-<div class="form-border">
-    <table class="table">
-        <tr>
-            <th>
-                @ViewData["Title"]
-            </th>
-            <th>
-                @ViewData["CategoryGroup"]
-            </th>
-            <th>
-                @ViewData["CategoryType"]
-            </th>
-            <th>
-                @ViewData["CreatedOn"]
-            </th>
-        </tr>
-        @foreach (var item in Model.ArchiveEntryList)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(m => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.CategoryGroups.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.CategoryTypes.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(m => item.CreatedOn)
-            </td>
-            <!--Buttons for Edit, Delete-->
-            <td style="width:150px;">
-                <div class="btn-group" role="group">
-                    <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-primary">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" type="button" class="btn btn-danger">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
-                </div>
-            </td>
-        </tr>
-        }
-    </table>
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <!--Anzeigen der Filtereinstellungen-->
+            <div class="form-border col-12">
+                <form asp-controller="Archive" asp-action="Index">
+
+                    <div hidden>
+                        @*<input asp-for="ArchiveEntry.TypeOfCategoryGroup" />*@
+                    </div>
+
+                    <div class="col-10">
+                        <label asp-for="SearchTitle" class="custom-label">@ViewData["Title"]</label>
+                    </div>
+                    <div class="col-10">
+                        <input asp-for="SearchTitle" class="form-control" />
+                    </div>
+                    <br />
+
+
+                    <div class="col-10">
+                        <label asp-for="SearchCategoryGroup" class="custom-label">@ViewData["CategoryGroup"]</label>
+                    </div>
+                    <div class="col-10">
+                        <input asp-for="SearchCategoryGroup" class="form-control" />
+                    </div>
+                    <br />
+
+                    <div class="col-10">
+                        <label asp-for="SearchCategoryType" class="custom-label">@ViewData["CategoryType"]</label>
+                    </div>
+                    <div class="col-10">
+                        <input asp-for="SearchCategoryType" class="form-control" />
+                    </div>
+                    <br />
+
+                    <input type="submit" value="@ViewData["Search"]" class="btn btn-primary" />
+                </form>
+
+            </div>
+        </div>
+        <div class="form-border col-9">
+            <table class="table">
+                <tr class="text-info">
+                    <th>
+                        @ViewData["Title"]
+                    </th>
+                    <th>
+                        @ViewData["CategoryGroup"]
+                    </th>
+                    <th>
+                        @ViewData["CategoryType"]
+                    </th>
+                    <th>
+                        @ViewData["CreatedOn"]
+                    </th>
+                </tr>
+                @foreach (var item in Model.ArchiveEntryList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.CategoryGroups.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.CategoryTypes.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => item.CreatedOn.Day).@Html.DisplayFor(m => item.CreatedOn.Month).@Html.DisplayFor(m => item.CreatedOn.Year)
+                        </td>
+                        <!--Buttons for Edit, Delete-->
+                        <td style="width:150px;">
+                            <div class="btn-group" role="group">
+                                <a asp-action="Edit" asp-route-id="@item.Id" type="button" class="btn btn-primary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" type="button" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
 </div>
+<br />

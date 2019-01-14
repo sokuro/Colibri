@@ -58,7 +58,8 @@
                     @Html.DisplayFor(m => item.CategoryGroups.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(m => item.Price)
+                    @*@Html.DisplayFor(m => item.Price)*@
+                    CHF @String.Format("{0:n}", item.Price)
                 </td>
                 <!--Buttons for Details, Edit, Delete-->
                 <td style="width:150px;">
@@ -112,7 +113,8 @@
                     @Html.DisplayFor(m => item.CategoryGroups.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(m => item.Price)
+                    @*@Html.DisplayFor(m => item.Price)*@
+                    CHF @String.Format("{0:n}", item.Price)
                 </td>
                 <!--Buttons for Details, Edit, Delete-->
                 <td style="width:150px;">
@@ -132,4 +134,5 @@
         }
     </table>
 </div>
+<br />
 <!--ENDE: Sektion für User Services-->

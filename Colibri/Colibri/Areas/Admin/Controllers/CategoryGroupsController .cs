@@ -16,7 +16,7 @@ using Microsoft.Extensions.Localization;
 namespace Colibri.Areas.Admin.Controllers
 {
     // authorize only the SuperAdminEndUser
-    [Authorize(Roles = StaticDetails.SuperAdminEndUser)]
+    [Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
     [Area("Admin")]
     public class CategoryGroupsController : Controller
     {
@@ -257,6 +257,7 @@ namespace Colibri.Areas.Admin.Controllers
         }
 
         // GET : Action Overview
+        [Authorize(Roles = StaticDetails.AdminEndUser + "," + StaticDetails.SuperAdminEndUser)]
         [Route("Admin/CategoryGroups/Overview")]
         public async Task<IActionResult> Overview()
         {
