@@ -120,7 +120,7 @@
                                             <b>CHF @String.Format("{0:n}", userService.Price)</b>
                                         </label>
                                     </div>
-                                    <a asp-action="DetailsService" asp-route-area="Customer" asp-controller="Advertisement" class="btn btn-success pull-right btn-outline-info" asp-route-id="@userService.Id">@ViewData["Details"]</a>
+                                    <a asp-action="Details" asp-route-area="Customer" asp-controller="UserServices" class="btn btn-success pull-right btn-outline-info" asp-route-id="@userService.Id">@ViewData["Details"]</a>
                                 </div>
                             </div>
                         </div>
