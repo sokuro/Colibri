@@ -53,6 +53,8 @@ namespace Colibri.Areas.Customer.Controllers
             AdvertisementViewModel = new AdvertisementViewModel()
             {
                 // initialize
+                CategoryGroups = _colibriDbContext.CategoryGroups.ToList(),
+                CategoryTypes = _colibriDbContext.CategoryTypes.ToList(),
                 Product = new Products(),
                 UserService = new UserServices(),
             };
